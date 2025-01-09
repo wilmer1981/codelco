@@ -1,4 +1,4 @@
-<?
+<?php
 include('conectar_ori.php');
 include('funciones/siper_funciones.php');
 
@@ -36,7 +36,7 @@ if(!isset($FHasta))
 <form name="FrmPrincipal" method="post" action="">
 <br>
 <table width="100%" border="1" align="center" cellpadding="2" cellspacing="0">
-  <?
+  <?php
 	$FDesde=$FDesde." 00:00:00";
 	$FHasta=$FHasta." 23:59:59";
 
@@ -49,9 +49,9 @@ if(!isset($FHasta))
     <td width="15%" align="center" class="TituloCabecera">Tipo Proceso</td>
     <td width="30%" align="center" class="TituloCabecera">Arbol Organizacional</td>
   </tr>
-  <?
+  <?php
 
-			$Consulta = "SELECT * from sgrs_registro_historico t1 inner join proyecto_modernizacion.sub_clase t2 on t2.cod_clase='29000' and valor_subclase3='S' and t1.tipo_proceso=t2.cod_subclase";
+			$Consulta = "select * from sgrs_registro_historico t1 inner join proyecto_modernizacion.sub_clase t2 on t2.cod_clase='29000' and valor_subclase3='S' and t1.tipo_proceso=t2.cod_subclase";
 			$Consulta.= " where rut_funcionario<>'' and fecha_registro between '".$FDesde."' and '".$FHasta."'";
 			if($CmbFuncionario!='T')
 				$Consulta.=" and rut_funcionario='".$CmbFuncionario."'";
@@ -61,23 +61,23 @@ if(!isset($FHasta))
 				$Consulta.=" and parent like '%".$SelTarea."%'";					
 			$Consulta.=" order by fecha_registro";	
 			//echo $Consulta."<br>";
-			$Resp = mysqli_query($link, $Consulta);
-			while ($Fila=mysql_fetch_array($Resp))
+			$Resp = mysqli_query($link,$Consulta);
+			while ($Fila=mysqli_fetch_array($Resp))
 			{
-				$Consulta1="SELECT * from proyecto_modernizacion.funcionarios where rut='".$Fila["rut_funcionario"]."'";
+				$Consulta1="select * from proyecto_modernizacion.funcionarios where rut='".$Fila[rut_funcionario]."'";
 				//echo $Consulta;
-				$Resultado=mysql_query($Consulta1);
-				if($Fila1=mysql_fetch_array($Resultado))
-					$Nombre=$Fila1["apellido_paterno"]." ".$Fila1["apellido_materno"]." ".$Fila1["nombres"];
+				$Resultado=mysqli_query($link,$Consulta1);
+				if($Fila1=mysqli_fetch_array($Resultado))
+					$Nombre=$Fila1[apellido_paterno]." ".$Fila1[apellido_materno]." ".$Fila1[nombres];
 					
 					?>
 			  <tr>
-				<td ><? echo $Fila["rut_funcionario"]." ".$Nombre; ?></td>
-				<td align="center" ><? echo $Fila["fecha_registro"]; ?>&nbsp;</td>
-				<td align="center" ><? echo $Fila["nombre_subclase"]; ?>&nbsp;</td>
-				<td align="center" ><? echo $Fila["observacion"];?> &nbsp;</td>
+				<td ><?php echo $Fila[rut_funcionario]." ".$Nombre; ?></td>
+				<td align="center" ><?php echo $Fila[fecha_registro]; ?>&nbsp;</td>
+				<td align="center" ><?php echo $Fila[nombre_subclase]; ?>&nbsp;</td>
+				<td align="center" ><?php echo $Fila[observacion];?> &nbsp;</td>
 			  </tr>
-			  <?		
+			  <?php		
 			}
 		}
 		else
@@ -89,10 +89,10 @@ if(!isset($FHasta))
 		<td width="18%" align="center" class="TituloCabecera">Area</td>
 		<td width="18%" align="center" class="TituloCabecera">Proceso</td>
 		<td width="18%" align="center" class="TituloCabecera">Nombre Tarea</td>
-		<td width="10%" align="center" class="TituloCabecera">Nï¿½ Consultas</td>
+		<td width="10%" align="center" class="TituloCabecera">Nº Consultas</td>
         </tr>
-		<?
-			$Consulta = "SELECT parent as cod,count(*) as cant_reg from sgrs_registro_historico t1 inner join proyecto_modernizacion.sub_clase t2 on t2.cod_clase='29000' and t1.tipo_proceso=t2.cod_subclase and t2.valor_subclase3='S'";
+		<?php
+			$Consulta = "select parent as cod,count(*) as cant_reg from sgrs_registro_historico t1 inner join proyecto_modernizacion.sub_clase t2 on t2.cod_clase='29000' and t1.tipo_proceso=t2.cod_subclase and t2.valor_subclase3='S'";
 			$Consulta.= " where rut_funcionario<>'' and fecha_registro between '".$FDesde."' and '".$FHasta."'";
 			if($CmbFuncionario!='T')
 				$Consulta.=" and rut_funcionario='".$CmbFuncionario."'";
@@ -102,11 +102,11 @@ if(!isset($FHasta))
 				$Consulta.=" and parent like '%".$SelTarea."%'";	
 			$Consulta.=" group by parent order by fecha_registro";
 			//echo 	$Consulta."<br>";
-			$Resp = mysqli_query($link, $Consulta);$CantReg=0;
-			while ($Fila=mysql_fetch_array($Resp))
+			$Resp = mysqli_query($link,$Consulta);$CantReg=0;
+			while ($Fila=mysqli_fetch_array($Resp))
 			{
-				$CantReg=$CantReg+$Fila["cant_reg"];
-				$Organica=explode(',',$Fila["cod"]);
+				$CantReg=$CantReg+$Fila[cant_reg];
+				$Organica=explode(',',$Fila[cod]);
 				echo "<tr>";$NomOrganica1='&nbsp;';$NomOrganica2='&nbsp;';$NomOrganica3='&nbsp;';$NomOrganica4='&nbsp;';$NomOrganica8='&nbsp;';
 				while(list($c,$v)=each($Organica))
 				{
@@ -136,15 +136,15 @@ if(!isset($FHasta))
 				echo "<td align='left'>".$NomOrganica3."</td>";
 				echo "<td align='left'>".$NomOrganica4."</td>";
 				echo "<td align='left'>".$NomOrganica8."</td>";
-				echo "<td align='right'>".$Fila["cant_reg"]."&nbsp;</td>";
+				echo "<td align='right'>".$Fila[cant_reg]."&nbsp;</td>";
 				echo "</tr>";
 			}
 			?>
 			 	<tr>
 				<td align="right" class="TituloCabecera" colspan="5">Total&nbsp;&nbsp;</td>
-				<td align="right" class="TituloCabecera"><? echo number_format($CantReg,0,'','.'); ?>&nbsp;</td>
+				<td align="right" class="TituloCabecera"><?php echo number_format($CantReg,0,'','.'); ?>&nbsp;</td>
 			    </tr>
-			<?	
+			<?php	
 		}	
 ?>
 </table>

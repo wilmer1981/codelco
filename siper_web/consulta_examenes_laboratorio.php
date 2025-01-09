@@ -1,4 +1,4 @@
-<?
+<?php
 if($Buscar=='')
 {
 	$TxtRut='';
@@ -54,7 +54,7 @@ function Buscar(Opt)
 			}
 			if(f.TxtFechaFin.value=='')
 			{
-				alert('Debe Ingresar Fecha Tï¿½rmino');
+				alert('Debe Ingresar Fecha Término');
 				return;
 			}	
 		break;
@@ -120,46 +120,46 @@ function ValidarRango()
         <td height="36" align="left"><img src="imagenes/LblCriterios.png" width="168" height="28" /></td>
         <td height="36" align="left">&nbsp;</td>
         <td height="36" align="right" class="formulario">Trabajo/Cargo:</td>
-        <td height="36" align="left"><input name="TxtOcup" type="text" value="<? echo $TxtOcup;?>"></td>
+        <td height="36" align="left"><input name="TxtOcup" type="text" value="<?php echo $TxtOcup;?>"></td>
         <td height="36" align="left"><span class="formulario">
-          <?
+          <?php
 		if($Nivel=='6')
 			echo "Con Obs. de Gesti&oacute;n";	
 		?>
         </span>&nbsp;&nbsp;
-        <?
+        <?php
 		if($Nivel=='6')
 		{	
 		?>
-        <input type="checkbox" name="OptAccion" value="checkbox" <? echo $CheckAccion;?> class="SinBorde" />
-        <?
+        <input type="checkbox" name="OptAccion" value="checkbox" <?php echo $CheckAccion;?> class="SinBorde" />
+        <?php
 		}
 		else
 		{
 		?>
-        <input type="hidden" name="OptAccion" value="checkbox" <? echo $CheckAccion;?> class="SinBorde" />
-        <?
+        <input type="hidden" name="OptAccion" value="checkbox" <?php echo $CheckAccion;?> class="SinBorde" />
+        <?php
 		}
 		?></td>
         <td height="36" align="right"><a href="JavaScript:BuscarGen('BG')"><img src="imagenes/btn_buscar.gif" border="0" alt="Buscar General"></a>&nbsp;<a href="javascript:window.print()"><img src="imagenes/btn_imprimir.png" alt='Imprimir' border="0" align="absmiddle" /></a>&nbsp;<a href="javascript:ExamExcel()"><img src="imagenes/btn_excel.png" alt='Excel' border="0" align="absmiddle" /></a></td>
       </tr>
       <tr>
         <td width="20%" height="28" align="right" class="formulario">Rut:</td>
-        <td width="14%" align="left"><input name="TxtRut" type="text" value="<? echo $TxtRut;?>"></td>
+        <td width="14%" align="left"><input name="TxtRut" type="text" value="<?php echo $TxtRut;?>"></td>
         <td width="12%" align="right" class="formulario">Apellido Paterno:</td>
-        <td width="22%" align="left"><input name="TxtApePat" type="text" value="<? echo $TxtApePat;?>"></td>
+        <td width="22%" align="left"><input name="TxtApePat" type="text" value="<?php echo $TxtApePat;?>"></td>
         <td width="14%" align="right" nowrap="nowrap" class="formulario">Tipo Examen : </td>
         <td width="18%" align="left" nowrap="nowrap">
-		<SELECT name="CmbTipoExamen" style="width:100px">
-				<option value='T' SELECTed>Todos</option>
-				  <?
-					$Consulta="SELECT t1.CTEXAMEN,t1.NEXAMEN,t1.QPARAMETRO,t2.NUNIDAD from sgrs_codexlaboratorio t1 inner join sgrs_unidades t2 on t1.CUNIDAD=t2.CUNIDAD where t1.MVIGENTE='1' order by t1.NEXAMEN ";
-					$Resp=mysqli_query($link, $Consulta);
-					while($Fila=mysql_fetch_array($Resp))
+		<select name="CmbTipoExamen" style="width:100px">
+				<option value='T' selected>Todos</option>
+				  <?php
+					$Consulta="select t1.CTEXAMEN,t1.NEXAMEN,t1.QPARAMETRO,t2.NUNIDAD from sgrs_codexlaboratorio t1 inner join sgrs_unidades t2 on t1.CUNIDAD=t2.CUNIDAD where t1.MVIGENTE='1' order by t1.NEXAMEN ";
+					$Resp=mysqli_query($link,$Consulta);
+					while($Fila=mysqli_fetch_array($Resp))
 					{
 						if($CmbTipoExamen==$Fila[CTEXAMEN])
 						{
-							echo "<option value='".$Fila[CTEXAMEN]."' SELECTed>".$Fila[NEXAMEN]."</option>";
+							echo "<option value='".$Fila[CTEXAMEN]."' selected>".$Fila[NEXAMEN]."</option>";
 							$PARAM=$Fila[QPARAMETRO];
 							$Unidad=$Fila[NUNIDAD];
 						}
@@ -167,29 +167,29 @@ function ValidarRango()
 							echo "<option value='".$Fila[CTEXAMEN]."'>".$Fila[NEXAMEN]."</option>";	
 					}
 				  ?>
-		    </SELECT>
+		    </select>
           </td>
       </tr>
       <tr>
         <td height="25" align="right" class="formulario">Evaluaci&oacute;n:</td>
-        <td align="left"><SELECT name="CmbEvaluacion" style="width:100px">
-		<option value='T' SELECTed>Todos</option>
-		  <?
+        <td align="left"><select name="CmbEvaluacion" style="width:100px">
+		<option value='T' selected>Todos</option>
+		  <?php
 				switch($CmbEvaluacion)
 				{
 					case "0":
-						echo "<option value='0' SELECTed>NORMAL</option>";
+						echo "<option value='0' selected>NORMAL</option>";
 						echo "<option value='2'>MODERADO</option>";
 						echo "<option value='1'>ALTERADO</option>";
 					break;
 					case "1":
 						echo "<option value='0' >NORMAL</option>";
 						echo "<option value='2'>MODERADO</option>";
-						echo "<option value='1' SELECTed>ALTERADO</option>";
+						echo "<option value='1' selected>ALTERADO</option>";
 					break;
 					case "2":
 						echo "<option value='0' >NORMAL</option>";
-						echo "<option value='2' SELECTed>MODERADO</option>";
+						echo "<option value='2' selected>MODERADO</option>";
 						echo "<option value='1' >ALTERADO</option>";
 					break;
 					default:
@@ -199,18 +199,18 @@ function ValidarRango()
 					break;
 				}
 		  ?>
-	  </SELECT>
+	  </select>
           &nbsp;</td>
         <td align="right" class="formulario"> Fecha Toma: </td>
         <td align="left"> Desde
-          <input name="TxtFechaIni" type="text" class="InputCen" value="<? echo $TxtFechaIni; ?>" size="10" maxlength="10" onblur="DateFormat(this,this.value,event,true,'3',Mantenedor,'DIF')" onkeyup="DateFormat(this,this.value,event,false,'3')"  onfocus="javascript:vDateType='3'" />
+          <input name="TxtFechaIni" type="text" class="InputCen" value="<?php echo $TxtFechaIni; ?>" size="10" maxlength="10" onblur="DateFormat(this,this.value,event,true,'3',Mantenedor,'DIF')" onkeyup="DateFormat(this,this.value,event,false,'3')"  onfocus="javascript:vDateType='3'" />
           Hasta
-          <input name="TxtFechaFin" type="text" class="InputCen" value="<? echo $TxtFechaFin; ?>" size="10" maxlength="10" onblur="DateFormat(this,this.value,event,true,'3',Mantenedor,'DIF')" onkeyup="DateFormat(this,this.value,event,false,'3')"  onfocus="javascript:vDateType='3'" />
+          <input name="TxtFechaFin" type="text" class="InputCen" value="<?php echo $TxtFechaFin; ?>" size="10" maxlength="10" onblur="DateFormat(this,this.value,event,true,'3',Mantenedor,'DIF')" onkeyup="DateFormat(this,this.value,event,false,'3')"  onfocus="javascript:vDateType='3'" />
           &nbsp;</td>
         <td align="right" class="formulario">Rango de Valor:</td>
-        <td align="left"><input name="TxtMag" type="text" size="10" value="<? echo $TxtMag; ?>" onkeydown="TeclaPulsada(true)" maxlength="5" onblur="ValidarRango()" />
+        <td align="left"><input name="TxtMag" type="text" size="10" value="<?php echo $TxtMag; ?>" onkeydown="TeclaPulsada(true)" maxlength="5" onblur="ValidarRango()" />
           &nbsp;Y&nbsp;
-          <input name="TxtMag2" type="text" size="10" value="<? echo $TxtMag2; ?>" onkeydown="TeclaPulsada(true)" maxlength="5" onblur="ValidarRango()" /></td>
+          <input name="TxtMag2" type="text" size="10" value="<?php echo $TxtMag2; ?>" onkeydown="TeclaPulsada(true)" maxlength="5" onblur="ValidarRango()" /></td>
       </tr>
     </table>
 	<br>
@@ -223,18 +223,18 @@ function ValidarRango()
 			<td width="8%" class="TituloCabecera" align="center">Unid.</td>
 			<td width="5%" class="TituloCabecera" align="center">Evaluacion</td>
 			<td width="1%" class="TituloCabecera" align="center">&nbsp;</td>
-			<td width="10%" class="TituloCabecera" align="center">Ocupaciï¿½n</td>
+			<td width="10%" class="TituloCabecera" align="center">Ocupación</td>
 			<td width="13%" class="TituloCabecera" align="center">Fecha Toma </td>
 			<td width="10%" class="TituloCabecera" align="center">Informe</td>
-			<?
+			<?php
 			if($Nivel=='6')
-				echo "<td width='10%' class='TituloCabecera' align='center'>Acciï¿½n Tomada</td>";
+				echo "<td width='10%' class='TituloCabecera' align='center'>Acción Tomada</td>";
 			?>
 	    </tr>
-		 <? 
+		 <?php 
 			if($Buscar!='')
 			{
-				$Consulta="SELECT t1.REGACCIONES,t1.CEXAMEN,t1.QVALOR,t1.FEXAMEN,t1.CEVALUACION,t7.CVINFORME,t7.TNARCHIVO,t4.NOCUPACION,t2.rut,t2.ape_paterno,t2.ape_materno,t2.nombres,t3.NEXAMEN,t3.QPARAMETRO,t6.AUNIDAD from sgrs_exlaboratorio t1 inner join uca_web.uca_personas t2 on t1.CRUT=t2.rut ";
+				$Consulta="select t1.REGACCIONES,t1.CEXAMEN,t1.QVALOR,t1.FEXAMEN,t1.CEVALUACION,t7.CVINFORME,t7.TNARCHIVO,t4.NOCUPACION,t2.rut,t2.ape_paterno,t2.ape_materno,t2.nombres,t3.NEXAMEN,t3.QPARAMETRO,t6.AUNIDAD from sgrs_exlaboratorio t1 inner join uca_web.uca_personas t2 on t1.CRUT=t2.rut ";
 				$Consulta.="inner join sgrs_codexlaboratorio t3 on t1.CTEXAMEN=t3.CTEXAMEN left join sgrs_ocupaciones t4 on t1.COCUPACION=t4.COCUPACION left join sgrs_informes t7 on t1.CINFORME=t7.CINFORME inner join sgrs_unidades t6 on t3.CUNIDAD=t6.CUNIDAD where t1.CRUT <> 0 ";
 				switch($Buscar)
 				{
@@ -259,11 +259,11 @@ function ValidarRango()
 				}
 				$Consulta.="group by t2.rut,t1.CEXAMEN order by t2.ape_paterno";
 				//echo $Consulta;
-				$Resp=mysqli_query($link, $Consulta);echo "<input type='hidden' name='CheckRut'>";
-				while($Fila=mysql_fetch_array($Resp))
+				$Resp=mysqli_query($link,$Consulta);echo "<input type='hidden' name='CheckRut'>";
+				while($Fila=mysqli_fetch_array($Resp))
 				{
 					echo "<tr>";
-					echo "<td align='left'>&nbsp;".str_pad($Fila["rut"],8,'0',STR_PAD_LEFT)." - ".$Fila[ape_paterno]." ".$Fila[ape_materno]." ".$Fila["nombres"]."</td>";
+					echo "<td align='left'>&nbsp;".str_pad($Fila[rut],8,'0',STR_PAD_LEFT)." - ".$Fila[ape_paterno]." ".$Fila[ape_materno]." ".$Fila[nombres]."</td>";
 					echo "<td align='left'>&nbsp;".$Fila[NEXAMEN]."</td>";
 					echo "<td>".$Fila[QVALOR]."</td>";
 					echo "<td>".$Fila[QPARAMETRO]."</td>";

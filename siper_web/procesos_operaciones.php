@@ -1,4 +1,4 @@
-<?
+<?php
 	include('conectar_ori.php');
 	include('funciones/siper_funciones.php');
 	//1:PESTAÑA PARA VALIDAR TAREAS.
@@ -84,9 +84,9 @@ window.open("proceso_analisis_peligros_desglose.php?CodSelTarea="+CodSelTarea,""
 </head>
 <body>
 <form name='Mantenedor'>
-<input name="CodSelTarea" type="hidden" value="<? echo $CodSelTarea;?>">
+<input name="CodSelTarea" type="hidden" value="<?php echo $CodSelTarea;?>">
 <input name="Salida" type="hidden" value="L">
-<?
+<?php
 	switch($TipoPestana)
 	{
 		case "1":
@@ -118,16 +118,16 @@ window.open("proceso_analisis_peligros_desglose.php?CodSelTarea="+CodSelTarea,""
   <table width="100%" border="0" cellpadding="0" cellspacing="0">
 	<tr>
 	  <td width="1%" height="25"><img src="imagenes/tab_slide_hm_next.gif" ></td>
-	  <td width="33%" align="center" background="<? echo $Fondo1;?>"><a href="javascript:SeleccionPestana(1)"><? echo '<span class="'.$LinkPestana1.'">';?>Validar Tarea</a></td>
+	  <td width="33%" align="center" background="<?php echo $Fondo1;?>"><a href="javascript:SeleccionPestana(1)"><?php echo '<span class="'.$LinkPestana1.'">';?>Validar Tarea</a></td>
 	  <td width="1" ><img src="imagenes/tab_separator.gif"></td>
-	  <td width="33%" align="center" background="<? echo $Fondo2;?>"><a href="javascript:SeleccionPestana(2)"><? echo "<span class='".$LinkPestana2."'>";?>Resumen<br>Análisis de Operaciones Divisional</a></td>
+	  <td width="33%" align="center" background="<?php echo $Fondo2;?>"><a href="javascript:SeleccionPestana(2)"><?php echo "<span class='".$LinkPestana2."'>";?>Resumen<br>Análisis de Operaciones Divisional</a></td>
 	  <td width="1" align="right"><img src="imagenes/tab_separator.gif"></td>
-	  <td width="33%" align="center" background="<? echo $Fondo3;?>"><a href="javascript:SeleccionPestana(3)"><? echo "<span class='".$LinkPestana3."'>";?>Resumen<br> Análisis de Peligros </a></td>
+	  <td width="33%" align="center" background="<?php echo $Fondo3;?>"><a href="javascript:SeleccionPestana(3)"><?php echo "<span class='".$LinkPestana3."'>";?>Resumen<br> Análisis de Peligros </a></td>
 	  <td width="1" align="right"><img src="imagenes/tab_separator.gif"></td>
 	</tr>
     <tr class="estilos2">
       <td colspan="7" align="center" >
-	    <?
+	    <?php
 		switch($TipoPestana)
 		{
 			case "1":
@@ -158,7 +158,7 @@ window.open("proceso_analisis_peligros_desglose.php?CodSelTarea="+CodSelTarea,""
 </form>
 </body>
 </html>
-<?
+<?php
 if($Msj!='')
 {
 	echo "<script languaje='javascript'>";

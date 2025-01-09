@@ -15,10 +15,10 @@
 //==================================================================================================init 
 function validarEmail(valor) {
 if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(valor)){
-//alert("La direcciï¿½n de email " + valor + " es correcta.") 
+//alert("La dirección de email " + valor + " es correcta.") 
 return (true)
 } else {
-//alert("La direcciï¿½n de email es incorrecta.");
+//alert("La dirección de email es incorrecta.");
 return (false);
 }
 }
@@ -1002,10 +1002,10 @@ function oNumero(numero)
 //Propiedades 
 this.valor = numero || 0
 this.dec = -1;
-//Mï¿½todos 
+//Métodos 
 this.formato = numFormat;
 this.ponValor = ponValor;
-//Definiciï¿½n de los mï¿½todos 
+//Definición de los métodos 
 function ponValor(cad)
 {
 if (cad =='-' || cad=='+') return
@@ -1325,7 +1325,7 @@ function DateFormat(vDateName, vDateValue, e, dateCheck, dateType,Frm,Val)
       {
          vDateName.value = "";
          vDateName.focus();
-         vDateName.SELECT();
+         vDateName.select();
          return false;
       }
       else
@@ -1350,10 +1350,10 @@ function DateFormat(vDateName, vDateValue, e, dateCheck, dateType,Frm,Val)
 			 
             if (((vDateValue.length < 6 && dateCheck) || (vDateValue.length == 7 && dateCheck)) && (vDateValue.length >=1))
             {
-               alert("Fecha no vï¿½lida\n Formato DD/MM/AAAA");
+               alert("Fecha no válida\n Formato DD/MM/AAAA");
                vDateName.value = "";
                vDateName.focus();
-               vDateName.SELECT();
+               vDateName.select();
                return false;
             }
             if (vDateValue.length == 6 && dateCheck)  
@@ -1379,10 +1379,10 @@ function DateFormat(vDateName, vDateValue, e, dateCheck, dateType,Frm,Val)
                
                if (!dateValid(vDateValueCheck))  
                {
-                  alert("Fecha no vï¿½lida\n Formato DD/MM/AAA");
+                  alert("Fecha no válida\n Formato DD/MM/AAA");
                   vDateName.value = "";
                   vDateName.focus();
-                  vDateName.SELECT();
+                  vDateName.select();
                   return false;
 		        }
 				
@@ -1430,11 +1430,11 @@ function DateFormat(vDateName, vDateValue, e, dateCheck, dateType,Frm,Val)
                   
                   if (!dateValid(vDateValueCheck))  
                   {
-                     alert("Fecha no vï¿½lida\n Formato DD/MM/AAA");
+                     alert("Fecha no válida\n Formato DD/MM/AAA");
                      vDateType = vDateTypeTemp;
                      vDateName.value = "";
                      vDateName.focus();
-                     vDateName.SELECT();
+                     vDateName.select();
                      return false;
 		            }
                  
@@ -1445,10 +1445,10 @@ function DateFormat(vDateName, vDateValue, e, dateCheck, dateType,Frm,Val)
                {
                   if (((vDateValue.length < 8 && dateCheck) || (vDateValue.length == 9 && dateCheck)) && (vDateValue.length >=1))
                   {
-                     alert("Fecha no vï¿½lida\n Formato DD/MM/AAA");
+                     alert("Fecha no válida\n Formato DD/MM/AAA");
                      vDateName.value = "";
                      vDateName.focus();
-                     vDateName.SELECT();
+                     vDateName.select();
                      return false;
                   }
                }
@@ -1461,7 +1461,7 @@ function DateFormat(vDateName, vDateValue, e, dateCheck, dateType,Frm,Val)
          // Non isNav Check
             if (((vDateValue.length < 8 && dateCheck) || (vDateValue.length == 9 && dateCheck)) && (vDateValue.length >=1))
             {
-               alert("Fecha no vï¿½lida\n Formato DD/MM/AAA");
+               alert("Fecha no válida\n Formato DD/MM/AAA");
                vDateName.value = "";
                vDateName.focus();
                return true;
@@ -1496,7 +1496,7 @@ function DateFormat(vDateName, vDateValue, e, dateCheck, dateType,Frm,Val)
                {
               	   if (mYear.length < 4)
                   {
-              		 alert("Fecha no vï¿½lida\n Formato DD/MM/AAA");
+              		 alert("Fecha no válida\n Formato DD/MM/AAA");
                      vDateName.value = "";
                      vDateName.focus();
                      return true;
@@ -1514,10 +1514,10 @@ function DateFormat(vDateName, vDateValue, e, dateCheck, dateType,Frm,Val)
               	vDateType = 1;
                
               	var vDateValueCheck = mMonth+strSeperator+mDay+strSeperator+mYear;
-				var DifAï¿½o=100;// VARIABLE QUE ALMACENA EL RANGO DE Aï¿½OS
+				var DifAño=100;// VARIABLE QUE ALMACENA EL RANGO DE AÑOS
 				var mTodayActual = new Date();//CREO EL OBJETO FECHA, PARA OBTNER LA FECHA ACTUAL
-				var checkYearSuperior = mTodayActual.getFullYear()+ DifAï¿½o; 
-				var checkYearInferior = mTodayActual.getFullYear()- DifAï¿½o; 
+				var checkYearSuperior = mTodayActual.getFullYear()+ DifAño; 
+				var checkYearInferior = mTodayActual.getFullYear()- DifAño; 
 	      // Store reformatted date to new variable for validation.
                if (mYear.length == 2 && vYearType == 4 && dateCheck)  
                {
@@ -1534,14 +1534,14 @@ function DateFormat(vDateName, vDateValue, e, dateCheck, dateType,Frm,Val)
 							
 					if(mYear > checkYearSuperior )
 					{
-						alert("La fecha ingresada no puede ser mayor que "+DifAï¿½o+" aï¿½os de la actual ")
+						alert("La fecha ingresada no puede ser mayor que "+DifAño+" años de la actual ")
 						vDateName.value = "";
 						vDateName.focus();
 						return true;
 					}
 					if(mYear < checkYearInferior )
 					{
-						alert("La fecha ingresada no puede ser menor que "+DifAï¿½o+" aï¿½os de la actual ")
+						alert("La fecha ingresada no puede ser menor que "+DifAño+" años de la actual ")
 						vDateName.value = "";
 						vDateName.focus();
 						return true;
@@ -1566,14 +1566,14 @@ function DateFormat(vDateName, vDateValue, e, dateCheck, dateType,Frm,Val)
                } 
 				if(mYear > checkYearSuperior )
 				{
-					alert("La fecha ingresada no puede ser menor que "+DifAï¿½o+" aï¿½os de la actual ")
+					alert("La fecha ingresada no puede ser menor que "+DifAño+" años de la actual ")
 					vDateName.value = "";
 					vDateName.focus();
 					return true;
 				}
 				if(mYear < checkYearInferior )
 				{
-					alert("La fecha ingresada no puede ser menor que "+DifAï¿½o+" aï¿½os de la actual ")
+					alert("La fecha ingresada no puede ser menor que "+DifAño+" años de la actual ")
 					vDateName.value = "";
 					vDateName.focus();
 					return true;
@@ -1581,7 +1581,7 @@ function DateFormat(vDateName, vDateValue, e, dateCheck, dateType,Frm,Val)
 			   
                	if (!dateValid(vDateValueCheck))  
                	{
-                  alert("Fecha no vï¿½lida\n Formato DD/MM/AAA");
+                  alert("Fecha no válida\n Formato DD/MM/AAA");
                   vDateType = vDateTypeTemp;
                   vDateName.value = "";
                   vDateName.focus();
@@ -1645,9 +1645,9 @@ function DateFormat(vDateName, vDateValue, e, dateCheck, dateType,Frm,Val)
             {
 // Un-comment the next line of code for debugging the dateValid() function error messages
 //               alert(err);  
-               alert("Fecha no vï¿½lida\n Formato DD/MM/AAA");
+               alert("Fecha no válida\n Formato DD/MM/AAA");
                vDateName.focus();
-               vDateName.SELECT();
+               vDateName.select();
 	         }
          }
          return false;
@@ -1661,7 +1661,7 @@ function DateFormat(vDateName, vDateValue, e, dateCheck, dateType,Frm,Val)
          {
             vDateName.value = "";
             vDateName.focus();
-            vDateName.SELECT();
+            vDateName.select();
             return false;
          }
          else

@@ -1,7 +1,7 @@
-<? include('conectar_ori.php');?>
+<?php include('conectar_ori.php');?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
-<title>Descripciï¿½n de los Controles</title>
+<title>Descripción de los Controles</title>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 <title>Documento sin t&iacute;tulo</title>
@@ -19,21 +19,21 @@
     <td width="1%" background="imagenes/interior2/form_izq.gif"></td>
 	<td align="center"><table width="100%" border="0" cellpadding="0"cellspacing="0">
 	<tr>
-	<td colspan="2" class="TituloCabecera">Descripciï¿½n de los Controles</td>
+	<td colspan="2" class="TituloCabecera">Descripción de los Controles</td>
 	</tr>
-	<?
-	$Consulta="SELECT *,ceiling(CCONTROL) as codigo from sgrs_codcontroles where CCONTROL<>'' order by NCONTROL asc";
+	<?php
+	$Consulta="select *,ceiling(CCONTROL) as codigo from sgrs_codcontroles where CCONTROL<>'' order by NCONTROL asc";
 	//echo $Consulta."<br>";
-	$Resp=mysqli_query($link, $Consulta);
-	while($Fila=mysql_fetch_array($Resp))
+	$Resp=mysqli_query($link,$Consulta);
+	while($Fila=mysqli_fetch_array($Resp))
 	{
 		$OBSCONTROL=$Fila[OBS];
 		$NOMCONTROL=$Fila[NCONTROL];
 	?>
 		<tr>
-		<td width="610" align="left"><? echo $NOMCONTROL;?></td>
+		<td width="610" align="left"><?php echo $NOMCONTROL;?></td>
 		<td width="468" align="left">
-		<? 
+		<?php 
 		//echo $OBSCONTROL;
 		$Descripcion=nl2br($OBSCONTROL);
 		$Detalle=explode('<br>',$Descripcion);
@@ -46,7 +46,7 @@
 		<tr>
 		<td align="left" colspan="2">&nbsp;</td>
 		</tr>
-	<?
+	<?php
 	}
 	?>
 	</table></td>

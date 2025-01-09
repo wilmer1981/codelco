@@ -1,4 +1,4 @@
-<? include('conectar_ori.php');
+<?php include('conectar_ori.php');
 	include('funciones/siper_funciones.php');
 		$Encontro=false;
 	
@@ -16,35 +16,35 @@
 					{
 						switch(substr($archivo1_name,$j,1))
 						{
-							case "ï¿½":
-								$archivo1_name=str_replace( "ï¿½","a",$archivo1_name);
+							case "á":
+								$archivo1_name=str_replace( "á","a",$archivo1_name);
 							break;
-							case "ï¿½":
-								$archivo1_name=str_replace( "ï¿½","A",$archivo1_name);
+							case "Á":
+								$archivo1_name=str_replace( "Á","A",$archivo1_name);
 							break;
-							case "ï¿½":
-								$archivo1_name=str_replace( "ï¿½","e",$archivo1_name);
+							case "é":
+								$archivo1_name=str_replace( "é","e",$archivo1_name);
 							break;
-							case "ï¿½":
-								$archivo1_name=str_replace( "ï¿½","E",$archivo1_name);
+							case "É":
+								$archivo1_name=str_replace( "É","E",$archivo1_name);
 							break;
-							case "ï¿½":
-								$archivo1_name=str_replace( "ï¿½","i",$archivo1_name);
+							case "í":
+								$archivo1_name=str_replace( "í","i",$archivo1_name);
 							break;
-							case "ï¿½":
-								$archivo1_name=str_replace( "ï¿½","I",$archivo1_name);
+							case "Í":
+								$archivo1_name=str_replace( "Í","I",$archivo1_name);
 							break;
-							case "ï¿½":
-								$archivo1_name=str_replace( "ï¿½","o",$archivo1_name);
+							case "ó":
+								$archivo1_name=str_replace( "ó","o",$archivo1_name);
 							break;
-							case "ï¿½":
-								$archivo1_name=str_replace( "ï¿½","O",$archivo1_name);
+							case "Ó":
+								$archivo1_name=str_replace( "Ó","O",$archivo1_name);
 							break;
-							case "ï¿½":
-								$archivo1_name=str_replace( "ï¿½","u",$archivo1_name);
+							case "ú":
+								$archivo1_name=str_replace( "ú","u",$archivo1_name);
 							break;
-							case "ï¿½":
-								$archivo1_name=str_replace( "ï¿½","U",$archivo1_name);
+							case "Ú":
+								$archivo1_name=str_replace( "Ú","U",$archivo1_name);
 							break;
 							case "&":
 								$archivo1_name=str_replace( "&","",$archivo1_name);
@@ -64,14 +64,14 @@
 					if (copy($archivo1, $Directorio."/".$Nombrearchivo1))
 					{
 						
-						$Consulta = "SELECT ifnull(max(CINFORME),0) as mayor from sgrs_informes"; 
-						$Respuesta=mysqli_query($link, $Consulta);
-						$Fila=mysql_fetch_array($Respuesta);
-						$Mayor=$Fila["mayor"] + 1;			
-						$Inserta="INSERT INTO sgrs_informes (CINFORME,TNARCHIVO,FINFORME,CUSUARIO,CVINFORME)";
+						$Consulta = "select ifnull(max(CINFORME),0) as mayor from sgrs_informes"; 
+						$Respuesta=mysqli_query($link,$Consulta);
+						$Fila=mysqli_fetch_array($Respuesta);
+						$Mayor=$Fila[mayor] + 1;			
+						$Inserta="insert into sgrs_informes (CINFORME,TNARCHIVO,FINFORME,CUSUARIO,CVINFORME)";
 						$Inserta.=" values('".$Mayor."','".$Nombrearchivo1."','".date("Y-m-d G:i:s")."','".$CookieRut."','".$TxtNombre."')";
 						//echo $Inserta."<br>";
-						mysql_query($Inserta);
+						mysqli_query($link,$Inserta);
 						
 						
 						$MensajeDoc = "Archivo Copiado Exitosamente";
@@ -88,28 +88,28 @@
 		break;
 		case "M":
 			$Mensaje='';
-			$Actualizar="UPDATE sgrs_informes set CVINFORME='".$TxtNombre."' where CINFORME='".$Datos."' ";
-			mysql_query($Actualizar);
+			$Actualizar="update sgrs_informes set CVINFORME='".$TxtNombre."' where CINFORME='".$Datos."' ";
+			mysqli_query($link,$Actualizar);
 			header("location:mantenedor_informe.php?Buscar=S&TxtDescripcion=".$TxtDescripcion."&Mensaje=".$Mensaje);
 		break;
 		case "E":
 			$Mensaje='';
 			$Datos = explode("//",$DatosUni);
-			foreach($Datos as $clave => $Codigo)
+			while (list($clave,$Codigo)=each($Datos))
 			{
 				$DatosRel='N';
-				$Consulta="SELECT * from sgrs_medpersonales where CINFORME='".$Codigo."'";
-				$Resp=mysqli_query($link, $Consulta);
-				if($Fila=mysql_fetch_array($Resp))
+				$Consulta="select * from sgrs_medpersonales where CINFORME='".$Codigo."'";
+				$Resp=mysqli_query($link,$Consulta);
+				if($Fila=mysqli_fetch_array($Resp))
 					$DatosRel='S';
-				$Consulta="SELECT * from sgrs_medambientes where CINFORME='".$Codigo."'";
-				$Resp=mysqli_query($link, $Consulta);
-				if($Fila=mysql_fetch_array($Resp))
+				$Consulta="select * from sgrs_medambientes where CINFORME='".$Codigo."'";
+				$Resp=mysqli_query($link,$Consulta);
+				if($Fila=mysqli_fetch_array($Resp))
 					$DatosRel='S';
 				if($DatosRel=='N')
 				{
 					$Eliminar="delete from sgrs_informes where CINFORME='".$Codigo."'";
-					mysql_query($Eliminar);
+					mysqli_query($link,$Eliminar);
 				}
 				else
 					$Mensaje='No se puede Eliminar Informe, Existen Mediciones asociadas';	

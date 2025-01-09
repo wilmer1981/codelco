@@ -277,7 +277,7 @@ input{
 	color: #FF6600;
 	background: #cccccc;
 }
-SELECT{
+select{
 	font-style:normal;
 	font-family : Verdana, Arial, Helvetica, sans-serif;
 	font-size: 9px;

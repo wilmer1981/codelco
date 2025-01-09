@@ -3,8 +3,8 @@
 	<td width="5" background="imagenes/tab_separator.gif"></td>
 	<td align="center">
 		<table width="90%" border="0" cellpadding="0" cellspacing="4">
-		<tr><? $CODAREA=ObtenerCodParent($CodSelTarea);?>
-		  <td align="left"><? echo DescripOrganica2($CodSelTarea);?></td>
+		<tr><?php $CODAREA=ObtenerCodParent($CodSelTarea);?>
+		  <td align="left"><?php echo DescripOrganica2($CodSelTarea);?></td>
 		  <td align="left">&nbsp;</td>
 		</tr>
 		</table>
@@ -25,21 +25,21 @@
 			<td width="5%" class="TituloCabecera" >Inaceptable</td>
 			<td width="5%" class="TituloCabecera" >Total</td>
 		 </tr>
-            <?	
+            <?php	
 				
-			$Consulta="SELECT t1.CTAREA from sgrs_areaorg t1 where t1.CAREA = '".$CODAREA."' and MVIGENTE='1'";
-			$Resultado=mysqli_query($link, $Consulta);
-			$Fila=mysql_fetch_array($Resultado);
+			$Consulta="select t1.CTAREA from sgrs_areaorg t1 where t1.CAREA = '".$CODAREA."' and MVIGENTE='1'";
+			$Resultado=mysqli_query($link,$Consulta);
+			$Fila=mysqli_fetch_array($Resultado);
 			$CodTarea=$Fila[CTAREA];
 			if($CodTarea==8)
 				$Filtro="t1.CAREA='".$CODAREA."'";
 			else
 				$Filtro="t1.CPARENT = '".$CodSelTarea."'";	
-			$Consulta2="SELECT t1.CAREA,t1.CPARENT,t1.CTAREA,t1.NAREA,t2.QPROBHIST,t2.QCONSECHIST from sgrs_areaorg t1 left join sgrs_siperpeligros t2 on t1.CAREA=t2.CAREA ";
+			$Consulta2="select t1.CAREA,t1.CPARENT,t1.CTAREA,t1.NAREA,t2.QPROBHIST,t2.QCONSECHIST from sgrs_areaorg t1 left join sgrs_siperpeligros t2 on t1.CAREA=t2.CAREA ";
 			$Consulta2.=" where ".$Filtro." and t1.CPARENT <>'' and t1.MVIGENTE='1' group by t1.CAREA";
 			//echo $Consulta2."<BR>";
-			$Resultado2=mysql_query($Consulta2);
-			while ($Fila2=mysql_fetch_array($Resultado2))
+			$Resultado2=mysqli_query($link,$Consulta2);
+			while ($Fila2=mysqli_fetch_array($Resultado2))
 			{	$SUMAACEP=0;$SUMAMODE=0;$SUMAINAC=0;
 					
 				//echo "CAREA:   ".$Fila2[CAREA]."<br>";
@@ -76,14 +76,14 @@
 		 ?>
 		<tr>
 			<td class="TituloCabecera" align="right" >Totales</td>
-			<td class="TituloCabecera" ><? echo $TotGAcepMRi;?></td>
-			<td class="TituloCabecera" ><? echo $TotGModMRi;?></td>
-			<td class="TituloCabecera" ><? echo $TotGInacepMRi;?></td>
-			<td class="TituloCabecera" ><? echo $Total1;?></td>
-			<td class="TituloCabecera" ><? echo $TotGAcep;?></td>
-			<td class="TituloCabecera" ><? echo $TotGMod;?></td>
-			<td class="TituloCabecera" ><? echo $TotGInacep;?></td>
-			<td class="TituloCabecera" ><? echo $Total;?></td>
+			<td class="TituloCabecera" ><?php echo $TotGAcepMRi;?></td>
+			<td class="TituloCabecera" ><?php echo $TotGModMRi;?></td>
+			<td class="TituloCabecera" ><?php echo $TotGInacepMRi;?></td>
+			<td class="TituloCabecera" ><?php echo $Total1;?></td>
+			<td class="TituloCabecera" ><?php echo $TotGAcep;?></td>
+			<td class="TituloCabecera" ><?php echo $TotGMod;?></td>
+			<td class="TituloCabecera" ><?php echo $TotGInacep;?></td>
+			<td class="TituloCabecera" ><?php echo $Total;?></td>
 		 </tr>
 		 <tr><td colspan="9">&nbsp;</td></tr>		 
 				<tr>
@@ -102,28 +102,28 @@
 					<td width="10%" class="TituloCabecera" >Inaceptable</td>
 					<td width="7%" class="TituloCabecera" >Total</td>
 				 </tr>
-					<?
+					<?php
 					$TotGAcep=0;$TotGMod=0;$TotGInacep=0;$Total=0;
-					$Consulta="SELECT t1.CTAREA from sgrs_areaorg t1 where t1.CAREA = '".$CODAREA."' and t1.MVIGENTE='1'";
-					$Resultado=mysqli_query($link, $Consulta);
-					$Fila=mysql_fetch_array($Resultado);
+					$Consulta="select t1.CTAREA from sgrs_areaorg t1 where t1.CAREA = '".$CODAREA."' and t1.MVIGENTE='1'";
+					$Resultado=mysqli_query($link,$Consulta);
+					$Fila=mysqli_fetch_array($Resultado);
 					$CodTarea=$Fila[CTAREA];
 					if($CodTarea==8)
 						$Filtro2="t1.CAREA='".$CODAREA."'";
 					else
 						$Filtro2="t1.CPARENT like '%".$CodSelTarea."%' ";			
-					$Consulta="SELECT t3.NCONTACTO,t2.CCONTACTO from sgrs_areaorg t1 inner join sgrs_siperpeligros t2 on t1.CAREA=t2.CAREA inner join sgrs_codcontactos t3 on t2.CCONTACTO=t3.CCONTACTO ";
+					$Consulta="select t3.NCONTACTO,t2.CCONTACTO from sgrs_areaorg t1 inner join sgrs_siperpeligros t2 on t1.CAREA=t2.CAREA inner join sgrs_codcontactos t3 on t2.CCONTACTO=t3.CCONTACTO ";
 					$Consulta.="where t1.MVIGENTE='1' and t2.MVIGENTE<>'0' and t1.CTAREA ='8' and ".$Filtro2." group by t2.CCONTACTO order by t2.CCONTACTO ";
-					$RespPel=mysqli_query($link, $Consulta);
+					$RespPel=mysqli_query($link,$Consulta);
 					//echo $Consulta."<br>";
-					while($FilaPel=mysql_fetch_array($RespPel))
+					while($FilaPel=mysqli_fetch_array($RespPel))
 					{
 						$TotAcep=0;$TotMod=0;$TotInacep=0;$TotMriAcep=0;$TotMriMode=0;$TotMriInac=0;
-						$Consulta="SELECT * from sgrs_areaorg t1 inner join sgrs_siperpeligros t2 on t1.CAREA=t2.CAREA ";
+						$Consulta="select * from sgrs_areaorg t1 inner join sgrs_siperpeligros t2 on t1.CAREA=t2.CAREA ";
 						$Consulta.="where t1.MVIGENTE='1' and t2.MVIGENTE<>'0' and t1.CTAREA ='8' and ".$Filtro2." and t2.CCONTACTO='".$FilaPel[CCONTACTO]."' ";
-						$RespP=mysqli_query($link, $Consulta);
+						$RespP=mysqli_query($link,$Consulta);
 						//echo $Consulta."<br>";
-						while($FilaP=mysql_fetch_array($RespP))
+						while($FilaP=mysqli_fetch_array($RespP))
 						{
 							$MR=$FilaP[QMR];
 							if($FilaP[MR1]==1&&$FilaP[MR2]==1)
@@ -170,14 +170,14 @@
 				 ?>
 				<tr>
 					<td class="TituloCabecera" align="right" >Totales</td>
-					<td class="TituloCabecera" align='center'><? echo $TotGAcep1;?></td>
-					<td class="TituloCabecera" align='center'><? echo $TotGMod1;?></td>
-					<td class="TituloCabecera" align='center'><? echo $TotGInacep1;?></td>
-					<td class="TituloCabecera" align='center'><? echo $Total2;?></td>
-					<td class="TituloCabecera" align='center'><? echo $TotGAcep;?></td>
-					<td class="TituloCabecera" align='center'><? echo $TotGMod;?></td>
-					<td class="TituloCabecera" align='center'><? echo $TotGInacep;?></td>
-					<td class="TituloCabecera" align='center'><? echo $Total;?></td>
+					<td class="TituloCabecera" align='center'><?php echo $TotGAcep1;?></td>
+					<td class="TituloCabecera" align='center'><?php echo $TotGMod1;?></td>
+					<td class="TituloCabecera" align='center'><?php echo $TotGInacep1;?></td>
+					<td class="TituloCabecera" align='center'><?php echo $Total2;?></td>
+					<td class="TituloCabecera" align='center'><?php echo $TotGAcep;?></td>
+					<td class="TituloCabecera" align='center'><?php echo $TotGMod;?></td>
+					<td class="TituloCabecera" align='center'><?php echo $TotGInacep;?></td>
+					<td class="TituloCabecera" align='center'><?php echo $Total;?></td>
 				 </tr>
 		
 		  </table>
@@ -186,7 +186,7 @@
 	<td width="5" background="imagenes/tab_separator.gif"></td>
 </tr>
 </table>
-<?
+<?php
 	function SumaMR($CAREA,$CodSelTarea,$CodT,$TotAcep,$TotMod,$TotInacep)
 	{
 		$TotAcep=0;$TotMod=0;$TotInacep=0;
@@ -194,11 +194,11 @@
 			$Filtro="t1.CAREA='".$CAREA."'";
 		else
 			$Filtro="t1.CPARENT like '%".$CodSelTarea.$CAREA.",%' ";			
-		$Consulta="SELECT t2.MR1,t2.MR2 from sgrs_areaorg t1 inner join sgrs_siperpeligros t2 on t1.CAREA=t2.CAREA ";
+		$Consulta="select t2.MR1,t2.MR2 from sgrs_areaorg t1 inner join sgrs_siperpeligros t2 on t1.CAREA=t2.CAREA ";
 		$Consulta.="where t1.MVIGENTE='1' and t2.MVIGENTE<>'0' and t1.CTAREA ='8' and ".$Filtro;
-		$RespPel=mysqli_query($link, $Consulta);
+		$RespPel=mysqli_query($link,$Consulta);
 		//echo $Consulta."<br>";
-		while($FilaPel=mysql_fetch_array($RespPel))
+		while($FilaPel=mysqli_fetch_array($RespPel))
 		{
 			if($FilaPel[MR1]==1&&$FilaPel[MR2]==1)
 				$TotAcep=$TotAcep+1;

@@ -1,4 +1,4 @@
-<?php
+<?phpphp
 	$CheckeadoRut='checked';
 	$CheckeadoIdent='checked';
 	$CheckeadoVal='';
@@ -87,7 +87,7 @@ function Consultar(Opt)
       <tr>
         <td width="22%" align="left" class="formulario">Rutinaria:
 		 <select name="CmbRut">
-		<?php			
+		<?phpphp			
 		  switch($CmbRut)
 		  {
 		  	case "1":
@@ -108,11 +108,11 @@ function Consultar(Opt)
 		  }
 		?>
 		</select>
-		<!--<input name="CheckRut" type="checkbox" class="SinBorde" value="checkbox" <?php //echo $CheckeadoRut;?>>-->
+		<!--<input name="CheckRut" type="checkbox" class="SinBorde" value="checkbox" <?phpphp //echo $CheckeadoRut;?>>-->
 		</td>
         <td width="23%" align="left" class="formulario">Identificado:
 		 <select name="CmbIdent">
-		<?php			
+		<?phpphp			
 		  switch($CmbIdent)
 		  {
 		  	case "1":
@@ -133,11 +133,11 @@ function Consultar(Opt)
 		  }
 		?>
 		</select>
-		<!--<input type="checkbox" name="CheckIdent" value="checkbox" class="SinBorde" <?php //echo $CheckeadoIdent;?>>-->
+		<!--<input type="checkbox" name="CheckIdent" value="checkbox" class="SinBorde" <?phpphp //echo $CheckeadoIdent;?>>-->
 	</td>
         <td width="18%" align="left" class="formulario">Validado:
 		 <select name="CmbValidado">
-		<?php			
+		<?phpphp			
 		  switch($CmbValidado)
 		  {
 		  	case "1":
@@ -159,10 +159,10 @@ function Consultar(Opt)
 		?>
 		</select>
 		
-		<!--<input type="checkbox" name="CheckVal" value="checkbox" class="SinBorde" <?php //echo $CheckeadoVal;?>>-->
+		<!--<input type="checkbox" name="CheckVal" value="checkbox" class="SinBorde" <?phpphp //echo $CheckeadoVal;?>>-->
 		</td>
 		<td width="19%" align="left" class="formulario">Solo Tareas del Nivel:
-		  <input type="checkbox" name="CheckTareasNivel" value="checkbox" class="SinBorde" <?php echo $CheckeadoTareasNivel;?>></td>
+		  <input type="checkbox" name="CheckTareasNivel" value="checkbox" class="SinBorde" <?phpphp echo $CheckeadoTareasNivel;?>></td>
         </tr>
     </table>
 	<table width="90%" border="1" cellpadding="0" cellspacing="0">
@@ -176,7 +176,7 @@ function Consultar(Opt)
 	    </table>
 		 <div id='Resumen22'  style='overflow:auto;WIDTH: 90%; height:260px;left: 15px; top: 85px;'>
 		 <table width="100%" border="1" cellpadding="0" cellspacing="0">
-		 <?php //echo $CmbValidado."<br>";
+		 <?phpphp //echo $CmbValidado."<br>";
 			if($Consulta=='S')
 			{
 				$Consulta="select t1.CAREA,t1.NAREA,t1.FAREA,t1.CPARENT from sgrs_areaorg t1 inner join sgrs_siperoperaciones t2 on t1.CAREA=t2.CAREA where t1.MVIGENTE=1 and t1.CTAREA='8' ";

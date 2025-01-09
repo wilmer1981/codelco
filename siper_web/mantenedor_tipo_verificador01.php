@@ -1,4 +1,4 @@
-<? include('conectar_ori.php');
+<?php include('conectar_ori.php');
 include('funciones/siper_funciones.php');
 	$Encontro=false;
 	
@@ -6,13 +6,13 @@ include('funciones/siper_funciones.php');
 	switch($Proceso)
 	{
 		case "N":
-			$Consulta = "SELECT ifnull(max(COD_VERIFICADOR),0) as mayor from sgrs_tipo_verificador"; 
-			$Respuesta=mysqli_query($link, $Consulta);
-			$Fila=mysql_fetch_array($Respuesta);
-			$Mayor=$Fila["mayor"] + 1;			
-			$Inserta="INSERT INTO sgrs_tipo_verificador (COD_VERIFICADOR,DESCRIP_VERIFICADOR,ACTIVO,OBS)";
+			$Consulta = "select ifnull(max(COD_VERIFICADOR),0) as mayor from sgrs_tipo_verificador"; 
+			$Respuesta=mysqli_query($link,$Consulta);
+			$Fila=mysqli_fetch_array($Respuesta);
+			$Mayor=$Fila[mayor] + 1;			
+			$Inserta="insert into sgrs_tipo_verificador (COD_VERIFICADOR,DESCRIP_VERIFICADOR,ACTIVO,OBS)";
 			$Inserta.=" values('".$Mayor."','".$TxtNombre."','".$Vigente."','".$ObsVeri."')";
-			mysql_query($Inserta);
+			mysqli_query($link,$Inserta);
 
 			$Obs='Se a Ingresado Verificador '.trim($TxtNombre).' y Activo '.$Vigente.'';	
 			InsertaHistorico($CookieRut,'14',$Obs,'','','');//INGRESA VERIFICADOR
@@ -20,13 +20,13 @@ include('funciones/siper_funciones.php');
 			header("location:mantenedor_tipo_verificador.php?Buscar=S&TxtDescripcion=".$TxtDescripcion."&Mensaje=".$Mensaje);
 		break;
 		case "M":
-			$Consulta="SELECT * from sgrs_tipo_verificador where COD_VERIFICADOR='".$Datos."'";
-			$Respuesta=mysqli_query($link, $Consulta);
-			$Fila=mysql_fetch_array($Respuesta);
+			$Consulta="select * from sgrs_tipo_verificador where COD_VERIFICADOR='".$Datos."'";
+			$Respuesta=mysqli_query($link,$Consulta);
+			$Fila=mysqli_fetch_array($Respuesta);
 			$NONVERI=$Fila[DESCRIP_VERIFICADOR];
-			$VIG=$Fila["ACTIVO"];
-			$Actualizar="UPDATE sgrs_tipo_verificador set DESCRIP_VERIFICADOR='".$TxtNombre."',ACTIVO='".$Vigente."',OBS='".$ObsVeri."' where COD_VERIFICADOR='".$Datos."' ";
-			mysql_query($Actualizar);			
+			$VIG=$Fila[ACTIVO];
+			$Actualizar="update sgrs_tipo_verificador set DESCRIP_VERIFICADOR='".$TxtNombre."',ACTIVO='".$Vigente."',OBS='".$ObsVeri."' where COD_VERIFICADOR='".$Datos."' ";
+			mysqli_query($link,$Actualizar);			
 
 			$Obs='Se a Modificado Verificador '.trim($NONVERI).'y Activo '.$VIG.'';	
 			$Obs2='Por Verificador '.$TxtNombre.' y Activo '.$Vigente.'';	
@@ -37,24 +37,24 @@ include('funciones/siper_funciones.php');
 		case "E":
 			$Mensaje='';
 			$Datos = explode("//",$DatosUni);
-			foreach($Datos as $clave => $Codigo)
+			while (list($clave,$Codigo)=each($Datos))
 			{
 				$DatosRel='N';
-				$Consulta="SELECT * from sgrs_sipercontroles where VERIFICADOR_OPER='".$Codigo."'";
-				$Resp=mysqli_query($link, $Consulta);
-				if($Fila=mysql_fetch_array($Resp))
+				$Consulta="select * from sgrs_sipercontroles where VERIFICADOR_OPER='".$Codigo."'";
+				$Resp=mysqli_query($link,$Consulta);
+				if($Fila=mysqli_fetch_array($Resp))
 					$DatosRel='S';
 				if($DatosRel=='N')
 				{
-					$Consulta="SELECT * from sgrs_tipo_verificador where COD_VERIFICADOR='".$Codigo."'";
-					$Respuesta=mysqli_query($link, $Consulta);
-					while($Fila=mysql_fetch_array($Respuesta))
+					$Consulta="select * from sgrs_tipo_verificador where COD_VERIFICADOR='".$Codigo."'";
+					$Respuesta=mysqli_query($link,$Consulta);
+					while($Fila=mysqli_fetch_array($Respuesta))
 					{
 						$NONVERI=$NONVERI.$Fila[DESCRIP_VERIFICADOR].", ";
 					}	
 					
 					$Eliminar="delete from sgrs_tipo_verificador where COD_VERIFICADOR='".$Codigo."'";
-					mysql_query($Eliminar);
+					mysqli_query($link,$Eliminar);
 				}
 				else
 					$Mensaje='No se puede Eliminar Verificador, Existen Controles asociados';	

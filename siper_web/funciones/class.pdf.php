@@ -1,4 +1,4 @@
-<?php
+<?phpphp
 /**
 * Cpdf
 *
@@ -147,7 +147,7 @@ var $fontFamilies = array();
 */
 var $currentTextState = ''; 
 /**
-* messages are stored here during processing, these can be SELECTed afterwards to give some useful debug information
+* messages are stored here during processing, these can be selected afterwards to give some useful debug information
 */
 var $messages='';
 /**
@@ -427,7 +427,7 @@ function o_pages($id,$action,$options=''){
           $res.="\n>>";
           if (isset($o['info']['mediaBox'])){
             $tmp=$o['info']['mediaBox'];
-            $res.="\n/MediaBox [".sprintf('%.3f',$tmp[0]).' '.sprintf('%.3f',$tmp[1]).' '.sprintf('%.3f',$tmp[2]).' '.sprintf('%.3f',$tmp[3]).']."';
+            $res.="\n/MediaBox [".sprintf('%.3f',$tmp[0]).' '.sprintf('%.3f',$tmp[1]).' '.sprintf('%.3f',$tmp[2]).' '.sprintf('%.3f',$tmp[3]).']';
           }
         }
         $res.="\n >>\nendobj";
@@ -972,7 +972,7 @@ function o_image($id,$action,$options=''){
           $this->o_contents($this->numObj,'new');
           $this->objects[$this->numObj]['c']=$options['pdata'];
           $tmp.=$this->numObj.' 0 R';
-          $tmp .=' ]."';
+          $tmp .=' ]';
           $this->objects[$id]['info']['ColorSpace'] = $tmp;
           if (isset($options['transparency'])){
             switch($options['transparency']['type']){
@@ -1231,7 +1231,7 @@ function output($debug=0){
   $this->checkAllHere();
 
   $xref=array();
-  $content="%PDF-1.3\n%ï¿½ï¿½ï¿½ï¿½\n";
+  $content="%PDF-1.3\n%âãÏÓ\n";
 //  $content="%PDF-1.3\n";
   $pos=strlen($content);
   foreach($this->objects as $k=>$v){
@@ -1414,7 +1414,7 @@ function openFont($font){
 * and 'differences' => an array of mappings between numbers 0->255 and character names.
 *
 */
-function SELECTFont($fontName,$encoding='',$set=1){
+function selectFont($fontName,$encoding='',$set=1){
   if (!isset($this->fonts[$fontName])){
     // load the file
     $this->openFont($fontName);
@@ -1458,11 +1458,11 @@ function SELECTFont($fontName,$encoding='',$set=1){
       
 //      $pfbfile = substr($fontName,0,strlen($fontName)-4).'.pfb';
 //      $ttffile = substr($fontName,0,strlen($fontName)-4).'.ttf';
-      $this->addMessage('SELECTFont: checking for - '.$fbfile);
+      $this->addMessage('selectFont: checking for - '.$fbfile);
       if (substr($fontName,-4)=='.afm' && strlen($fbtype) ){
         $adobeFontName = $this->fonts[$fontName]['FontName'];
 //        $fontObj = $this->numObj;
-        $this->addMessage('SELECTFont: adding font file - '.$fbfile.' - '.$adobeFontName);
+        $this->addMessage('selectFont: adding font file - '.$fbfile.' - '.$adobeFontName);
         // find the array of fond widths, and put that into an object.
         $firstChar = -1;
         $lastChar = 0;
@@ -1495,15 +1495,15 @@ function SELECTFont($fontName,$encoding='',$set=1){
             }
           }
         }
-        $this->addMessage('SELECTFont: FirstChar='.$firstChar);
-        $this->addMessage('SELECTFont: LastChar='.$lastChar);
+        $this->addMessage('selectFont: FirstChar='.$firstChar);
+        $this->addMessage('selectFont: LastChar='.$lastChar);
         $this->numObj++;
         $this->o_contents($this->numObj,'new','raw');
         $this->objects[$this->numObj]['c'].='[';
         foreach($widths as $width){
           $this->objects[$this->numObj]['c'].=' '.$width;
         }
-        $this->objects[$this->numObj]['c'].=' ]."';
+        $this->objects[$this->numObj]['c'].=' ]';
         $widthid = $this->numObj;
 
         // load the pfb file, and put that into an object too.
@@ -1575,21 +1575,21 @@ function SELECTFont($fontName,$encoding='',$set=1){
         $this->o_font($fontObj,'add',$tmp);
 
       } else {
-        $this->addMessage('SELECTFont: pfb or ttf file not found, ok if this is one of the 14 standard fonts');
+        $this->addMessage('selectFont: pfb or ttf file not found, ok if this is one of the 14 standard fonts');
       }
 
 
       // also set the differences here, note that this means that these will take effect only the 
-      //first time that a font is SELECTed, else they are ignored
+      //first time that a font is selected, else they are ignored
       if (isset($options['differences'])){
         $this->fonts[$fontName]['differences']=$options['differences'];
       }
     }
   }
   if ($set && isset($this->fonts[$fontName])){
-    // so if for some reason the font was not set in the last one then it will not be SELECTed
+    // so if for some reason the font was not set in the last one then it will not be selected
     $this->currentBaseFont=$fontName;
-    // the next line means that if a new font is SELECTed, then the current text state will be
+    // the next line means that if a new font is selected, then the current text state will be
     // applied to it as well.
     $this->setCurrentFont();
   }
@@ -1600,9 +1600,9 @@ function SELECTFont($fontName,$encoding='',$set=1){
 * sets up the current font, based on the font families, and the current text state
 * note that this system is quite flexible, a <b><i> font can be completely different to a
 * <i><b> font, and even <b><b> will have to be defined within the family to have meaning
-* This function is to be called whenever the currentTextState is changed, it will UPDATE
+* This function is to be called whenever the currentTextState is changed, it will update
 * the currentFont setting to whatever the appropriatte family one is.
-* If the user calls SELECTFont themselves then that will reset the currentBaseFont, and the currentFont
+* If the user calls selectFont themselves then that will reset the currentBaseFont, and the currentFont
 * This function will change the currentFont to whatever it should be, but will not change the 
 * currentBaseFont.
 *
@@ -1611,7 +1611,7 @@ function SELECTFont($fontName,$encoding='',$set=1){
 function setCurrentFont(){
   if (strlen($this->currentBaseFont)==0){
     // then assume an initial font
-    $this->SELECTFont('./fonts/Helvetica.afm');
+    $this->selectFont('./fonts/Helvetica.afm');
   }
   $cf = substr($this->currentBaseFont,strrpos($this->currentBaseFont,'/')+1);
   if (strlen($this->currentTextState)
@@ -1619,9 +1619,9 @@ function setCurrentFont(){
       && isset($this->fontFamilies[$cf][$this->currentTextState])){
     // then we are in some state or another
     // and this font has a family, and the current setting exists within it
-    // SELECT the font, then return it
+    // select the font, then return it
     $nf = substr($this->currentBaseFont,0,strrpos($this->currentBaseFont,'/')+1).$this->fontFamilies[$cf][$this->currentTextState];
-    $this->SELECTFont($nf,'',0);
+    $this->selectFont($nf,'',0);
     $this->currentFont = $nf;
     $this->currentFontNum = $this->fonts[$nf]['fontNum'];
   } else {
@@ -1928,7 +1928,7 @@ function stream($options=''){
 */
 function getFontHeight($size){
   if (!$this->numFonts){
-    $this->SELECTFont('./fonts/Helvetica');
+    $this->selectFont('./fonts/Helvetica');
   }
   // for the current font, and the given size, what is the height of the font in user units
   $h = $this->fonts[$this->currentFont]['FontBBox'][3]-$this->fonts[$this->currentFont]['FontBBox'][1];
@@ -1943,7 +1943,7 @@ function getFontHeight($size){
 function getFontDecender($size){
   // note that this will most likely return a negative value
   if (!$this->numFonts){
-    $this->SELECTFont('./fonts/Helvetica');
+    $this->selectFont('./fonts/Helvetica');
   }
   $h = $this->fonts[$this->currentFont]['FontBBox'][1];
   return $size*$h/1000;
@@ -2154,7 +2154,7 @@ function PRVTcheckTextDirective1(&$text,$i,&$f,$final,&$x,&$y,$size=0,$angle=0,$
 * add text to the document, at a specified location, size and angle on the page
 */
 function addText($x,$y,$size,$text,$angle=0,$wordSpaceAdjust=0){
-  if (!$this->numFonts){$this->SELECTFont('./fonts/Helvetica');}
+  if (!$this->numFonts){$this->selectFont('./fonts/Helvetica');}
 
   // if there are any open callbacks, then they should be called, to show the start of the line
   if ($this->nCallback>0){
@@ -2252,7 +2252,7 @@ function getTextWidth($size,$text){
   $store_currentTextState = $this->currentTextState;
 
   if (!$this->numFonts){
-    $this->SELECTFont('./fonts/Helvetica');
+    $this->selectFont('./fonts/Helvetica');
   }
 
   // converts a number or a float to a string so it can get the width
@@ -2338,7 +2338,7 @@ function addTextWrap($x,$y,$width,$size,$text,$justification='left',$angle=0,$te
   // but will need to be re-set before printing, so that the chars work out right
   $store_currentTextState = $this->currentTextState;
 
-  if (!$this->numFonts){$this->SELECTFont('./fonts/Helvetica');}
+  if (!$this->numFonts){$this->selectFont('./fonts/Helvetica');}
   if ($width<=0){
     // error, pretend it printed ok, otherwise risking a loop
     return '';

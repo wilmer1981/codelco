@@ -1,4 +1,4 @@
-<?php
+<?phpphp
 	$CheckeadoRut='checked';
 	$CheckeadoIdent='checked';
 	$CheckeadoVal='';
@@ -92,7 +92,7 @@ function Recarga(Opc,Parent)
 	<div id='Resumen'  style='overflow:auto;WIDTH: 90%; height:360px;left: 15px; top: 85px;'>
 	<table width="90%" border="0" cellpadding="0" cellspacing="5">
       <tr>
-        <td height="36%" align="left"><?php echo DescripOrganica2($CodSelTarea,$link);?></td>
+        <td height="36%" align="left"><?phpphp echo DescripOrganica2($CodSelTarea,$link);?></td>
         <td height="36%" align="left">&nbsp;</td>
         <td height="36%" colspan="2" align="left">&nbsp;</td>
         <td width="24%" rowspan="2" align="right"><a href="javascript:Consultar('W')"><img src="imagenes/btn_buscar.gif" width="30" height="30" border="0" alt="Buscar"></a>&nbsp;<a href="javascript:Consultar('E')"><img src="imagenes/btn_excel.png" width="30" height="30" border="0" alt="Excel"></a></td>
@@ -105,7 +105,7 @@ function Recarga(Opc,Parent)
       <tr>
         <td width="23%" align="left" class="formulario">Rutinaria:
 		 <select name="CmbRut">
-		<?php			
+		<?phpphp			
 		  switch($CmbRut)
 		  {
 		  	case "1":
@@ -126,10 +126,10 @@ function Recarga(Opc,Parent)
 		  }
 		?>
 		</select>		
-		<!--<input name="CheckRut" type="checkbox" class="SinBorde" value="checkbox" <?php //echo $CheckeadoRut;?>>-->		</td>
+		<!--<input name="CheckRut" type="checkbox" class="SinBorde" value="checkbox" <?phpphp //echo $CheckeadoRut;?>>-->		</td>
         <td width="28%" align="left" class="formulario">Identificado:
 		 <select name="CmbIdent">
-		<?php			
+		<?phpphp			
 		  switch($CmbIdent)
 		  {
 		  	case "1":
@@ -150,10 +150,10 @@ function Recarga(Opc,Parent)
 		  }
 		?>
 		</select>		
-		<!--<input type="checkbox" name="CheckIdent" value="checkbox" class="SinBorde" <?php //echo $CheckeadoIdent;?>>-->		</td>
+		<!--<input type="checkbox" name="CheckIdent" value="checkbox" class="SinBorde" <?phpphp //echo $CheckeadoIdent;?>>-->		</td>
         <td width="21%" align="left" class="formulario">Validado:
 		<select name="CmbValidado">
-		<?php			
+		<?phpphp			
 		  switch($CmbValidado)
 		  {
 		  	case "1":
@@ -174,14 +174,14 @@ function Recarga(Opc,Parent)
 		  }
 		?>
 		</select>
-		<!--<input type="checkbox" name="CheckVal" value="checkbox" class="SinBorde" <?php //echo $CheckeadoVal;?>>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-->		</td>
+		<!--<input type="checkbox" name="CheckVal" value="checkbox" class="SinBorde" <?phpphp //echo $CheckeadoVal;?>>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-->		</td>
         <td colspan="2" align="left" class="formulario"><span class="formulario">Solo Tareas del Nivel:
-            <input type="checkbox" name="CheckTareasNivel" value="checkbox" class="SinBorde" <?php echo $CheckeadoTareasNivel;?> />
+            <input type="checkbox" name="CheckTareasNivel" value="checkbox" class="SinBorde" <?phpphp echo $CheckeadoTareasNivel;?> />
         </span></td>
         </tr>
       <tr>
         <td align="left" class="formulario">Peligros:
-          <label></label></td><?php //echo $CodSelTarea;
+          <label></label></td><?phpphp //echo $CodSelTarea;
 		  
 		  $CODAREA=ObtenerCodParent($CodSelTarea);
  				$Consulta1="select * from sgrs_areaorg ";
@@ -192,9 +192,9 @@ function Recarga(Opc,Parent)
 					$CTAREA=$Fila1["CTAREA"];
 				//echo 	$CTAREA."<br>";	
 		  ?>
-        <td colspan="4" align="left" class="formulario"><select name="CmbPeligros" onchange="Recarga('R','<? echo $CodSelTarea;?>')">
+        <td colspan="4" align="left" class="formulario"><select name="CmbPeligros" onchange="Recarga('R','<?php echo $CodSelTarea;?>')">
           <option value="T">Todos</option>
-          <?php
+          <?phpphp
 				
 				$CODAREA=ObtenerCodParent($CodSelTarea);
 				$Consulta="select distinct t4.CCONTACTO,t4.NCONTACTO,t4.CCONTACTO as orden,t3.CPELIGRO,t3.CAREA from sgrs_areaorg t1 inner join sgrs_siperoperaciones t2 on t1.CAREA=t2.CAREA ";
@@ -223,12 +223,12 @@ function Recarga(Opc,Parent)
 				}
 		  ?>
         </select>
-          <?php //echo $CAREA2;?></td>
+          <?phpphp //echo $CAREA2;?></td>
         </tr>
       <tr>
         <td align="left" class="formulario">MRi:</td>
         <td colspan="3" align="left" class="formulario"><select name="CmbMRi">
-          <?php
+          <?phpphp
 		  	switch($CmbMRi)
 			{
 				case "T";
@@ -271,7 +271,7 @@ function Recarga(Opc,Parent)
       <tr>
         <td align="left" class="formulario">          MRr:          </td>
         <td colspan="3" align="left" class="formulario"><select name="CmbMR">
-            <?php
+            <?phpphp
 		  	switch($CmbMR)
 			{
 				case "A";
@@ -311,11 +311,11 @@ function Recarga(Opc,Parent)
           </select></td>
         <td align="left" class="formulario">&nbsp;</td>
       </tr>
-      <tr><?php if($CmbPeligros=="") $CmbPeligros='T';?>
+      <tr><?phpphp if($CmbPeligros=="") $CmbPeligros='T';?>
         <td align="left" class="formulario">Controles:          </td>
         <td colspan="3" align="left" class="formulario"><select name="CmbControles">
           <option value="T">Todos</option>
-          <?php
+          <?phpphp
 				$Consulta="select t3.NCONTROL,t2.CCONTROL from sgrs_areaorg t1 inner join sgrs_sipercontroles t2 on t1.CAREA=t2.CAREA ";
 				$Consulta.=" inner join sgrs_codcontroles t3 on t2.CCONTROL=t3.CCONTROL ";
 				if($CTAREA!='8')
@@ -347,15 +347,15 @@ function Recarga(Opc,Parent)
 				}
 		  ?>
         </select>
-          <?php //echo $Consulta;?></td>
+          <?phpphp //echo $Consulta;?></td>
         <td align="left" class="formulario">&nbsp;</td>
       </tr>
       <tr>
         <td align="left" class="formulario">Verificadores:          </td>
-        <td colspan="3" align="left" class="formulario"><?php if($CmbPeligros=="") $CmbPeligros='T';?>
+        <td colspan="3" align="left" class="formulario"><?phpphp if($CmbPeligros=="") $CmbPeligros='T';?>
 		<select name="CmbVerificador">
           <option value="T">Todos</option>
-          <?php
+          <?phpphp
 				$Consulta="select t3.COD_VERIFICADOR,t3.DESCRIP_VERIFICADOR from sgrs_areaorg t1 inner join sgrs_siperverificadores t2 on t1.CAREA=t2.CAREA ";
 				$Consulta.=" inner join sgrs_tipo_verificador t3 on t2.COD_VERIFICADOR=t3.COD_VERIFICADOR ";
 				if($CTAREA!='8')
@@ -380,7 +380,7 @@ function Recarga(Opc,Parent)
 						echo "<option value='".$Fila["COD_VERIFICADOR"]."'>".$Fila["DESCRIP_VERIFICADOR"]."</option>";
 				}
 		  ?>
-        </select><? //echo $Consulta;?></td>
+        </select><?php //echo $Consulta;?></td>
         <td align="left" class="formulario">&nbsp;</td>
       </tr>
     </table>

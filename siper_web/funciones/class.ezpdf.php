@@ -1,4 +1,4 @@
-<?php
+<?phpphp
 
 include_once('class.pdf.php');
 
@@ -639,7 +639,7 @@ function ezTable(&$data,$cols='',$title='',$options=''){
   // 'protectRows'=>number, the number of rows to hold with the heading on page, ie, if there less than this number of
   //                rows on the page, then move the whole lot onto the next page, default=1
   //
-  // note that the user will have had to make a font SELECTion already or this will not 
+  // note that the user will have had to make a font selection already or this will not 
   // produce a valid pdf file.
   
   if (!is_array($data)){
@@ -798,7 +798,7 @@ function ezTable(&$data,$cols='',$title='',$options=''){
       }
     }
     // $cols0 now contains the new widths of the constrained columns.
-    // now need to UPDATE the $pos and $maxWidth arrays
+    // now need to update the $pos and $maxWidth arrays
     $xq=0;
     foreach($pos as $colName=>$p){
       $pos[$colName]=$xq;
@@ -1435,7 +1435,7 @@ function loadTemplate($templateFile){
   }
 
   $code = trim($code);
-  if (substr($code,0,5)=='<?php'){
+  if (substr($code,0,5)=='<?phpphp'){
     $code = substr($code,5);
   }
   if (substr($code,-2)=='?>'){

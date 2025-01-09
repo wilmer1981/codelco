@@ -1,4 +1,4 @@
-<?
+<?php
 //if($Portal=='S')
 //	setcookie("CookieRut", '*');
 ?>

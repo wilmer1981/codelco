@@ -1,4 +1,4 @@
-<?
+<?php
 include('conectar_ori.php');
 ?>
 <html>
@@ -80,7 +80,7 @@ function ConfirmaEliminar()
 	var f=document.MantenedorPel;
 	if(f.ObsEli.value=='')
 	{
-		alert('Debe Ingresar Observaciï¿½n de Eliminaciï¿½n');
+		alert('Debe Ingresar Observación de Eliminación');
 		f.ObsEli.focus();
 		return;
 	}
@@ -149,12 +149,12 @@ function Salir()
 			<table width="80%" border="1" cellpadding="0" cellspacing="0">
             <tr>
               <td width="8%" align="center" class="TituloCabecera">Selec</td>
-              <td width="4%" align="center" class="TituloCabecera">Cï¿½digo</td>
+              <td width="4%" align="center" class="TituloCabecera">Código</td>
 			   <td width="8%" align="center" class="TituloCabecera">Tipo</td>
-              <td width="58%" align="center" class="TituloCabecera">Descripciï¿½n Controles </td>
-			  <td width="18%" align="center" class="TituloCabecera">Peso Especï¿½fico</td>
+              <td width="58%" align="center" class="TituloCabecera">Descripción Controles </td>
+			  <td width="18%" align="center" class="TituloCabecera">Peso Específico</td>
             </tr>
-			 <?
+			 <?php
 				if(!isset($CodPadre))
 					$Filtro="length(CCONTROL)=2 ";
 				else
@@ -162,10 +162,10 @@ function Salir()
 					$Largo=intval(strlen($CodPadre))+2;
 					$Filtro="CCONTROL = '".$CodPadre."' or (CCONTROL like '".$CodPadre."%' and length(CCONTROL)=".$Largo.")"; 
 				}
-				$Consulta="SELECT NCONTROL,CCONTROL,MPROBCONSEC from sgrs_codcontroles where ".$Filtro." and NCONTROL <> '' and CCONTROL <> '--' order by MPROBCONSEC desc,CCONTROL asc";
+				$Consulta="select NCONTROL,CCONTROL,MPROBCONSEC from sgrs_codcontroles where ".$Filtro." and NCONTROL <> '' and CCONTROL <> '--' order by MPROBCONSEC desc,CCONTROL asc";
 				//echo $Consulta;
-				$Resultado=mysqli_query($link, $Consulta);echo "<input name='CodSel' type='hidden'>";$TOTAL=0;$Entrar='S';$Sel='N';$MostrarSubT='S';$Cont=0;
-				while ($Fila=mysql_fetch_array($Resultado))
+				$Resultado=mysqli_query($link,$Consulta);echo "<input name='CodSel' type='hidden'>";$TOTAL=0;$Entrar='S';$Sel='N';$MostrarSubT='S';$Cont=0;
+				while ($Fila=mysqli_fetch_array($Resultado))
 				{
 					if($MostrarSubT=='S'&&$Fila[MPROBCONSEC]=='0'&&$Entrar=='S')
 					{
@@ -200,10 +200,10 @@ function Salir()
 						echo "<td align='left' class='titulo_azul'>".$Fila[CCONTROL]." ".$Fila[NCONTROL]."</td>";
 					else
 						echo "<td align='left' width='58%'>".$Fila[CCONTROL]." ".$Fila[NCONTROL]."</td>";
-					$Consulta="SELECT ifnull(sum(QPESOESP),0) as PESO_ESP from sgrs_codcontroles where CCONTROL like '".$Fila[CCONTROL]."%'";
+					$Consulta="select ifnull(sum(QPESOESP),0) as PESO_ESP from sgrs_codcontroles where CCONTROL like '".$Fila[CCONTROL]."%'";
 					//echo $Consulta."<br>";
-					$Result=mysqli_query($link, $Consulta);
-					$Fila2=mysql_fetch_array($Result);
+					$Result=mysqli_query($link,$Consulta);
+					$Fila2=mysqli_fetch_array($Result);
 					$QPESOESP=$Fila2[PESO_ESP];	
 					echo "<td align='right' width='18%'>".$QPESOESP."</td>";
 					echo "</tr>";
@@ -235,15 +235,15 @@ function Salir()
 	
 </tr>
 </table>
-<? 
+<?php 
 if(!isset($DivProc))
 	$DivProc='hidden';
 if($Proceso=='MC')
 {
-	$Consulta="SELECT * from sgrs_codcontroles where CCONTROL='".$CCONTROL."'";
+	$Consulta="select * from sgrs_codcontroles where CCONTROL='".$CCONTROL."'";
 	//echo $Consulta;
-	$Resultado=mysqli_query($link, $Consulta);
-	if($Fila=mysql_fetch_array($Resultado))
+	$Resultado=mysqli_query($link,$Consulta);
+	if($Fila=mysqli_fetch_array($Resultado))
 	{
 		$TxtDescripcion=$Fila[NCONTROL];
 		$CmbProbConsec=$Fila[MPROBCONSEC];
@@ -258,15 +258,15 @@ if($Proceso=='MC')
 if($Proceso=='AC')
 {
 	$CheckVigVis='checked';
-	$Consulta="SELECT MPROBCONSEC from sgrs_codcontroles where CCONTROL = '".$CCONTROL."'";
+	$Consulta="select MPROBCONSEC from sgrs_codcontroles where CCONTROL = '".$CCONTROL."'";
 	//echo $Consulta."<br>";
-	$Result=mysqli_query($link, $Consulta);
-	$Fila2=mysql_fetch_array($Result);
+	$Result=mysqli_query($link,$Consulta);
+	$Fila2=mysqli_fetch_array($Result);
 	$CmbProbConsec=$Fila2[MPROBCONSEC];	
 	
 }	
 ?>
-  <div id='AgregarPeligros'  style='FILTER: alpha(opacity=100); overflow:auto; VISIBILITY:<? echo $DivProc;?>; WIDTH: 662px; height:300px; POSITION: absolute; moz-opacity: .75; opacity: .75;  left: 298px; top: 25px;'>
+  <div id='AgregarPeligros'  style='FILTER: alpha(opacity=100); overflow:auto; VISIBILITY:<?php echo $DivProc;?>; WIDTH: 662px; height:300px; POSITION: absolute; moz-opacity: .75; opacity: .75;  left: 298px; top: 25px;'>
     <table width="100%" height="85%" align="center"  border="0" cellpadding="0"  cellspacing="0" class="TablaPricipalColor">
       <tr>
         <td width="1%" height="1%"><img src="imagenes/interior/esq1.gif"></td>
@@ -279,7 +279,7 @@ if($Proceso=='AC')
             <tr>
               <td><p align="left" class="titulo_azul"><img src="imagenes/vineta.gif" border="0" /><span class="Estilo7">Controles</span></p>
                 <p class="titulo_azul">&nbsp;</p></td>
-              <td align="right" ><a href=JavaScript:Grabar('<? echo $Proceso;?>')><img src="imagenes/btn_guardar.png" width="29" height="26" border="0"></a>&nbsp;<a href="JavaScript:Cerrar()"><img src="imagenes/cerrar1.png" width="25" height="25" border="0" alt="Cerrar" align="absmiddle" /></a> </td>
+              <td align="right" ><a href=JavaScript:Grabar('<?php echo $Proceso;?>')><img src="imagenes/btn_guardar.png" width="29" height="26" border="0"></a>&nbsp;<a href="JavaScript:Cerrar()"><img src="imagenes/cerrar1.png" width="25" height="25" border="0" alt="Cerrar" align="absmiddle" /></a> </td>
             </tr>
             <tr>
               <td colspan="2" align='center' ></td>
@@ -291,7 +291,7 @@ if($Proceso=='AC')
             <tr>
               <td width="129" class="formulario">Codigo:</td>
               <td width="182">
-			  <?
+			  <?php
 			  if($Proceso=='AC')
 			  {
 	  			$Inicio=1;
@@ -300,36 +300,36 @@ if($Proceso=='AC')
 					$Inicio=0;
 			  ?>
 			  
-			  <input name='CodPel' type='text' value='<? echo $CCONTROL;?>' readonly="true" size="6">
-			  <?
+			  <input name='CodPel' type='text' value='<?php echo $CCONTROL;?>' readonly="true" size="6">
+			  <?php
 			  }
 			  ?>
 			  
-			  <SELECT name="CmbCod"> 
-			  <?
+			  <select name="CmbCod"> 
+			  <?php
 			  		$Codigos='';
 					for($i=$Inicio;$i<=9;$i++)
 					{
 						$Codigo=$CCONTROL."0".$i;
-						$Consulta="SELECT CCONTROL from sgrs_codcontroles where CCONTROL='".$Codigo."'";
+						$Consulta="select CCONTROL from sgrs_codcontroles where CCONTROL='".$Codigo."'";
 						//echo $Consulta;
-						$Resultado=mysqli_query($link, $Consulta);
-						if(!$Fila=mysql_fetch_array($Resultado))
+						$Resultado=mysqli_query($link,$Consulta);
+						if(!$Fila=mysqli_fetch_array($Resultado))
 						{
 							echo "<option value='0".$i."'>0".$i."</option>";
 						}
 					}
 			  
 			  ?>
-			  </SELECT>
-			  <?
+			  </select>
+			  <?php
 			  }
 			  else
 			  {
 			  ?>
-			  <input name='CodPel' type='text' value='<? echo $CCONTROL;?>' readonly="true" size="6">
+			  <input name='CodPel' type='text' value='<?php echo $CCONTROL;?>' readonly="true" size="6">
 			  
-			  <?
+			  <?php
 			  }
 			  ?>			  </td>
               <td width="144">&nbsp;</td>
@@ -338,36 +338,36 @@ if($Proceso=='AC')
 
             <tr>
               <td width="129" class="formulario">Descripci&oacute;n:</td>
-              <td colspan="3"><input name="TxtDescripcion" type="text"  value="<? echo $TxtDescripcion;?> " size="100"></td>
+              <td colspan="3"><input name="TxtDescripcion" type="text"  value="<?php echo $TxtDescripcion;?> " size="100"></td>
             </tr>
             <tr>
               <td><span class="formulario">Probabilidad/Consec:</span></td>
-			 <?
+			 <?php
 			  if(strlen($CCONTROL)==2&&$Proceso!='AC'||!isset($CCONTROL))
 			  {
 			 ?>
-              <td><SELECT name="CmbProbConsec">
-                <?
+              <td><select name="CmbProbConsec">
+                <?php
 			  		switch($CmbProbConsec)
 					{
 						case "0":
-							echo "<option value='0' SELECTed>CONSECUENCIA</option>";
+							echo "<option value='0' selected>CONSECUENCIA</option>";
 							echo "<option value='1'>PROBABILIDAD</option>";
 						break;
 						case "1":
 							echo "<option value='0'>CONSECUENCIA</option>";
-							echo "<option value='1' SELECTed>PROBABILIDAD</option>";
+							echo "<option value='1' selected>PROBABILIDAD</option>";
 						break;
 						default:
-							echo "<option value='0' SELECTed>CONSECUENCIA</option>";
+							echo "<option value='0' selected>CONSECUENCIA</option>";
 							echo "<option value='1'>PROBABILIDAD</option>";
 						break;
 						
 					}
 			  
 			  ?>
-              </SELECT></td>
-			  <?
+              </select></td>
+			  <?php
 			  }
 			  else
 			  {
@@ -385,21 +385,21 @@ if($Proceso=='AC')
 			  }
 			  ?>
               <td><span class="formulario">Vigente:
-                <input type="checkbox" name="CheckVig" value="checkbox" class="SinBorde" <? echo $CheckVigVis;?>>
+                <input type="checkbox" name="CheckVig" value="checkbox" class="SinBorde" <?php echo $CheckVigVis;?>>
               </span></td>
 			  <td >&nbsp;</td>
             </tr>
-			<?
+			<?php
 			if(($CCONTROL!=''&&strlen($CCONTROL)>2)||(strlen($CCONTROL)==2&&$Proceso=='AC'))
 			{
 			?>
             <tr>
               <td><span class="formulario">Peso Espec&iacute;fico:</span></td>
-              <td><input name='TxtPESOESP' type='text' value='<? echo $TxtPESOESP;?>' size="10"></td>
+              <td><input name='TxtPESOESP' type='text' value='<?php echo $TxtPESOESP;?>' size="10"></td>
               <td>&nbsp;</td>
 			  <td>&nbsp;</td>
             </tr>
-			<?
+			<?php
 			}
 			?>
             <tr>
@@ -429,13 +429,13 @@ if($Proceso=='AC')
   <tr><td></td></tr>
   </table>
   </div>
- <?
+ <?php
 include('div_obs_elimina_mantenedor.php');
 ?>
 </form>
 </body>
 </html>
-<?
+<?php
 	echo "<script languaje='JavaScript'>";
 	if($Mensaje!='')
 		echo "alert('".$Mensaje."');";

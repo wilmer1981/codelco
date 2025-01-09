@@ -1,4 +1,4 @@
-<?
+<?php
 	include('conectar_ori.php');
 ?>
 <head>
@@ -32,13 +32,13 @@ function CerrarDiv()
 <form name="ObsVerificador">
   <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">
   <tr>  
-  <input type="hidden" name="CodPelGu" value="<? echo $CodPelGu;?>" />
-  <input type="hidden" name="Area" value="<? echo $AREA;?>" />
-  <input type="hidden" name="Peligro" value="<? echo $CodPel;?>" />
-  <input type="hidden" name="CodVeri" value="<? echo $CodVeri;?>" />
-  <input type="hidden" name="CodSelTarea" value="<? echo $CodSelTarea;?>" />
-  <input type="hidden" name="CodCCONTACTO" value="<? echo $CodCCONTACTO;?>" />
-  <input type="hidden" name="OPC" value="<? echo $Opc;?>" />  
+  <input type="hidden" name="CodPelGu" value="<?php echo $CodPelGu;?>" />
+  <input type="hidden" name="Area" value="<?php echo $AREA;?>" />
+  <input type="hidden" name="Peligro" value="<?php echo $CodPel;?>" />
+  <input type="hidden" name="CodVeri" value="<?php echo $CodVeri;?>" />
+  <input type="hidden" name="CodSelTarea" value="<?php echo $CodSelTarea;?>" />
+  <input type="hidden" name="CodCCONTACTO" value="<?php echo $CodCCONTACTO;?>" />
+  <input type="hidden" name="OPC" value="<?php echo $Opc;?>" />  
 	  <table width="50%" height="90%" border="0" cellpadding="0" cellspacing="0">
 	  <tr>
 		<td height="1%"><img src="imagenes/interior2/esq1.gif" width="15" height="15"></td>
@@ -65,19 +65,19 @@ function CerrarDiv()
 			</tr>
 			<tr>
 			  <td><label>
-			  <?
+			  <?php
 			  	if($Opc=='GO')
 				{
 			  ?>
 				<textarea name="ObsVeri" rows="10" cols="40"></textarea></label>
-			  <?
+			  <?php
 			  	}
 				else
 				{
-					 $ConsultaE2="SELECT * from sgrs_siperverificadores_obs where CIDVERIFICADOR='".$CIDVERI."' and COD_VERIFICADOR='".$CodVeri."' and CPELIGRO='".$CodPel."' and CAREA='".$AREA."'";
+					 $ConsultaE2="select * from sgrs_siperverificadores_obs where CIDVERIFICADOR='".$CIDVERI."' and COD_VERIFICADOR='".$CodVeri."' and CPELIGRO='".$CodPel."' and CAREA='".$AREA."'";
 					 //echo $ConsultaE2."<br>";
-					 $RespE2=mysql_query($ConsultaE2);
-					 if($FilaE2=mysql_fetch_array($RespE2))
+					 $RespE2=mysqli_query($link,$ConsultaE2);
+					 if($FilaE2=mysqli_fetch_array($RespE2))
 					 {
 					 	echo "<input type='hidden' name='CIDCORR' value='".$CIDVERI."'>";
 					 	echo "<textarea name='ObsVeri' rows='10' cols='40'>".$FilaE2[TOBSERVACION]."</textarea></label>";					 				  		 	

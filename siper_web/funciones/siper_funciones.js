@@ -3,12 +3,12 @@ function validarEmail(valor)
 	if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3,4})+$/.test(valor))
 	{  
 	  	return(true);
-	  //alert("La direcciï¿½n de email " + valor + " es correcta.");
+	  //alert("La dirección de email " + valor + " es correcta.");
 	} 
 	else 
 	{
 	  return(false);		
-	  //alert("La direcciï¿½n de email es incorrecta.");
+	  //alert("La dirección de email es incorrecta.");
     }
 } 
 ns4 = (document.layers)? true:false
@@ -85,7 +85,7 @@ function PoneMiles(donde,caracter)
 		  continue;
 		  }
 		else{
-		  nums["cont"] = valor.charAt(m)
+		  nums[cont] = valor.charAt(m)
 		  cont++
 		  }
 	   }
@@ -136,11 +136,11 @@ function buscar_op(Pagina,form,obj,objfoco,InicioBusq,Recargar){
        //barro todas las opciones que contiene el combo y las comparo la cadena... 
        for (var opcombo=0;opcombo < obj.length;opcombo++){ 
           if(obj[opcombo].text.substr(InicioBusq,puntero).toLowerCase()==cadena.toLowerCase()){ 
-          obj.SELECTedIndex=opcombo; 
+          obj.selectedIndex=opcombo; 
           } 
        } 
     } 
-   event.returnValue = false; //invalida la acciï¿½n de pulsado de tecla para evitar busqueda del primer caracter 
+   event.returnValue = false; //invalida la acción de pulsado de tecla para evitar busqueda del primer caracter 
 
 } 
 
@@ -448,7 +448,7 @@ function FechaCorta(FechaLarga)
 	diastring=diastring.substr(pos+7,largo)
 	pos = diastring.indexOf(" ")
 	var Mes=diastring.substr(0,pos)
-	var Aï¿½o=diastring.substr(pos+4,4)
+	var Año=diastring.substr(pos+4,4)
 	for(i=0;i<12;i++)
 		{
 			if(Mes===Meses[i])
@@ -461,7 +461,7 @@ function FechaCorta(FechaLarga)
 			}
 		}
 	
-	FechaLarga=(Dia+"/"+NumeroMes+"/"+Aï¿½o)
+	FechaLarga=(Dia+"/"+NumeroMes+"/"+Año)
 		
 	return FechaLarga
 }
@@ -495,10 +495,10 @@ function CalculaDias(FechaInicio,FechaTermino)
 	Matriz2= FechaTermino.split("/");
 	dia=parseFloat(Matriz1[0]);//dias
 	mes=parseFloat(Matriz1[1]);//mes
-	ano=parseFloat(Matriz1[2]);//aÃ±o
+	ano=parseFloat(Matriz1[2]);//año
 	dia2=parseFloat(Matriz2[0]);//dias
 	mes2=parseFloat(Matriz2[1]);//mes
-	ano2=parseFloat(Matriz2[2]);//aÃ±o
+	ano2=parseFloat(Matriz2[2]);//año
 	var Dif=0;
 	F1=numDias(dia,mes,ano)
 	F2=numDias(dia2,mes2,ano2)
@@ -513,7 +513,7 @@ function fecha( cadena )
 
    //Separador para la introduccion de las fechas
    var separador = "/"
-   //Separa por dia, mes y aÃ±o
+   //Separa por dia, mes y año
    if ( cadena.indexOf( separador ) != -1 ) 
    {
         var posi1 = 0
@@ -564,7 +564,7 @@ var fs=eleo;
       {
          vDateName.value = "";
          vDateName.focus();
-         vDateName.SELECT();
+         vDateName.select();
          return false;
       }
       else
@@ -587,10 +587,10 @@ var fs=eleo;
          {
             if (((vDateValue.length < 6 && dateCheck) || (vDateValue.length == 7 && dateCheck)) && (vDateValue.length >=1))
             {
-               alert("Fecha no vï¿½lida\n Formato DD/MM/AAAA");
+               alert("Fecha no válida\n Formato DD/MM/AAAA");
                vDateName.value = "";
                vDateName.focus();
-               vDateName.SELECT();
+               vDateName.select();
                return false;
             }
             if (vDateValue.length == 6 && dateCheck)  
@@ -617,10 +617,10 @@ var fs=eleo;
                
                if (!dateValid(vDateValueCheck))  
                {
-                  alert("Fecha no vï¿½lida\n Formato DD/MM/AAA");
+                  alert("Fecha no válida\n Formato DD/MM/AAA");
                   vDateName.value = "";
                   vDateName.focus();
-                  vDateName.SELECT();
+                  vDateName.select();
                   return false;
 		         }
 				
@@ -667,11 +667,11 @@ var fs=eleo;
                   
                   if (!dateValid(vDateValueCheck))  
                   {
-                     alert("Fecha no vï¿½lida\n Formato DD/MM/AAA");
+                     alert("Fecha no válida\n Formato DD/MM/AAA");
                      vDateType = vDateTypeTemp;
                      vDateName.value = "";
                      vDateName.focus();
-                     vDateName.SELECT();
+                     vDateName.select();
                      return false;
 		            }
                  
@@ -682,10 +682,10 @@ var fs=eleo;
                {
                   if (((vDateValue.length < 8 && dateCheck) || (vDateValue.length == 9 && dateCheck)) && (vDateValue.length >=1))
                   {
-                     alert("Fecha no vï¿½lida\n Formato DD/MM/AAA");
+                     alert("Fecha no válida\n Formato DD/MM/AAA");
                      vDateName.value = "";
                      vDateName.focus();
-                     vDateName.SELECT();
+                     vDateName.select();
                      return false;
                   }
                }
@@ -696,7 +696,7 @@ var fs=eleo;
          // Non isNav Check
             if (((vDateValue.length < 8 && dateCheck) || (vDateValue.length == 9 && dateCheck)) && (vDateValue.length >=1))
             {
-               alert("Fecha no vï¿½lida\n Formato DD/MM/AAA");
+               alert("Fecha no válida\n Formato DD/MM/AAA");
                vDateName.value = "";
                vDateName.focus();
                return true;
@@ -731,7 +731,7 @@ var fs=eleo;
                {
               	   if (mYear.length < 4)
                   {
-              		 alert("Fecha no vï¿½lida\n Formato DD/MM/AAA");
+              		 alert("Fecha no válida\n Formato DD/MM/AAA");
                      vDateName.value = "";
                      vDateName.focus();
                      return true;
@@ -746,9 +746,9 @@ var fs=eleo;
                vDateType = 1;
                 var mTodayActual = new Date();//CREO EL OBJETO FECHA, PARA OBTNER LA FECHA ACTUAL
               	var vDateValueCheck = mMonth+strSeperator+mDay+strSeperator+mYear;
-				var DifAï¿½o=5;// VARIABLE QUE ALMACENA EL RANGO DE Aï¿½OS
-				var checkYearSuperior = mTodayActual.getFullYear()+ DifAï¿½o; 
-				var checkYearInferior = mTodayActual.getFullYear()- DifAï¿½o;
+				var DifAño=5;// VARIABLE QUE ALMACENA EL RANGO DE AÑOS
+				var checkYearSuperior = mTodayActual.getFullYear()+ DifAño; 
+				var checkYearInferior = mTodayActual.getFullYear()- DifAño;
                // Store reformatted date to new variable for validation.
                var vDateValueCheck = mMonth+strSeperator+mDay+strSeperator+mYear;
                if (mYear.length == 2 && vYearType == 4 && dateCheck)  
@@ -769,14 +769,14 @@ var fs=eleo;
 			  
 				if(mYear > checkYearSuperior )
 				{
-					alert("La fecha ingresada no puede ser mayor que "+DifAï¿½o+" aÃ±os de la actual ")
+					alert("La fecha ingresada no puede ser mayor que "+DifAño+" años de la actual ")
 					vDateName.value = "";
 					vDateName.focus();
 					return true;
 				}
 				if(mYear < checkYearInferior )
 				{
-					alert("La fecha ingresada no puede ser menor que "+DifAï¿½o+" aÃ±os de la actual ")
+					alert("La fecha ingresada no puede ser menor que "+DifAño+" años de la actual ")
 					vDateName.value = "";
 					vDateName.focus();
 					return true;
@@ -797,14 +797,14 @@ var fs=eleo;
                } 
                	if(mYear > checkYearSuperior )
 				{
-					alert("La fecha ingresada no puede ser mayor que "+DifAï¿½o+" aÃ±os de la actual ")
+					alert("La fecha ingresada no puede ser mayor que "+DifAño+" años de la actual ")
 					vDateName.value = "";
 					vDateName.focus();
 					return true;
 				}
 				if(mYear < checkYearInferior )
 				{
-					alert("La fecha ingresada no puede ser menor que "+DifAï¿½o+" aÃ±os de la actual ")
+					alert("La fecha ingresada no puede ser menor que "+DifAño+" años de la actual ")
 					vDateName.value = "";
 					vDateName.focus();
 					return true;
@@ -812,7 +812,7 @@ var fs=eleo;
                
                if (!dateValid(vDateValueCheck))  
                {
-                  alert("Fecha no vï¿½lida\n Formato DD/MM/AAA");
+                  alert("Fecha no válida\n Formato DD/MM/AAA");
                   vDateType = vDateTypeTemp;
                   vDateName.value = "";
                   vDateName.focus();
@@ -903,9 +903,9 @@ var fs=eleo;
             {
 // Un-comment the next line of code for debugging the dateValid() function error messages
 //               alert(err);  
-               alert("Fecha no vï¿½lida\n Formato DD/MM/AAA");
+               alert("Fecha no válida\n Formato DD/MM/AAA");
                vDateName.focus();
-               vDateName.SELECT();
+               vDateName.select();
 	         }
          }
          return false;
@@ -919,7 +919,7 @@ var fs=eleo;
          {
             vDateName.value = "";
             vDateName.focus();
-            vDateName.SELECT();
+            vDateName.select();
             return false;
          }
          else
@@ -963,7 +963,7 @@ var fs=eleo;
       {
          vDateName.value = "";
          vDateName.focus();
-         vDateName.SELECT();
+         vDateName.select();
          return false;
       }
       else
@@ -986,10 +986,10 @@ var fs=eleo;
          {
             if (((vDateValue.length < 6 && dateCheck) || (vDateValue.length == 7 && dateCheck)) && (vDateValue.length >=1))
             {
-               alert("Fecha no vï¿½lida\n Formato DD/MM/AAAA");
+               alert("Fecha no válida\n Formato DD/MM/AAAA");
                vDateName.value = "";
                vDateName.focus();
-               vDateName.SELECT();
+               vDateName.select();
                return false;
             }
             if (vDateValue.length == 6 && dateCheck)  
@@ -1015,10 +1015,10 @@ var fs=eleo;
                
                if (!dateValid(vDateValueCheck))  
                {
-                  alert("Fecha no vï¿½lida\n Formato DD/MM/AAA");
+                  alert("Fecha no válida\n Formato DD/MM/AAA");
                   vDateName.value = "";
                   vDateName.focus();
-                  vDateName.SELECT();
+                  vDateName.select();
                   return false;
 		         }
 				
@@ -1065,11 +1065,11 @@ var fs=eleo;
                   
                   if (!dateValid(vDateValueCheck))  
                   {
-                     alert("Fecha no vï¿½lida\n Formato DD/MM/AAA");
+                     alert("Fecha no válida\n Formato DD/MM/AAA");
                      vDateType = vDateTypeTemp;
                      vDateName.value = "";
                      vDateName.focus();
-                     vDateName.SELECT();
+                     vDateName.select();
                      return false;
 		            }
                  
@@ -1080,10 +1080,10 @@ var fs=eleo;
                {
                   if (((vDateValue.length < 8 && dateCheck) || (vDateValue.length == 9 && dateCheck)) && (vDateValue.length >=1))
                   {
-                     alert("Fecha no vï¿½lida\n Formato DD/MM/AAA");
+                     alert("Fecha no válida\n Formato DD/MM/AAA");
                      vDateName.value = "";
                      vDateName.focus();
-                     vDateName.SELECT();
+                     vDateName.select();
                      return false;
                   }
                }
@@ -1094,7 +1094,7 @@ var fs=eleo;
          // Non isNav Check
             if (((vDateValue.length < 8 && dateCheck) || (vDateValue.length == 9 && dateCheck)) && (vDateValue.length >=1))
             {
-               alert("Fecha no vï¿½lida\n Formato DD/MM/AAA");
+               alert("Fecha no válida\n Formato DD/MM/AAA");
                vDateName.value = "";
                vDateName.focus();
                return true;
@@ -1129,7 +1129,7 @@ var fs=eleo;
                {
               	   if (mYear.length < 4)
                   {
-              		 alert("Fecha no vï¿½lida\n Formato DD/MM/AAA");
+              		 alert("Fecha no válida\n Formato DD/MM/AAA");
                      vDateName.value = "";
                      vDateName.focus();
                      return true;
@@ -1144,9 +1144,9 @@ var fs=eleo;
                // Type will be changed back when validation is completed.
                vDateType = 1;
                	var mTodayActual = new Date();//CREO EL OBJETO FECHA, PARA OBTNER LA FECHA ACTUAL
-				var DifAï¿½o=5;// VARIABLE QUE ALMACENA EL RANGO DE Aï¿½OS
-				var checkYearSuperior = mTodayActual.getFullYear()+ DifAï¿½o; 
-				var checkYearInferior = mTodayActual.getFullYear()- DifAï¿½o; 
+				var DifAño=5;// VARIABLE QUE ALMACENA EL RANGO DE AÑOS
+				var checkYearSuperior = mTodayActual.getFullYear()+ DifAño; 
+				var checkYearInferior = mTodayActual.getFullYear()- DifAño; 
                // Store reformatted date to new variable for validation.	
 			   var vDateValueCheck = mMonth+strSeperator+mDay+strSeperator+mYear;
                if (mYear.length == 2 && vYearType == 4 && dateCheck)  
@@ -1165,14 +1165,14 @@ var fs=eleo;
                      mYear = '20' + mYear;
                  if(mYear > checkYearSuperior )
 				{
-					alert("La fecha ingresada no puede ser mayor que "+DifAï¿½o+" aÃ±os de la actual ")
+					alert("La fecha ingresada no puede ser mayor que "+DifAño+" años de la actual ")
 					vDateName.value = "";
 					vDateName.focus();
 					return true;
 				}
 				if(mYear < checkYearInferior )
 				{
-					alert("La fecha ingresada no puede ser menor que "+DifAï¿½o+" aÃ±os de la actual ")
+					alert("La fecha ingresada no puede ser menor que "+DifAño+" años de la actual ")
 					vDateName.value = "";
 					vDateName.focus();
 					return true;
@@ -1193,14 +1193,14 @@ var fs=eleo;
                } 
 				if(mYear > checkYearSuperior )
 				{
-					alert("La fecha ingresada no puede ser mayor que "+DifAï¿½o+" aÃ±os de la actual ")
+					alert("La fecha ingresada no puede ser mayor que "+DifAño+" años de la actual ")
 					vDateName.value = "";
 					vDateName.focus();
 					return true;
 				}
 				if(mYear < checkYearInferior )
 				{
-					alert("La fecha ingresada no puede ser menor que "+DifAï¿½o+" aÃ±os de la actual ")
+					alert("La fecha ingresada no puede ser menor que "+DifAño+" años de la actual ")
 					vDateName.value = "";
 					vDateName.focus();
 					return true;
@@ -1208,7 +1208,7 @@ var fs=eleo;
                	///LLAMADA  DE FUNCION//////////////	
 				if (!dateValid(vDateValueCheck))  
 				{
-				  alert("Fecha no vï¿½lida\n Formato DD/MM/AAA");
+				  alert("Fecha no válida\n Formato DD/MM/AAA");
 				  vDateType = vDateTypeTemp;
 				  vDateName.value = "";
 				  vDateName.focus();
@@ -1292,9 +1292,9 @@ var fs=eleo;
             {
 // Un-comment the next line of code for debugging the dateValid() function error messages
 //               alert(err);  
-               alert("Fecha no vï¿½lida\n Formato DD/MM/AAA");
+               alert("Fecha no válida\n Formato DD/MM/AAA");
                vDateName.focus();
-               vDateName.SELECT();
+               vDateName.select();
 	         }
          }
          return false;
@@ -1308,7 +1308,7 @@ var fs=eleo;
          {
             vDateName.value = "";
             vDateName.focus();
-            vDateName.SELECT();
+            vDateName.select();
             return false;
          }
          else
@@ -1358,7 +1358,7 @@ function DateFormat(vDateName, vDateValue, e, dateCheck, dateType,Frm,Val)
       {
          vDateName.value = "";
          vDateName.focus();
-         vDateName.SELECT();
+         vDateName.select();
          return false;
       }
       else
@@ -1383,10 +1383,10 @@ function DateFormat(vDateName, vDateValue, e, dateCheck, dateType,Frm,Val)
 			 
             if (((vDateValue.length < 6 && dateCheck) || (vDateValue.length == 7 && dateCheck)) && (vDateValue.length >=1))
             {
-               alert("Fecha no vï¿½lida\n Formato DD/MM/AAAA");
+               alert("Fecha no válida\n Formato DD/MM/AAAA");
                vDateName.value = "";
                vDateName.focus();
-               vDateName.SELECT();
+               vDateName.select();
                return false;
             }
             if (vDateValue.length == 6 && dateCheck)  
@@ -1412,10 +1412,10 @@ function DateFormat(vDateName, vDateValue, e, dateCheck, dateType,Frm,Val)
                
                if (!dateValid(vDateValueCheck))  
                {
-                  alert("Fecha no vï¿½lida\n Formato DD/MM/AAA");
+                  alert("Fecha no válida\n Formato DD/MM/AAA");
                   vDateName.value = "";
                   vDateName.focus();
-                  vDateName.SELECT();
+                  vDateName.select();
                   return false;
 		        }
 				
@@ -1463,11 +1463,11 @@ function DateFormat(vDateName, vDateValue, e, dateCheck, dateType,Frm,Val)
                   
                   if (!dateValid(vDateValueCheck))  
                   {
-                     alert("Fecha no vï¿½lida\n Formato DD/MM/AAA");
+                     alert("Fecha no válida\n Formato DD/MM/AAA");
                      vDateType = vDateTypeTemp;
                      vDateName.value = "";
                      vDateName.focus();
-                     vDateName.SELECT();
+                     vDateName.select();
                      return false;
 		            }
                  
@@ -1478,10 +1478,10 @@ function DateFormat(vDateName, vDateValue, e, dateCheck, dateType,Frm,Val)
                {
                   if (((vDateValue.length < 8 && dateCheck) || (vDateValue.length == 9 && dateCheck)) && (vDateValue.length >=1))
                   {
-                     alert("Fecha no vï¿½lida\n Formato DD/MM/AAA");
+                     alert("Fecha no válida\n Formato DD/MM/AAA");
                      vDateName.value = "";
                      vDateName.focus();
-                     vDateName.SELECT();
+                     vDateName.select();
                      return false;
                   }
                }
@@ -1494,7 +1494,7 @@ function DateFormat(vDateName, vDateValue, e, dateCheck, dateType,Frm,Val)
          // Non isNav Check
             if (((vDateValue.length < 8 && dateCheck) || (vDateValue.length == 9 && dateCheck)) && (vDateValue.length >=1))
             {
-               alert("Fecha no vï¿½lida\n Formato DD/MM/AAA");
+               alert("Fecha no válida\n Formato DD/MM/AAA");
                vDateName.value = "";
                vDateName.focus();
                return true;
@@ -1529,7 +1529,7 @@ function DateFormat(vDateName, vDateValue, e, dateCheck, dateType,Frm,Val)
                {
               	   if (mYear.length < 4)
                   {
-              		 alert("Fecha no vï¿½lida\n Formato DD/MM/AAA");
+              		 alert("Fecha no válida\n Formato DD/MM/AAA");
                      vDateName.value = "";
                      vDateName.focus();
                      return true;
@@ -1547,10 +1547,10 @@ function DateFormat(vDateName, vDateValue, e, dateCheck, dateType,Frm,Val)
               	vDateType = 1;
                
               	var vDateValueCheck = mMonth+strSeperator+mDay+strSeperator+mYear;
-				var DifAï¿½o=100;// VARIABLE QUE ALMACENA EL RANGO DE Aï¿½OS
+				var DifAño=100;// VARIABLE QUE ALMACENA EL RANGO DE AÑOS
 				var mTodayActual = new Date();//CREO EL OBJETO FECHA, PARA OBTNER LA FECHA ACTUAL
-				var checkYearSuperior = mTodayActual.getFullYear()+ DifAï¿½o; 
-				var checkYearInferior = mTodayActual.getFullYear()- DifAï¿½o; 
+				var checkYearSuperior = mTodayActual.getFullYear()+ DifAño; 
+				var checkYearInferior = mTodayActual.getFullYear()- DifAño; 
 	      // Store reformatted date to new variable for validation.
                if (mYear.length == 2 && vYearType == 4 && dateCheck)  
                {
@@ -1567,14 +1567,14 @@ function DateFormat(vDateName, vDateValue, e, dateCheck, dateType,Frm,Val)
 							
 					if(mYear > checkYearSuperior )
 					{
-						alert("La fecha ingresada no puede ser mayor que "+DifAï¿½o+" aÃ±os de la actual ")
+						alert("La fecha ingresada no puede ser mayor que "+DifAño+" años de la actual ")
 						vDateName.value = "";
 						vDateName.focus();
 						return true;
 					}
 					if(mYear < checkYearInferior )
 					{
-						alert("La fecha ingresada no puede ser menor que "+DifAï¿½o+" aÃ±os de la actual ")
+						alert("La fecha ingresada no puede ser menor que "+DifAño+" años de la actual ")
 						vDateName.value = "";
 						vDateName.focus();
 						return true;
@@ -1599,14 +1599,14 @@ function DateFormat(vDateName, vDateValue, e, dateCheck, dateType,Frm,Val)
                } 
 				if(mYear > checkYearSuperior )
 				{
-					alert("La fecha ingresada no puede ser menor que "+DifAï¿½o+" aÃ±os de la actual ")
+					alert("La fecha ingresada no puede ser menor que "+DifAño+" años de la actual ")
 					vDateName.value = "";
 					vDateName.focus();
 					return true;
 				}
 				if(mYear < checkYearInferior )
 				{
-					alert("La fecha ingresada no puede ser menor que "+DifAï¿½o+" aÃ±os de la actual ")
+					alert("La fecha ingresada no puede ser menor que "+DifAño+" años de la actual ")
 					vDateName.value = "";
 					vDateName.focus();
 					return true;
@@ -1614,7 +1614,7 @@ function DateFormat(vDateName, vDateValue, e, dateCheck, dateType,Frm,Val)
 			   
                	if (!dateValid(vDateValueCheck))  
                	{
-                  alert("Fecha no vï¿½lida\n Formato DD/MM/AAA");
+                  alert("Fecha no válida\n Formato DD/MM/AAA");
                   vDateType = vDateTypeTemp;
                   vDateName.value = "";
                   vDateName.focus();
@@ -1677,9 +1677,9 @@ function DateFormat(vDateName, vDateValue, e, dateCheck, dateType,Frm,Val)
             {
 // Un-comment the next line of code for debugging the dateValid() function error messages
 //               alert(err);  
-               alert("Fecha no vï¿½lida\n Formato DD/MM/AAA");
+               alert("Fecha no válida\n Formato DD/MM/AAA");
                vDateName.focus();
-               vDateName.SELECT();
+               vDateName.select();
 	         }
          }
          return false;
@@ -1693,7 +1693,7 @@ function DateFormat(vDateName, vDateValue, e, dateCheck, dateType,Frm,Val)
          {
             vDateName.value = "";
             vDateName.focus();
-            vDateName.SELECT();
+            vDateName.select();
             return false;
          }
          else
@@ -2021,12 +2021,12 @@ function Right(strvar,intcant)
 function ValidaCaracter(Tipo, Adicional, Enter)
 {
 		var strNumeros ="0123456789";
-		var Minusculas = "abcdefghijklmnï¿½opqrstuvwxyzï¿½ï¿½ï¿½ï¿½ï¿½() ";
-		var Mayusculas = "ABCDEFGHIJKLMNï¿½OPQRSTUVWXYZï¿½ï¿½ï¿½";
-		var Contrat = "abcdefghijklmnï¿½opqrstuvwxyzABCDEFGHIJKLMNï¿½OPQRSTUVWXYZ./-0123456789";
-		var Espe = "ï¿½ï¿½ï¿½ï¿½ï¿½abcdefghijklmnï¿½opqrstuvwxyzABCDEFGHIJKLMNï¿½OPQRSTUVWXYZ./-0123456789 ";
+		var Minusculas = "abcdefghijklmnñopqrstuvwxyzáéíóú() ";
+		var Mayusculas = "ABCDEFGHIJKLMNÑOPQRSTUVWXYZ´´´";
+		var Contrat = "abcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZ./-0123456789";
+		var Espe = "áéíóúabcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZ./-0123456789 ";
 		var strTexto = Minusculas + Mayusculas + " " + "\r\n";
-		var strAlfanumerico = strTexto + strNumeros + "/-_,;.:ï¿½?ï¿½!-()%#@";
+		var strAlfanumerico = strTexto + strNumeros + "/-_,;.:¿?¡!-()%#@";
 		var strContrat = Contrat ;
 		var strEspe = Espe ;
 		var strMail = Minusculas + Mayusculas + strNumeros + "@_-.";
@@ -2080,8 +2080,8 @@ function ValidaCaracter(Tipo, Adicional, Enter)
 function ValidaCaracter_Asunto(Tipo, Adicional, Enter)
 {
 		var strNumeros ="0123456789";
-		var Minusculas = "abcdefghijklmnï¿½opqrstuvwxyzï¿½ï¿½ï¿½ï¿½ï¿½() ";
-		var Mayusculas = "ABCDEFGHIJKLMNï¿½OPQRSTUVWXYZï¿½ï¿½ï¿½";
+		var Minusculas = "abcdefghijklmnñopqrstuvwxyzáéíóú() ";
+		var Mayusculas = "ABCDEFGHIJKLMNÑOPQRSTUVWXYZ´´´";
 		var strTexto = Minusculas + Mayusculas + " ";
 		var strAlfanumerico = strTexto + strNumeros + "/-_,;.@";
 		var strMail = Minusculas + Mayusculas + strNumeros + "@_-.";
@@ -2126,8 +2126,8 @@ function ValidaCaracter_Asunto(Tipo, Adicional, Enter)
 function ValidaCaracter2(Tipo, Adicional, Caracter)
 {
 		var strNumeros ="0123456789";
-		var Minusculas = "abcdefghijklmnï¿½opqrstuvwxyz";
-		var Mayusculas = "ABCDEFGHIJKLMNï¿½OPQRSTUVWXYZ";
+		var Minusculas = "abcdefghijklmnñopqrstuvwxyz";
+		var Mayusculas = "ABCDEFGHIJKLMNÑOPQRSTUVWXYZ";
 		var strTexto = Minusculas + Mayusculas + " ";
 		var strAlfanumerico = strTexto + strNumeros + "/-_,;.";
 		var strMail = Minusculas + Mayusculas + strNumeros + "@_-.";
@@ -2320,8 +2320,8 @@ function ReemplazaPorSignoMas(arr)
 function ValidaCaracter_Hora(Tipo, Adicional, Enter)
 {
 		var strNumeros ="0123456789:";
-		var Minusculas = "abcdefghijklmnï¿½opqrstuvwxyzï¿½ï¿½ï¿½ï¿½ï¿½() ";
-		var Mayusculas = "ABCDEFGHIJKLMNï¿½OPQRSTUVWXYZï¿½ï¿½ï¿½";
+		var Minusculas = "abcdefghijklmnñopqrstuvwxyzáéíóú() ";
+		var Mayusculas = "ABCDEFGHIJKLMNÑOPQRSTUVWXYZ´´´";
 		var strTexto = Minusculas + Mayusculas + " ";
 		var strAlfanumerico = strTexto + strNumeros + "/-_,;.@";
 		var strMail = Minusculas + Mayusculas + strNumeros + "@_-.";
@@ -2628,7 +2628,7 @@ function ValidaFec(AI,MI,DI,AT,MT,DT,Res,Opcion)
 	return(Res)	
 }
 //calcular la edad de una persona 
-//recibe la fecha como un string en formato espaÃ±ol 
+//recibe la fecha como un string en formato español 
 //devuelve un entero con la edad. Devuelve false en caso de que la fecha sea incorrecta o mayor que el dia actual 
 function calcular_edad(fecha){ 
 
@@ -2660,20 +2660,20 @@ function calcular_edad(fecha){
        return false 
 
 
-    //si el aÃ±o de la fecha que recibo solo tiene 2 cifras hay que cambiarlo a 4 
+    //si el año de la fecha que recibo solo tiene 2 cifras hay que cambiarlo a 4 
     if (ano<=99) 
        ano +=1900 
 
-    //resto los aÃ±os de las dos fechas 
-    edad=hoy.getYear()- ano - 1; //-1 porque no se si ha cumplido aÃ±os ya este aÃ±o 
+    //resto los años de las dos fechas 
+    edad=hoy.getYear()- ano - 1; //-1 porque no se si ha cumplido años ya este año 
 
-	 //si resto los meses y me da menor que 0 entonces no ha cumplido aÃ±os. Si da mayor si ha cumplido 
+	 //si resto los meses y me da menor que 0 entonces no ha cumplido años. Si da mayor si ha cumplido 
 	if (hoy.getMonth() + 1 - mes < 0) //+ 1 porque los meses empiezan en 0 
 	   return edad
 	if (hoy.getMonth() + 1 - mes > 0) 
 	   return edad+1 	
     //entonces es que eran iguales. miro los dias 
-    //si resto los dias y me da menor que 0 entonces no ha cumplido aÃ±os. Si da mayor o igual si ha cumplido 
+    //si resto los dias y me da menor que 0 entonces no ha cumplido años. Si da mayor o igual si ha cumplido 
 	if (hoy.getUTCDate() - dia >= 0) 
        return edad + 1 
 

@@ -1,4 +1,4 @@
-<?
+<?php
 include('conectar_ori.php');
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -10,7 +10,7 @@ include('conectar_ori.php');
 <body>
 <form name="MantenedorCont" method="post">
 <link href="estilos/siper_style.css" rel="stylesheet" type="text/css">
-<?
+<?php
 
 //include('div_obs_elimina3.php');
 ?>
@@ -23,23 +23,23 @@ include('conectar_ori.php');
     <td width="50%" colspan="2" class="TituloCabecera" >Familia de Controles&nbsp;&nbsp;</td>
     <td width="50%" align="center" class="TituloCabecera" >Especificaci&oacute;n Control</td>
   </tr>
-  <?
-		 $Consulta="SELECT * from sgrs_siperpeligros where CPELIGRO='".$CmbPeligros."' and CAREA='".$Cod."' and MVALIDADO='1'";
+  <?php
+		 $Consulta="select * from sgrs_siperpeligros where CPELIGRO='".$CmbPeligros."' and CAREA='".$Cod."' and MVALIDADO='1'";
 		 //echo $Consulta."<br>";
-		 $Resp=mysqli_query($link, $Consulta);
-		 if(!$Fila=mysql_fetch_array($Resp))
+		 $Resp=mysqli_query($link,$Consulta);
+		 if(!$Fila=mysqli_fetch_array($Resp))
 		 {
 		 ?>
   <!--<table width="90%" border="0" cellpadding="0" cellspacing="0">	-->
-  <?
+  <?php
 		 	$ContObs=1;
-	  		$Consulta="SELECT ceiling(t1.CCONTROL) as CCONTROL,t1.NCONTROL,t1.QPESOESP,t2.MCONTROL from sgrs_codcontroles t1";
+	  		$Consulta="select ceiling(t1.CCONTROL) as CCONTROL,t1.NCONTROL,t1.QPESOESP,t2.MCONTROL from sgrs_codcontroles t1";
 			$Consulta.=" left join sgrs_sipercontroles t2 on t1.CCONTROL=t2.CCONTROL and t2.CPELIGRO='".$CmbPeligros."' ";			
 			$Consulta.="where t1.MVIGENTE='1' and t2.MCONTROL='1' and t1.CCONTROL<>'--' order by NCONTROL asc";//and t2.CCONTACTO='".$CodC."' 
 			//echo $Consulta;
-			$Resultado=mysqli_query($link, $Consulta);//echo "<input type='hidden' name='CodControl'><input type='hidden' name='CmbControl'><input type='hidden' name='ObsControl'>";
+			$Resultado=mysqli_query($link,$Consulta);//echo "<input type='hidden' name='CodControl'><input type='hidden' name='CmbControl'><input type='hidden' name='ObsControl'>";
 			echo "<input type='hidden' name='Obs'><input type='hidden' name='ObsControl'>";
-			while ($Fila=mysql_fetch_array($Resultado))
+			while ($Fila=mysqli_fetch_array($Resultado))
 			{				
 				echo "<tr>";
 				echo "<td align='left'>".$Fila[NCONTROL]."</td>";
@@ -52,35 +52,35 @@ include('conectar_ori.php');
  
     <td align='left'>
         <table width="100%">
-          <?
+          <?php
 				$EncontroObs='N';
-				$Consulta="SELECT * from sgrs_sipercontroles_obs where CCONTROL ='".$Fila[CCONTROL]."' and CPELIGRO='".$CmbPeligros."' and CAREA='".$Cod."' order by CIDCONTROL asc";
+				$Consulta="select * from sgrs_sipercontroles_obs where CCONTROL ='".$Fila[CCONTROL]."' and CPELIGRO='".$CmbPeligros."' and CAREA='".$Cod."' order by CIDCONTROL asc";
 				//echo $Consulta."<br>";
-				$ResultadoC=mysqli_query($link, $Consulta);
-				while($FilaC=mysql_fetch_array($ResultadoC))
+				$ResultadoC=mysqli_query($link,$Consulta);
+				while($FilaC=mysqli_fetch_array($ResultadoC))
 				{	
 					$EncontroObs='S';
 					?>
           <tr>
-            <td width="90%"><? echo "<textarea name='Obs' cols='80' readonly>".$FilaC[TOBSERVACION]."</textarea><input type='hidden' name='ObsControl' value='".$Fila[CCONTROL]."~".$FilaC[CIDCONTROL]."'>";?></td>
+            <td width="90%"><?php echo "<textarea name='Obs' cols='80' readonly>".$FilaC[TOBSERVACION]."</textarea><input type='hidden' name='ObsControl' value='".$Fila[CCONTROL]."~".$FilaC[CIDCONTROL]."'>";?></td>
             <td width="10%" align="left"></td>
           </tr>
-          <?
+          <?php
 					$ContObs=$ContObs+1;
 				}
 				if($EncontroObs=='N')
 				{
 					?>
           <tr>
-            <td width="90%"><? echo "<textarea name='Obs' cols='80' readonly></textarea><input type='hidden' name='ObsControl' value='".$Fila[CCONTROL]."~'>";?></td>
+            <td width="90%"><?php echo "<textarea name='Obs' cols='80' readonly></textarea><input type='hidden' name='ObsControl' value='".$Fila[CCONTROL]."~'>";?></td>
             <td width="10%">&nbsp;</td>
           </tr>
-          <?
+          <?php
 					$ContObs=$ContObs+1;
 				}	
 				?>
         </table>
-      <?
+      <?php
 	//echo "</tr>";
 			}
 		}	

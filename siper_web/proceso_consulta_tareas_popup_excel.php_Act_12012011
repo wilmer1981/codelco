@@ -44,14 +44,14 @@
 		<tr>
 			<td width="50%" class="TituloCabecera" > <div align="center">Descripci&oacute;n</div></td>
 			<td width="10%" class="TituloCabecera" ><div align="center">N&ordm; Peligros</div></td>
-			<td width="10%" class="TituloCabecera" ><div align="center">Nï¿½ Especificaciï¿½n de Controles</div></td>
-			<td width="10%" class="TituloCabecera" ><div align="center">Nï¿½ Especificaciï¿½n de Verificadores</div></td>
-			<td width="10%" class="TituloCabecera" ><div align="center">Fecha Ultima Validaciï¿½n</div></td>
+			<td width="10%" class="TituloCabecera" ><div align="center">N° Especificación de Controles</div></td>
+			<td width="10%" class="TituloCabecera" ><div align="center">N° Especificación de Verificadores</div></td>
+			<td width="10%" class="TituloCabecera" ><div align="center">Fecha Ultima Validación</div></td>
 	  </tr>
   </table>
 		 <table width="100%" border="1" cellpadding="0" cellspacing="0">
 		 <? 
-				$Consulta="SELECT t1.CAREA,t1.NAREA,t1.FAREA,t1.CPARENT from sgrs_areaorg t1 inner join sgrs_siperoperaciones t2 on t1.CAREA=t2.CAREA where t1.MVIGENTE=1 and t1.CTAREA='8' ";
+				$Consulta="select t1.CAREA,t1.NAREA,t1.FAREA,t1.CPARENT from sgrs_areaorg t1 inner join sgrs_siperoperaciones t2 on t1.CAREA=t2.CAREA where t1.MVIGENTE=1 and t1.CTAREA='8' ";
 				if($OptSoloTareaNivel=='S')
 					$Consulta.=" and t1.CPARENT = '".$CodSelTarea."' ";
 				else
@@ -64,35 +64,35 @@
 					$Consulta.=" and t2.MVALIDADO='".$CmbValidado."' ";
 				$Consulta.=" order by t1.FAREA desc";	
 				//echo $Consulta;
-				$Resp=mysqli_query($link, $Consulta);$TotTarea=0;$TotPel=0;$TotPelCtrl=0;
+				$Resp=mysql_query($Consulta);$TotTarea=0;$TotPel=0;$TotPelCtrl=0;
 				while($Fila=mysql_fetch_array($Resp))
 				{
 					echo "<tr>";
 					echo "<td width='50%' align='left' class='titulo_azul'>&nbsp;".strtoupper($Fila[NAREA])."</td>";
-					$Consulta="SELECT ifnull(count(*),0) as cant_pel from sgrs_siperpeligros where MVIGENTE <> 0 and CAREA='".$Fila[CAREA]."' group by CAREA";	
+					$Consulta="select ifnull(count(*),0) as cant_pel from sgrs_siperpeligros where MVIGENTE <> 0 and CAREA='".$Fila[CAREA]."' group by CAREA";	
 					//echo $Consulta."<br>";
-					$RespPel=mysqli_query($link, $Consulta);
+					$RespPel=mysql_query($Consulta);
 					$FilaPel=mysql_fetch_array($RespPel);
 					if(is_null($FilaPel[cant_pel]))
 						$CantPel=0;
 					else
 						$CantPel=$FilaPel[cant_pel];
 					$TotPel=$TotPel+$CantPel;	
-					$Consulta="SELECT * from sgrs_siperpeligros where MVIGENTE <> 0 and CAREA='".$Fila[CAREA]."'";	
+					$Consulta="select * from sgrs_siperpeligros where MVIGENTE <> 0 and CAREA='".$Fila[CAREA]."'";	
 					//echo $Consulta."<br>";
-					$RespPel=mysqli_query($link, $Consulta);$CantPelVeri=0;$CantPelCtrl=0;
+					$RespPel=mysql_query($Consulta);$CantPelVeri=0;$CantPelCtrl=0;
 					while($FilaPel=mysql_fetch_array($RespPel))					
 					{
-						//$Consulta="SELECT ifnull(count(*),0) as cant_pel from sgrs_siperpeligros where MVIGENTE <> 0 and CPELIGRO='".$FilaPel[CPELIGRO]."' and NOT ISNULL(QPC)  group by CAREA";	
-						$Consulta="SELECT * from sgrs_sipercontroles_obs where CPELIGRO='".$FilaPel[CPELIGRO]."'";	
+						//$Consulta="select ifnull(count(*),0) as cant_pel from sgrs_siperpeligros where MVIGENTE <> 0 and CPELIGRO='".$FilaPel[CPELIGRO]."' and NOT ISNULL(QPC)  group by CAREA";	
+						$Consulta="select * from sgrs_sipercontroles_obs where CPELIGRO='".$FilaPel[CPELIGRO]."'";	
 						//echo $Consulta."<br>";
-						$RespPelCtrl=mysqli_query($link, $Consulta);
+						$RespPelCtrl=mysql_query($Consulta);
 						while($FilaPelCtrl=mysql_fetch_array($RespPelCtrl))
 							$CantPelCtrl=$CantPelCtrl+1;
 							
 						
-						//$ConsulVeri="SELECT * from sgrs_siperverificadores t1 inner join sgrs_siperverificadores_obs t2 on t1.CAREA=t2.CAREA where t1.CPELIGRO='".$FilaPel[CPELIGRO]."' group by t2.CIDVERIFICADOR";
-						$ConsulVeri="SELECT * from sgrs_siperverificadores_obs where CPELIGRO='".$FilaPel[CPELIGRO]."'";
+						//$ConsulVeri="select * from sgrs_siperverificadores t1 inner join sgrs_siperverificadores_obs t2 on t1.CAREA=t2.CAREA where t1.CPELIGRO='".$FilaPel[CPELIGRO]."' group by t2.CIDVERIFICADOR";
+						$ConsulVeri="select * from sgrs_siperverificadores_obs where CPELIGRO='".$FilaPel[CPELIGRO]."'";
 						//echo $ConsulVeri."<br>";
 						$RespVeri=mysql_query($ConsulVeri);
 						while($FilaVeri=mysql_fetch_array($RespVeri))
@@ -104,7 +104,7 @@
 					echo "<td width='10%'>".$CantPelCtrl."</td>";
 					echo "<td width='10%'>".$CantPelVeri."</td>";
 					
-					$Conhist="SELECT * from sgrs_registro_historico where parent='".$Fila[CPARENT].$Fila[CAREA].",' order by fecha_registro DESC";
+					$Conhist="select * from sgrs_registro_historico where parent='".$Fila[CPARENT].$Fila[CAREA].",' order by fecha_registro DESC";
 					//echo $Conhist."<br>";
 					$Resphist=mysql_query($Conhist);
 					$Filahist=mysql_fetch_array($Resphist);
@@ -121,7 +121,7 @@
 				echo "<td>&nbsp;</td>";
 				echo "</tr>";
 		 
-/*				$Consulta="SELECT t1.CAREA,t1.NAREA,t1.FAREA from sgrs_areaorg t1 inner join sgrs_siperoperaciones t2 on t1.CAREA=t2.CAREA where t1.MVIGENTE=1 and t1.CTAREA='8' ";
+/*				$Consulta="select t1.CAREA,t1.NAREA,t1.FAREA from sgrs_areaorg t1 inner join sgrs_siperoperaciones t2 on t1.CAREA=t2.CAREA where t1.MVIGENTE=1 and t1.CTAREA='8' ";
 				if($OptSoloTareaNivel=='S')
 					$Consulta.=" and t1.CPARENT = '".$CodSelTarea."' ";
 				else
@@ -133,23 +133,23 @@
 				if($CmbValidado!='T')
 					$Consulta.=" and t2.MVALIDADO='".$CmbValidado."' ";
 				//echo $Consulta;
-				$Resp=mysqli_query($link, $Consulta);$TotTarea=0;$TotPel=0;$TotPelCtrl=0;
+				$Resp=mysql_query($Consulta);$TotTarea=0;$TotPel=0;$TotPelCtrl=0;
 				while($Fila=mysql_fetch_array($Resp))
 				{
 					echo "<tr>";
 					echo "<td width='55%' align='left' class='titulo_azul'>&nbsp;".strtoupper($Fila[NAREA])."</td>";
-					$Consulta="SELECT ifnull(count(*),0) as cant_pel from sgrs_siperpeligros where MVIGENTE <> 0 and CAREA='".$Fila[CAREA]."' group by CAREA";	
+					$Consulta="select ifnull(count(*),0) as cant_pel from sgrs_siperpeligros where MVIGENTE <> 0 and CAREA='".$Fila[CAREA]."' group by CAREA";	
 					//echo $Consulta."<br>";
-					$RespPel=mysqli_query($link, $Consulta);
+					$RespPel=mysql_query($Consulta);
 					$FilaPel=mysql_fetch_array($RespPel);
 					if(is_null($FilaPel[cant_pel]))
 						$CantPel=0;
 					else
 						$CantPel=$FilaPel[cant_pel];
 					$TotPel=$TotPel+$CantPel;	
-					$Consulta="SELECT ifnull(count(*),0) as cant_pel from sgrs_siperpeligros where MVIGENTE <> 0 and CAREA='".$Fila[CAREA]."' and NOT ISNULL(QPC)  group by CAREA";	
+					$Consulta="select ifnull(count(*),0) as cant_pel from sgrs_siperpeligros where MVIGENTE <> 0 and CAREA='".$Fila[CAREA]."' and NOT ISNULL(QPC)  group by CAREA";	
 					//echo $Consulta."<br>";
-					$RespPelCtrl=mysqli_query($link, $Consulta);
+					$RespPelCtrl=mysql_query($Consulta);
 					$FilaPelCtrl=mysql_fetch_array($RespPelCtrl);
 					if(is_null($FilaPelCtrl[cant_pel]))
 						$CantPelCtrl=0;

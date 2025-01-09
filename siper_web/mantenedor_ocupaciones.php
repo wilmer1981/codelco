@@ -1,4 +1,4 @@
-<?
+<?php
 include('conectar_ori.php');
 include('funciones/siper_funciones.php');
 
@@ -7,7 +7,7 @@ $VisibleDiv='hidden';
 ?>
 <html>
 <head>
-<title>Mantenedor Exï¿½menes</title>
+<title>Mantenedor Exámenes</title>
 
 <script language="javascript" src="funciones/funciones_java.js"></script>
 <script language="javascript">
@@ -76,7 +76,7 @@ function Proceso(Opc)
 				f.submit();
 			}
 			else
-			{alert('Debe Ingresar Descripciï¿½n')
+			{alert('Debe Ingresar Descripción')
 			f.TxtNombre.focus();
 			}
 		break;
@@ -87,7 +87,7 @@ function Proceso(Opc)
 		case "E":
 			if(SoloUnElemento(f.name,'CheckRut','E'))
 			{
-				mensaje=confirm("ï¿½Esta Seguro de Eliminar estos Registros?");
+				mensaje=confirm("¿Esta Seguro de Eliminar estos Registros?");
 				if(mensaje==true)
 				{
 					DatosUni=Recuperar(f.name,'CheckRut');
@@ -111,9 +111,9 @@ function CloseDiv()
 </script>
 <link href="estilos/siper_style.css" rel="stylesheet" type="text/css">
 <form name="FrmPrincipal" method="post" action="">
-<input name="Datos" type="hidden" value="<? echo $Datos;?>">
-<input name="Proc" type="hidden" value="<? echo $Proc;?>">
-<input name="Vigente" type="hidden" value="<? echo $Vigente;?>">
+<input name="Datos" type="hidden" value="<?php echo $Datos;?>">
+<input name="Proc" type="hidden" value="<?php echo $Proc;?>">
+<input name="Vigente" type="hidden" value="<?php echo $Vigente;?>">
 <table width="71%" align="center"  border="0" cellpadding="0"  cellspacing="0">
   <tr>
 	<td height="1%"><img src="imagenes/interior2/esq1.gif" width="15" height="15"></td>
@@ -129,16 +129,16 @@ function CloseDiv()
 	 <tr>       
 	   <td width="52" height="35" align="left" class="formulario"   ><img src="imagenes/LblCriterios.png" /> </td>
        <td align="right" class="formulario" >
-	   <div id="DivOCu" style="visibility:<? echo $VisibleDiv;?>">
+	   <div id="DivOCu" style="visibility:<?php echo $VisibleDiv;?>">
 	   <a href="JavaScript:Proceso('N')"><img src="imagenes/btn_agregar.png"  border="0"  alt="Nuevo" align="absmiddle" /></a>&nbsp; <a href="JavaScript:Proceso('M')"><img src="imagenes/btn_modificar.png" alt="Modificar" width="30" height="30" border="0" align="absmiddle"></a>&nbsp; <a href="JavaScript:Proceso('E')"><img src="imagenes/btn_eliminar2.png"  alt="Eliminar" width="25" height="25" border="0" align="absmiddle"></a>&nbsp; <a href="JavaScript:Proceso('S')"><img src="imagenes/btn_volver2.png"  alt=" Volver " width="25" height="25"  border="0" align="absmiddle"></a> 
        </div></td>
 	 </tr>
      <tr>
-       <td colspan="3" class="formulario">Descripciï¿½n
-         <input name="TxtDescripcion" type="text" id="TxtDescripcion" value="<? echo $TxtDescripcion; ?>" size="30" />
+       <td colspan="3" class="formulario">Descripción
+         <input name="TxtDescripcion" type="text" id="TxtDescripcion" value="<?php echo $TxtDescripcion; ?>" size="30" />
          <a href="JavaScript:Proceso('C')"><img src="imagenes/Btn_buscar.gif"   alt="Buscar" width="20" height="20"  border="0" align="absmiddle" /></a>
          </td>
-       <? 
+       <?php 
 		if($Check=='S')
 		{	
 			$checked='checked';
@@ -175,17 +175,17 @@ function CloseDiv()
 	    <td width="65%" align="center" class="TituloCabecera">Descripci&oacute;n </td>
 		 <td width="10%" align="center" class="TituloCabecera">Vigente</td>
         </tr>
-      <?
+      <?php
 		//if($Buscar=='S')
 		//{
-			$Consulta = "SELECT * from sgrs_ocupaciones t1 ";
+			$Consulta = "select * from sgrs_ocupaciones t1 ";
 			$Consulta.=" where not isnull(COCUPACION)  ";
 			if($TxtDescripcion!='')
 				$Consulta.= " and upper(NOCUPACION) like('%".strtoupper($TxtDescripcion)."%') ";
-			$Resp = mysqli_query($link, $Consulta);
+			$Resp = mysqli_query($link,$Consulta);
 			echo "<input name='CheckRut' type='hidden'  value=''>";
 			$cont=1;
-			while ($Fila=mysql_fetch_array($Resp))
+			while ($Fila=mysqli_fetch_array($Resp))
 			{
 			
 			if($Fila["MVIGENTE"]=='1')
@@ -195,11 +195,11 @@ function CloseDiv()
 			
 		?>
 			 	<tr>
-				<td align="center" ><? echo "<input name='CheckRut' class='SinBorde' type='checkbox'  value='".$Fila["COCUPACION"]."'"; ?></td>
-				<td ><? echo $Fila["NOCUPACION"]."&nbsp;"; ?></td>
-				<td align="center" ><? echo $VIg; ?>&nbsp;</td>
+				<td align="center" ><?php echo "<input name='CheckRut' class='SinBorde' type='checkbox'  value='".$Fila["COCUPACION"]."'"; ?></td>
+				<td ><?php echo $Fila["NOCUPACION"]."&nbsp;"; ?></td>
+				<td align="center" ><?php echo $VIg; ?>&nbsp;</td>
 			  </tr>
-			  <?		$cont++;
+			  <?php		$cont++;
 			}
 		//}
 ?>
@@ -212,11 +212,11 @@ function CloseDiv()
     <td width="1%" height="15"><img src="imagenes/interior2/esq4.gif" width="15" height="15"></td>
   </tr>
 </table><br>
-<? 
+<?php 
 if (!isset($VisibleDivProceso))
 	$VisibleDivProceso='hidden';
 ?>
-<!--<div id="DivOCu" style="visibility:<? echo $VisibleDivProceso;?>;FILTER: alpha(opacity=100);overflow:auto;  POSITION: absolute; moz-opacity: .75; opacity: .75;left: 672px; top: 33px; width:150px; height:80px;" align="center">
+<!--<div id="DivOCu" style="visibility:<?php echo $VisibleDivProceso;?>;FILTER: alpha(opacity=100);overflow:auto;  POSITION: absolute; moz-opacity: .75; opacity: .75;left: 672px; top: 33px; width:150px; height:80px;" align="center">
 <table width="100%">
   <tr>
     <td >&nbsp;</td>
@@ -227,7 +227,7 @@ if (!isset($VisibleDivProceso))
   </table>
 </div>-->
 
-<div id="DivProceso" style="visibility:<? echo $VisibleDivProceso;?>;FILTER: alpha(opacity=100);overflow:auto; POSITION: absolute; moz-opacity: .75; opacity: .75;left: 340px; top: 38px; width:466px; height:143px;" align="center">
+<div id="DivProceso" style="visibility:<?php echo $VisibleDivProceso;?>;FILTER: alpha(opacity=100);overflow:auto; POSITION: absolute; moz-opacity: .75; opacity: .75;left: 340px; top: 38px; width:466px; height:143px;" align="center">
 <table width="55%" align="center"  border="0" cellpadding="0"  cellspacing="0" class="TablaPricipalColor">
   <tr>
     <td ><img src="imagenes/interior2/esq1.gif" width="15" height="15"></td>
@@ -242,12 +242,12 @@ if (!isset($VisibleDivProceso))
       </tr>
 	  <tr>
 	  
-	  <? 
+	  <?php 
 	  	if($Proc=='M')
 		{
 			$Consulta="Select * from sgrs_ocupaciones where COCUPACION='".$Datos."' ";
-			$Resp1 = mysqli_query($link, $Consulta);
-			if ($Fila1=mysql_fetch_array($Resp1))
+			$Resp1 = mysqli_query($link,$Consulta);
+			if ($Fila1=mysqli_fetch_array($Resp1))
 			{
 			 $TxtNombre=$Fila1[NOCUPACION];
 			 $Vigente=$Fila1[MVIGENTE];
@@ -263,21 +263,21 @@ if (!isset($VisibleDivProceso))
 	  ?>
 	  
 	  
-        <td class="formulario">Descripciï¿½n</td>
-		<td> <input name="TxtNombre" type="text" id="TxtNombre" value="<? echo $TxtNombre; ?>" size="30"  maxlength="100"/><span class="InputRojo">(*)</span></td>
+        <td class="formulario">Descripción</td>
+		<td> <input name="TxtNombre" type="text" id="TxtNombre" value="<?php echo $TxtNombre; ?>" size="30"  maxlength="100"/><span class="InputRojo">(*)</span></td>
       </tr>
 	     <tr>
         <td class="formulario">Vigente</td>
 		<td class="formulario">
-		<? 
+		<?php 
 		if($Vigente=='1')
 		{?>Si<input name="rdvigente" type="radio" id="rdvigente" class="SinBorde" checked="checked" >&nbsp;&nbsp;No<input name="rdvigente" type="radio" id="rdvigente" class="SinBorde"  >
-		<?
+		<?php
 		}
 		else
 		{?>
 			Si<input name="rdvigente" type="radio" id="rdvigente"  class="SinBorde" >&nbsp;&nbsp;No<input name="rdvigente" type="radio" id="rdvigente"  checked="checked"  class="SinBorde" >
-		<? }	?>
+		<?php }	?>
 		</td>
       </tr>
        </table></td>
@@ -293,7 +293,7 @@ if (!isset($VisibleDivProceso))
 </form>
 </body>
 </html>
-<?
+<?php
 echo "<script language='javascript'>";
 if($Mensaje!='')
 	echo "alert('".$Mensaje."');";

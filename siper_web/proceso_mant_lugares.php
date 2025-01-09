@@ -1,4 +1,4 @@
-<?
+<?php
 include('conectar_ori.php');
 	 
 	/*$Cont=1;$CodNiveles=0;
@@ -7,9 +7,9 @@ include('conectar_ori.php');
 	{
 		if($v!=''&&$v!='0')
 		{
-			$Consulta="SELECT CTAREA from sgrs_areaorg where CAREA='".$v."'";
-			$Resp=mysqli_query($link, $Consulta);
-			$Fila=mysql_fetch_array($Resp);
+			$Consulta="select CTAREA from sgrs_areaorg where CAREA='".$v."'";
+			$Resp=mysqli_query($link,$Consulta);
+			$Fila=mysqli_fetch_array($Resp);
 			if($CodNiveles<$Fila[CTAREA])
 				$CodNiveles=$Fila[CTAREA];
 		}	
@@ -117,7 +117,7 @@ function EliminarLugar(Proceso)
 	
 	if(SoloUnElemento(f.name,'CheckLugar','E'))
 	{
-		mensaje=confirm("ï¿½Esta Seguro de Eliminar estos Registros?");
+		mensaje=confirm("¿Esta Seguro de Eliminar estos Registros?");
 		if(mensaje==true)
 		{
 			DatosLugar=Recuperar(f.name,'CheckLugar');
@@ -144,11 +144,11 @@ function CloseDiv()
 	<tr>
 	<td align="right">
 	</td>
-	<td width="74%" align="left"><? echo DescripOrganicaHi($CodSelTarea);?></td>
+	<td width="74%" align="left"><?php echo DescripOrganicaHi($CodSelTarea);?></td>
 	<td width="14%" align="right" nowrap="nowrap"><div id="DivBtnProc" style="visibility:hidden; FILTER: alpha(opacity=100); position:absolute; width:auto; height:auto"><table border='0' width="80px" height="30px"><tr><td>&nbsp;</td></tr></table></div>
-	<a href="javascript:AgregarLugar('ALUG')"><img src="imagenes/btn_agregar.png" alt='Agregar Lugar de Mediciï¿½n' border="0" align="absmiddle"></a>
-	<a href="javascript:ModificarLugar('MLUG')"><img src="imagenes/btn_modificar.png" alt='Modificar Lugar de Mediciï¿½n' border="0" width="25" align="absmiddle"></a>
-	<a href="javascript:EliminarLugar('ELUG')"><img src="imagenes/btn_eliminar2.png" alt='Eliminar Lugar de Mediciï¿½n' border="0" align="absmiddle"></a>
+	<a href="javascript:AgregarLugar('ALUG')"><img src="imagenes/btn_agregar.png" alt='Agregar Lugar de Medición' border="0" align="absmiddle"></a>
+	<a href="javascript:ModificarLugar('MLUG')"><img src="imagenes/btn_modificar.png" alt='Modificar Lugar de Medición' border="0" width="25" align="absmiddle"></a>
+	<a href="javascript:EliminarLugar('ELUG')"><img src="imagenes/btn_eliminar2.png" alt='Eliminar Lugar de Medición' border="0" align="absmiddle"></a>
 	</td>
 	</tr>
 	<tr>
@@ -159,18 +159,18 @@ function CloseDiv()
 		  <table width="97%" border="1" cellpadding="0" cellspacing="0">
 		  <tr>
 			<td width="2%" class="TituloCabecera" >Sel.</td>
-			<td width="45%" class="TituloCabecera" >Descripciï¿½n Lugar</td>
+			<td width="45%" class="TituloCabecera" >Descripción Lugar</td>
 			<td width="15%" class="TituloCabecera" >COORD (X)</td>
 			<td width="15%" class="TituloCabecera" >COORD (Y)</td>
 			<td width="15%" class="TituloCabecera" >COORD (Z)</td>
 		  </tr>
 
-		 <? 
-			$Consulta="SELECT * from sgrs_lugares where MVIGENTE='1' and CAREA ='".$CodSelTarea."' order by NLUGAR";
+		 <?php 
+			$Consulta="select * from sgrs_lugares where MVIGENTE='1' and CAREA ='".$CodSelTarea."' order by NLUGAR";
 			//echo $Consulta;
-			$Resultado=mysqli_query($link, $Consulta);echo "<input type='hidden' name='CheckLugar'>";
+			$Resultado=mysqli_query($link,$Consulta);echo "<input type='hidden' name='CheckLugar'>";
 			echo "<input type='hidden' name='CodPel'>";
-			while ($Fila=mysql_fetch_array($Resultado))
+			while ($Fila=mysqli_fetch_array($Resultado))
 			{
 				echo "<tr>";
 				echo "<td align='center' width='4%'><input type='checkbox' name='CheckLugar' class='SinBorde' value='".$Fila[CLUGAR]."'></td>";
@@ -182,13 +182,13 @@ function CloseDiv()
 			}
 		 ?>
 	    </table></div>
-<? 
+<?php 
 if (!isset($VisibleDivProceso))
 	$VisibleDivProceso='hidden';
 else
 		
 ?>		
-		<div id="DivProceso" style="visibility:<? echo $VisibleDivProceso;?>;FILTER: alpha(opacity=100);overflow:auto; POSITION: absolute; moz-opacity: .75; opacity: .75;left: 210px; top:60px; width:650px; height:230px;" align="center">
+		<div id="DivProceso" style="visibility:<?php echo $VisibleDivProceso;?>;FILTER: alpha(opacity=100);overflow:auto; POSITION: absolute; moz-opacity: .75; opacity: .75;left: 210px; top:60px; width:650px; height:230px;" align="center">
 <table width="55%" align="center"  border="0" cellpadding="0"  cellspacing="0" class="TablaPricipalColor">
   <tr>
     <td ><img src="imagenes/interior2/esq1.gif" width="15" height="15"></td>
@@ -203,14 +203,14 @@ else
       </tr>
 	  <tr>
 	  
-	  <? 
+	  <?php 
 	  	if($Proc=='MLUG')
 		{
 			
 			$Consulta="Select * from sgrs_lugares where CLUGAR='".$DatosLugar."' ";
 			//echo $Consulta;
-			$Resp1 = mysqli_query($link, $Consulta);
-			if ($Fila1=mysql_fetch_array($Resp1))
+			$Resp1 = mysqli_query($link,$Consulta);
+			if ($Fila1=mysqli_fetch_array($Resp1))
 			{
 			 $TxtNombre=$Fila1[NLUGAR];
 			 $TxtCCORDX=$Fila1[CCORDX];
@@ -230,36 +230,36 @@ else
 	  ?>
 	  
 	  
-        <td class="formulario" align="left">Descripciï¿½n:</td>
-		<td align="left"> <input name="TxtNombre" type="text" id="TxtNombre" value="<? echo $TxtNombre; ?>" size="60"  maxlength="100"/>&nbsp;<span class="InputRojo">(*)</span></td>
+        <td class="formulario" align="left">Descripción:</td>
+		<td align="left"> <input name="TxtNombre" type="text" id="TxtNombre" value="<?php echo $TxtNombre; ?>" size="60"  maxlength="100"/>&nbsp;<span class="InputRojo">(*)</span></td>
       </tr>
 	    <tr>
         <td class="formulario" align="left">COORD(X):</td>
-		<td align="left"> <input name="TxtCCORDX" type="text" value="<? echo $TxtCCORDX; ?>" size="15"  maxlength="10" >&nbsp;<span class="InputRojo">(*)</span></td>
+		<td align="left"> <input name="TxtCCORDX" type="text" value="<?php echo $TxtCCORDX; ?>" size="15"  maxlength="10" >&nbsp;<span class="InputRojo">(*)</span></td>
       </tr>
 	   <tr>
         <td class="formulario" align="left">COORD(Y):</td>
-		<td align="left"> <input name="TxtCCORDY" type="text" value="<? echo $TxtCCORDY; ?>" size="15"  maxlength="10" >&nbsp;<span class="InputRojo">(*)</span></td>
+		<td align="left"> <input name="TxtCCORDY" type="text" value="<?php echo $TxtCCORDY; ?>" size="15"  maxlength="10" >&nbsp;<span class="InputRojo">(*)</span></td>
 		</tr>
 	   <tr>
         <td class="formulario" align="left">COORD(Z):</td>
-		<td align="left"> <input name="TxtCCORDZ" type="text" value="<? echo $TxtCCORDZ; ?>" size="15"  maxlength="10" >&nbsp;<span class="InputRojo">(*)</span></td>
+		<td align="left"> <input name="TxtCCORDZ" type="text" value="<?php echo $TxtCCORDZ; ?>" size="15"  maxlength="10" >&nbsp;<span class="InputRojo">(*)</span></td>
 		</tr>
 
 	   <tr>
         <td class="formulario" align="left">Vigente:</td>
 		<td class="formulario" align="left">
-		<? 
+		<?php 
 		if(!isset($Vigente))
 			$Vigente='1';
 		if($Vigente=='1')
 		{?>Si<input name="rdvigente" type="radio" id="rdvigente" class="SinBorde" checked="checked" >&nbsp;&nbsp;No<input name="rdvigente" type="radio" id="rdvigente" class="SinBorde"  >
-		<?
+		<?php
 		}
 		else
 		{?>
 			Si<input name="rdvigente" type="radio" id="rdvigente"  class="SinBorde" >&nbsp;&nbsp;No<input name="rdvigente" type="radio" id="rdvigente"  checked="checked"  class="SinBorde" >
-		<? }	?>
+		<?php }	?>
 		</td>
       </tr>
        </table></td>

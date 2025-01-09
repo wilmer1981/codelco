@@ -1,4 +1,4 @@
-<?
+<?php
 if($Dato=='EIP')//CUANDO ES IDENTIFICACION DE PELIGRO
 {
 	$D1=$DatosPel;
@@ -66,10 +66,10 @@ function Eliminar(Opc,Parent,D1,D2)
 </script>
 <link href="estilos/siper_style.css" rel="stylesheet" type="text/css">
 <form name="FrmObs" method="post" action="">
-<input name="Dato" type="hidden" value="<? echo $Dato;?>">
+<input name="Dato" type="hidden" value="<?php echo $Dato;?>">
   <table width="448" border="0" cellpadding="0" cellspacing="0">
     <tr>
-      <td colspan="3" align="right"><a href="javascript:Eliminar('<? echo $Proceso;?>','<? echo $Parent;?>','<? echo $D1;?>','<? echo $D2;?>')"><img src="imagenes/btn_guardar.png" alt='Grabar Item' border="0" align="absmiddle"></a></td>
+      <td colspan="3" align="right"><a href="javascript:Eliminar('<?php echo $Proceso;?>','<?php echo $Parent;?>','<?php echo $D1;?>','<?php echo $D2;?>')"><img src="imagenes/btn_guardar.png" alt='Grabar Item' border="0" align="absmiddle"></a></td>
     </tr>
  </table>
   <table width="425" border="0" cellpadding="0" cellspacing="0">

@@ -1,4 +1,4 @@
-<?
+<?php
 include('conectar_ori.php');
 include('funciones/siper_funciones.php');
 if($MostrarMensaje!='S')
@@ -9,9 +9,9 @@ while(list($c,$v)=each($Codigos))
 {
 	if($v!=''&&$v!='0')
 	{
-		$Consulta="SELECT CTAREA from sgrs_areaorg where CAREA='".$v."'";
-		$Resp=mysqli_query($link, $Consulta);
-		$Fila=mysql_fetch_array($Resp);
+		$Consulta="select CTAREA from sgrs_areaorg where CAREA='".$v."'";
+		$Resp=mysqli_query($link,$Consulta);
+		$Fila=mysqli_fetch_array($Resp);
 		if($Nivel<$Fila[CTAREA])
 			$Nivel=$Fila[CTAREA];
 	}	
@@ -23,14 +23,14 @@ while(list($c,$v)=each($Codigos))
 {
 	if($v!=''&&$v!='0')
 	{
-		$Consulta="SELECT CTAREA from sgrs_areaorg where CAREA='".$v."'";
-		$Resp=mysqli_query($link, $Consulta);
-		$Fila=mysql_fetch_array($Resp);
+		$Consulta="select CTAREA from sgrs_areaorg where CAREA='".$v."'";
+		$Resp=mysqli_query($link,$Consulta);
+		$Fila=mysqli_fetch_array($Resp);
 		if($Nivel2<$Fila[CTAREA])
 			$Nivel2=$Fila[CTAREA];
-		$Consulta="SELECT min(CTAREA) as tarea_mayor from sgrs_areaorg where CPARENT like '".$SelTarea2."%' and CAREA<>'".$v."'";
-		$Resp=mysqli_query($link, $Consulta);
-		$Fila=mysql_fetch_array($Resp);
+		$Consulta="select min(CTAREA) as tarea_mayor from sgrs_areaorg where CPARENT like '".$SelTarea2."%' and CAREA<>'".$v."'";
+		$Resp=mysqli_query($link,$Consulta);
+		$Fila=mysqli_fetch_array($Resp);
 		$NivelInferior=$Fila[tarea_mayor];
 			
 	}	
@@ -220,16 +220,16 @@ function CerrarDiv()
 </script>
 <link href="estilos/siper_style.css" rel="stylesheet" type="text/css">
 <form name="FrmOrganica" method="post" action="">
-<input type="hidden" value="<? echo $Nivel;?>" name="Nivel">
-<input type="hidden" value="<? echo $Navega;?>" name="Navega">
-<input type="hidden" value="<? echo $Estado;?>" name="Estado">
-<input type="hidden" value="<? echo $SelTarea;?>" name="SelTarea">
-<input type="hidden" value="<? echo $Navega2;?>" name="Navega2">
-<input type="hidden" value="<? echo $Estado2;?>" name="Estado2">
-<input type="hidden" value="<? echo $SelTarea2;?>" name="SelTarea2">
-<input type="hidden" value="<? echo $Nivel2;?>" name="Nivel2">
-<input type="hidden" value="<? echo $NivelInferior;?>" name="NivelInferior">
-<?
+<input type="hidden" value="<?php echo $Nivel;?>" name="Nivel">
+<input type="hidden" value="<?php echo $Navega;?>" name="Navega">
+<input type="hidden" value="<?php echo $Estado;?>" name="Estado">
+<input type="hidden" value="<?php echo $SelTarea;?>" name="SelTarea">
+<input type="hidden" value="<?php echo $Navega2;?>" name="Navega2">
+<input type="hidden" value="<?php echo $Estado2;?>" name="Estado2">
+<input type="hidden" value="<?php echo $SelTarea2;?>" name="SelTarea2">
+<input type="hidden" value="<?php echo $Nivel2;?>" name="Nivel2">
+<input type="hidden" value="<?php echo $NivelInferior;?>" name="NivelInferior">
+<?php
 include('div_obs_elimina_mantenedor_mover.php');
 ?>
 <table width="100%" align="center"  border="0" cellpadding="0"  cellspacing="0">
@@ -247,7 +247,7 @@ include('div_obs_elimina_mantenedor_mover.php');
 	 <tr>       
 	   <td width="52" height="35" align="left" class="formulario"   >&nbsp;</td>
        <td align="right" class="formulario" >
-	   <div id="DivOCu" style="visibility:<? echo $VisibleDiv;?>">
+	   <div id="DivOCu" style="visibility:<?php echo $VisibleDiv;?>">
 	   <a href="JavaScript:Proceso('G')"><img src="imagenes/genera.gif"  border="0"  alt="Grabar" align="absmiddle"/></a>&nbsp;<a href="JavaScript:Proceso('S')"><img src="imagenes/btn_salir.png"  alt=" Volver " width="25" height="25"  border="0" align="absmiddle"></a>       </div></td>
 	 </tr>
      <tr>
@@ -280,7 +280,7 @@ include('div_obs_elimina_mantenedor_mover.php');
         <td align="center" valign="top">
 		<div style='position:relative; left:0px; top:0px; width:100%; height:500; OVERFLOW:auto;' id='OrganicaGen'>
 		<table border='0' cellpadding='0' cellspacing='0' >
-		<?
+		<?php
 		CrearArbol($Navega,$Estado,$SelTarea,$CookieRut,'N');
 		?>
 		</table></div>		
@@ -288,13 +288,13 @@ include('div_obs_elimina_mantenedor_mover.php');
         <td align="center">
 		<div style='position:relative; left:0px; top:0px; width:100%; height:500; OVERFLOW:auto;' id='OrganicaGen'>
 		<table border='0' cellpadding='0' cellspacing='0' >
-		<?
+		<?php
 		CrearArbol2($Navega2,$Estado2,$SelTarea2,$CookieRut,'N');
 		?>
 		</table></div>		
 		</td>
       </tr>
-      <?
+      <?php
 
 ?>
     </table></td>
@@ -307,7 +307,7 @@ include('div_obs_elimina_mantenedor_mover.php');
   </tr>
 </table><br>
 </form>
-<?
+<?php
 echo "<script language='javascript'>";
 if($Mensaje!='')
 	echo "alert('".$Mensaje."');";

@@ -1,4 +1,4 @@
-<?
+<?php
 include('funciones/siper_funciones.php');
 ?>
 <link href="estilos/siper_style.css" rel="stylesheet" type="text/css">
@@ -8,7 +8,7 @@ include('funciones/siper_funciones.php');
 	<td align="center">
 		<table width="90%" border="0" cellpadding="0" cellspacing="4">
 		<tr>
-		  <td align="left"><? $CODAREA=ObtenerCodParent($CodSelTarea); echo DescripOrganica2($CodSelTarea);?></td>
+		  <td align="left"><?php $CODAREA=ObtenerCodParent($CodSelTarea); echo DescripOrganica2($CodSelTarea);?></td>
 		</tr>
 		</table>
 		<table width="90%" border="1" cellpadding="0" cellspacing="0">
@@ -28,28 +28,28 @@ include('funciones/siper_funciones.php');
 			<td width="7%" class="TituloCabecera" >Inaceptable</td>
 			<td width="3%" class="TituloCabecera" >Total</td>
 		 </tr>
-            <?
+            <?php
 			$TotGAcep=0;$TotGMod=0;$TotGInacep=0;$Total=0;
-			$Consulta="SELECT t1.CTAREA from sgrs_areaorg t1 where t1.CAREA = '".$CODAREA."' and t1.MVIGENTE='1'";
-			$Resultado=mysqli_query($link, $Consulta);
-			$Fila=mysql_fetch_array($Resultado);
+			$Consulta="select t1.CTAREA from sgrs_areaorg t1 where t1.CAREA = '".$CODAREA."' and t1.MVIGENTE='1'";
+			$Resultado=mysqli_query($link,$Consulta);
+			$Fila=mysqli_fetch_array($Resultado);
 			$CodTarea=$Fila[CTAREA];
 			if($CodTarea==8)
 				$Filtro2="t1.CAREA='".$CODAREA."'";
 			else
 				$Filtro2="t1.CPARENT like '%".$CodSelTarea."%' ";			
-			$Consulta="SELECT t3.NCONTACTO,t2.CCONTACTO from sgrs_areaorg t1 inner join sgrs_siperpeligros t2 on t1.CAREA=t2.CAREA inner join sgrs_codcontactos t3 on t2.CCONTACTO=t3.CCONTACTO ";
+			$Consulta="select t3.NCONTACTO,t2.CCONTACTO from sgrs_areaorg t1 inner join sgrs_siperpeligros t2 on t1.CAREA=t2.CAREA inner join sgrs_codcontactos t3 on t2.CCONTACTO=t3.CCONTACTO ";
 			$Consulta.="where t1.MVIGENTE='1' and t2.MVIGENTE<>'0' and t1.CTAREA ='8' and ".$Filtro2." group by t2.CCONTACTO order by t2.CCONTACTO ";
-			$RespPel=mysqli_query($link, $Consulta);
+			$RespPel=mysqli_query($link,$Consulta);
 			//echo $Consulta."<br>";
-			while($FilaPel=mysql_fetch_array($RespPel))
+			while($FilaPel=mysqli_fetch_array($RespPel))
 			{
 				$TotAcep=0;$TotMod=0;$TotInacep=0;$TotMriAcep=0;$TotMriMode=0;$TotMriInac=0;
-				$Consulta="SELECT * from sgrs_areaorg t1 inner join sgrs_siperpeligros t2 on t1.CAREA=t2.CAREA ";
+				$Consulta="select * from sgrs_areaorg t1 inner join sgrs_siperpeligros t2 on t1.CAREA=t2.CAREA ";
 				$Consulta.="where t1.MVIGENTE='1' and t2.MVIGENTE<>'0' and t1.CTAREA ='8' and ".$Filtro2." and t2.CCONTACTO='".$FilaPel[CCONTACTO]."' ";
-				$RespP=mysqli_query($link, $Consulta);
+				$RespP=mysqli_query($link,$Consulta);
 				//echo $Consulta."<br>";
-				while($FilaP=mysql_fetch_array($RespP))
+				while($FilaP=mysqli_fetch_array($RespP))
 				{
 					$MR=$FilaP[QMR];
 					if($FilaP[MR1]==1&&$FilaP[MR2]==1)
@@ -96,14 +96,14 @@ include('funciones/siper_funciones.php');
 		 ?>
 		<tr>
 			<td class="TituloCabecera" align="right" colspan="2">Totales</td>
-			<td class="TituloCabecera" align='center'><? echo $TotGAcep;?></td>
-			<td class="TituloCabecera" align='center'><? echo $TotGMod;?></td>
-			<td class="TituloCabecera" align='center'><? echo $TotGInacep;?></td>
-			<td class="TituloCabecera" align='center'><? echo $Total;?></td>
-			<td class="TituloCabecera" align='center'><? echo $TotGAcep1;?></td>
-			<td class="TituloCabecera" align='center'><? echo $TotGMod1;?></td>
-			<td class="TituloCabecera" align='center'><? echo $TotGInacep1;?></td>
-			<td class="TituloCabecera" align='center'><? echo $Total2;?></td>
+			<td class="TituloCabecera" align='center'><?php echo $TotGAcep;?></td>
+			<td class="TituloCabecera" align='center'><?php echo $TotGMod;?></td>
+			<td class="TituloCabecera" align='center'><?php echo $TotGInacep;?></td>
+			<td class="TituloCabecera" align='center'><?php echo $Total;?></td>
+			<td class="TituloCabecera" align='center'><?php echo $TotGAcep1;?></td>
+			<td class="TituloCabecera" align='center'><?php echo $TotGMod1;?></td>
+			<td class="TituloCabecera" align='center'><?php echo $TotGInacep1;?></td>
+			<td class="TituloCabecera" align='center'><?php echo $Total2;?></td>
 		 </tr>
 
           </table>
@@ -111,7 +111,7 @@ include('funciones/siper_funciones.php');
 </tr>
 </table>
 </form>
-<?
+<?php
 /*	function SumaMR($Cod,$CodT,$TotAcep,$TotMod,$TotInacep)
 	{
 		$TotAcep=0;$TotMod=0;$TotInacep=0;
@@ -119,11 +119,11 @@ include('funciones/siper_funciones.php');
 			$Filtro="t1.CAREA='".$Cod."'";
 		else
 			$Filtro="t1.CPARENT like '%,".$Cod.",%' ";			
-		$Consulta="SELECT QMR from sgrs_areaorg t1 inner join sgrs_siperpeligros t2 on t1.CAREA=t2.CAREA ";
+		$Consulta="select QMR from sgrs_areaorg t1 inner join sgrs_siperpeligros t2 on t1.CAREA=t2.CAREA ";
 		$Consulta.="where t1.MVIGENTE='1' and t2.MVIGENTE<>'0' and t1.CTAREA ='8' and ".$Filtro;
-		$RespPel=mysqli_query($link, $Consulta);
+		$RespPel=mysqli_query($link,$Consulta);
 		//echo $Consulta."<br>";
-		while($FilaPel=mysql_fetch_array($RespPel))
+		while($FilaPel=mysqli_fetch_array($RespPel))
 		{
 			//CalculoMR($FilaPel[CCONTACTO],$FilaPel[CPELIGRO],&$PH,&$CH,&$MRi,&$PC,&$CC,&$MR,&$Descrip,&$Semaforo);
 			$MR=$FilaPel[QMR];
@@ -149,11 +149,11 @@ include('funciones/siper_funciones.php');
 			$Filtro="t1.CAREA='".$Cod."'";
 		else
 			$Filtro="t1.CPARENT like '%,".$Cod.",%' ";			
-		$Consulta="SELECT t2.MR1,t2.MR2 from sgrs_areaorg t1 inner join sgrs_siperpeligros t2 on t1.CAREA=t2.CAREA ";
+		$Consulta="select t2.MR1,t2.MR2 from sgrs_areaorg t1 inner join sgrs_siperpeligros t2 on t1.CAREA=t2.CAREA ";
 		$Consulta.="where t1.MVIGENTE='1' and t2.MVIGENTE<>'0' and t1.CTAREA ='8' and ".$Filtro;
-		$RespPel=mysqli_query($link, $Consulta);
+		$RespPel=mysqli_query($link,$Consulta);
 		//echo $Consulta."<br>";
-		while($FilaPel=mysql_fetch_array($RespPel))
+		while($FilaPel=mysqli_fetch_array($RespPel))
 		{
 			//CalculoMR($FilaPel[CCONTACTO],$FilaPel[CPELIGRO],&$PH,&$CH,&$MRi,&$PC,&$CC,&$MR,&$Descrip,&$Semaforo);
 			if($FilaPel[MR1]==1&&$FilaPel[MR2]==1)

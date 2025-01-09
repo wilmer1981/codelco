@@ -1,4 +1,4 @@
-<? 	
+<?php 	
 	$CodigoDeSistema = 99;
 	$CodigoDePantalla = 10;
 	include("../principal/conectar_principal.php");
@@ -186,7 +186,7 @@ function Salir()
 <link href="estilos/siper_style.css" rel="stylesheet" type="text/css">
 <body leftmargin="3" topmargin="5" marginwidth="0" marginheight="0">
 <form name="FrmIngFun" method="post" action="">
-  <? //include("../principal/encabezado.php")?>
+  <?php //include("../principal/encabezado.php")?>
   <table width="71%" align="center"  border="0" cellpadding="0"  cellspacing="0">
     <tr>
       <td height="1%"><img src="imagenes/interior2/esq1.gif" width="15" height="15" /></td>
@@ -198,27 +198,27 @@ function Salir()
       <td align="center"><table width="770" border="0" cellpadding="5" cellspacing="0" class="TablaPrincipal" left="5">
           <tr>		
             <td align="center" valign="top"><span class="formulario"><img src="imagenes/LblCriterios.png" /></span>
-              <?
+              <?php
 		echo "<table width='740' border='0' cellpadding='1' cellspacing='0' >";
 		echo "<tr >"; 
 		echo "<td align='left' class='formulario'>Usuarios&nbsp;&nbsp;";
-		echo "<SELECT name='CmbRut' style='width:320' onchange=Recarga('')>";
+		echo "<select name='CmbRut' style='width:320' onchange=Recarga('')>";
 		echo "<option value='-1'>SELECCIONAR</option>";
-		$Consulta="SELECT t1.rut,t1.apellido_paterno,t1.apellido_materno,t1.nombres from proyecto_modernizacion.funcionarios t1 inner join sistemas_por_usuario t2 on t1.rut=t2.rut where t2.cod_sistema='29' order by apellido_paterno";
-		$Resultado=mysqli_query($link, $Consulta);
-		while ($Fila=mysql_fetch_array($Resultado))
+		$Consulta="select t1.rut,t1.apellido_paterno,t1.apellido_materno,t1.nombres from proyecto_modernizacion.funcionarios t1 inner join sistemas_por_usuario t2 on t1.rut=t2.rut where t2.cod_sistema='29' order by apellido_paterno";
+		$Resultado=mysqli_query($link,$Consulta);
+		while ($Fila=mysqli_fetch_array($Resultado))
 		{
-			if(strlen($Fila["rut"])==9)
-				$Rut='0'.$Fila["rut"];	
+			if(strlen($Fila[rut])==9)
+				$Rut='0'.$Fila[rut];	
 			else
-				$Rut=$Fila["rut"];				
-			$Nombre=$Fila["apellido_paterno"]." ".$Fila["apellido_materno"]." ".$Fila["nombres"];
-			if ($CmbRut==$Fila["rut"])			
-				echo "<option value='".$Fila["rut"]."' SELECTed>".$Rut."-".strtoupper($Nombre)."</option>";
+				$Rut=$Fila[rut];				
+			$Nombre=$Fila[apellido_paterno]." ".$Fila[apellido_materno]." ".$Fila[nombres];
+			if ($CmbRut==$Fila[rut])			
+				echo "<option value='$Fila[rut]' selected>".$Rut."-".strtoupper($Nombre)."</option>";
 			else
-				echo "<option value='".$Fila["rut"]."'>".$Rut."-".strtoupper($Nombre)."</option>";
+				echo "<option value='$Fila[rut]'>".$Rut."-".strtoupper($Nombre)."</option>";
 		}
-		echo "</SELECT>";
+		echo "</select>";
 		echo "</td>";
 		echo "<td align='center' class='formulario'>";
 		?>
@@ -230,7 +230,7 @@ function Salir()
                 <input type="button" name="BtnModificar" value="Modificar" style="width:70" onclick="MostrarPopupProceso('M');" />
                 <input type="button" name="BtnEliminar" value="Eliminar" style="width:70" onclick="MostrarPopupProceso('E');" />
                 <input type="button" name="BtnSalir" value="Salir" style="width:70" onclick="Salir();" />-->
-                <?
+                <?php
 		echo "</td>";
 		echo "</tr>";
 		echo "<tr>";
@@ -264,7 +264,7 @@ function Salir()
       <td align="center"><table width="770" border="0" cellpadding="5" cellspacing="0" class="TablaPrincipal" left="5">
           <tr>		
             <td align="center" valign="top">  		
-		<?
+		<?php
 		echo "<table width='740' border='1' cellpadding='2' cellspacing='0' >";
 		echo "<tr class='TituloCabecera'>"; 
 		echo "<td width='20'><input type='checkbox' name='CheckTodos' class='SinBorde' value='checkbox' onClick='CheckearTodo();'></td>";
@@ -277,33 +277,33 @@ function Salir()
 		{
 			case "0"://BUSQUEDA CENTRO DE COSTO
 				$CodCCosto='02-'.substr($CmbCCosto,0,2).".".substr($CmbCCosto,2,2);
-				$Consulta="SELECT * from proyecto_modernizacion.funcionarios t1 inner join proyecto_modernizacion.sistemas_por_usuario t2 on t1.rut=t2.rut";
+				$Consulta="select * from proyecto_modernizacion.funcionarios t1 inner join proyecto_modernizacion.sistemas_por_usuario t2 on t1.rut=t2.rut";
 				$Consulta.=" inner join proyecto_modernizacion.niveles_por_sistema t3 on t2.cod_sistema=t3.cod_sistema and t2.nivel=t3.nivel";
 				$Consulta.=" where t2.cod_sistema='29' and t1.rut='".$CmbRut."' order by apellido_paterno";
 				break;
 			case "1"://BUSQUEDA POR RUT
-				$Consulta="SELECT * from proyecto_modernizacion.funcionarios t1 inner join proyecto_modernizacion.sistemas_por_usuario t2 on t1.rut=t2.rut";
+				$Consulta="select * from proyecto_modernizacion.funcionarios t1 inner join proyecto_modernizacion.sistemas_por_usuario t2 on t1.rut=t2.rut";
 				$Consulta.=" inner join proyecto_modernizacion.niveles_por_sistema t3 on t2.cod_sistema=t3.cod_sistema and t2.nivel=t3.nivel";
 				$Consulta.=" where t2.cod_sistema='29' and t1.rut='".$TxtRut."' order by apellido_paterno";
 				break;
 			case "2"://BUSQUEDA POR APELLIDO PATERNO
-				$Consulta="SELECT * from proyecto_modernizacion.funcionarios t1 inner join proyecto_modernizacion.sistemas_por_usuario t2 on t1.rut=t2.rut";
+				$Consulta="select * from proyecto_modernizacion.funcionarios t1 inner join proyecto_modernizacion.sistemas_por_usuario t2 on t1.rut=t2.rut";
 				$Consulta.=" inner join proyecto_modernizacion.niveles_por_sistema t3 on t2.cod_sistema=t3.cod_sistema and t2.nivel=t3.nivel";
 				$Consulta.=" where t2.cod_sistema='29' and apellido_paterno like '".$TxtApePaterno."%' order by apellido_paterno";
 				break;
 		}
-		$Resultado=mysqli_query($link, $Consulta);
+		$Resultado=mysqli_query($link,$Consulta);
 		//echo $Consulta."<br>";
 		echo "<input type='hidden' name='CheckCod'>";$Cont=0;
-		while ($Fila=mysql_fetch_array($Resultado))
+		while ($Fila=mysqli_fetch_array($Resultado))
 		{
 			$Cont=$Cont+1;
-			$Nombre=$Fila["apellido_paterno"]." ".$Fila["apellido_materno"]." ".$Fila["nombres"];
+			$Nombre=$Fila[apellido_paterno]." ".$Fila[apellido_materno]." ".$Fila[nombres];
 			echo "<tr onMouseOver=\"CCA(this,'CL01')\" onMouseOut=\"CCA(this,'CL02')\">"; 
-			echo "<td align='left'><input type='checkbox' name='CheckCod' class='SinBorde' value='".$Fila["rut"]."' onClick=\"CCA(this,'CL03')\"></td>";
-			echo "<td align='left'>".$Fila["rut"]."</td>";
+			echo "<td align='left'><input type='checkbox' name='CheckCod' class='SinBorde' value='$Fila[rut]' onClick=\"CCA(this,'CL03')\"></td>";
+			echo "<td align='left'>".$Fila[rut]."</td>";
 			echo "<td align='left'>".$Nombre."</td>";
-			echo "<td align='left'>".$Fila["descripcion"]."</td>";
+			echo "<td align='left'>".$Fila[descripcion]."</td>";
 			echo "</tr>";
 			//echo $Consulta."<br>";
 		}
@@ -320,11 +320,11 @@ function Salir()
       <td width="1%" height="15"><img src="imagenes/interior2/esq4.gif" width="15" height="15" /></td>
     </tr>
   </table>
-  <? //include("../principal/pie_pagina.php")?>
+  <?php //include("../principal/pie_pagina.php")?>
 </form>
 </body>
 </html>
-<?
+<?php
 	if ($EncontroRelacion==true)
 	{
 		echo "<script languaje='javascript'>";

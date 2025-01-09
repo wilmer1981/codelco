@@ -1,4 +1,4 @@
-<?
+<?php
 include('conectar_ori.php');
 include('funciones/siper_funciones.php');
 if($MostrarMensaje!='S')
@@ -9,9 +9,9 @@ while(list($c,$v)=each($Codigos))
 {
 	if($v!=''&&$v!='0')
 	{
-		$Consulta="SELECT CTAREA from sgrs_areaorg where CAREA='".$v."'";
-		$Resp=mysqli_query($link, $Consulta);
-		$Fila=mysql_fetch_array($Resp);
+		$Consulta="select CTAREA from sgrs_areaorg where CAREA='".$v."'";
+		$Resp=mysqli_query($link,$Consulta);
+		$Fila=mysqli_fetch_array($Resp);
 		if($Nivel<$Fila[CTAREA])
 			$Nivel=$Fila[CTAREA];
 	}	
@@ -23,14 +23,14 @@ while(list($c,$v)=each($Codigos))
 {
 	if($v!=''&&$v!='0')
 	{
-		$Consulta="SELECT CTAREA from sgrs_areaorg where CAREA='".$v."'";
-		$Resp=mysqli_query($link, $Consulta);
-		$Fila=mysql_fetch_array($Resp);
+		$Consulta="select CTAREA from sgrs_areaorg where CAREA='".$v."'";
+		$Resp=mysqli_query($link,$Consulta);
+		$Fila=mysqli_fetch_array($Resp);
 		if($Nivel2<$Fila[CTAREA])
 			$Nivel2=$Fila[CTAREA];
-		$Consulta="SELECT min(CTAREA) as tarea_mayor from sgrs_areaorg where CPARENT like '".$SelTarea2."%' and CAREA<>'".$v."'";
-		$Resp=mysqli_query($link, $Consulta);
-		$Fila=mysql_fetch_array($Resp);
+		$Consulta="select min(CTAREA) as tarea_mayor from sgrs_areaorg where CPARENT like '".$SelTarea2."%' and CAREA<>'".$v."'";
+		$Resp=mysqli_query($link,$Consulta);
+		$Fila=mysqli_fetch_array($Resp);
 		$NivelInferior=$Fila[tarea_mayor];
 			
 	}	
@@ -83,7 +83,7 @@ function Proceso(Opc)
 		case "G":
 			if(f.SelTarea.value=='')
 			{
-				alert('Debe Seleccionar ï¿½rea a Consultar');
+				alert('Debe Seleccionar Área a Consultar');
 				return;
 			}
 			//f.action='consulta_registro.php?SelTarea='+f.SelTarea.value;
@@ -181,10 +181,10 @@ function ItemSelec2(Codigo)
 </script>
 <link href="estilos/siper_style.css" rel="stylesheet" type="text/css">
 <form name="FrmOrganica" method="post" action="">
-<input type="hidden" value="<? echo $Nivel;?>" name="Nivel">
-<input type="hidden" value="<? echo $Navega;?>" name="Navega">
-<input type="hidden" value="<? echo $Estado;?>" name="Estado">
-<input type="hidden" value="<? echo $SelTarea;?>" name="SelTarea">
+<input type="hidden" value="<?php echo $Nivel;?>" name="Nivel">
+<input type="hidden" value="<?php echo $Navega;?>" name="Navega">
+<input type="hidden" value="<?php echo $Estado;?>" name="Estado">
+<input type="hidden" value="<?php echo $SelTarea;?>" name="SelTarea">
 <table width="70%" align="center"  border="0" cellpadding="0"  cellspacing="0">
   <tr>
 	<td height="1%"><img src="imagenes/interior2/esq1.gif" width="15" height="15"></td>
@@ -200,7 +200,7 @@ function ItemSelec2(Codigo)
 	 <tr>       
 	   <td width="52" height="35" align="left" class="formulario"   >&nbsp;</td>
        <td align="right" class="formulario" >
-	   <div id="DivOCu" style="visibility:<? echo $VisibleDiv;?>">
+	   <div id="DivOCu" style="visibility:<?php echo $VisibleDiv;?>">
 	   <a href="JavaScript:Proceso('G')"><img src="imagenes/btn_activo.png"  border="0"  alt="Area Seleccionada" align="absmiddle"/></a>
 	   <a href="JavaScript:Proceso('S')"><img src="imagenes/btn_inactivo.png"  border="0"  alt="Cerrar" align="absmiddle"/></a>&nbsp;</div></td>
 	 </tr>
@@ -230,13 +230,13 @@ function ItemSelec2(Codigo)
         <td align="center" valign="top">
 		<div style='position:relative; left:0px; top:0px; width:100%; height:300; OVERFLOW:auto;' id='OrganicaGen'>
 		<table border='0' cellpadding='0' cellspacing='0' >
-		<?
+		<?php
 		CrearArbolNivelArea($Navega,$Estado,$SelTarea,$CookieRut,'N');
 		?>
 		</table></div>		
 		</td>
       </tr>
-      <?
+      <?php
 
 ?>
     </table></td>

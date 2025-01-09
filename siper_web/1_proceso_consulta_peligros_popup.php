@@ -1,4 +1,4 @@
-<?
+<?php
 	include('conectar_ori.php');
 	include('funciones/siper_funciones.php');	
 
@@ -20,7 +20,7 @@
 <link href="estilos/siper_style.css" rel="stylesheet" type="text/css">
 <body>
 <form name="ConsultaPel" method="post">
-<? echo DescripOrganica2($CodSelTarea);?>
+<?php echo DescripOrganica2($CodSelTarea);?>
 <table width="90%" border="0" cellpadding="0" cellspacing="4">
   <tr>
 	<td height="36" align="left"><img src="imagenes/LblCriterios.png" width="168" height="28"></td>
@@ -29,20 +29,20 @@
 	<td width="23%" align="right"><a href="javascript:window.print();"><img src="imagenes/btn_imprimir.png" width="30" height="30" border="0" alt="Imprimir"></a></td>
   </tr>
   <tr>
-	<td width="22%" align="left" class="formulario">Rutinaria:&nbsp;<? echo $OptRut;?></td>
-	<td width="16%" align="left" class="formulario">Identificado:&nbsp;<? echo $OptIdent;?></td>
-	<td width="39%" align="left" class="formulario">Validado:&nbsp;<? echo $OptVal;?></td>
+	<td width="22%" align="left" class="formulario">Rutinaria:&nbsp;<?php echo $OptRut;?></td>
+	<td width="16%" align="left" class="formulario">Identificado:&nbsp;<?php echo $OptIdent;?></td>
+	<td width="39%" align="left" class="formulario">Validado:&nbsp;<?php echo $OptVal;?></td>
 	<td width="23%" align="right">&nbsp;</td>
   </tr>
   <tr>
 	<td colspan="4" align="left" class="formulario">Peligros:
-	  <?
+	  <?php
 			if($CodPel!='T')
 			{
-				$Consulta="SELECT NCONTACTO from sgrs_codcontactos where CCONTACTO='".$CodPel."'";
+				$Consulta="select NCONTACTO from sgrs_codcontactos where CCONTACTO='".$CodPel."'";
 				//echo $Consulta;
-				$Resp=mysqli_query($link, $Consulta);
-				$Fila=mysql_fetch_array($Resp);
+				$Resp=mysqli_query($link,$Consulta);
+				$Fila=mysqli_fetch_array($Resp);
 				echo $Fila[NCONTACTO];
 			}
 			else
@@ -52,7 +52,7 @@
 	</tr>
   <tr>
 	<td align="left" class="formulario">MR:
-	  <?
+	  <?php
 		switch($MR)
 		{
 			case "A";
@@ -76,12 +76,12 @@
 	  ?>
 </td>
 	<td colspan="2" align="left" class="formulario">Controles:
-		<?
+		<?php
 			if($Control!='T')
 			{
-				$Consulta="SELECT NCONTROL from sgrs_codcontroles where CCONTROL='".$Control."'";
-				$Resp=mysqli_query($link, $Consulta);
-				$Fila=mysql_fetch_array($Resp);
+				$Consulta="select NCONTROL from sgrs_codcontroles where CCONTROL='".$Control."'";
+				$Resp=mysqli_query($link,$Consulta);
+				$Fila=mysqli_fetch_array($Resp);
 				echo $Fila[NCONTROL];
 			}
 			else
@@ -89,12 +89,12 @@
 	  ?>
 </td>
 	<td align="left" class="formulario">Control:
-		<?
+		<?php
 			if($TipoControl!='T')
 			{
-				$Consulta="SELECT NTCONTROLES from sgrs_tipo_controles where CTCONTROLES='".$TipoControl."'";
-				$Resp=mysqli_query($link, $Consulta);
-				$Fila=mysql_fetch_array($Resp);
+				$Consulta="select NTCONTROLES from sgrs_tipo_controles where CTCONTROLES='".$TipoControl."'";
+				$Resp=mysqli_query($link,$Consulta);
+				$Fila=mysqli_fetch_array($Resp);
 				echo $Fila[NTCONTROLES];
 			}
 			else
@@ -108,17 +108,17 @@
 	</table>
 
 	 <table width="100%" border="1" cellpadding="0" cellspacing="0">
-	 <? 
+	 <?php 
 			$CODAREA=ObtenerCodParent($CodSelTarea);
-			$Consulta="SELECT t1.CTAREA from sgrs_areaorg t1 where t1.CAREA = '".$CODAREA."'";
-			$Resultado=mysqli_query($link, $Consulta);
-			$Fila=mysql_fetch_array($Resultado);
+			$Consulta="select t1.CTAREA from sgrs_areaorg t1 where t1.CAREA = '".$CODAREA."'";
+			$Resultado=mysqli_query($link,$Consulta);
+			$Fila=mysqli_fetch_array($Resultado);
 			$CodTarea=$Fila[CTAREA];
 			if($CodTarea==8)
 				$Filtro="t1.CAREA='".$CODAREA."'";
 			else
 				$Filtro="t1.CPARENT like '".$CodSelTarea."%'";				
-			$Consulta="SELECT t1.NAREA,t1.CAREA,t1.CPARENT from sgrs_areaorg t1 inner join sgrs_siperoperaciones t2 on t1.CAREA=t2.CAREA ";
+			$Consulta="select t1.NAREA,t1.CAREA,t1.CPARENT from sgrs_areaorg t1 inner join sgrs_siperoperaciones t2 on t1.CAREA=t2.CAREA ";
 			$Consulta.=" inner join sgrs_siperpeligros t3 on t1.CAREA=t3.CAREA inner join sgrs_sipercontroles t7 on t3.CPELIGRO=t7.CPELIGRO inner join sgrs_codcontroles t5 on t7.CCONTROL=t5.CCONTROL ";
 			$Consulta.="where t3.MVIGENTE<>'0' and t1.CTAREA='8' and ".$Filtro;
 			if($OptRut=='S')
@@ -155,8 +155,8 @@
 			//$Consulta2.=" group by t1.CAREA ";	
 			$Consulta=$Consulta.$Consulta2." group by t1.CAREA ";
 			//echo $Consulta;
-			$Resp=mysqli_query($link, $Consulta);$TotTarea=0;$TotPel=0;
-			while($Fila=mysql_fetch_array($Resp))
+			$Resp=mysqli_query($link,$Consulta);$TotTarea=0;$TotPel=0;
+			while($Fila=mysqli_fetch_array($Resp))
 			{
 				echo "<tr>";
 				$RutaOri=OrigenOrg($Fila[CPARENT],&$Ruta);
@@ -182,7 +182,7 @@
 				echo "<td align='center' width='3%' class='TituloCabecera' >MR</td>";
 				echo "<td align='center' width='6%' class='TituloCabecera' >Validado</td>";
 				echo "</tr>";
-				$Consulta="SELECT t6.NCONTACTO,t3.TOBSERVACION,t3.CPELIGRO,t3.CCONTACTO,t3.MVALIDADO from sgrs_areaorg t1 inner join sgrs_siperoperaciones t2 on t1.CAREA=t2.CAREA ";
+				$Consulta="select t6.NCONTACTO,t3.TOBSERVACION,t3.CPELIGRO,t3.CCONTACTO,t3.MVALIDADO from sgrs_areaorg t1 inner join sgrs_siperoperaciones t2 on t1.CAREA=t2.CAREA ";
 				$Consulta.=" inner join sgrs_siperpeligros t3 on t1.CAREA=t3.CAREA inner join sgrs_codcontactos t6 on t3.CCONTACTO=t6.CCONTACTO left join sgrs_sipercontroles t7 on t3.CPELIGRO=t7.CPELIGRO ";
 				$Consulta.="where t1.CTAREA='8' and t1.CAREA = '".$Fila[CAREA]."' and t3.MVIGENTE <> 0";
 				if($MR=='S')
@@ -190,8 +190,8 @@
 				else
 					$Consulta=$Consulta.$Consulta2." group by t3.CPELIGRO ";
 				//echo $Consulta;
-				$Resp2=mysqli_query($link, $Consulta);
-				while($Fila2=mysql_fetch_array($Resp2))
+				$Resp2=mysqli_query($link,$Consulta);
+				while($Fila2=mysqli_fetch_array($Resp2))
 				{
 					$PH='';$CH='';$PC='';$CC='';$Validado='';
 					if($Fila2[MVALIDADO]=='1')
@@ -205,9 +205,9 @@
 					if($Descrip!="ACEPTABLE"&&$Descrip!="MODERADO"&&$Descrip!="INACEPTABLE")
 						echo $Descrip;
 					echo "<table width='96%' border='0' cellspacing='0' cellpadding='0'>";
-					$Consulta="SELECT t2.NCONTROL,t1.CCONTROL,t3.ATCONTROLES,t1.TOBSERVACION from sgrs_sipercontroles t1 inner join sgrs_codcontroles t2 on t1.CCONTROL=t2.CCONTROL inner join sgrs_tipo_controles t3 on t1.MCONTROL=t3.CTCONTROLES where t1.CPELIGRO ='".$Fila2[CPELIGRO]."'";
-					$RespCtrl=mysqli_query($link, $Consulta);
-					while($FilaCtrl=mysql_fetch_array($RespCtrl))
+					$Consulta="select t2.NCONTROL,t1.CCONTROL,t3.ATCONTROLES,t1.TOBSERVACION from sgrs_sipercontroles t1 inner join sgrs_codcontroles t2 on t1.CCONTROL=t2.CCONTROL inner join sgrs_tipo_controles t3 on t1.MCONTROL=t3.CTCONTROLES where t1.CPELIGRO ='".$Fila2[CPELIGRO]."'";
+					$RespCtrl=mysqli_query($link,$Consulta);
+					while($FilaCtrl=mysqli_fetch_array($RespCtrl))
 					{
 						echo "<tr>";
 						echo "<td align='left' width='60%'>&nbsp;".$FilaCtrl[CCONTROL]." - ".$FilaCtrl[NCONTROL]."</td>";

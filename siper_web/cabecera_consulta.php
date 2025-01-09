@@ -1,4 +1,4 @@
-<? 
+<?php 
 include('conectar_consulta.php');
 include('funciones/siper_funciones.php');
 ?>
@@ -25,39 +25,39 @@ function BuscaTarea()
     </tr>
   <tr >
     <td background="imagenes/bg_sup.gif" class="BordeTop">&nbsp;<img src="imagenes/arbol.gif">&nbsp;Buscador de Tareas&nbsp;
-      <input name='TxtBuscaTarea' type='text' value='<? echo $TxtBuscaTarea;?>' style='width:150' />
+      <input name='TxtBuscaTarea' type='text' value='<?php echo $TxtBuscaTarea;?>' style='width:150' />
       <a href="javascript:BuscaTarea()"><img src="imagenes/btn_aceptar.png" alt='Aceptar' width="18" height="18" border="0" align="absmiddle" /></a><span class="ColorTabla02">
-      <SELECT name="CmbTareas" onChange="top.frames['Organica'].BuscaItem()">
-        <option value="S" SELECTed="SELECTed">Seleccionar</option>
-        <?
+      <select name="CmbTareas" onChange="top.frames['Organica'].BuscaItem()">
+        <option value="S" selected="selected">Seleccionar</option>
+        <?php
 		if($TxtBuscaTarea!='')
 		{
 			//ObtieneAccesoOrg2($CookieRut,&$AccesoOrg);
 			//if($AccesoOrg!='')
 			//{
-				//$Consulta="SELECT * from sgrs_areaorg where CTAREA='8' ".$AccesoOrg."";
-				$Consulta="SELECT * from sgrs_areaorg where CTAREA='8' ";
+				//$Consulta="select * from sgrs_areaorg where CTAREA='8' ".$AccesoOrg."";
+				$Consulta="select * from sgrs_areaorg where CTAREA='8' ";
 				$Consulta.=" and upper(NAREA) like '%".strtoupper($TxtBuscaTarea)."%'";
 				$Consulta.=" order by NAREA";	
-				$RespTarea=mysqli_query($link, $Consulta);
-				while($FilaTarea=mysql_fetch_array($RespTarea))
+				$RespTarea=mysqli_query($link,$Consulta);
+				while($FilaTarea=mysqli_fetch_array($RespTarea))
 				{
 					if(strtoupper($FilaTarea[NAREA])==strtoupper($CmbTareas))
-						echo "<option value='".$FilaTarea[CPARENT].$FilaTarea[CAREA].",' SELECTed>".$FilaTarea[NAREA]."</option>";
+						echo "<option value='".$FilaTarea[CPARENT].$FilaTarea[CAREA].",' selected>".$FilaTarea[NAREA]."</option>";
 					else
 						echo "<option value='".$FilaTarea[CPARENT].$FilaTarea[CAREA].",'>".$FilaTarea[NAREA]."</option>";
 				}
 			//}
 		}
 	  ?>
-      </SELECT><? //echo "A:".$AccesoOrg."<br>C:".$Consulta;?>
+      </select><?php //echo "A:".$AccesoOrg."<br>C:".$Consulta;?>
     </span><input name="PestanaActiva" type="hidden" value="1">
-	<?
+	<?php
 		OrigenOrg($CodSelTarea,&$Ruta,&$CodNiveles);
 		//echo $Ruta."<br>";
 		$IP_SERV = $HTTP_HOST;
 	?>	</td>	
-    <td background="imagenes/bg_sup.gif" class="BordeTop" align="right"><img src="../principal/imagenes/bola_cobre.gif"><a href="http://<? echo $IP_SERV; ?>/proyecto/" style="text-decoration:none; color:#666666; font-size:10px; font-family: Verdana, Arial, Helvetica, sans-serif;" target="_blank">Sistemas Ventanas</a></td>
+    <td background="imagenes/bg_sup.gif" class="BordeTop" align="right"><img src="../principal/imagenes/bola_cobre.gif"><a href="http://<?php echo $IP_SERV; ?>/proyecto/" style="text-decoration:none; color:#666666; font-size:10px; font-family: Verdana, Arial, Helvetica, sans-serif;" target="_blank">Sistemas Ventanas</a></td>
   </tr>
 </table>
 </form>

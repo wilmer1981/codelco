@@ -1,4 +1,4 @@
-<?
+<?php
 	include('conectar_ori.php');
 	include('funciones/siper_funciones.php');
 	//1:PESTAÑA PARA AGREGAR, MODIFICAR O ELIMINAR LUGARES DE LA ORGANICA.
@@ -29,19 +29,19 @@ function SeleccionPestana(Opcion)
 </head>
 <body>
 <form name='Mantenedor' method="post">
-<input name="CodSelTarea" type="hidden" value="<? echo $CodSelTarea;?>">
+<input name="CodSelTarea" type="hidden" value="<?php echo $CodSelTarea;?>">
 <input name="Salida" type="hidden" value="C">
-<input name="Proc" type="hidden" value="<? echo $Proc;?>">
-<input name="DatosLugar" type="hidden" value="<? echo $DatosLugar;?>">
-<?
+<input name="Proc" type="hidden" value="<?php echo $Proc;?>">
+<input name="DatosLugar" type="hidden" value="<?php echo $DatosLugar;?>">
+<?php
 	if(!isset($NivelSel))
 	{
 		$CodArea=ObtenerCodParent(&$CodSelTarea);
 		$NivelSel=ObtenerNivel($CodArea);
 	}
 ?>
-<input name="NivelSel" type="hidden" value="<? echo $NivelSel;?>">
-<?
+<input name="NivelSel" type="hidden" value="<?php echo $NivelSel;?>">
+<?php
 	switch($TipoPestana)
 	{
 		case "1":
@@ -59,12 +59,12 @@ function SeleccionPestana(Opcion)
   <table border="0" cellpadding="0" cellspacing="0">
 	<tr>
 	  <td width="100" height="25"><img src="imagenes/tab_slide_hm_next.gif" ></td>
-	  <td width="886" align="center" background="<? echo $Fondo1;?>"><a href="javascript:SeleccionPestana(1)"><? echo '<span class="'.$LinkPestana1.'">';?> Mantenedor Lugares de Medición </a></td>
+	  <td width="886" align="center" background="<?php echo $Fondo1;?>"><a href="javascript:SeleccionPestana(1)"><?php echo '<span class="'.$LinkPestana1.'">';?> Mantenedor Lugares de Medición </a></td>
 	  <td width="5" align="right"><img src="imagenes/tab_separator.gif"></td>
 	</tr>
     <tr>
       <td colspan="3" align="center">
-	    <?
+	    <?php
 		switch($TipoPestana)
 		{
 			case "1":
@@ -89,7 +89,7 @@ function SeleccionPestana(Opcion)
 </form>
 </body>
 </html>
-<?
+<?php
 if($Mensaje!='')
 {
 	echo "<script languaje='javascript'>";

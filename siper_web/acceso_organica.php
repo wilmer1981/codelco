@@ -1,4 +1,4 @@
-<?
+<?php
 include('conectar_ori.php');
 include('funciones/siper_funciones.php');
 
@@ -7,7 +7,7 @@ if(isset($Pantalla))
 ?>
 <html>
 <head>
-<title>SASSO - Restricciï¿½n de acceso a Gerencias</title>
+<title>SASSO - Restricción de acceso a Gerencias</title>
 
 <script language="javascript" src="funciones/funciones_java.js"></script>
 <script language="javascript">
@@ -122,7 +122,7 @@ function Proceso(Opc)
 /*		case "E":
 			if(SoloUnElemento(f.name,'CheckRut','E'))
 			{
-				mensaje=confirm("ï¿½Esta Seguro de Eliminar estos Registros?");
+				mensaje=confirm("¿Esta Seguro de Eliminar estos Registros?");
 				if(mensaje==true)
 				{
 					DatosRut=Recuperar(f.name,'CheckRut');
@@ -149,7 +149,7 @@ function EliminarItem()//PARA MOSTRAR EL DIV EN PANTALLA
 	
 	if(SoloUnElemento(f.name,'CheckRut','E'))
 	{
-		mensaje=confirm("ï¿½Esta Seguro de Eliminar estos Registros?");
+		mensaje=confirm("¿Esta Seguro de Eliminar estos Registros?");
 		if(mensaje==true)
 		{
 			DatosRut=Recuperar(f.name,'CheckRut');
@@ -173,7 +173,7 @@ function ConfirmaEliminar()
 	var f=document.FrmPrincipal;
 	if(f.ObsEli.value=='')
 	{
-		alert('Debe Ingresar Observaciï¿½n de Eliminaciï¿½n');
+		alert('Debe Ingresar Observación de Eliminación');
 		f.ObsEli.focus();
 		return;
 	}
@@ -184,8 +184,8 @@ function ConfirmaEliminar()
 </script>
 <link href="estilos/siper_style.css" rel="stylesheet" type="text/css">
 <form name="FrmPrincipal" method="post" action="">
-<input name="Datos" type="hidden" value="<? echo $Datos;?>">
-<input name="Proc" type="hidden" value="<? echo $Proc;?>">
+<input name="Datos" type="hidden" value="<?php echo $Datos;?>">
+<input name="Proc" type="hidden" value="<?php echo $Proc;?>">
 <table width="71%" align="center"  border="0" cellpadding="0"  cellspacing="0">
   <tr>
 	<td height="1%"><img src="imagenes/interior2/esq1.gif" width="15" height="15"></td>
@@ -204,11 +204,11 @@ function ConfirmaEliminar()
        <td width="26%" class="formulario"><input name="TxtRut" type="text" id="TxtRut"  size="30" />
          <a href="JavaScript:Proceso('C')"><img src="imagenes/Btn_buscar.gif"   alt="Buscar" width="20" height="20"  border="0" align="absmiddle" /></a></td>
        <td class="formulario">Apellido Paterno </td>
-       <td width="21%" class="formulario"><input name="TxtApePat" type="text" id="TxtApePat" value="<? //echo $TxtRegic; ?>" />
+       <td width="21%" class="formulario"><input name="TxtApePat" type="text" id="TxtApePat" value="<?php //echo $TxtRegic; ?>" />
          <a href="JavaScript:Proceso('C')"><img src="imagenes/Btn_buscar.gif"   alt="Buscar" width="20" height="20"  border="0" align="absmiddle" /></a></td>
        <td width="16%" class="formulario">&nbsp;</td>
        <td width="16%" class="formulario">&nbsp;</td>
-       <? 
+       <?php 
 		if($Check=='S')
 		{	
 			$checked='checked';
@@ -258,10 +258,10 @@ function ConfirmaEliminar()
 		<td width="10%" align="center" class="TituloCabecera">Correo<br>"Fin Iden. Pelig"<br>Experto</td>
         <td width="27%" align="center" class="TituloCabecera">Gerencias Asignadas</td>
       </tr>
-      <?
+      <?php
 		if($Buscar=='S')
 		{
-			$Consulta = "SELECT t1.rut,t1.cod_gerencias,t1.AVISO_CORREO,t1.AVISO_CORREO2,t1.RUT_JEFE,t1.RUT_EXPERTO,t2.apellido_paterno,t2.apellido_materno,t2.nombres,t4.descripcion from sgrs_acceso_organica t1";
+			$Consulta = "select t1.rut,t1.cod_gerencias,t1.AVISO_CORREO,t1.AVISO_CORREO2,t1.RUT_JEFE,t1.RUT_EXPERTO,t2.apellido_paterno,t2.apellido_materno,t2.nombres,t4.descripcion from sgrs_acceso_organica t1";
 			$Consulta.= " inner join proyecto_modernizacion.funcionarios t2  on t1.rut=t2.rut";
 			$Consulta.= " inner join proyecto_modernizacion.sistemas_por_usuario t3 on t2.rut=t3.rut";
 			$Consulta.= " inner join proyecto_modernizacion.niveles_por_sistema t4 on t3.cod_sistema=t4.cod_sistema and t3.nivel=t4.nivel";
@@ -272,41 +272,41 @@ function ConfirmaEliminar()
 				$Consulta.= " and t2.apellido_paterno like ('%".strtoupper($TxtApePat)."%') ";
 			$Consulta.= " order by t2.apellido_paterno,t2.apellido_materno";	
 			//echo 	$Consulta;
-			$Resp = mysqli_query($link, $Consulta);
+			$Resp = mysqli_query($link,$Consulta);
 			echo "<input name='CheckRut' type='hidden'  value=''>";
 			$cont=1;
-			while ($Fila=mysql_fetch_array($Resp))
+			while ($Fila=mysqli_fetch_array($Resp))
 			{
 				$ConsulNomJE="SELECT * FROM proyecto_modernizacion.sistemas_por_usuario t1 inner join proyecto_modernizacion.funcionarios t2 on t1.rut=t2.rut";
 				$ConsulNomJE.=" inner join proyecto_modernizacion.niveles_por_sistema t3 on t1.cod_sistema=t3.cod_sistema";
 				$ConsulNomJE.=" WHERE  t2.rut='".$Fila[RUT_JEFE]."' order by t2.apellido_paterno";
-				$Resp2 = mysql_query($ConsulNomJE);
-				if($Fila2=mysql_fetch_array($Resp2))
+				$Resp2 = mysqli_query($link,$ConsulNomJE);
+				if($Fila2=mysqli_fetch_array($Resp2))
 					$NombreJEFE=$Fila["RUT_JEFE"]." - ".$Fila2["apellido_paterno"]." ".$Fila2["apellido_materno"]." ".$Fila2["nombres"];
 				else
 					$NombreJEFE='';			
 				$ConsulNomEX="SELECT * FROM proyecto_modernizacion.sistemas_por_usuario t1 inner join proyecto_modernizacion.funcionarios t2 on t1.rut=t2.rut";
 				$ConsulNomEX.=" inner join proyecto_modernizacion.niveles_por_sistema t3 on t1.cod_sistema=t3.cod_sistema";
 				$ConsulNomEX.=" WHERE  t2.rut='".$Fila[RUT_EXPERTO]."' order by t2.apellido_paterno";
-				$Resp3 = mysql_query($ConsulNomEX);
-				if($Fila3=mysql_fetch_array($Resp3))
+				$Resp3 = mysqli_query($link,$ConsulNomEX);
+				if($Fila3=mysqli_fetch_array($Resp3))
 					$NombreEXPERTO=$Fila["RUT_EXPERTO"]." - ".$Fila3["apellido_paterno"]." ".$Fila3["apellido_materno"]." ".$Fila3["nombres"];
 				else
 					$NombreEXPERTO='';
 		?>
 			  <tr>
-				<td ><? echo "<input name='CheckRut' class='SinBorde' type='checkbox'  value='".$Fila["rut"]."~".$Fila["cod_gerencias"]."'>" ?></td>
-				<td ><? echo $Fila["rut"]."&nbsp;"; ?></td>
-				<td ><? echo strtoupper($Fila["nombres"])."&nbsp;"; ?></td>
-				<td ><? echo strtoupper($Fila["apellido_paterno"])."&nbsp;".strtoupper($Fila["apellido_materno"]); ?></td>
-				<td ><? echo strtoupper($Fila["descripcion"]); ?></td>
-				<td ><? echo $NombreJEFE;?>&nbsp;</td>
-				<td ><? echo $Fila["AVISO_CORREO"];?>&nbsp;</td>
-				<td ><? echo $NombreEXPERTO;?>&nbsp;</td>
-				<td ><? echo $Fila["AVISO_CORREO2"];?>&nbsp;</td>
-				<td ><textarea cols="50" rows="2" readonly="readonly"><? echo DescripOrganica($Fila["cod_gerencias"],'G'); ?></textarea></td>
+				<td ><?php echo "<input name='CheckRut' class='SinBorde' type='checkbox'  value='".$Fila["rut"]."~".$Fila["cod_gerencias"]."'>" ?></td>
+				<td ><?php echo $Fila["rut"]."&nbsp;"; ?></td>
+				<td ><?php echo strtoupper($Fila["nombres"])."&nbsp;"; ?></td>
+				<td ><?php echo strtoupper($Fila["apellido_paterno"])."&nbsp;".strtoupper($Fila["apellido_materno"]); ?></td>
+				<td ><?php echo strtoupper($Fila["descripcion"]); ?></td>
+				<td ><?php echo $NombreJEFE;?>&nbsp;</td>
+				<td ><?php echo $Fila["AVISO_CORREO"];?>&nbsp;</td>
+				<td ><?php echo $NombreEXPERTO;?>&nbsp;</td>
+				<td ><?php echo $Fila["AVISO_CORREO2"];?>&nbsp;</td>
+				<td ><textarea cols="50" rows="2" readonly="readonly"><?php echo DescripOrganica($Fila["cod_gerencias"],'G'); ?></textarea></td>
 			  </tr>
-			  <?		$cont++;
+			  <?php		$cont++;
 			}
 		}
 ?>
@@ -319,11 +319,11 @@ function ConfirmaEliminar()
     <td width="1%" height="15"><img src="imagenes/interior2/esq4.gif" width="15" height="15"></td>
   </tr>
 </table><br>
-<? 
+<?php 
 if (!isset($VisibleDivProceso))
 	$VisibleDivProceso='hidden';
 ?>
-<div id="DivProceso" style="visibility:<? echo $VisibleDivProceso;?>;FILTER: alpha(opacity=100);overflow:auto; POSITION: absolute; moz-opacity: .75; opacity: .75;left: 350px; top: 5px; width:600px; height:450px;" align="center">
+<div id="DivProceso" style="visibility:<?php echo $VisibleDivProceso;?>;FILTER: alpha(opacity=100);overflow:auto; POSITION: absolute; moz-opacity: .75; opacity: .75;left: 350px; top: 5px; width:600px; height:450px;" align="center">
 <table width="55%" align="center"  border="0" cellpadding="0"  cellspacing="0" class="TablaPricipalColor">
   <tr>
     <td height="1%"><img src="imagenes/interior2/esq1.gif" width="15" height="15"></td>
@@ -342,20 +342,20 @@ if (!isset($VisibleDivProceso))
   
 	  <tr>
         <td class="formulario">Rut:&nbsp;
-		<?
+		<?php
 			switch($Proc)
 			{
 				case "N":
-					echo "<SELECT name='CmbUsuarios'>";
+					echo "<select name='CmbUsuarios'>";
 					echo "<option value='S'>Seleccionar</option>";
 					$Consulta="SELECT * FROM proyecto_modernizacion.sistemas_por_usuario t1 inner join proyecto_modernizacion.funcionarios t3 on t1.rut=t3.rut left join sgrv.sgrs_acceso_organica t2 on t1.rut=t2.rut WHERE `cod_sistema` = '29' and t2.rut is null group by t1.rut order by t3.apellido_paterno ";
-					$Resp=mysqli_query($link, $Consulta);
-					while($Fila=mysql_fetch_array($Resp))
+					$Resp=mysqli_query($link,$Consulta);
+					while($Fila=mysqli_fetch_array($Resp))
 					{
-						//ObtieneUsuario($Fila["rut"],&$NombreUser);
-						echo "<option value='".$Fila["rut"]."'>".$Fila["rut"]."  -  ".strtoupper($Fila["apellido_paterno"]." ".$Fila["apellido_materno"]." ".$Fila["nombres"])."</option>";
+						//ObtieneUsuario($Fila[rut],&$NombreUser);
+						echo "<option value='".$Fila[rut]."'>".$Fila[rut]."  -  ".strtoupper($Fila[apellido_paterno]." ".$Fila[apellido_materno]." ".$Fila[nombres])."</option>";
 					}
-					echo "</SELECT>";
+					echo "</select>";
 					
 					break;
 				case "M":
@@ -378,15 +378,15 @@ if (!isset($VisibleDivProceso))
 		<td width="5%" class="TituloCabecera"><input type="checkbox" name="ChkTodos2" class="SinBorde" onClick="CheckearTodo(this.form,'CheckGer','ChkTodos2');"></td>
 		<td width="95%"class="TituloCabecera" align='center'>Acceso Gerencias</td>
 		</tr> 
-		<?
+		<?php
 			$DatosSel=explode('~',$Datos);
 			$Rut=$DatosSel[0];
 			$CodGer=$DatosSel[1];
 			$Checked='';
 			//echo strpos($CodGer,'49');
-			$Consulta="SELECT * from sgrs_areaorg where CTAREA <> '0' and CPARENT=',0,1,' order by NAREA";
-			$Resp=mysqli_query($link, $Consulta);echo "<input name='CheckGer' type='hidden'>";
-			while($Fila=mysql_fetch_array($Resp))
+			$Consulta="select * from sgrs_areaorg where CTAREA <> '0' and CPARENT=',0,1,' order by NAREA";
+			$Resp=mysqli_query($link,$Consulta);echo "<input name='CheckGer' type='hidden'>";
+			while($Fila=mysqli_fetch_array($Resp))
 			{
 				echo "<tr>";
 				if($Proc=='M')
@@ -408,54 +408,54 @@ if (!isset($VisibleDivProceso))
       </tr>
 	  <tr><td>&nbsp;</td></tr>
 	  <table border="1" cellpadding="0" cellspacing="0" width="100%">
-	  <tr><td colspan="2" class="TituloCabecera" align="center">Aviso Correo "Aceptar Fin Identificaciï¿½n Peligro"</td></tr>
-	  <tr><td align="center" class="TituloCabecera">Jefe ï¿½rea</td><td align="center" class="TituloCabecera">Experto</td></tr>
+	  <tr><td colspan="2" class="TituloCabecera" align="center">Aviso Correo "Aceptar Fin Identificación Peligro"</td></tr>
+	  <tr><td align="center" class="TituloCabecera">Jefe Área</td><td align="center" class="TituloCabecera">Experto</td></tr>
 	  <tr>
 	  <td align="center">	    
-		<?
+		<?php
 		switch($Proc)
 		{
 			case "N":			
-				echo "<SELECT name='CmbJefe'>";
-				echo "<option value='N' SELECTed>Ninguno</option>";
+				echo "<select name='CmbJefe'>";
+				echo "<option value='N' selected>Ninguno</option>";
 				$Consulta="SELECT * FROM proyecto_modernizacion.funcionarios t1 
 				inner join proyecto_modernizacion.sistemas_por_usuario t2 on t1.rut=t2.rut
 				inner join proyecto_modernizacion.niveles_por_sistema t3 on t2.cod_sistema=t3.cod_sistema
 				where t2.cod_sistema='29' and (t3.nivel='1' or t3.nivel='4' or t3.nivel='8') group by t1.rut order by t1.apellido_paterno";
-				$Resp=mysqli_query($link, $Consulta);
-				while($Fila=mysql_fetch_array($Resp))
+				$Resp=mysqli_query($link,$Consulta);
+				while($Fila=mysqli_fetch_array($Resp))
 				{
-					ObtieneUsuario($Fila["rut"],&$NombreUser);
-					echo "<option value='".$Fila["rut"]."'>".$Fila["rut"]."  -  ".$NombreUser."</option>";
+					ObtieneUsuario($Fila[rut],&$NombreUser);
+					echo "<option value='".$Fila[rut]."'>".$Fila[rut]."  -  ".$NombreUser."</option>";
 				}
-				echo "</SELECT>";echo "<br>";
+				echo "</select>";echo "<br>";
 				echo "<input type='text' name='correos' value='' size='47'><br>";
 			break;
 			case "M":			
 				$Consulta="SELECT * FROM sgrs_acceso_organica  WHERE  rut='".$Rut."'";
-				$Resp=mysqli_query($link, $Consulta);
-				$Fila=mysql_fetch_array($Resp);
+				$Resp=mysqli_query($link,$Consulta);
+				$Fila=mysqli_fetch_array($Resp);
 				$CmbJefe=$Fila[RUT_JEFE];
 				//echo "RUT JEFE:".$CmbJefe."<br>";
-				echo "<SELECT name='CmbJefe'>";
-				echo "<option value='N' SELECTed>Ninguno</option>";
+				echo "<select name='CmbJefe'>";
+				echo "<option value='N' selected>Ninguno</option>";
 				$Consulta="SELECT * FROM proyecto_modernizacion.funcionarios t1 
 				inner join proyecto_modernizacion.sistemas_por_usuario t2 on t1.rut=t2.rut
 				inner join proyecto_modernizacion.niveles_por_sistema t3 on t2.cod_sistema=t3.cod_sistema
 				where t2.cod_sistema='29' and (t3.nivel='1' or t3.nivel='4' or t3.nivel='8') group by t1.rut order by t1.apellido_paterno";
-				$Resp=mysqli_query($link, $Consulta);
-				while($Fila=mysql_fetch_array($Resp))
+				$Resp=mysqli_query($link,$Consulta);
+				while($Fila=mysqli_fetch_array($Resp))
 				{
-					ObtieneUsuario($Fila["rut"],&$NombreUser);
+					ObtieneUsuario($Fila[rut],&$NombreUser);
 					if ($CmbJefe == $Fila["rut"])
-						echo "<option value='".$Fila["rut"]."' SELECTed>".$Fila["rut"]."  -  ".$NombreUser."</option>";
+						echo "<option value='".$Fila[rut]."' selected>".$Fila[rut]."  -  ".$NombreUser."</option>";
 					else
-						echo "<option value='".$Fila["rut"]."'>".$Fila["rut"]."  -  ".$NombreUser."</option>";
+						echo "<option value='".$Fila[rut]."'>".$Fila[rut]."  -  ".$NombreUser."</option>";
 				}
-				echo "</SELECT>";echo "<br>";
-				$Consulta="SELECT AVISO_CORREO from sgrs_acceso_organica where RUT='".$Rut."'";
-				$Resp=mysqli_query($link, $Consulta);
-				if($Fila=mysql_fetch_array($Resp))
+				echo "</select>";echo "<br>";
+				$Consulta="select AVISO_CORREO from sgrs_acceso_organica where RUT='".$Rut."'";
+				$Resp=mysqli_query($link,$Consulta);
+				if($Fila=mysqli_fetch_array($Resp))
 				{
 					echo "<input type='text' name='correos' value='".$Fila[AVISO_CORREO]."' size='47'><br>";
 					//echo "<input name='correos' type='text' size='93' value='".$Fila[AVISO_CORREO]."'>";
@@ -467,53 +467,53 @@ if (!isset($VisibleDivProceso))
 		?>	
 	  </td>
 	  <td align="center">	    
-		<?
+		<?php
 		switch($Proc)
 		{
 			case "N":			
-				echo "<SELECT name='CmbExperto'>";
-				echo "<option value='N' SELECTed>Ninguno</option>";
+				echo "<select name='CmbExperto'>";
+				echo "<option value='N' selected>Ninguno</option>";
 				$Consulta="SELECT * FROM proyecto_modernizacion.funcionarios t1 
 				inner join proyecto_modernizacion.sistemas_por_usuario t2 on t1.rut=t2.rut
 				inner join proyecto_modernizacion.niveles_por_sistema t3 on t2.cod_sistema=t3.cod_sistema
 				where t2.cod_sistema='29' and (t3.nivel='1' or t3.nivel='4' or t3.nivel='8') group by t1.rut order by t1.apellido_paterno";
-				$Resp=mysqli_query($link, $Consulta);
-				while($Fila=mysql_fetch_array($Resp))
+				$Resp=mysqli_query($link,$Consulta);
+				while($Fila=mysqli_fetch_array($Resp))
 				{
-					ObtieneUsuario($Fila["rut"],&$NombreUser);
+					ObtieneUsuario($Fila[rut],&$NombreUser);
 					if ($CmbExperto == $Fila["rut"])
-						echo "<option value='".$Fila["rut"]."' SELECTed>".$Fila["rut"]."  -  ".$NombreUser."</option>";
+						echo "<option value='".$Fila[rut]."' selected>".$Fila[rut]."  -  ".$NombreUser."</option>";
 					else
-						echo "<option value='".$Fila["rut"]."'>".$Fila["rut"]."  -  ".$NombreUser."</option>";	
+						echo "<option value='".$Fila[rut]."'>".$Fila[rut]."  -  ".$NombreUser."</option>";	
 				}
-				echo "</SELECT>";echo "<br>";
+				echo "</select>";echo "<br>";
 				echo "<input type='text' name='correos2' value='' size='47'><br>";
 			break;
 			case "M":			
 				$Consulta="SELECT * FROM sgrs_acceso_organica  WHERE  rut='".$Rut."'";
-				$Resp=mysqli_query($link, $Consulta);
-				$Fila=mysql_fetch_array($Resp);
+				$Resp=mysqli_query($link,$Consulta);
+				$Fila=mysqli_fetch_array($Resp);
 				$CmbExperto=$Fila[RUT_EXPERTO];
 
-				echo "<SELECT name='CmbExperto'>";
-				echo "<option value='N' SELECTed>Ninguno</option>";
+				echo "<select name='CmbExperto'>";
+				echo "<option value='N' selected>Ninguno</option>";
 				$Consulta="SELECT * FROM proyecto_modernizacion.funcionarios t1 
 				inner join proyecto_modernizacion.sistemas_por_usuario t2 on t1.rut=t2.rut
 				inner join proyecto_modernizacion.niveles_por_sistema t3 on t2.cod_sistema=t3.cod_sistema
 				where t2.cod_sistema='29' and (t3.nivel='1' or t3.nivel='4' or t3.nivel='8') group by t1.rut order by t1.apellido_paterno";
-				$Resp=mysqli_query($link, $Consulta);
-				while($Fila=mysql_fetch_array($Resp))
+				$Resp=mysqli_query($link,$Consulta);
+				while($Fila=mysqli_fetch_array($Resp))
 				{
-					ObtieneUsuario($Fila["rut"],&$NombreUser);
+					ObtieneUsuario($Fila[rut],&$NombreUser);
 					if ($CmbExperto == $Fila["rut"])
-						echo "<option value='".$Fila["rut"]."' SELECTed>".$Fila["rut"]."  -  ".$NombreUser."</option>";
+						echo "<option value='".$Fila[rut]."' selected>".$Fila[rut]."  -  ".$NombreUser."</option>";
 					else
-						echo "<option value='".$Fila["rut"]."'>".$Fila["rut"]."  -  ".$NombreUser."</option>";
+						echo "<option value='".$Fila[rut]."'>".$Fila[rut]."  -  ".$NombreUser."</option>";
 				}
-				echo "</SELECT>";echo "<br>";
-				$Consulta="SELECT AVISO_CORREO2 from sgrs_acceso_organica where RUT='".$Rut."'";
-				$Resp=mysqli_query($link, $Consulta);
-				if($Fila=mysql_fetch_array($Resp))
+				echo "</select>";echo "<br>";
+				$Consulta="select AVISO_CORREO2 from sgrs_acceso_organica where RUT='".$Rut."'";
+				$Resp=mysqli_query($link,$Consulta);
+				if($Fila=mysqli_fetch_array($Resp))
 				{
 					echo "<input type='text' name='correos2' value='".$Fila[AVISO_CORREO2]."' size='47'><br>";
 					//echo "<input name='correos' type='text' size='93' value='".$Fila[AVISO_CORREO]."'>";
@@ -535,7 +535,7 @@ if (!isset($VisibleDivProceso))
   </tr>
 </table>
 </div>
-<?
+<?php
 include('div_obs_elimina_mantenedor.php');
 ?>
 </form>

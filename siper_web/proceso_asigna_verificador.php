@@ -1,32 +1,32 @@
-<?
+<?php
 	if($Proceso=='EO')
 	{
 		$Elimina="delete from sgrs_siperverificadores_obs where CIDVERIFICADOR='".$Corr."' and COD_VERIFICADOR='".$CodVeri."' and CCONTACTO='".$CodCCONTACTO."' and CPELIGRO='".$CodPel."' and CAREA='".$AREA."'";
 		//echo  $Elimina."<br>";
-		mysql_query($Elimina);
+		mysqli_query($link,$Elimina);
 	}	
 	if($Proceso=='AOBC')
 	{
-		$Consulta="SELECT max(CIDVERIFICADOR+1) as maximo from sgrs_siperverificadores_obs ";
-		$Resp=mysqli_query($link, $Consulta);
-		if($Fila=mysql_fetch_array($Resp))
+		$Consulta="select max(CIDVERIFICADOR+1) as maximo from sgrs_siperverificadores_obs ";
+		$Resp=mysqli_query($link,$Consulta);
+		if($Fila=mysqli_fetch_array($Resp))
 		{
-			if($Fila["maximo"]=='')
+			if($Fila[maximo]=='')
 				$TxtVeriObs='1';
 			else		
-				$TxtVeriObs=$Fila["maximo"];
+				$TxtVeriObs=$Fila[maximo];
 		}
 		
 		$Inserta="INSERT INTO sgrs_siperverificadores_obs  (CIDVERIFICADOR,COD_VERIFICADOR,CPELIGRO,CAREA,CCONTACTO)";
 		$Inserta.=" values('".$TxtVeriObs."','".$CodVeri."','".$CodPel."','".$AREA."','".$CodCCONTACTO."')";		
 		//echo $Inserta."<br>";
-		mysql_query($Inserta);
+		mysqli_query($link,$Inserta);
 	}
 	if($Proceso=='MOD')
 	{
-		$Actualiza="UPDATE sgrs_siperverificadores_obs set TOBSERVACION='".$ObsMod."'  where CIDVERIFICADOR='".$CIDVERI."' and COD_VERIFICADOR='".$CodVeri."' and CPELIGRO='".$CodPel."' and CAREA='".$AREA."' and CCONTACTO='".$CodCCONTACTO."'";		
+		$Actualiza="update sgrs_siperverificadores_obs set TOBSERVACION='".$ObsMod."'  where CIDVERIFICADOR='".$CIDVERI."' and COD_VERIFICADOR='".$CodVeri."' and CPELIGRO='".$CodPel."' and CAREA='".$AREA."' and CCONTACTO='".$CodCCONTACTO."'";		
 		//echo $Actualiza."<br>";
-		mysql_query($Actualiza);			
+		mysqli_query($link,$Actualiza);			
 	}	
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -131,7 +131,7 @@ function AC(CodPeli,Area)
 <body>
 <form name="MantenedorCont" method="post">
 
-<?
+<?php
 //include('div_obs_verificador.php');
 ?>   
 
@@ -142,12 +142,12 @@ function AC(CodPeli,Area)
 <table width="100%" border="0" cellpadding="0" cellspacing="4">
 <tr>
 <td align="left">
-<?
+<?php
  $Cod=ObtenerCodParent($CodSelTarea);
- $Consulta="SELECT * from sgrs_siperpeligros where CPELIGRO='".$CmbPeligros."' and CAREA='".$Cod."'";
+ $Consulta="select * from sgrs_siperpeligros where CPELIGRO='".$CmbPeligros."' and CAREA='".$Cod."'";
  //echo $Consulta;
- $Resp=mysqli_query($link, $Consulta);
- if($Fila=mysql_fetch_array($Resp))
+ $Resp=mysqli_query($link,$Consulta);
+ if($Fila=mysqli_fetch_array($Resp))
 {
 	$QPROBHIST=$Fila[QPROBHIST];
 	$QCONSECHIST=$Fila[QCONSECHIST];
@@ -155,28 +155,28 @@ function AC(CodPeli,Area)
 ?>		 
 <a href="javascript:GrabarVerificador()"><img src="imagenes/btn_guardar.png" alt='Grabar Verificadores' border="0" align="absmiddle"></a>&nbsp;&nbsp;&nbsp;
 <a href="javascript:EliminarVeri()"><img src="imagenes/btn_eliminar2.png" alt='Eliminar Verificadores' border="0" align="absmiddle"></a>
-<?
+<?php
 }
 ?>
-<? echo DescripOrganica2($CodSelTarea);?></td>
+<?php echo DescripOrganica2($CodSelTarea);?></td>
 <td align="right">
 </td>
 </tr>
  <tr>
    <td colspan="2" width="13%" class="formulario" align="left">&nbsp;Contacto / Peligros&nbsp;&nbsp;
-   <SELECT name="CmbPeligros" onchange="BuscaControles()" style="width:300">
-   <option value="S" SELECTed>Seleccionar</option>
-   <?
+   <select name="CmbPeligros" onchange="BuscaControles()" style="width:300">
+   <option value="S" selected>Seleccionar</option>
+   <?php
 		//$Cod=ObtenerCodParent($CodSelTarea);		
 		$TextVisible='hidden';
-		$Consulta="SELECT t2.NCONTACTO,t1.TOBSERVACION,t1.CPELIGRO,t1.CCONTACTO,t1.CCONTACTO as orden from sgrs_siperpeligros t1 inner join sgrs_codcontactos t2 on t1.CCONTACTO=t2.CCONTACTO where t1.MVIGENTE<>'0' and t1.CAREA ='".$Cod."' group by t1.CPELIGRO order by NCONTACTO asc";
+		$Consulta="select t2.NCONTACTO,t1.TOBSERVACION,t1.CPELIGRO,t1.CCONTACTO,t1.CCONTACTO as orden from sgrs_siperpeligros t1 inner join sgrs_codcontactos t2 on t1.CCONTACTO=t2.CCONTACTO where t1.MVIGENTE<>'0' and t1.CAREA ='".$Cod."' group by t1.CPELIGRO order by NCONTACTO asc";
 		//echo $Consulta;
-		$Resultado=mysqli_query($link, $Consulta);
-		while ($Fila=mysql_fetch_array($Resultado))
+		$Resultado=mysqli_query($link,$Consulta);
+		while ($Fila=mysqli_fetch_array($Resultado))
 		{
 			if($CmbPeligros==$Fila[CPELIGRO])
 			{
-				echo "<option value='".$Fila[CPELIGRO]."' SELECTed>".$Fila[NCONTACTO]."</option>";
+				echo "<option value='".$Fila[CPELIGRO]."' selected>".$Fila[NCONTACTO]."</option>";
 				$CodCCONTACTO=$Fila[CCONTACTO];
 				$ObsPel=$Fila[TOBSERVACION];
 				$TextVisible='visible';
@@ -186,10 +186,10 @@ function AC(CodPeli,Area)
 		}
   		
    ?>
-   </SELECT>&nbsp;&nbsp;<textarea cols="90" rows="2" style="visibility:<? echo $TextVisible;?>"><? echo $ObsPel;?></textarea>
+   </select>&nbsp;&nbsp;<textarea cols="90" rows="2" style="visibility:<?php echo $TextVisible;?>"><?php echo $ObsPel;?></textarea>
    </td>
  </tr>
- <?
+ <?php
  if($CmbPeligros!='S'&&$CmbPeligros!='')
  {
 	CalculoMR($QPROBHIST,$QCONSECHIST,&$PH,&$CH,&$MRi,&$PC,&$CC,&$MR,&$Descrip,&$Semaforo);
@@ -202,62 +202,62 @@ function AC(CodPeli,Area)
 			<td width="10%" align="center" class="TituloCabecera" >P</td>
 			<td width="10%" align="center" class="TituloCabecera" >C</td>
 			<td width="10%" align="center" class="TituloCabecera" >MRi</td>
-			<td width="3%" rowspan="2" align="center" class="TituloCabecera" ><img src="imagenes/<? echo $SEMAMRI;?>" border=0 width="18" height="30"></td>
+			<td width="3%" rowspan="2" align="center" class="TituloCabecera" ><img src="imagenes/<?php echo $SEMAMRI;?>" border=0 width="18" height="30"></td>
 			<td width="10%" align="center" class="TituloCabecera" >P</td>
 			<td width="14%" align="center" class="TituloCabecera" >C</td>
 			<td width="23%" align="center" class="TituloCabecera" >MRR</td>
-			<td width="3%" rowspan="2" align="center" class="TituloCabecera" ><img src="imagenes/<? echo $Semaforo;?>" border=0 width="18" height="30"></td>
+			<td width="3%" rowspan="2" align="center" class="TituloCabecera" ><img src="imagenes/<?php echo $Semaforo;?>" border=0 width="18" height="30"></td>
 		</tr>
 		<tr>
 
-			<td class="TituloCabecera" align="center" ><? echo $QPROBHIST;?></td><!--PROBABILIDAD HISTORICA DE SGRS_SIPERPELIGROS-->
-			<td class="TituloCabecera" align="center"><? echo $QCONSECHIST;?></td><!--CONSECUENCIA HISTORICA DE SGRS_SIPERPELIGROS-->
-			<td class="TituloCabecera" align="center"><? echo $MRI;?></td>
-			<td class="TituloCabecera" align="center"><? echo $PC;?>&nbsp;</td>
-			<td class="TituloCabecera" align="center"><? echo $CC;?>&nbsp;</td>
-			<td class="TituloCabecera" align="center"><? echo $MR." - ".$Descrip;?></td>
+			<td class="TituloCabecera" align="center" ><?php echo $QPROBHIST;?></td><!--PROBABILIDAD HISTORICA DE SGRS_SIPERPELIGROS-->
+			<td class="TituloCabecera" align="center"><?php echo $QCONSECHIST;?></td><!--CONSECUENCIA HISTORICA DE SGRS_SIPERPELIGROS-->
+			<td class="TituloCabecera" align="center"><?php echo $MRI;?></td>
+			<td class="TituloCabecera" align="center"><?php echo $PC;?>&nbsp;</td>
+			<td class="TituloCabecera" align="center"><?php echo $CC;?>&nbsp;</td>
+			<td class="TituloCabecera" align="center"><?php echo $MR." - ".$Descrip;?></td>
 			</tr>		
 		</table>
 		<br>
 		 <div id='Peligros'  style='overflow:auto;WIDTH: 95%; height:260px;left: 0px; top: 65px;'>
 		<table width="100%" border="1" cellpadding="0" cellspacing="0">
 		<tr>
-			<td width="50%" colspan="2" class="TituloCabecera" >Familia de Verificadores&nbsp;&nbsp;<a href=JavaScript:ObsVeri()><img src='imagenes/obs.png' alt="Descripciï¿½n de los Verificadores" border=0 width='17' height='17'></a>
+			<td width="50%" colspan="2" class="TituloCabecera" >Familia de Verificadores&nbsp;&nbsp;<a href=JavaScript:ObsVeri()><img src='imagenes/obs.png' alt="Descripción de los Verificadores" border=0 width='17' height='17'></a>
 			&nbsp;&nbsp;&nbsp;
-			<?
-			 $Consulta="SELECT * from sgrs_sipercontroles where CPELIGRO='".$CmbPeligros."' and CAREA='".$Cod."'";
+			<?php
+			 $Consulta="select * from sgrs_sipercontroles where CPELIGRO='".$CmbPeligros."' and CAREA='".$Cod."'";
 			 //echo $Consulta."<br>";
-			 $Resp=mysqli_query($link, $Consulta);
-			 if($Fila=mysql_fetch_array($Resp))
+			 $Resp=mysqli_query($link,$Consulta);
+			 if($Fila=mysqli_fetch_array($Resp))
 			 {
 			?>
-				<a href=JavaScript:AC('<? echo $CmbPeligros;?>','<? echo $Cod;?>')><img src='imagenes/btn_consulta.png' alt="Ver Controles Especificados al Peligro" border=0 width='17' height='17'></a></td>
-			<?
+				<a href=JavaScript:AC('<?php echo $CmbPeligros;?>','<?php echo $Cod;?>')><img src='imagenes/btn_consulta.png' alt="Ver Controles Especificados al Peligro" border=0 width='17' height='17'></a></td>
+			<?php
 			 }
 			?>	
-			<td width="40%" align="center" class="TituloCabecera" >Especificaciï¿½n del Verificador</td>
+			<td width="40%" align="center" class="TituloCabecera" >Especificación del Verificador</td>
 		 </tr>		 
-		 <?
-		 /*$Consulta="SELECT * from sgrs_siperpeligros where CPELIGRO='".$CmbPeligros."' and CAREA='".$Cod."' and MVALIDADO='1'";
-		 $Resp=mysqli_query($link, $Consulta);
-		 if(!$Fila=mysql_fetch_array($Resp))*/
+		 <?php
+		 /*$Consulta="select * from sgrs_siperpeligros where CPELIGRO='".$CmbPeligros."' and CAREA='".$Cod."' and MVALIDADO='1'";
+		 $Resp=mysqli_query($link,$Consulta);
+		 if(!$Fila=mysqli_fetch_array($Resp))*/
 		 $VALIDADO='S';
 		 if($VALIDADO=='S')
 		 {
 		 ?>
 		 <!--<table width="90%" border="0" cellpadding="0" cellspacing="0">	-->	
-		 <?
+		 <?php
 		 	$ContObs=1;
-			$Consulta1="SELECT * from sgrs_tipo_verificador where COD_VERIFICADOR<>'' order by DESCRIP_VERIFICADOR";
-			$Resp1=mysql_query($Consulta1);
+			$Consulta1="select * from sgrs_tipo_verificador where COD_VERIFICADOR<>'' order by DESCRIP_VERIFICADOR";
+			$Resp1=mysqli_query($link,$Consulta1);
 			echo "<input type='hidden' name='Obs'>";
-			while($Fila1=mysql_fetch_array($Resp1))
+			while($Fila1=mysqli_fetch_array($Resp1))
 			{
 				
-			   $Consulta2="SELECT * from sgrs_siperverificadores where COD_VERIFICADOR='".$Fila1[COD_VERIFICADOR]."' and CPELIGRO='".$CmbPeligros."' and CAREA='".$Cod."'";
+			   $Consulta2="select * from sgrs_siperverificadores where COD_VERIFICADOR='".$Fila1[COD_VERIFICADOR]."' and CPELIGRO='".$CmbPeligros."' and CAREA='".$Cod."'";
 			   //echo $Consulta2."<br>";
-			   $Resp2=mysql_query($Consulta2);
-			   if($Fila2=mysql_fetch_array($Resp2))
+			   $Resp2=mysqli_query($link,$Consulta2);
+			   if($Fila2=mysqli_fetch_array($Resp2))
 			   		$Tipo='1';
 			   else
 			   		$Tipo='';		
@@ -266,66 +266,66 @@ function AC(CodPeli,Area)
 			   echo "<tr>";
 			   echo "<td align='left'>".$Fila1[DESCRIP_VERIFICADOR]."</td>";
 			   echo "<td align='center'  style='border-left:none' >";
-			   echo "<SELECT name='CmbAplica'>";	
+			   echo "<select name='CmbAplica'>";	
 			   switch($Tipo)
 			   {
 			   		case "1":
 						  echo "<option value='NA'>No Aplica</option>";
-						  echo "<option value='1' SELECTed>Si</option>";
+						  echo "<option value='1' selected>Si</option>";
 					break;
 			   		case "":
-						  echo "<option value='NA' SELECTed>No Aplica</option>";
+						  echo "<option value='NA' selected>No Aplica</option>";
 						  echo "<option value='1'>Si</option>";
 					break;
 			   }
-			   echo "</SELECT>";
+			   echo "</select>";
 			   echo "</td>";			   
    			   echo "<input type='hidden' name='Control' value=".$Fila1[COD_VERIFICADOR].">";
 				?>
 				<td align='left'>
-				<a href="JavaScript:AgregaObs('<? echo $Fila1[COD_VERIFICADOR];?>','<? echo $Cod;?>','<? echo $CodSelTarea;?>','<? echo $CodCCONTACTO;?>','AG')"><img src="imagenes/add.png" alt="Agregar Nueva Especificaciï¿½n" border=0 width="10" height="10"></a><br />
-				<!--<a href="JavaScript:AgregaObs('<? //echo $Fila[CCONTROL];?>','<? //echo $Cod;?>','<? //echo $CodSelTarea;?>','<? //echo $CodCCONTACTO;?>','AG')"><img src="imagenes/add.png" alt="Agregar Nueva Especificaciï¿½n" border=0 width="10" height="10"></a><br />-->
+				<a href="JavaScript:AgregaObs('<?php echo $Fila1[COD_VERIFICADOR];?>','<?php echo $Cod;?>','<?php echo $CodSelTarea;?>','<?php echo $CodCCONTACTO;?>','AG')"><img src="imagenes/add.png" alt="Agregar Nueva Especificación" border=0 width="10" height="10"></a><br />
+				<!--<a href="JavaScript:AgregaObs('<?php //echo $Fila[CCONTROL];?>','<?php //echo $Cod;?>','<?php //echo $CodSelTarea;?>','<?php //echo $CodCCONTACTO;?>','AG')"><img src="imagenes/add.png" alt="Agregar Nueva Especificación" border=0 width="10" height="10"></a><br />-->
 				<table width="100%">
-				<?
+				<?php
 				$EncontroObs='N';
-				$Consulta="SELECT * from sgrs_siperverificadores_obs where COD_VERIFICADOR ='".$Fila1[COD_VERIFICADOR]."' and CPELIGRO='".$CmbPeligros."' and CAREA='".$Cod."' order by COD_VERIFICADOR asc";
+				$Consulta="select * from sgrs_siperverificadores_obs where COD_VERIFICADOR ='".$Fila1[COD_VERIFICADOR]."' and CPELIGRO='".$CmbPeligros."' and CAREA='".$Cod."' order by COD_VERIFICADOR asc";
 				//echo $Consulta."<br>";
-				$ResultadoC=mysqli_query($link, $Consulta);
-				while($FilaC=mysql_fetch_array($ResultadoC))
+				$ResultadoC=mysqli_query($link,$Consulta);
+				while($FilaC=mysqli_fetch_array($ResultadoC))
 				{	
 					$EncontroObs='S';
 					?>
 					<tr>
-					<td width="90%"><? echo "<textarea name='Obs' cols='80'>".$FilaC[TOBSERVACION]."</textarea><input type='hidden' name='ObsVeri' value='".$Fila1[COD_VERIFICADOR]."~".$FilaC[CIDVERIFICADOR]."'>";?></td>
-					<td width="10%" align="left"><a href="JavaScript:EliminaObs('<? echo $FilaC[CIDVERIFICADOR];?>','<? echo $Fila1[COD_VERIFICADOR];?>','<? echo $Cod;?>','<? echo $CodSelTarea;?>','<? echo $CodCCONTACTO;?>','EO')"><img src="imagenes/btn_eliminar2.png" alt='Elimina especificaciï¿½n' border=0 width="18" height="18"></a></td>
+					<td width="90%"><?php echo "<textarea name='Obs' cols='80'>".$FilaC[TOBSERVACION]."</textarea><input type='hidden' name='ObsVeri' value='".$Fila1[COD_VERIFICADOR]."~".$FilaC[CIDVERIFICADOR]."'>";?></td>
+					<td width="10%" align="left"><a href="JavaScript:EliminaObs('<?php echo $FilaC[CIDVERIFICADOR];?>','<?php echo $Fila1[COD_VERIFICADOR];?>','<?php echo $Cod;?>','<?php echo $CodSelTarea;?>','<?php echo $CodCCONTACTO;?>','EO')"><img src="imagenes/btn_eliminar2.png" alt='Elimina especificación' border=0 width="18" height="18"></a></td>
 					</tr>
-					<?
+					<?php
 					$ContObs=$ContObs+1;
 				}
 				if($EncontroObs=='N')
 				{
 					?>
 					<tr>
-					<td width="90%"><? echo "<textarea name='Obs' cols='80'></textarea><input type='hidden' name='ObsVeri' value='".$Fila1[COD_VERIFICADOR]."~'>";?></td>
+					<td width="90%"><?php echo "<textarea name='Obs' cols='80'></textarea><input type='hidden' name='ObsVeri' value='".$Fila1[COD_VERIFICADOR]."~'>";?></td>
 					<td width="10%">&nbsp;</td>
 					</tr>
-					<?
+					<?php
 					$ContObs=$ContObs+1;
 				}	
 				?>
 				</table>
-				<?
+				<?php
 			   
-/*			   $Consulta="SELECT * from sgrs_siperverificadores_obs where COD_VERIFICADOR ='".$Fila1[COD_VERIFICADOR]."' and CPELIGRO='".$CmbPeligros."' and CAREA='".$Cod."' order by COD_VERIFICADOR asc";
+/*			   $Consulta="select * from sgrs_siperverificadores_obs where COD_VERIFICADOR ='".$Fila1[COD_VERIFICADOR]."' and CPELIGRO='".$CmbPeligros."' and CAREA='".$Cod."' order by COD_VERIFICADOR asc";
 			   //echo $Consulta."<br>";
-			   $ResultadoC=mysqli_query($link, $Consulta);
-			   if($FilaC=mysql_fetch_array($ResultadoC))
+			   $ResultadoC=mysqli_query($link,$Consulta);
+			   if($FilaC=mysqli_fetch_array($ResultadoC))
 			   {
 					if($FilaC[TOBSERVACION]!='')
 					{
 						?>
-						<td align='left'><a href="JavaScript:AgregaObs('<? echo $Fila1[COD_VERIFICADOR];?>','<? echo $Cod;?>','<? echo $CodSelTarea;?>','<? echo $CodCCONTACTO;?>','AG')"><img src="imagenes/add.png" alt="Agregar Nueva Especificaciï¿½n" border=0 width="10" height="10"></a>			   
-						<?
+						<td align='left'><a href="JavaScript:AgregaObs('<?php echo $Fila1[COD_VERIFICADOR];?>','<?php echo $Cod;?>','<?php echo $CodSelTarea;?>','<?php echo $CodCCONTACTO;?>','AG')"><img src="imagenes/add.png" alt="Agregar Nueva Especificación" border=0 width="10" height="10"></a>			   
+						<?php
 					}
 			   }
 			   else
@@ -333,40 +333,40 @@ function AC(CodPeli,Area)
 			   		echo "<td>&nbsp;<textarea name='Obs1' cols='80'></textarea>"; 
 			   }
 				 
-			   	 $ConsultaE="SELECT * from sgrs_siperverificadores_obs where COD_VERIFICADOR='".$Fila1[COD_VERIFICADOR]."' and CPELIGRO='".$CmbPeligros."' and CAREA='".$Cod."' order by COD_VERIFICADOR asc";
-				 $RespE=mysql_query($ConsultaE);
-				 if($FilaE=mysql_fetch_array($RespE))
+			   	 $ConsultaE="select * from sgrs_siperverificadores_obs where COD_VERIFICADOR='".$Fila1[COD_VERIFICADOR]."' and CPELIGRO='".$CmbPeligros."' and CAREA='".$Cod."' order by COD_VERIFICADOR asc";
+				 $RespE=mysqli_query($link,$ConsultaE);
+				 if($FilaE=mysqli_fetch_array($RespE))
 				 {
 					if($FilaE[TOBSERVACION]!='')
 					{
 				   ?>
 				   <table width="100%">
-				   <?
-					 $ConsultaE2="SELECT * from sgrs_siperverificadores_obs where COD_VERIFICADOR='".$Fila1[COD_VERIFICADOR]."' and CPELIGRO='".$CmbPeligros."' and CAREA='".$Cod."' order by CIDVERIFICADOR desc";
+				   <?php
+					 $ConsultaE2="select * from sgrs_siperverificadores_obs where COD_VERIFICADOR='".$Fila1[COD_VERIFICADOR]."' and CPELIGRO='".$CmbPeligros."' and CAREA='".$Cod."' order by CIDVERIFICADOR desc";
 					 //echo  $ConsultaE2."<br>";
-					 $RespE2=mysql_query($ConsultaE2);
-					 while($FilaE2=mysql_fetch_array($RespE2))
+					 $RespE2=mysqli_query($link,$ConsultaE2);
+					 while($FilaE2=mysqli_fetch_array($RespE2))
 					 {
 				   ?>
 					   <tr>
-					   	<td width="90%"><? echo "<textarea name='Obs' cols='80'>".$FilaE2[TOBSERVACION]."</textarea>";?></td>
-					   	<td width="10%"><a href="javascript:ModObs('<? echo $FilaE2[CIDVERIFICADOR];?>','<? echo $Fila1[COD_VERIFICADOR];?>','<? echo $Cod;?>','<? echo $CodSelTarea;?>','<? echo $CodCCONTACTO;?>','MO','<? echo $ContObs;?>')"><img src='imagenes/btn_modificar.png' alt='Modificar Especificaciï¿½n' border='0' width='25' align='absmiddle'></a>&nbsp;<a href="JavaScript:EliminaObs('<? echo $FilaE2[CIDVERIFICADOR];?>','<? echo $Fila1[COD_VERIFICADOR];?>','<? echo $Cod;?>','<? echo $CodSelTarea;?>','<? echo $CodCCONTACTO;?>','EO')"><img src="imagenes/btn_eliminar2.png" alt='Elimina Especificaciï¿½n' border=0 width="18" height="18"></a></td>
+					   	<td width="90%"><?php echo "<textarea name='Obs' cols='80'>".$FilaE2[TOBSERVACION]."</textarea>";?></td>
+					   	<td width="10%"><a href="javascript:ModObs('<?php echo $FilaE2[CIDVERIFICADOR];?>','<?php echo $Fila1[COD_VERIFICADOR];?>','<?php echo $Cod;?>','<?php echo $CodSelTarea;?>','<?php echo $CodCCONTACTO;?>','MO','<?php echo $ContObs;?>')"><img src='imagenes/btn_modificar.png' alt='Modificar Especificación' border='0' width='25' align='absmiddle'></a>&nbsp;<a href="JavaScript:EliminaObs('<?php echo $FilaE2[CIDVERIFICADOR];?>','<?php echo $Fila1[COD_VERIFICADOR];?>','<?php echo $Cod;?>','<?php echo $CodSelTarea;?>','<?php echo $CodCCONTACTO;?>','EO')"><img src="imagenes/btn_eliminar2.png" alt='Elimina Especificación' border=0 width="18" height="18"></a></td>
 					   </tr>
-				   <?
+				   <?php
 				   		$ContObs=$ContObs+1;
 				   	 }	
 				   ?>	   
 				   </table>
-			   <?
+			   <?php
 			   	    }
 			     }
 			   ?> 
-			   </td><?	*/		   
+			   </td><?php	*/		   
 			   echo "</tr>";
 			}
 		 ?>
 		 </table></div>
-		 <?
+		 <?php
 		 }
 		 else
 		 {
@@ -374,16 +374,16 @@ function AC(CodPeli,Area)
 		 <br>
 		 <table width="83%" border="1" height="260px" cellpadding="0" cellspacing="0">
 		 <tr>
-			<td colspan="3" class="TituloCabecera" ><h1>Operaciï¿½n no permitida, Peligro se encuentra validado.  Pï¿½ngase en contacto con el Validador.</h1></td>
+			<td colspan="3" class="TituloCabecera" ><h1>Operación no permitida, Peligro se encuentra validado.  Póngase en contacto con el Validador.</h1></td>
 		 </tr>
 		 </table>
 		 
-		 <?
+		 <?php
 		 }
 		 ?>   
    </td>
  </tr>
- <?
+ <?php
  }
  else
  {
@@ -395,7 +395,7 @@ function AC(CodPeli,Area)
 		</table>
 	</td>		
  </tr>		
-  <?
+  <?php
   }
   ?>
 <tr>

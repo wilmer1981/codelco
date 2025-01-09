@@ -1,4 +1,4 @@
-<?
+<?php
 include('conectar_ori.php');
 $TxtDescripcion='';
 
@@ -30,7 +30,7 @@ function Salir()
 <link href="estilos/siper_style.css" rel="stylesheet" type="text/css">
 <body>
 <form name="MantenedorPel" method="post"  ENCTYPE="multipart/form-data">
-<? echo $ProcesaArchivo;?>
+<?php echo $ProcesaArchivo;?>
   <table width="80%" align="center" border="0" cellpadding="0"cellspacing="0">
 <tr>
 	<td align="center">
@@ -81,7 +81,7 @@ function Salir()
 </body>
 </html>
 
-<?
+<?php
 	echo "<script languaje='JavaScript'>";
 	if($Msj=='S')
 		echo "alert('Archivo Reemplazado Exitosamente');";

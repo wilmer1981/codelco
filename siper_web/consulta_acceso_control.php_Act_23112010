@@ -14,7 +14,7 @@ $SelTarea=$NivelOrg;
 ?>
 <html>
 <head>
-<title>Consulta Histï¿½rica</title>
+<title>Consulta Histórica</title>
 
 <script language="javascript" src="funciones/funciones_java.js"></script>
 <script language="javascript">
@@ -173,46 +173,46 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
      <tr>
        <td colspan="3" class="formulario">Funcionario</td>	
 	     <td class="formulario" colspan="3">
-		 <SELECT name="USUARIO" style="width:300px;" onChange="Proceso('R')">
+		 <select name="USUARIO" style="width:300px;" onChange="Proceso('R')">
            <option value="T">Todos</option>
            <?
 				//$Consulta = "SELECT distinct(T1.RUT), CONCAT(T2.APELLIDO_PATERNO, ' ', T2.APELLIDO_MATERNO, ' ', T2.NOMBRES) AS NOMBRE ";
 				//$Consulta.= " FROM proyecto_modernizacion.CONTROL_ACCESO T1 INNER JOIN proyecto_modernizacion.FUNCIONARIOS T2 ON T1.RUT = T2.RUT AND sistema='29' INNER JOIN sgrv.sgrs_control_acceso t3 on t1.RUT=t3.RUT where t1.RUT<>'' ORDER BY NOMBRE";
 				$Consulta = "SELECT distinct(T2.RUT), CONCAT(T2.APELLIDO_PATERNO, ' ', T2.APELLIDO_MATERNO, ' ', T2.NOMBRES) AS NOMBRE ";
 				$Consulta.= " FROM proyecto_modernizacion.FUNCIONARIOS T2 INNER JOIN sgrv.sgrs_control_acceso t3 on t2.RUT=t3.RUT where t2.RUT<>'' ORDER BY NOMBRE";
-				$Respuesta = mysqli_query($link, $Consulta);
+				$Respuesta = mysql_query($Consulta);
 				while ($Row = mysql_fetch_array($Respuesta))
 				{
 					if($USUARIO==$Row[RUT])
-						echo "<option value='".$Row[RUT]."' SELECTed>".$Row["nombre"]."</option>\n";
+						echo "<option value='".$Row[RUT]."' selected>".$Row[NOMBRE]."</option>\n";
 					else
-						echo "<option value='".$Row[RUT]."'>".$Row["nombre"]."</option>\n";
+						echo "<option value='".$Row[RUT]."'>".$Row[NOMBRE]."</option>\n";
 				}
 			?>
-         </SELECT>
+         </select>
 	       <? //echo $Consulta;?></td>
          </tr>
      <tr>
        <td colspan="3" class="formulario">Modulos</td>
        <td class="formulario" colspan="3">
-	   <SELECT name="CmbTipoProceso" style="width:200">
-         <option value="T" SELECTed>Todos</option>
+	   <select name="CmbTipoProceso" style="width:200">
+         <option value="T" selected>Todos</option>
          <?
-			$Consulta = "SELECT * from proyecto_modernizacion.pantallas t1 inner join sgrv.sgrs_control_acceso t2 on t1.cod_pantalla=t2.pantalla";
+			$Consulta = "select * from proyecto_modernizacion.pantallas t1 inner join sgrv.sgrs_control_acceso t2 on t1.cod_pantalla=t2.pantalla";
 			$Consulta.= " where cod_sistema = '29' and cod_pantalla not in ('6','9','10','11','12','13','14','15','17','18','19')";
 			if($USUARIO!='T')			
 				$Consulta.=" and rut='".$USUARIO."' and fecha_hora between '".$FDesde."' and '".$FHasta."'";
 			$Consulta.=" group by cod_pantalla";	
-			$Resp = mysqli_query($link, $Consulta);
+			$Resp = mysql_query($Consulta);
 			while ($Fila = mysql_fetch_array($Resp))
 			{
 				if($CmbTipoProceso==$Fila[cod_pantalla])
-					echo "<option value='".$Fila[cod_pantalla]."' SELECTed>".$Fila["descripcion"]."</option>";
+					echo "<option value='".$Fila[cod_pantalla]."' selected>".$Fila[descripcion]."</option>";
 				else
-					echo "<option value='".$Fila[cod_pantalla]."'>".$Fila["descripcion"]."</option>";				
+					echo "<option value='".$Fila[cod_pantalla]."'>".$Fila[descripcion]."</option>";				
 			}
 		   ?>
-       </SELECT><? //echo $Consulta;?></td>
+       </select><? //echo $Consulta;?></td>
        </tr>
    </table></td>
    <td width="1%" background="imagenes/interior2/form_der.gif"></td>
@@ -244,7 +244,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
         </tr>
       <?
 	  		
-			$Consulta = "SELECT *,CONCAT(T3.APELLIDO_PATERNO, ' ', T3.APELLIDO_MATERNO, ' ', T3.NOMBRES) AS NOMBRE from sgrs_control_acceso t1 inner join proyecto_modernizacion.pantallas t2 on t1.pantalla=t2.cod_pantalla";
+			$Consulta = "select *,CONCAT(T3.APELLIDO_PATERNO, ' ', T3.APELLIDO_MATERNO, ' ', T3.NOMBRES) AS NOMBRE from sgrs_control_acceso t1 inner join proyecto_modernizacion.pantallas t2 on t1.pantalla=t2.cod_pantalla";
 			$Consulta.= " inner join proyecto_modernizacion.FUNCIONARIOS t3 on t1.rut=t3.rut";
 			$Consulta.= " where cod_sistema='29' and fecha_hora between '".$FDesde."' and '".$FHasta."'";
 			if($USUARIO!='T')
@@ -252,16 +252,16 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 			if($CmbTipoProceso!='T')
 				$Consulta.= " and t1.pantalla='".$CmbTipoProceso."'";
 			$Consulta.= " order by t2.descripcion";
-			$Resp = mysqli_query($link, $Consulta);$Cont=0;
+			$Resp = mysql_query($Consulta);$Cont=0;
 			while ($Fila=mysql_fetch_array($Resp))
 			{	
 				$Cont=$Cont+1;
 			?>
 			 	<tr>
-				<td ><? echo $Fila["FECHA_HORA"]; ?></td>
+				<td ><? echo $Fila[fecha_hora]; ?></td>
 				<td align="center" ><? echo $Fila[ip]; ?>&nbsp;</td>
-				<td align="left" ><? echo $Fila["rut"]." - ".$Fila["nombre"]; ?>&nbsp;</td>
-				<td align="left" ><? echo $Fila[cod_pantalla]." - ".$Fila["descripcion"];?>&nbsp;</td>
+				<td align="left" ><? echo $Fila[rut]." - ".$Fila[NOMBRE]; ?>&nbsp;</td>
+				<td align="left" ><? echo $Fila[cod_pantalla]." - ".$Fila[descripcion];?>&nbsp;</td>
 			  </tr>
 		    <?		
 			}

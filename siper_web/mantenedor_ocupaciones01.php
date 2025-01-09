@@ -1,38 +1,38 @@
-<? include('conectar_ori.php');
+<?php include('conectar_ori.php');
 	$Encontro=false;
 	
 	
 	switch($Proceso)
 	{
 		case "N":
-			$Consulta = "SELECT ifnull(max(COCUPACION),0) as mayor from sgrs_ocupaciones"; 
-			$Respuesta=mysqli_query($link, $Consulta);
-			$Fila=mysql_fetch_array($Respuesta);
-			$Mayor=$Fila["mayor"] + 1;			
-			$Inserta="INSERT INTO sgrs_ocupaciones (COCUPACION,NOCUPACION,MVIGENTE)";
+			$Consulta = "select ifnull(max(COCUPACION),0) as mayor from sgrs_ocupaciones"; 
+			$Respuesta=mysqli_query($link,$Consulta);
+			$Fila=mysqli_fetch_array($Respuesta);
+			$Mayor=$Fila[mayor] + 1;			
+			$Inserta="insert into sgrs_ocupaciones (COCUPACION,NOCUPACION,MVIGENTE)";
 			$Inserta.=" values('".$Mayor."','".$TxtNombre."','".$Vigente."')";
-			mysql_query($Inserta);
+			mysqli_query($link,$Inserta);
 			header("location:mantenedor_ocupaciones.php?Buscar=S&TxtDescripcion=".$TxtDescripcion."&Mensaje=".$Mensaje);
 		break;
 		case "M":
-			$Actualizar="UPDATE sgrs_ocupaciones set NOCUPACION='".$TxtNombre."',MVIGENTE='".$Vigente."' where COCUPACION='".$Datos."' ";
-			mysql_query($Actualizar);
+			$Actualizar="update sgrs_ocupaciones set NOCUPACION='".$TxtNombre."',MVIGENTE='".$Vigente."' where COCUPACION='".$Datos."' ";
+			mysqli_query($link,$Actualizar);
 			header("location:mantenedor_ocupaciones.php?Buscar=S&TxtDescripcion=".$TxtDescripcion."&Mensaje=".$Mensaje);
 		break;
 		case "E":
 			$Mensaje='';
 			$Datos = explode("//",$DatosUni);
-			foreach($Datos as $clave => $Codigo)
+			while (list($clave,$Codigo)=each($Datos))
 			{
 				$DatosRel='N';
-				$Consulta="SELECT * from sgrs_medpersonales where COCUPACION='".$Codigo."'";
-				$Resp=mysqli_query($link, $Consulta);
-				if($Fila=mysql_fetch_array($Resp))
+				$Consulta="select * from sgrs_medpersonales where COCUPACION='".$Codigo."'";
+				$Resp=mysqli_query($link,$Consulta);
+				if($Fila=mysqli_fetch_array($Resp))
 					$DatosRel='S';
 				if($DatosRel=='N')
 				{
 					$Eliminar="delete from sgrs_ocupaciones where COCUPACION='".$Codigo."'";
-					mysql_query($Eliminar);
+					mysqli_query($link,$Eliminar);
 				}
 				else
 					$Mensaje='No se puede Eliminar Ocupacion, Existen Datos asociados';	

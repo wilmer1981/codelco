@@ -1,11 +1,11 @@
-<? include('conectar_ori.php');
+<?php include('conectar_ori.php');
 include('funciones/siper_funciones.php');
 if($Cargar=='S')
 {
 	$CODAREA=ObtenerCodParent($Parent);
-	$Actualizar="UPDATE sgrs_siperpeligros set QPROBHIST='".$P."',QCONSECHIST='".$C."' where CAREA='".$CODAREA."' and CPELIGRO='".$CodPeligro."'";
+	$Actualizar="update sgrs_siperpeligros set QPROBHIST='".$P."',QCONSECHIST='".$C."' where CAREA='".$CODAREA."' and CPELIGRO='".$CodPeligro."'";
 	//echo $Actualizar."<br>";
-	mysql_query($Actualizar);
+	mysqli_query($link,$Actualizar);
 	
 	echo "<script languaje=\"JavaScript\">";
 		echo "window.opener.document.Mantenedor.action=\"procesos_organica.php?TipoPestana=1&Parent=".$Parent."\";";
@@ -49,7 +49,7 @@ function Cerrar()
 	<td align="center">
 	<table width="100%" border="0" cellpadding="0"cellspacing="0">
 	<tr>
-	<td colspan="4" align="right"><a href="JavaScript:Grabar('<? echo $CodPeligro;?>','<? echo $Parent;?>')"><img src="imagenes/btn_guardar.png" height="20" alt="Guardar PH - CH" width="20" border="0" align="absmiddle" /></a>
+	<td colspan="4" align="right"><a href="JavaScript:Grabar('<?php echo $CodPeligro;?>','<?php echo $Parent;?>')"><img src="imagenes/btn_guardar.png" height="20" alt="Guardar PH - CH" width="20" border="0" align="absmiddle" /></a>
 	  <a href="JavaScript:Cerrar()"><img src="imagenes/cerrar1.png" width="20" height="20" border="0" alt="Cerrar" align="absmiddle"></a> </td>
 	</tr>
 	<tr>
@@ -59,12 +59,12 @@ function Cerrar()
 	<td colspan="4">&nbsp;</td>
 	</tr>
 	<tr>
-	<?
+	<?php
 		$CODAREA=ObtenerCodParent(&$Parent);
-		$Consulta="SELECT t1.QPROBHIST,t1.QCONSECHIST,t2.NCONTACTO from sgrs_siperpeligros t1 inner join sgrs_codcontactos t2 on t1.CCONTACTO=t2.CCONTACTO where t1.CAREA='".$CODAREA."' and t1.CPELIGRO='".$CodPeligro."'";
+		$Consulta="select t1.QPROBHIST,t1.QCONSECHIST,t2.NCONTACTO from sgrs_siperpeligros t1 inner join sgrs_codcontactos t2 on t1.CCONTACTO=t2.CCONTACTO where t1.CAREA='".$CODAREA."' and t1.CPELIGRO='".$CodPeligro."'";
 		//echo $Consulta."<br>";
-		$Resp=mysqli_query($link, $Consulta);
-		if($Fila=mysql_fetch_array($Resp))
+		$Resp=mysqli_query($link,$Consulta);
+		if($Fila=mysqli_fetch_array($Resp))
 		{
 			$P=$Fila[QPROBHIST];
 			$C=$Fila[QCONSECHIST];
@@ -72,43 +72,43 @@ function Cerrar()
 			
 		}
 	?>
-	<td colspan="4" class="formulario"><? echo $NOMBRE;?></td>
+	<td colspan="4" class="formulario"><?php echo $NOMBRE;?></td>
 	</tr>
 	<tr>
 	<td colspan="4">&nbsp;</td>
 	</tr>
 			  		<td width="13%">Probabilidad</td>
 					<td width="29%">
-	                <SELECT name='CmbProbH'>
-					<?
+	                <select name='CmbProbH'>
+					<?php
 						switch($P)
 						{
 							case "1":
-								echo "<option value='1' SELECTed>1</option>";
+								echo "<option value='1' selected>1</option>";
 								echo "<option value='2'>2</option>";
 								echo "<option value='4'>4</option>";
 								echo "<option value='8'>8</option>";
 							break;
 							case "2":
 								echo "<option value='1'>1</option>";
-								echo "<option value='2' SELECTed>2</option>";
+								echo "<option value='2' selected>2</option>";
 								echo "<option value='4'>4</option>";
 								echo "<option value='8'>8</option>";
 							break;
 							case "4":
 								echo "<option value='1'>1</option>";
 								echo "<option value='2'>2</option>";
-								echo "<option value='4' SELECTed>4</option>";
+								echo "<option value='4' selected>4</option>";
 								echo "<option value='8'>8</option>";
 							break;
 							case "8":
 								echo "<option value='1'>1</option>";
 								echo "<option value='2'>2</option>";
 								echo "<option value='4'>4</option>";
-								echo "<option value='8' SELECTed>8</option>";
+								echo "<option value='8' selected>8</option>";
 							break;
 							default:
-								echo "<option value='1' SELECTed>1</option>";
+								echo "<option value='1' selected>1</option>";
 								echo "<option value='2'>2</option>";
 								echo "<option value='4'>4</option>";
 								echo "<option value='8'>8</option>";
@@ -117,40 +117,40 @@ function Cerrar()
 						}
 				  
 				    ?>
-				    </SELECT>
+				    </select>
 				   
 					</td>
 			  		<td width="13%">Consecuencia</td>
 			  		<td width="45%">
-			  		<SELECT name='CmbConsH'><?
+			  		<select name='CmbConsH'><?php
 			  		switch($C)
 					{
 							case "1":
-								echo "<option value='1' SELECTed>1</option>";
+								echo "<option value='1' selected>1</option>";
 								echo "<option value='2'>2</option>";
 								echo "<option value='4'>4</option>";
 								echo "<option value='8'>8</option>";
 							break;
 							case "2":
 								echo "<option value='1'>1</option>";
-								echo "<option value='2' SELECTed>2</option>";
+								echo "<option value='2' selected>2</option>";
 								echo "<option value='4'>4</option>";
 								echo "<option value='8'>8</option>";
 							break;
 							case "4":
 								echo "<option value='1'>1</option>";
 								echo "<option value='2'>2</option>";
-								echo "<option value='4' SELECTed>4</option>";
+								echo "<option value='4' selected>4</option>";
 								echo "<option value='8'>8</option>";
 							break;
 							case "8":
 								echo "<option value='1'>1</option>";
 								echo "<option value='2'>2</option>";
 								echo "<option value='4'>4</option>";
-								echo "<option value='8' SELECTed>8</option>";
+								echo "<option value='8' selected>8</option>";
 							break;
 							default:
-								echo "<option value='1' SELECTed>1</option>";
+								echo "<option value='1' selected>1</option>";
 								echo "<option value='2'>2</option>";
 								echo "<option value='4'>4</option>";
 								echo "<option value='8'>8</option>";
@@ -158,7 +158,7 @@ function Cerrar()
 						
 					}
 				    ?>
-				    </SELECT>
+				    </select>
 					</td>
 	</table></td>
     <td width="1%" background="imagenes/interior2/form_der.gif"></td>

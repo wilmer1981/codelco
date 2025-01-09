@@ -1,13 +1,13 @@
-<? include('conectar_ori.php');
+<?php include('conectar_ori.php');
 include('funciones/siper_funciones.php');
 	$Encontro=false;
 	switch($Proceso)
 	{
 		case "N":
 				$Correo=strlen($correos);
-				$Inserta="INSERT INTO sgrs_acceso_organica (rut,cod_gerencias,AVISO_CORREO,AVISO_CORREO2,RUT_JEFE,RUT_EXPERTO)";
+				$Inserta="insert into sgrs_acceso_organica (rut,cod_gerencias,AVISO_CORREO,AVISO_CORREO2,RUT_JEFE,RUT_EXPERTO)";
 				$Inserta.=" values('".$CmbUsuarios."','".str_replace('//',',',$DatosGer)."','".trim($correos)."','".trim($correos2)."','".$CmbJefe."','".$CmbExperto."')";
-				mysql_query($Inserta);
+				mysqli_query($link,$Inserta);
 				//echo 	$Inserta;
 				$NomGerencia=Contactos($DatosGer);
 				$NomGerencia=substr($NomGerencia,0,strlen($NomGerencia)-2);		
@@ -21,17 +21,17 @@ include('funciones/siper_funciones.php');
 		case "M":
 				$Rut=explode('~',$Datos);
 				$correos=rtrim($correos,',');
-				$Consulta="SELECT * from sgrs_acceso_organica where RUT='".$Rut[0]."'"; 
-				$Resp=mysqli_query($link, $Consulta);
-				if($Fila=mysql_fetch_array($Resp))
+				$Consulta="select * from sgrs_acceso_organica where RUT='".$Rut[0]."'"; 
+				$Resp=mysqli_query($link,$Consulta);
+				if($Fila=mysqli_fetch_array($Resp))
 					$Geren=$Fila[COD_GERENCIAS];
 					
 				$NomGerencia=Contactos(str_replace(',','//',$Geren));//SOLO PARA IR A BUSCAR LOS NOMBRES DE LAS GERENCIAS
 				$NomGerencia=substr($NomGerencia,0,strlen($NomGerencia)-2);		
 
-				$Actualizar="UPDATE sgrs_acceso_organica set COD_GERENCIAS='".str_replace('//',',',$DatosGer)."',AVISO_CORREO='".$correos."',AVISO_CORREO2='".$correos2."', RUT_JEFE='".$CmbJefe."',RUT_EXPERTO='".$CmbExperto."' where rut='".$Rut[0]."' ";
+				$Actualizar="update sgrs_acceso_organica set COD_GERENCIAS='".str_replace('//',',',$DatosGer)."',AVISO_CORREO='".$correos."',AVISO_CORREO2='".$correos2."', RUT_JEFE='".$CmbJefe."',RUT_EXPERTO='".$CmbExperto."' where rut='".$Rut[0]."' ";
 				//echo $Actualizar;
-				mysql_query($Actualizar);
+				mysqli_query($link,$Actualizar);
 
 				$NomGerencia2=Contactos($DatosGer);
 				$NomGerencia2=substr($NomGerencia2,0,strlen($NomGerencia2)-2);		
@@ -45,14 +45,14 @@ include('funciones/siper_funciones.php');
 		case "E":
 			$Mensaje='N';
 			$Datos = explode("//",$DatosRut);
-			foreach($Datos as $clave => $Codigo)
+			while (list($clave,$Codigo)=each($Datos))
 			{
 				$Rut=explode('~',$Codigo);	
 				ObtieneUsuario($Rut[0],&$NombreUser);
 				$Nom=$Nom.$NombreUser.", ";
 				$Eliminar="delete from sgrs_acceso_organica where rut='".$Rut[0]."'";
 				//echo $Eliminar."<br>";
-				mysql_query($Eliminar);
+				mysqli_query($link,$Eliminar);
 			}
 			$Nom=substr($Nom,0,strlen($Nom)-2);		
 			$Obs="Se a(han) Eliminado el(los) siguiente(s) Usuario(s) ".$Nom.".";	

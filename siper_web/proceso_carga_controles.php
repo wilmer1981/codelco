@@ -1,4 +1,4 @@
-<?
+<?php
 include('conectar_ori.php');
 include('funciones/siper_funciones.php');
 
@@ -36,21 +36,21 @@ function Proceso(Opc)
 </script>
 <link href="estilos/siper_style.css" rel="stylesheet" type="text/css">
 <form name="FrmPrincipal" method="post" action="">
-<?
+<?php
 if($Clave=='abc321')
 {
-	$Consulta="SELECT CCONTACTO,CCONTROL,CAREA,CPELIGRO from sgrs_sipercontroles ";
+	$Consulta="select CCONTACTO,CCONTROL,CAREA,CPELIGRO from sgrs_sipercontroles ";
 	$Consulta.=" where CCONTROL='1' and CCONTACTO IN ('3', '9', '15', '16', '27', '26', '17', '31')";
 	//$Consulta.=" where CCONTROL='1' and CCONTACTO IN ('31')";
 	$Consulta.=" order by CCONTROL,CCONTACTO";
 	//echo $Consulta;
-	$Resultado=mysqli_query($link, $Consulta);$Cont=0;$Cont2=0;
-	while ($Fila=mysql_fetch_array($Resultado))
+	$Resultado=mysqli_query($link,$Consulta);$Cont=0;$Cont2=0;
+	while ($Fila=mysqli_fetch_array($Resultado))
 	{
-		/*$Consulta="SELECT CPELIGRO from sgrs_sipercontroles_obs ";
+		/*$Consulta="select CPELIGRO from sgrs_sipercontroles_obs ";
 		$Consulta.=" where CCONTROL='".$Fila[CCONTROL]."' and CCONTACTO='".$Fila[CCONTACTO]."' and CAREA='".$Fila[CAREA]."' and CPELIGRO='".$Fila[CPELIGRO]."'";
-		$Resultado2=mysqli_query($link, $Consulta);
-		if($Fila2=mysql_fetch_assoc($Resultado2))
+		$Resultado2=mysqli_query($link,$Consulta);
+		if($Fila2=mysqli_fetch_assoc($Resultado2))
 		{*/
 			$Obs='';
 			switch($Fila[CCONTACTO])
@@ -133,9 +133,9 @@ if($Clave=='abc321')
 				break;
 				
 			}
-			$Insertar="INSERT INTO sgrs_sipercontroles_obs (CCONTACTO,CCONTROL,CAREA,CPELIGRO,TOBSERVACION) values ";	
+			$Insertar="insert into sgrs_sipercontroles_obs (CCONTACTO,CCONTROL,CAREA,CPELIGRO,TOBSERVACION) values ";	
 			$Insertar.="('".$Fila[CCONTACTO]."','".$Fila[CCONTROL]."','".$Fila[CAREA]."','".$Fila[CPELIGRO]."','".$Obs."')";
-			mysql_query($Insertar);
+			mysqli_query($link,$Insertar);
 			//echo $Insertar."<br>";
 			//$Cont++;
 		/*}
@@ -156,7 +156,7 @@ else
 </form>
 </body>
 </html>
-<?
+<?php
 echo "<script language='javascript'>";
 if($Mensaje!='')
 	echo "alert('".$Mensaje."');";

@@ -1,7 +1,7 @@
-<? include('conectar_ori.php');?>
+<?php include('conectar_ori.php');?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
-<title>Descripciï¿½n de los Verificadores</title>
+<title>Descripción de los Verificadores</title>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 <title>Documento sin t&iacute;tulo</title>
@@ -19,24 +19,24 @@
     <td width="1%" background="imagenes/interior2/form_izq.gif"></td>
 	<td align="center"><table width="100%" border="0" cellpadding="0"cellspacing="0">
 	<tr>
-	<td colspan="2" class="TituloCabecera">Descripciï¿½n de los Verificadores</td>
+	<td colspan="2" class="TituloCabecera">Descripción de los Verificadores</td>
 	</tr>
-	<?
-	$Consulta="SELECT * from sgrs_tipo_verificador order by DESCRIP_VERIFICADOR";
-	$Resp=mysqli_query($link, $Consulta);
-	while($Fila=mysql_fetch_array($Resp))
+	<?php
+	$Consulta="select * from sgrs_tipo_verificador order by DESCRIP_VERIFICADOR";
+	$Resp=mysqli_query($link,$Consulta);
+	while($Fila=mysqli_fetch_array($Resp))
 	{
 		$OBSVERIF=$Fila[OBS];
 		$NOMVERIF=$Fila[DESCRIP_VERIFICADOR];
 	?>
 		<tr>
-		<td width="492" align="left"><? echo $NOMVERIF;?></td>
-		<td width="586" align="left"><? echo $OBSVERIF;?></td>
+		<td width="492" align="left"><?php echo $NOMVERIF;?></td>
+		<td width="586" align="left"><?php echo $OBSVERIF;?></td>
 		</tr>
 		<tr>
 		<td width="492" align="left" colspan="2">&nbsp;</td>
 		</tr>
-	<?
+	<?php
 	}
 	?>
 	</table></td>

@@ -1,4 +1,4 @@
-<?
+<?php
 include('conectar_ori.php');
 include('funciones/siper_funciones.php');
 
@@ -14,7 +14,7 @@ $SelTarea=$NivelOrg;
 ?>
 <html>
 <head>
-<title>Consulta Histï¿½rica</title>
+<title>Consulta Histórica</title>
 
 <script language="javascript" src="funciones/funciones_java.js"></script>
 <script language="javascript">
@@ -132,12 +132,12 @@ function compare_dates(fecha, fecha2)
 BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=event.cancelBubble=true>
 <IFRAME name=popFrame src="../principal/popcjs.htm" frameBorder=0 width=165 scrolling=no height=185></IFRAME></DIV>
 <form name="FrmPrincipal" method="post" action="">
-<input name="Datos" type="hidden" value="<? echo $Datos;?>">
-<input name="Proc" type="hidden" value="<? echo $Proc;?>">
-<input type="hidden" value="<? echo $Nivel;?>" name="Nivel">
-<input type="hidden" value="<? echo $Navega;?>" name="Navega">
-<input type="hidden" value="<? echo $Estado;?>" name="Estado">
-<input type="hidden" size='100' value="<? echo $SelTarea;?>" name="SelTarea">
+<input name="Datos" type="hidden" value="<?php echo $Datos;?>">
+<input name="Proc" type="hidden" value="<?php echo $Proc;?>">
+<input type="hidden" value="<?php echo $Nivel;?>" name="Nivel">
+<input type="hidden" value="<?php echo $Navega;?>" name="Navega">
+<input type="hidden" value="<?php echo $Estado;?>" name="Estado">
+<input type="hidden" size='100' value="<?php echo $SelTarea;?>" name="SelTarea">
 
 <table width="60%" align="center"  border="0" cellpadding="0"  cellspacing="0">
   <tr>
@@ -154,66 +154,66 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 	 <tr>       
 	   <td width="168" height="35" align="left" class="formulario"   ><img src="imagenes/LblCriterios.png" /> </td>
        <td align="right" class="formulario" colspan="5">
-	   <div id="DivOCu" style="visibility:<? echo $VisibleDiv;?>">
+	   <div id="DivOCu" style="visibility:<?php echo $VisibleDiv;?>">
 	   <a href="JavaScript:Proceso('C')"><img src="imagenes/Btn_buscar.gif"   alt="Buscar" width="25" height="27"  border="0" align="absmiddle" /></a>&nbsp;
 	   <a href="javascript:Proceso('GF')"><img src="imagenes/grafico.bmp" width="30" height="30" border="0" alt="Graficar"></a>&nbsp; <a href="javascript:window.print()"><img src="imagenes/btn_imprimir.png" alt='Imprimir' border="0" align="absmiddle" /></a>&nbsp;<a href="JavaScript:Proceso('S')"><img src="imagenes/btn_volver2.png"  alt=" Volver " width="25" height="25"  border="0" align="absmiddle"></a>       </div></td>
 	 </tr>
      <tr>
        <td colspan="3" class="formulario">Periodo &nbsp;&nbsp;&nbsp;</td>
 	   <td width="348" class="formulario"> Desde
-		<input type="text" size="9" readonly="" maxlength="10" name="FDesde" id="FDesde"  class="InputDer" value='<? echo $FDesde?>' />
+		<input type="text" size="9" readonly="" maxlength="10" name="FDesde" id="FDesde"  class="InputDer" value='<?php echo $FDesde?>' />
 		&nbsp;<img src="imagenes/calendario.gif" alt="Pulse Aqui ParaSeleccionar Fecha"  border="0" align="absmiddle" onClick="popFrame.fPopCalendar(FDesde,FDesde,popCal);return false" /> &nbsp;&nbsp;&nbsp;Hasta
-		<input type="text" size="9" readonly="" maxlength="10" name="FHasta" id="FHasta"  class="InputDer" value='<? echo $FHasta?>'/>
+		<input type="text" size="9" readonly="" maxlength="10" name="FHasta" id="FHasta"  class="InputDer" value='<?php echo $FHasta?>'/>
 		&nbsp;<img src="imagenes/calendario.gif" alt="Pulse Aqui ParaSeleccionar Fecha"  border="0" align="absmiddle" onClick="popFrame.fPopCalendar(FHasta,FHasta,popCal);return false"/>&nbsp; </span><a href="JavaScript:Proceso('R')"></a></td>
        <td width="191" class="formulario">&nbsp;</td>
        </tr>
-	 <?
+	 <?php
 		$FDesde=$FDesde." 00:00:00";
 		$FHasta=$FHasta." 23:59:59";
 	 ?>
      <tr>
        <td colspan="3" class="formulario">Funcionario</td>	
 	     <td class="formulario" colspan="3">
-		 <SELECT name="USUARIO" style="width:300px;" onChange="Proceso('R')">
+		 <select name="USUARIO" style="width:300px;" onChange="Proceso('R')">
            <option value="T">Todos</option>
-           <?
+           <?php
 				//$Consulta = "SELECT distinct(T1.RUT), CONCAT(T2.APELLIDO_PATERNO, ' ', T2.APELLIDO_MATERNO, ' ', T2.NOMBRES) AS NOMBRE ";
 				//$Consulta.= " FROM proyecto_modernizacion.CONTROL_ACCESO T1 INNER JOIN proyecto_modernizacion.FUNCIONARIOS T2 ON T1.RUT = T2.RUT AND sistema='29' INNER JOIN sgrv.sgrs_control_acceso t3 on t1.RUT=t3.RUT where t1.RUT<>'' ORDER BY NOMBRE";
 				$Consulta = "SELECT distinct(T2.RUT), CONCAT(T2.APELLIDO_PATERNO, ' ', T2.APELLIDO_MATERNO, ' ', T2.NOMBRES) AS NOMBRE ";
 				$Consulta.= " FROM proyecto_modernizacion.FUNCIONARIOS T2 INNER JOIN sgrv.sgrs_control_acceso t3 on t2.RUT=t3.RUT where t2.RUT<>'' ORDER BY NOMBRE";
-				$Respuesta = mysqli_query($link, $Consulta);
-				while ($Row = mysql_fetch_array($Respuesta))
+				$Respuesta = mysqli_query($link,$Consulta);
+				while ($Row = mysqli_fetch_array($Respuesta))
 				{
 					if($USUARIO==$Row[RUT])
-						echo "<option value='".$Row[RUT]."' SELECTed>".$Row["nombre"]."</option>\n";
+						echo "<option value='".$Row[RUT]."' selected>".$Row[NOMBRE]."</option>\n";
 					else
-						echo "<option value='".$Row[RUT]."'>".$Row["nombre"]."</option>\n";
+						echo "<option value='".$Row[RUT]."'>".$Row[NOMBRE]."</option>\n";
 				}
 			?>
-         </SELECT>
-	       <? //echo $Consulta;?></td>
+         </select>
+	       <?php //echo $Consulta;?></td>
          </tr>
      <tr>
        <td colspan="3" class="formulario">Modulos</td>
        <td class="formulario" colspan="3">
-	   <SELECT name="CmbTipoProceso" style="width:200">
-         <option value="T" SELECTed>Todos</option>
-         <?
-			$Consulta = "SELECT * from proyecto_modernizacion.pantallas t1 inner join sgrv.sgrs_control_acceso t2 on t1.cod_pantalla=t2.pantalla";
+	   <select name="CmbTipoProceso" style="width:200">
+         <option value="T" selected>Todos</option>
+         <?php
+			$Consulta = "select * from proyecto_modernizacion.pantallas t1 inner join sgrv.sgrs_control_acceso t2 on t1.cod_pantalla=t2.pantalla";
 			$Consulta.= " where cod_sistema = '29' and cod_pantalla not in ('6','9','10','11','12','13','14','15','17','18','19')";
 			if($USUARIO!='T')			
 				$Consulta.=" and rut='".$USUARIO."' and fecha_hora between '".$FDesde."' and '".$FHasta."'";
 			$Consulta.=" group by cod_pantalla";	
-			$Resp = mysqli_query($link, $Consulta);
-			while ($Fila = mysql_fetch_array($Resp))
+			$Resp = mysqli_query($link,$Consulta);
+			while ($Fila = mysqli_fetch_array($Resp))
 			{
 				if($CmbTipoProceso==$Fila[cod_pantalla])
-					echo "<option value='".$Fila[cod_pantalla]."' SELECTed>".$Fila["descripcion"]."</option>";
+					echo "<option value='".$Fila[cod_pantalla]."' selected>".$Fila[descripcion]."</option>";
 				else
-					echo "<option value='".$Fila[cod_pantalla]."'>".$Fila["descripcion"]."</option>";				
+					echo "<option value='".$Fila[cod_pantalla]."'>".$Fila[descripcion]."</option>";				
 			}
 		   ?>
-       </SELECT><? //echo $Consulta;?></td>
+       </select><?php //echo $Consulta;?></td>
        </tr>
    </table></td>
    <td width="1%" background="imagenes/interior2/form_der.gif"></td>
@@ -225,7 +225,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
   </tr>
   </table><br>	
 <table width="60%" align="center"  border="0" cellpadding="0"  cellspacing="0" class="TablaPricipalColor">
-<?
+<?php
 	if($Buscar=='S')
 	{
 ?> 
@@ -243,9 +243,9 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 		  <td width="33%" align="center" class="TituloCabecera">Rut</td>
 		 <td width="30%" align="center" class="TituloCabecera">Modulo</td>
         </tr>
-      <?
+      <?php
 	  		
-			$Consulta = "SELECT *,CONCAT(T3.APELLIDO_PATERNO, ' ', T3.APELLIDO_MATERNO, ' ', T3.NOMBRES) AS NOMBRE from sgrs_control_acceso t1 inner join proyecto_modernizacion.pantallas t2 on t1.pantalla=t2.cod_pantalla";
+			$Consulta = "select *,CONCAT(T3.APELLIDO_PATERNO, ' ', T3.APELLIDO_MATERNO, ' ', T3.NOMBRES) AS NOMBRE from sgrs_control_acceso t1 inner join proyecto_modernizacion.pantallas t2 on t1.pantalla=t2.cod_pantalla";
 			$Consulta.= " inner join proyecto_modernizacion.FUNCIONARIOS t3 on t1.rut=t3.rut";
 			$Consulta.= " where cod_sistema='29' and fecha_hora between '".$FDesde."' and '".$FHasta."'";
 			if($USUARIO!='T')
@@ -253,23 +253,23 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 			if($CmbTipoProceso!='T')
 				$Consulta.= " and t1.pantalla='".$CmbTipoProceso."'";
 			$Consulta.= " order by t2.descripcion";
-			$Resp = mysqli_query($link, $Consulta);$Cont=0;
-			while ($Fila=mysql_fetch_array($Resp))
+			$Resp = mysqli_query($link,$Consulta);$Cont=0;
+			while ($Fila=mysqli_fetch_array($Resp))
 			{	
 				$Cont=$Cont+1;
 			?>
 			 	<tr>
-				<td ><? echo $Fila["FECHA_HORA"]; ?></td>
-				<td align="center" ><? echo $Fila[ip]; ?>&nbsp;</td>
-				<td align="left" ><? echo $Fila["rut"]." - ".$Fila["nombre"]; ?>&nbsp;</td>
-				<td align="left" ><? echo $Fila[cod_pantalla]." - ".$Fila["descripcion"];?>&nbsp;</td>
+				<td ><?php echo $Fila[fecha_hora]; ?></td>
+				<td align="center" ><?php echo $Fila[ip]; ?>&nbsp;</td>
+				<td align="left" ><?php echo $Fila[rut]." - ".$Fila[NOMBRE]; ?>&nbsp;</td>
+				<td align="left" ><?php echo $Fila[cod_pantalla]." - ".$Fila[descripcion];?>&nbsp;</td>
 			  </tr>
-		    <?		
+		    <?php		
 			}
 			?>
 			 	<tr class="TituloCabecera">
-				<td colspan="3" align="right"><? echo "Total"; ?></td>
-				<td align="right"><? echo $Cont; ?>&nbsp;</td>
+				<td colspan="3" align="right"><?php echo "Total"; ?></td>
+				<td align="right"><?php echo $Cont; ?>&nbsp;</td>
 			  </tr>
     </table></td>
     <td width="1%" background="imagenes/interior2/form_der.gif"></td>
@@ -279,16 +279,16 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
     <td height="15" background="imagenes/interior2/form_abajo.gif"><img src="imagenes/interior2/transparent.gif" width="4" height="15"></td>
     <td width="1%" height="15"><img src="imagenes/interior2/esq4.gif" width="15" height="15"></td>
   </tr>
-<?
+<?php
 }
 ?>  
-  <input type="hidden" name="EX" value="<? echo $EX;?>">
+  <input type="hidden" name="EX" value="<?php echo $EX;?>">
 </table><br>
-<? 
+<?php 
 if (!isset($VisibleDivProceso))
 	$VisibleDivProceso='hidden';
 ?>
-<!--<div id="DivOCu" style="visibility:<? echo $VisibleDivProceso;?>;FILTER: alpha(opacity=100);overflow:auto;  POSITION: absolute; moz-opacity: .75; opacity: .75;left: 672px; top: 33px; width:150px; height:80px;" align="center">
+<!--<div id="DivOCu" style="visibility:<?php echo $VisibleDivProceso;?>;FILTER: alpha(opacity=100);overflow:auto;  POSITION: absolute; moz-opacity: .75; opacity: .75;left: 672px; top: 33px; width:150px; height:80px;" align="center">
 <table width="100%">
   <tr>
     <td >&nbsp;</td>
@@ -301,7 +301,7 @@ if (!isset($VisibleDivProceso))
 </form>
 </body>
 </html>
-<?
+<?php
 echo "<script language='javascript'>";
 if($Mensaje!='')
 	echo "alert('".$Mensaje."');";

@@ -1,4 +1,4 @@
-<?	
+<?php	
 	include('conectar_ori.php');
 	include('funciones/siper_funciones.php');
 	//1:PESTAÑA PARA AGREGAR, MODIFICAR O ELIMINAR ITEM DE LA ORGANICA.
@@ -45,11 +45,11 @@ function ValidarFinIdentPel(Proceso)
 </head>
 <body>
 <form name='Mantenedor' method="post">
-<input name="CodSelTarea" type="hidden" value="<? echo $CodSelTarea;?>">
+<input name="CodSelTarea" type="hidden" value="<?php echo $CodSelTarea;?>">
 <input name="Salida" type="hidden" value="L">
  <input type="hidden" name="DatosObsPel" size="200" />
 
-<?
+<?php
 
 	switch($TipoPestana)
 	{
@@ -108,18 +108,18 @@ function ValidarFinIdentPel(Proceso)
   <table width="100%" border="0" cellpadding="0" cellspacing="0">
 	<tr>
 	  <td width="1%" height="25"><img src="imagenes/tab_slide_hm_next.gif" ></td>
-	  <td width="24%" align="center" background="<? echo $Fondo1;?>"><a href="javascript:SeleccionPestana(1)"><? echo "<span class='".$LinkPestana1."'>";?>Identificación de Peligros</a></td>
+	  <td width="24%" align="center" background="<?php echo $Fondo1;?>"><a href="javascript:SeleccionPestana(1)"><?php echo "<span class='".$LinkPestana1."'>";?>Identificación de Peligros</a></td>
 	  <td width="1" ><img src="imagenes/tab_separator.gif"></td>
-	  <td width="24%" align="center" background="<? echo $Fondo3;?>"><a href="javascript:SeleccionPestana(3)"><? echo '<span class="'.$LinkPestana3.'">';?>Asignación de Controles</a></td>
+	  <td width="24%" align="center" background="<?php echo $Fondo3;?>"><a href="javascript:SeleccionPestana(3)"><?php echo '<span class="'.$LinkPestana3.'">';?>Asignación de Controles</a></td>
 	  <td width="1" ><img src="imagenes/tab_separator.gif"></td>
-	  <td width="24%" align="center" background="<? echo $Fondo2;?>"><a href="javascript:SeleccionPestana(2)"><? echo '<span class="'.$LinkPestana2.'">';?>Asignación de Verificadores</a></td>
+	  <td width="24%" align="center" background="<?php echo $Fondo2;?>"><a href="javascript:SeleccionPestana(2)"><?php echo '<span class="'.$LinkPestana2.'">';?>Asignación de Verificadores</a></td>
 	  <td width="1" ><img src="imagenes/tab_separator.gif"></td>
-	  <td width="24%" align="center" background="<? echo $Fondo4;?>"><a href="javascript:SeleccionPestana(4)"><? echo '<span class="'.$LinkPestana4.'">';?>Resumen</a></td>
+	  <td width="24%" align="center" background="<?php echo $Fondo4;?>"><a href="javascript:SeleccionPestana(4)"><?php echo '<span class="'.$LinkPestana4.'">';?>Resumen</a></td>
 	  <td width="1" align="right"><img src="imagenes/tab_separator.gif"></td>
 	</tr>
     <tr class="estilos2">
       <td colspan="9" align="center" >
-	    <?
+	    <?php
 		switch($TipoPestana)
 		{
 			case "1":
@@ -154,7 +154,7 @@ function ValidarFinIdentPel(Proceso)
 </form>
 </body>
 </html>
-<?
+<?php
 if($Msj!='')
 {
 	echo "<script languaje='javascript'>";

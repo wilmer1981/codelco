@@ -2,7 +2,7 @@
 <div id='ObsElimina' align="center" style='FILTER: alpha(opacity=10); overflow:auto; VISIBILITY:hidden; WIDTH: 100%; height:100%; POSITION: absolute; moz-opacity: .60; opacity: .60;  left: 10px; top: 21px;'>
   <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">
   <tr>  
-  <input type="hidden" name="CodPelGu" value="<? echo $CodPelGu;?>" />
+  <input type="hidden" name="CodPelGu" value="<?php echo $CodPelGu;?>" />
 	  <table width="100%" height="90%" border="0" cellpadding="0" cellspacing="0">
 	  <tr>
 		<td height="1%"><img src="imagenes/interior2/esq1.gif" width="15" height="15"></td>

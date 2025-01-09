@@ -1,4 +1,4 @@
-<?
+<?php
 	include('conectar_ori.php');
 	include('funciones/siper_funciones.php');	
 
@@ -37,22 +37,22 @@ header("Content-Type:  application/vnd.ms-excel");
 <table width="90%" border="0" cellpadding="0" cellspacing="4">
   <tr>
     <td width="16%" height="28" align="right" class="formulario">Rut:</td>
-    <td width="18%" align="left"><? echo $TxtRut;?></td>
+    <td width="18%" align="left"><?php echo $TxtRut;?></td>
     <td width="10%" align="right" class="formulario">Apellido Paterno:</td>
-    <td width="21%" align="left"><? echo $TxtApePat;?></td>
+    <td width="21%" align="left"><?php echo $TxtApePat;?></td>
     <td width="16%" align="right" nowrap="nowrap" class="formulario">Tipo Examen:: </td>
     <td width="19%" align="left" nowrap="nowrap">
-				  <?
-					$Consulta="SELECT t1.NEXAMEN from sgrs_codexlaboratorio t1 where t1.CTEXAMEN='".$CmbTipoExamen."'";
-					$Resp=mysqli_query($link, $Consulta);
-					if($Fila=mysql_fetch_array($Resp))
+				  <?php
+					$Consulta="select t1.NEXAMEN from sgrs_codexlaboratorio t1 where t1.CTEXAMEN='".$CmbTipoExamen."'";
+					$Resp=mysqli_query($link,$Consulta);
+					if($Fila=mysqli_fetch_array($Resp))
 						echo $Fila[NEXAMEN];
 				  ?>    </td>
   </tr>
   <tr>
     <td height="25" align="right" class="formulario">Evaluaci&oacute;n:</td>
     <td align="left">
-		  <?
+		  <?php
 				switch($CmbEvaluacion)
 				{
 					case "0":
@@ -67,20 +67,20 @@ header("Content-Type:  application/vnd.ms-excel");
 				}
 		  ?>    </td>
     <td align="right" class="formulario"> Rango de Fechas: </td>
-    <td align="left"> Desde <? echo $TxtFechaIni; ?> Hasta <? echo $TxtFechaFin; ?></td>
+    <td align="left"> Desde <?php echo $TxtFechaIni; ?> Hasta <?php echo $TxtFechaFin; ?></td>
     <td align="right" class="formulario">Rango de Valor Magnitud:</td>
-    <td align="left">Entre&nbsp; <? echo $TxtMag; ?> Y <? echo $TxtMag2; ?></td>
+    <td align="left">Entre&nbsp; <?php echo $TxtMag; ?> Y <?php echo $TxtMag2; ?></td>
   </tr>
   <tr>
     <td height="25" align="right" class="formulario">Ocupaci&oacute;n:</td>
-    <td align="left"><? echo $TxtOcup;?>&nbsp;</td>
+    <td align="left"><?php echo $TxtOcup;?>&nbsp;</td>
     <td align="right" class="formulario">&nbsp;</td>
     <td align="left">&nbsp;</td>
-    <td align="right" class="formulario"><?
+    <td align="right" class="formulario"><?php
 		if($Nivel=='6')
 			echo "Con Obs. de Gesti&oacute;n";	
 		?></td>
-    <td align="left"><? 
+    <td align="left"><?php 
 		if($Nivel=='6'&&$CheckAccion<>'')
 			echo "S";
 		
@@ -96,18 +96,18 @@ header("Content-Type:  application/vnd.ms-excel");
 			<td width="10%" class="TituloCabecera" align="center">Parametro</td>
 			<td width="8%" class="TituloCabecera" align="center">Unid.</td>
 			<td width="5%" class="TituloCabecera" align="center">Evaluacion</td>
-			<td width="10%" class="TituloCabecera" align="center">Ocupaciï¿½n</td>
+			<td width="10%" class="TituloCabecera" align="center">Ocupación</td>
 			<td width="13%" class="TituloCabecera" align="center">Fecha Toma </td>
 			<td width="10%" class="TituloCabecera" align="center">Informe</td>
-			<?
+			<?php
 			if($Nivel=='6')
-				echo "<td width='10%' class='TituloCabecera' align='center'>Acciï¿½n Tomada</td>";
+				echo "<td width='10%' class='TituloCabecera' align='center'>Acción Tomada</td>";
 			?>
 	    </tr>
-		 <? 
+		 <?php 
 			if($Buscar!='')
 			{
-				$Consulta="SELECT t1.REGACCIONES,t1.CEXAMEN,t1.QVALOR,t1.FEXAMEN,t1.CEVALUACION,t7.CVINFORME,t7.TNARCHIVO,t4.NOCUPACION,t2.rut,t2.ape_paterno,t2.ape_materno,t2.nombres,t3.NEXAMEN,t3.QPARAMETRO,t6.AUNIDAD from sgrs_exlaboratorio t1 inner join uca_web.uca_personas t2 on t1.CRUT=t2.rut ";
+				$Consulta="select t1.REGACCIONES,t1.CEXAMEN,t1.QVALOR,t1.FEXAMEN,t1.CEVALUACION,t7.CVINFORME,t7.TNARCHIVO,t4.NOCUPACION,t2.rut,t2.ape_paterno,t2.ape_materno,t2.nombres,t3.NEXAMEN,t3.QPARAMETRO,t6.AUNIDAD from sgrs_exlaboratorio t1 inner join uca_web.uca_personas t2 on t1.CRUT=t2.rut ";
 				$Consulta.="inner join sgrs_codexlaboratorio t3 on t1.CTEXAMEN=t3.CTEXAMEN left join sgrs_ocupaciones t4 on t1.COCUPACION=t4.COCUPACION left join sgrs_informes t7 on t1.CINFORME=t7.CINFORME inner join sgrs_unidades t6 on t3.CUNIDAD=t6.CUNIDAD where t1.CRUT <> 0 ";
 				switch($Buscar)
 				{
@@ -132,11 +132,11 @@ header("Content-Type:  application/vnd.ms-excel");
 				}
 				$Consulta.="group by t2.rut,t1.CEXAMEN order by t2.ape_paterno";
 				//echo $Consulta;
-				$Resp=mysqli_query($link, $Consulta);echo "<input type='hidden' name='CheckRut'>";
-				while($Fila=mysql_fetch_array($Resp))
+				$Resp=mysqli_query($link,$Consulta);echo "<input type='hidden' name='CheckRut'>";
+				while($Fila=mysqli_fetch_array($Resp))
 				{
 					echo "<tr>";
-					echo "<td align='left'>&nbsp;".str_pad($Fila["rut"],8,'0',STR_PAD_LEFT)." - ".$Fila[ape_paterno]." ".$Fila[ape_materno]." ".$Fila["nombres"]."</td>";
+					echo "<td align='left'>&nbsp;".str_pad($Fila[rut],8,'0',STR_PAD_LEFT)." - ".$Fila[ape_paterno]." ".$Fila[ape_materno]." ".$Fila[nombres]."</td>";
 					echo "<td align='left'>&nbsp;".$Fila[NEXAMEN]."</td>";
 					echo "<td>".$Fila[QVALOR]."</td>";
 					echo "<td>".$Fila[QPARAMETRO]."</td>";

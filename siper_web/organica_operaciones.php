@@ -1,4 +1,4 @@
-<?
+<?php
 include('conectar_ori.php');
 if(!isset($Navega))
 {
@@ -81,12 +81,12 @@ function ItemSelec(Codigo)
 <link href="estilos/siper_style.css" rel="stylesheet" type="text/css">
 <body>
 <form name='FrmOrganica' method="post">
-<input type="hidden" value="<? echo $Navega;?>" name="Navega">
-<input type="hidden" value="<? echo $Estado;?>" name="Estado">
-<input type="hidden" value="<? echo $SelTarea;?>" name="SelTarea">
+<input type="hidden" value="<?php echo $Navega;?>" name="Navega">
+<input type="hidden" value="<?php echo $Estado;?>" name="Estado">
+<input type="hidden" value="<?php echo $SelTarea;?>" name="SelTarea">
 <div style='position:absolute; left:10px; top:10px; width:100%; height:450; OVERFLOW:auto; visibility:visible' id='OrganicaGen'>
 <table border='0' cellpadding='0' cellspacing='0' >
-<?
+<?php
 include('funciones/siper_funciones.php');
 CrearArbol($Navega,$Estado,$SelTarea,$CookieRut,'S');
 ?>

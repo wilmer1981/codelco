@@ -1,4 +1,4 @@
-<?
+<?php
 include('conectar_ori.php');
 $TxtDescripcion='';
 ?>
@@ -58,7 +58,7 @@ function EliminarPeligro(CodPel)
 	Frm=document.MantenedorPel;
 	if(SoloUnElemento(Frm.name,'CheckCon','E'))
 	{
-		mensaje=confirm("ï¿½Esta Seguro de Eliminar estos Registros?");
+		mensaje=confirm("¿Esta Seguro de Eliminar estos Registros?");
 		if(mensaje==true)
 		{		
 			//URL='proceso_elimina_dato.php?Proceso=EP&Parent='+CodSel+'&Dato=EMP';//ELIMINA MANTENEDOR PELIGRO
@@ -80,7 +80,7 @@ function ConfirmaEliminar()
 	var f=document.MantenedorPel;
 	if(f.ObsEli.value=='')
 	{
-		alert('Debe Ingresar Observaciï¿½n de Eliminaciï¿½n');
+		alert('Debe Ingresar Observación de Eliminación');
 		f.ObsEli.focus();
 		return;
 	}
@@ -150,21 +150,21 @@ function Salir()
             <tr>
                <td align="left" class="TituloCabecera2"><font size="2">Contactos</font></td>
                <td colspan="2" align="right">
-			  <SELECT name="CmbCONTACTO"> 
-			  <option value="T" SELECTed="NoSelect">Todos</option>
-			  <?
-				$Consulta="SELECT CCONTACTO,NCONTACTO from sgrs_codcontactos where MOPCIONAL<>'0' order by CCONTACTO";
+			  <select name="CmbCONTACTO"> 
+			  <option value="T" selected="NoSelect">Todos</option>
+			  <?php
+				$Consulta="select CCONTACTO,NCONTACTO from sgrs_codcontactos where MOPCIONAL<>'0' order by CCONTACTO";
 				//echo $Consulta;
-				$Resultado=mysqli_query($link, $Consulta);
-				while($Fila=mysql_fetch_array($Resultado))
+				$Resultado=mysqli_query($link,$Consulta);
+				while($Fila=mysqli_fetch_array($Resultado))
 				{
 					if($CmbCONTACTO==$Fila[CCONTACTO])
-						echo "<option value=".$Fila[CCONTACTO]." SELECTed>".$Fila[CCONTACTO]." - ".$Fila[NCONTACTO]."</option>";
+						echo "<option value=".$Fila[CCONTACTO]." selected>".$Fila[CCONTACTO]." - ".$Fila[NCONTACTO]."</option>";
 					else
 						echo "<option value=".$Fila[CCONTACTO].">".$Fila[CCONTACTO]." - ".$Fila[NCONTACTO]."</option>";	
 				}
 			  ?>
-			  </SELECT>
+			  </select>
 			   </td>
             </tr>
             <tr>
@@ -174,13 +174,13 @@ function Salir()
 			<table width="100%" border="1" cellpadding="0" cellspacing="0">
             <tr>
               <td width="5%" align="center" class="TituloCabecera"><input class='SinBorde' type="checkbox" name="ChkTodos" value="" onClick="CheckearTodo(this.form,'CheckCon','ChkTodos');"></td>
-              <td width="5%" align="center" class="TituloCabecera">Cï¿½digo</td>
-              <td width="60%" align="center" class="TituloCabecera">Descripciï¿½n de peligros </td>
+              <td width="5%" align="center" class="TituloCabecera">Código</td>
+              <td width="60%" align="center" class="TituloCabecera">Descripción de peligros </td>
               <td width="5%" align="center" class="TituloCabecera">P</td>
               <td width="5%" align="center" class="TituloCabecera">C</td>
-              <td width="20%" align="center" class="TituloCabecera">Definiciï¿½n de peligros</td>
+              <td width="20%" align="center" class="TituloCabecera">Definición de peligros</td>
             </tr>
-			 <?
+			 <?php
 /*				if(!isset($CodPadre)||$CodPadre=='X')
 					$Filtro="length(CCONTACTO)=1 ";
 				else
@@ -191,13 +191,13 @@ function Salir()
 */				
 				if($Buscar=='S')
 				{
-					$Consulta="SELECT NCONTACTO,CCONTACTO,MOPCIONAL,QPROBHIST,QCONSECHIST,OBS from sgrs_codcontactos where CCONTACTO <> '-' and MOPCIONAL<>'0'";
+					$Consulta="select NCONTACTO,CCONTACTO,MOPCIONAL,QPROBHIST,QCONSECHIST,OBS from sgrs_codcontactos where CCONTACTO <> '-' and MOPCIONAL<>'0'";
 					if($CmbCONTACTO!='T')
 						$Consulta.=" and CCONTACTO='".$CmbCONTACTO."'";
 					$Consulta.=" order by CCONTACTO";
 					//echo $Consulta."<br>";
-					$Resultado=mysqli_query($link, $Consulta);echo "<input name='CheckCon' type='hidden'  value=''>";
-					while ($Fila=mysql_fetch_array($Resultado))
+					$Resultado=mysqli_query($link,$Consulta);echo "<input name='CheckCon' type='hidden'  value=''>";
+					while ($Fila=mysqli_fetch_array($Resultado))
 					{					
 						echo "<td align='center'><input name='CheckCon' class='SinBorde' type='checkbox'  value='".$Fila["CCONTACTO"]."'></td>";
 						echo "<td align='center'>".$Fila[CCONTACTO]."</td>";
@@ -224,16 +224,16 @@ function Salir()
 	
 </tr>
 </table>
-<? 
+<?php 
 if(!isset($DivProc))
 	$DivProc='hidden';
 	
 if($Proceso=='MP')
 {
-	$Consulta="SELECT * from sgrs_codcontactos where CCONTACTO='".$Codigo."'";
+	$Consulta="select * from sgrs_codcontactos where CCONTACTO='".$Codigo."'";
 	//echo $Consulta;
-	$Resultado=mysqli_query($link, $Consulta);
-	if($Fila=mysql_fetch_array($Resultado))
+	$Resultado=mysqli_query($link,$Consulta);
+	if($Fila=mysqli_fetch_array($Resultado))
 	{
 		$CCONTACTO1=$Fila[CCONTACTO];
 		$TxtDescripcion=$Fila[NCONTACTO];
@@ -258,7 +258,7 @@ if($Proceso=='AP')
 	$OBS='';
 }	
 ?>
-  <div id='AgregarPeligros'  style='FILTER: alpha(opacity=100); overflow:auto; VISIBILITY:<? echo $DivProc;?>; WIDTH: 662px; height:300px; POSITION: absolute; moz-opacity: .75; opacity: .75;  left: 298px; top: 25px;'>
+  <div id='AgregarPeligros'  style='FILTER: alpha(opacity=100); overflow:auto; VISIBILITY:<?php echo $DivProc;?>; WIDTH: 662px; height:300px; POSITION: absolute; moz-opacity: .75; opacity: .75;  left: 298px; top: 25px;'>
     <table width="100%" height="85%" align="center"  border="0" cellpadding="0"  cellspacing="0" class="TablaPricipalColor">
       <tr>
         <td width="1%" height="1%"><img src="imagenes/interior/esq1.gif"></td>
@@ -271,7 +271,7 @@ if($Proceso=='AP')
             <tr>
               <td><p align="left" class="titulo_azul"><img src="imagenes/vineta.gif" border="0" /><span class="Estilo7">Contacto/Peligros </span></p>
                 <p class="titulo_azul">&nbsp;</p></td>
-              <td align="right" ><a href=JavaScript:Grabar('<? echo $Proceso;?>')><img src="imagenes/btn_guardar.png" width="29" height="26" border="0"></a>&nbsp;<a href="JavaScript:Cerrar()"><img src="imagenes/cerrar1.png" width="25" height="25" border="0" alt="Cerrar" align="absmiddle" /></a> </td>
+              <td align="right" ><a href=JavaScript:Grabar('<?php echo $Proceso;?>')><img src="imagenes/btn_guardar.png" width="29" height="26" border="0"></a>&nbsp;<a href="JavaScript:Cerrar()"><img src="imagenes/cerrar1.png" width="25" height="25" border="0" alt="Cerrar" align="absmiddle" /></a> </td>
             </tr>
             <tr>
               <td colspan="2" align='center' ></td>
@@ -283,23 +283,23 @@ if($Proceso=='AP')
             <tr>
               <td width="129" class="formulario">Codigo:</td>
               <td width="182">
-			  <?
+			  <?php
 			  if($Proceso=='AP')
 			  {
-				$Consulta = "SELECT max(ceiling(CCONTACTO) +1) as mayor from sgrs_codcontactos"; 
-				$Respuesta=mysqli_query($link, $Consulta);
-				$Fila=mysql_fetch_array($Respuesta);
-				$Mayor=$Fila["mayor"];			
+				$Consulta = "select max(ceiling(CCONTACTO) +1) as mayor from sgrs_codcontactos"; 
+				$Respuesta=mysqli_query($link,$Consulta);
+				$Fila=mysqli_fetch_array($Respuesta);
+				$Mayor=$Fila[mayor];			
 			  ?>
-			  <input name='CodPel' type='text' value='<? echo $Mayor;?>' readonly="true" size="6">
-			  <?
+			  <input name='CodPel' type='text' value='<?php echo $Mayor;?>' readonly="true" size="6">
+			  <?php
 			  }
 			  else
 			  {
 			  ?>
-			  <input name='CodPel' type='text' value='<? echo $CCONTACTO1;?>' readonly="true" size="6">
+			  <input name='CodPel' type='text' value='<?php echo $CCONTACTO1;?>' readonly="true" size="6">
 			  
-			  <?
+			  <?php
 			  }
 			  ?>
 			  </td>
@@ -309,39 +309,39 @@ if($Proceso=='AP')
 
             <tr>
               <td width="129" class="formulario">Descripci&oacute;n:</td>
-              <td colspan="3"><input name="TxtDescripcion" type="text"  value="<? echo $TxtDescripcion;?>" size="100"></td>
+              <td colspan="3"><input name="TxtDescripcion" type="text"  value="<?php echo $TxtDescripcion;?>" size="100"></td>
             </tr>
             <tr>
-			  <?
+			  <?php
 			  if($Proceso=='AP')
 			  {
 			  ?>
               <td><span class="formulario">Seleccionable:</span></td>
-              <td><input type="checkbox" name="CheckSel" value="checkbox" class="SinBorde" <? echo $CheckSelVis;?>></td>
+              <td><input type="checkbox" name="CheckSel" value="checkbox" class="SinBorde" <?php echo $CheckSelVis;?>></td>
               <td><span class="formulario">Vigente:
-              <input type="checkbox" name="CheckVig" value="checkbox" class="SinBorde" <? echo $CheckVigVis;?>>
+              <input type="checkbox" name="CheckVig" value="checkbox" class="SinBorde" <?php echo $CheckVigVis;?>>
               </span></td>
-			  <?
+			  <?php
 			  }
 			  else
 			  {
 			  ?>	
               <td><span class="formulario">Vigente:</span></td>
-              <td><input type="checkbox" name="CheckVig" value="checkbox" class="SinBorde" <? echo $CheckVigVis;?>>			
+              <td><input type="checkbox" name="CheckVig" value="checkbox" class="SinBorde" <?php echo $CheckVigVis;?>>			
               </td>
-			  <?
+			  <?php
 			  }
 			  ?>
 			  <td >&nbsp;</td>
             </tr>
             <tr>
               <td><span class="formulario">Probabilidad Hist&oacute;rica:</span></td>
-              <td><SELECT name="CmbProbH">
-              <?
+              <td><select name="CmbProbH">
+              <?php
 			  		switch($CmbProbH)
 					{
 						case "1":
-							echo "<option value='1' SELECTed>1</option>";
+							echo "<option value='1' selected>1</option>";
 							echo "<option value='4'>4</option>";
 							echo "<option value='8'>8</option>";
 							echo "<option value='16'>16</option>";
@@ -349,7 +349,7 @@ if($Proceso=='AP')
 						break;
 						case "4":
 							echo "<option value='1'>1</option>";
-							echo "<option value='4' SELECTed>4</option>";
+							echo "<option value='4' selected>4</option>";
 							echo "<option value='8'>8</option>";
 							echo "<option value='16'>16</option>";
 							echo "<option value='32'>32</option>";
@@ -357,7 +357,7 @@ if($Proceso=='AP')
 						case "8":
 							echo "<option value='1'>1</option>";
 							echo "<option value='4'>4</option>";
-							echo "<option value='8' SELECTed>8</option>";
+							echo "<option value='8' selected>8</option>";
 							echo "<option value='16'>16</option>";
 							echo "<option value='32'>32</option>";						
 						break;
@@ -365,7 +365,7 @@ if($Proceso=='AP')
 							echo "<option value='1'>1</option>";
 							echo "<option value='4'>4</option>";
 							echo "<option value='8'>8</option>";
-							echo "<option value='16' SELECTed>16</option>";
+							echo "<option value='16' selected>16</option>";
 							echo "<option value='32'>32</option>";						
 						break;
 						case "32":
@@ -373,10 +373,10 @@ if($Proceso=='AP')
 							echo "<option value='4'>4</option>";
 							echo "<option value='8'>8</option>";
 							echo "<option value='16'>16</option>";
-							echo "<option value='32' SELECTed>32</option>";						
+							echo "<option value='32' selected>32</option>";						
 						break;
 						default:
-							echo "<option value='1' SELECTed>1</option>";
+							echo "<option value='1' selected>1</option>";
 							echo "<option value='4'>4</option>";
 							echo "<option value='8'>8</option>";
 							echo "<option value='16'>16</option>";
@@ -386,14 +386,14 @@ if($Proceso=='AP')
 					}
 			  
 			  ?>
-              </SELECT></td>
+              </select></td>
               <td><span class="formulario">Consecuencia Hist&oacute;rica :</span></td>
-			  <td><SELECT name="CmbConsH">
-                <?
+			  <td><select name="CmbConsH">
+                <?php
 			  		switch($CmbConsH)
 					{
 						case "1":
-							echo "<option value='1' SELECTed>1</option>";
+							echo "<option value='1' selected>1</option>";
 							echo "<option value='4'>4</option>";
 							echo "<option value='8'>8</option>";
 							echo "<option value='16'>16</option>";
@@ -401,7 +401,7 @@ if($Proceso=='AP')
 						break;
 						case "4":
 							echo "<option value='1'>1</option>";
-							echo "<option value='4' SELECTed>4</option>";
+							echo "<option value='4' selected>4</option>";
 							echo "<option value='8'>8</option>";
 							echo "<option value='16'>16</option>";
 							echo "<option value='32'>32</option>";
@@ -409,7 +409,7 @@ if($Proceso=='AP')
 						case "8":
 							echo "<option value='1'>1</option>";
 							echo "<option value='4'>4</option>";
-							echo "<option value='8' SELECTed>8</option>";
+							echo "<option value='8' selected>8</option>";
 							echo "<option value='16'>16</option>";
 							echo "<option value='32'>32</option>";						
 						break;
@@ -417,7 +417,7 @@ if($Proceso=='AP')
 							echo "<option value='1'>1</option>";
 							echo "<option value='4'>4</option>";
 							echo "<option value='8'>8</option>";
-							echo "<option value='16' SELECTed>16</option>";
+							echo "<option value='16' selected>16</option>";
 							echo "<option value='32'>32</option>";						
 						break;
 						case "32":
@@ -425,10 +425,10 @@ if($Proceso=='AP')
 							echo "<option value='4'>4</option>";
 							echo "<option value='8'>8</option>";
 							echo "<option value='16'>16</option>";
-							echo "<option value='32' SELECTed>32</option>";						
+							echo "<option value='32' selected>32</option>";						
 						break;
 						default:
-							echo "<option value='1' SELECTed>1</option>";
+							echo "<option value='1' selected>1</option>";
 							echo "<option value='4'>4</option>";
 							echo "<option value='8'>8</option>";
 							echo "<option value='16'>16</option>";
@@ -438,11 +438,11 @@ if($Proceso=='AP')
 					}
 
 			  ?>
-              </SELECT></td>
+              </select></td>
             </tr>
             <tr>
-              <td><span class="formulario">Observaciï¿½n</span></td>
-              <td><textarea name='OBS' cols="80" rows="3"><? echo $OBS;?></textarea></td>
+              <td><span class="formulario">Observación</span></td>
+              <td><textarea name='OBS' cols="80" rows="3"><?php echo $OBS;?></textarea></td>
               <td>&nbsp;</td>
               <td>&nbsp;</td>
             </tr>
@@ -467,13 +467,13 @@ if($Proceso=='AP')
   <tr><td></td></tr>
   </table>
   </div>
- <?
+ <?php
 include('div_obs_elimina_mantenedor.php');
 ?> 
 </form>
 </body>
 </html>
-<?
+<?php
 	echo "<script languaje='JavaScript'>";
 	if($Mensaje!='')
 		echo "alert('".$Mensaje."');";

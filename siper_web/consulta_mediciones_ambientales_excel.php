@@ -1,4 +1,4 @@
-<?
+<?php
 	include('conectar_ori.php');
 	include('funciones/siper_funciones.php');	
 
@@ -38,12 +38,12 @@ header("Content-Type:  application/vnd.ms-excel");
       <tr>
         <td width="16%" height="28" align="right" class="formulario">Area Organizacional:</td>
         <td colspan="5" align="left">
-		<?
+		<?php
 		$Codigo=ObtenerCodParent($SelTarea);
-		$Consulta="SELECT NAREA from sgrs_areaorg where CAREA = '".$Codigo."'";
+		$Consulta="select NAREA from sgrs_areaorg where CAREA = '".$Codigo."'";
 		//echo $Consulta;
-		$Resp=mysqli_query($link, $Consulta);
-		$Fila=mysql_fetch_array($Resp);
+		$Resp=mysqli_query($link,$Consulta);
+		$Fila=mysqli_fetch_array($Resp);
 		echo $Fila[NAREA];
 
 		?>
@@ -53,42 +53,42 @@ header("Content-Type:  application/vnd.ms-excel");
       <tr>
         <td width="16%" height="28" align="right" class="formulario">Lugar de Medici&oacute;n:</td>
         <td width="18%" align="left">
-		<?
-			$Consulta="SELECT * from sgrs_lugares where CLUGAR='".$CmbLugares."'";
-			$Resp=mysqli_query($link, $Consulta);
-			if($Fila=mysql_fetch_array($Resp))
+		<?php
+			$Consulta="select * from sgrs_lugares where CLUGAR='".$CmbLugares."'";
+			$Resp=mysqli_query($link,$Consulta);
+			if($Fila=mysqli_fetch_array($Resp))
 				echo $Fila[NLUGAR]."  -> CORD_XYZ (".$Fila[CCORDX].",".$Fila[CCORDY].",".$Fila[CCORDZ];
 		?></td>
         <td width="10%" align="right" class="formulario">MR:</td>
-        <td width="21%" align="left"><? echo $CmbMr;?></td>
+        <td width="21%" align="left"><?php echo $CmbMr;?></td>
         <td width="16%" align="right" nowrap="nowrap" class="formulario">Agente: </td>
-        <td width="19%" align="left" nowrap="nowrap"><?
-			$Consulta="SELECT t1.CAGENTE,t1.NAGENTE from sgrs_cagentes t1 where t1.CAGENTE='".$CmbAgentes."'";
-			$Resp=mysqli_query($link, $Consulta);
-			if($Fila=mysql_fetch_array($Resp))
+        <td width="19%" align="left" nowrap="nowrap"><?php
+			$Consulta="select t1.CAGENTE,t1.NAGENTE from sgrs_cagentes t1 where t1.CAGENTE='".$CmbAgentes."'";
+			$Resp=mysqli_query($link,$Consulta);
+			if($Fila=mysqli_fetch_array($Resp))
 				echo $Fila[NAGENTE];
 		  ?>        </td>
       </tr>
       <tr>
         <td height="25" align="right" class="formulario">Unidad Operativa:</td>
         <td align="left">
-            <?
-			$Consulta="SELECT t1.CAREA,t1.NAREA from sgrs_areaorg t1 where t1.CTAREA='5' and CAREA='".$CmbUnidOpe."'";
-			$Resp=mysqli_query($link, $Consulta);
-			$Fila=mysql_fetch_array($Resp);
+            <?php
+			$Consulta="select t1.CAREA,t1.NAREA from sgrs_areaorg t1 where t1.CTAREA='5' and CAREA='".$CmbUnidOpe."'";
+			$Resp=mysqli_query($link,$Consulta);
+			$Fila=mysqli_fetch_array($Resp);
 			echo $Fila[NAREA];
 		  ?>        </td>
         <td align="right" class="formulario"> Rango de Fechas: </td>
-        <td align="left"> Desde <? echo $TxtFechaIni; ?> Hasta <? echo $TxtFechaFin; ?></td>
+        <td align="left"> Desde <?php echo $TxtFechaIni; ?> Hasta <?php echo $TxtFechaFin; ?></td>
         <td align="right" class="formulario">Rango de Valor Magnitud:</td>
-        <td align="left">Entre&nbsp; <? echo $TxtMag; ?> Y <? echo $TxtMag2; ?></td>
+        <td align="left">Entre&nbsp; <?php echo $TxtMag; ?> Y <?php echo $TxtMag2; ?></td>
       </tr>
       <tr>
-        <td height="25" align="right" class="formulario"><?
+        <td height="25" align="right" class="formulario"><?php
 		if($Nivel=='6')
 			echo "Con Obs. de Gesti&oacute;n";	
 		?></td>
-        <td align="left"><? 
+        <td align="left"><?php 
 		if($Nivel=='6'&&$CheckAccion<>'')
 			echo "S";
 		
@@ -115,15 +115,15 @@ header("Content-Type:  application/vnd.ms-excel");
 			<td width="8%" class="TituloCabecera" align="center">Dosis</td>
 			<td width="8%" class="TituloCabecera" align="center">MR</td>
 			<td width="15%" class="TituloCabecera" align="center">Fecha Inicio</td>
-			<td width="15%" class="TituloCabecera" align="center">Fecha Tï¿½rmino</td>
+			<td width="15%" class="TituloCabecera" align="center">Fecha Término</td>
 			<td width="10%" class="TituloCabecera" align="center">Informe</td>
-			<?
+			<?php
 			if($Nivel=='6')
-				echo "<td width='10%' class='TituloCabecera' align='center'>Acciï¿½n Tomada</td>";
+				echo "<td width='10%' class='TituloCabecera' align='center'>Acción Tomada</td>";
 			?>
 		 </tr>
-		 <? 
-			$Consulta="SELECT t1.REGACCIONES,t7.CPARENT,t7.NAREA,t5.TNARCHIVO,t5.CVINFORME,t1.CMEDAMB,t1.QDOSIS,t1.QMR,t1.QMEDICION,t1.FINICIO,t1.FTERMINO,t2.NAREA,t4.NLUGAR,t3.NAGENTE,t3.QLPP,t4.CCORDX,t4.CCORDY,t4.CCORDZ,t6.AUNIDAD from sgrs_medambientes t1 inner join sgrs_areaorg t2 on t1.CAREA=t2.CAREA ";
+		 <?php 
+			$Consulta="select t1.REGACCIONES,t7.CPARENT,t7.NAREA,t5.TNARCHIVO,t5.CVINFORME,t1.CMEDAMB,t1.QDOSIS,t1.QMR,t1.QMEDICION,t1.FINICIO,t1.FTERMINO,t2.NAREA,t4.NLUGAR,t3.NAGENTE,t3.QLPP,t4.CCORDX,t4.CCORDY,t4.CCORDZ,t6.AUNIDAD from sgrs_medambientes t1 inner join sgrs_areaorg t2 on t1.CAREA=t2.CAREA ";
 			$Consulta.="inner join sgrs_cagentes t3 on t1.CAGENTE=t3.CAGENTE inner join sgrs_unidades t6 on t3.CUNIDAD=t6.CUNIDAD inner join sgrs_lugares t4 on t1.CLUGAR = t4.CLUGAR inner join sgrs_informes t5 on t1.CINFORME=t5.CINFORME inner join sgrs_areaorg t7 on t1.CAREA=t7.CAREA where t1.CMEDAMB <> 0 ";
 			switch($Buscar)
 			{
@@ -151,8 +151,8 @@ header("Content-Type:  application/vnd.ms-excel");
 			}
 			$Consulta.="order by t4.NLUGAR";
 			//echo $Consulta;
-			$Resp=mysqli_query($link, $Consulta);echo "<input type='hidden' name='CheckRut'>";
-			while($Fila=mysql_fetch_array($Resp))
+			$Resp=mysqli_query($link,$Consulta);echo "<input type='hidden' name='CheckRut'>";
+			while($Fila=mysqli_fetch_array($Resp))
 			{
 				echo "<tr>";
 				OrigenOrg($Fila[CPARENT],&$Ruta);

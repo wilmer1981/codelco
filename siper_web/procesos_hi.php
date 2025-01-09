@@ -1,4 +1,4 @@
-<?
+<?php
 	include('conectar_ori.php');
 	include('funciones/siper_funciones.php');
 	//1:PESTAÑA PARA AGREGAR, MODIFICAR O ELIMINAR MEDICIONES PERSONALES.
@@ -410,14 +410,14 @@ function Accion()//ACCION A TOMAR PARA PARA EXAMENES DE LABORATORIO
 </head>
 <body>
 <form name='Mantenedor'  method="post" onclick="ValidarHora();">
-<input type="hidden" name="Proceso" value="<? echo $Proceso;?>">
-<input type="hidden" name="PestanaActiva"  value="<? echo $TipoPestana;?>">
-<input type="hidden" value="<? echo $Navega;?>" name="Navega">
-<input type="hidden" value="<? echo $Estado;?>" name="Estado">
-<input type="hidden" value="<? echo $SelTarea;?>" name="SelTarea">
-<input type="hidden" value="<? echo $DifDia;?>" name="DifDia">
-<input type="hidden" name="DatosMed"  value="<? echo $DatosMed;?>">
-<input type="hidden" name="NivelUsua"  value="<? echo $NivelUsua;?>">
+<input type="hidden" name="Proceso" value="<?php echo $Proceso;?>">
+<input type="hidden" name="PestanaActiva"  value="<?php echo $TipoPestana;?>">
+<input type="hidden" value="<?php echo $Navega;?>" name="Navega">
+<input type="hidden" value="<?php echo $Estado;?>" name="Estado">
+<input type="hidden" value="<?php echo $SelTarea;?>" name="SelTarea">
+<input type="hidden" value="<?php echo $DifDia;?>" name="DifDia">
+<input type="hidden" name="DatosMed"  value="<?php echo $DatosMed;?>">
+<input type="hidden" name="NivelUsua"  value="<?php echo $NivelUsua;?>">
   <table width="100%" border="0" cellpadding="0" cellspacing="0">
 	  <tr>
 		<td colspan="9" align="center"><img src="imagenes/cab_hi.jpg" alt="" height="52" border="0"></td>
@@ -425,7 +425,7 @@ function Accion()//ACCION A TOMAR PARA PARA EXAMENES DE LABORATORIO
 		<tr>
 		<td colspan="9" background="imagenes/bg_sup.gif" class="BordeTop" align="right">
 		<font style="FONT-WEIGHT: bold; FONT-SIZE: 12px; COLOR: #9c3031; FONT-FAMILY: Arial, Helvetica, sans-serif">
-		<? 
+		<?php 
 		ObtieneUsuario($CookieRut,&$NombreUser);
 		echo "Usuario: ".$NombreUser;?>	</font>
 		<a href="Manual_Usuario_hi.pdf" target="_blank">
@@ -436,16 +436,16 @@ function Accion()//ACCION A TOMAR PARA PARA EXAMENES DE LABORATORIO
   <table width="100%" border="0" cellpadding="0" cellspacing="0">
 	<tr>
 	  	  <td width="1%" height="25"><img src="imagenes/tab_slide_hm_next.gif" ></td>
-		  <td width="32%" align="center" background="<? echo $Fondo1;?>"><a href="javascript:SeleccionPestana(1)"><? echo '<span class="'.$LinkPestana1.'">';?>Mediciones Personales</a></td>
+		  <td width="32%" align="center" background="<?php echo $Fondo1;?>"><a href="javascript:SeleccionPestana(1)"><?php echo '<span class="'.$LinkPestana1.'">';?>Mediciones Personales</a></td>
 		  <td width="1%" ><img src="imagenes/tab_separator.gif"></td>
-		  <td width="32%" align="center" background="<? echo $Fondo2;?>"><a href="javascript:SeleccionPestana(2)"><? echo "<span class='".$LinkPestana2."'>";?>Mediciones Ambientales</a></td>
+		  <td width="32%" align="center" background="<?php echo $Fondo2;?>"><a href="javascript:SeleccionPestana(2)"><?php echo "<span class='".$LinkPestana2."'>";?>Mediciones Ambientales</a></td>
 		  <td width="1%" ><img src="imagenes/tab_separator.gif"></td>
-		  <td width="32%" align="center" background="<? echo $Fondo3;?>"><a href="javascript:SeleccionPestana(3)"><? echo '<span class="'.$LinkPestana3.'">';?>Examenes de Laboratorio</a></td>
+		  <td width="32%" align="center" background="<?php echo $Fondo3;?>"><a href="javascript:SeleccionPestana(3)"><?php echo '<span class="'.$LinkPestana3.'">';?>Examenes de Laboratorio</a></td>
 	  	  <td width="1%" align="right"><img src="imagenes/tab_separator.gif"></td>
 	</tr>
     <tr class="estilos2">
       <td colspan="9" align="center" >
-	    <?
+	    <?php
 		switch($TipoPestana)
 		{
 			case "1":
@@ -479,7 +479,7 @@ function Accion()//ACCION A TOMAR PARA PARA EXAMENES DE LABORATORIO
 </form>
 </body>
 </html>
-<?
+<?php
 if($Msj!='')
 {
 	echo "<script languaje='javascript'>";

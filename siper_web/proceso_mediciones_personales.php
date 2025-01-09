@@ -34,7 +34,7 @@ function EliMedPers(Opcion)
 	
 	if(SoloUnElemento(f.name,'CheckRut','E'))
 	{
-		mensaje=confirm("ï¿½Esta Seguro de Eliminar estos Registros?");
+		mensaje=confirm("¿Esta Seguro de Eliminar estos Registros?");
 		if(mensaje==true)
 		{
 			DatosMedPer=Recuperar(f.name,'CheckRut');
@@ -70,7 +70,7 @@ function Grabar(Opcion)
 		}
 		if(f.CodNivel.value=='')
 		{
-			alert('Debe Seleccionar ï¿½rea Organizacional');
+			alert('Debe Seleccionar Área Organizacional');
 			return;
 		}
 		break;
@@ -96,12 +96,12 @@ function Grabar(Opcion)
 	}
 	if(f.TxtFechaFin.value=='')
 	{
-		alert('Debe Ingresar Fecha Tï¿½rmino');
+		alert('Debe Ingresar Fecha Término');
 		return;	
 	}
 	if(f.TxtHoraFin.value=='')
 	{
-		alert('Debe Ingresar Hora Tï¿½rmino');
+		alert('Debe Ingresar Hora Término');
 		return;	
 	}
 	ValidaDifFecha();
@@ -171,7 +171,7 @@ function Buscar(Opt)
 <link href="estilos/siper_style.css" rel="stylesheet" type="text/css">
 <body>
 <form name="MantenedorPel" method="post" >
-<?
+<?php
 $Nivel=ObtieneNivelUsuario($CookieRut);
 $EstDivBtnProc='hidden';
 if($Proceso=='NMP'||$Proceso=='MMP')
@@ -186,12 +186,12 @@ if($Proceso=='NMP'||$Proceso=='MMP')
       </tr>
       <tr>
         <td width="9%" height="28" align="right" class="formulario">Rut:</td>
-        <td width="19%" align="left"><input name="TxtRut" type="text" value="<? echo $TxtRut;?>"><a href="JavaScript:Buscar('R')"><img src="imagenes/btn_buscar.gif" width="19" height="18" border="0"></a></td>
+        <td width="19%" align="left"><input name="TxtRut" type="text" value="<?php echo $TxtRut;?>"><a href="JavaScript:Buscar('R')"><img src="imagenes/btn_buscar.gif" width="19" height="18" border="0"></a></td>
         <td width="14%" align="right" class="formulario">Apellido Paterno:</td>
-        <td width="46%" align="left"><input name="TxtApePat" type="text" value="<? echo $TxtApePat;?>"><a href="JavaScript:Buscar('A')"><img src="imagenes/btn_buscar.gif" width="19" height="18" border="0"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="formulario">Trabajo/Cargo:
-          <input name="TxtOcup" type="text" value="<? echo $TxtOcup;?>" />
+        <td width="46%" align="left"><input name="TxtApePat" type="text" value="<?php echo $TxtApePat;?>"><a href="JavaScript:Buscar('A')"><img src="imagenes/btn_buscar.gif" width="19" height="18" border="0"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="formulario">Trabajo/Cargo:
+          <input name="TxtOcup" type="text" value="<?php echo $TxtOcup;?>" />
           <a href="JavaScript:Buscar('O')"><img src="imagenes/btn_buscar.gif" width="19" height="18" border="0" /></a>&nbsp;&nbsp;&nbsp;</span></td>
-        <td width="12%" align="right" nowrap="nowrap"><div id="DivBtnProc" style="visibility:<? echo $EstDivBtnProc;?>; FILTER: alpha(opacity=100); position:absolute; width:auto; height:auto"><table border='0' width="80px" height="30px"><tr><td>&nbsp;</td></tr></table></div>
+        <td width="12%" align="right" nowrap="nowrap"><div id="DivBtnProc" style="visibility:<?php echo $EstDivBtnProc;?>; FILTER: alpha(opacity=100); position:absolute; width:auto; height:auto"><table border='0' width="80px" height="30px"><tr><td>&nbsp;</td></tr></table></div>
 		<a href="javascript:NuevoMedPers('NMP')"><img src="imagenes/btn_agregar.png" alt='Agregar Medicion Personal' border="0" align="absmiddle"></a>
 		<a href="javascript:ModMedPers('MMP')"><img src='imagenes/btn_modificar.png' alt='Modificar Mediciones Personales' border='0' width='25' align='absmiddle' /></a>
       	<a href="javascript:EliMedPers('EMP')"><img src='imagenes/btn_eliminar2.png' alt='Eliminar Mediciones Personales' border='0' width='25' align='absmiddle' /></a></td>
@@ -216,21 +216,21 @@ if($Proceso=='NMP'||$Proceso=='MMP')
 			<td width="6%" class="TituloCabecera" align="center">Dosis</td>
 			<td width="4%" class="TituloCabecera" align="center">MR</td>
 			<td width="1%" class="TituloCabecera" align="center">&nbsp;</td>
-			<td width="10%" class="TituloCabecera" align="center">Ocupaciï¿½n</td>
+			<td width="10%" class="TituloCabecera" align="center">Ocupación</td>
 			<td width="10%" class="TituloCabecera" align="center">Fecha Inicio</td>
-			<td width="10%" class="TituloCabecera" align="center">Fecha Tï¿½rmino</td>
+			<td width="10%" class="TituloCabecera" align="center">Fecha Término</td>
 			<td width="10%" class="TituloCabecera" align="center">Informe</td>
-			<?
+			<?php
 			if($Nivel=='6')
-				echo "<td width='10%' class='TituloCabecera' align='center'>Acciï¿½n Tomada</td>";
+				echo "<td width='10%' class='TituloCabecera' align='center'>Acción Tomada</td>";
 			?>
 			
 		 </tr>
-		 <? 
+		 <?php 
 			echo "<input type='hidden' name='CheckRut'>";
 			if($Buscar!='')
 			{
-				$Consulta="SELECT t1.REGACCIONES,t6.CVINFORME,t6.TNARCHIVO,t1.CMEDPERSONAL,t1.QMEDICION,t1.QMR,t1.QDOSIS,t3.QLPP,t1.FINICIO,t1.FTERMINO,t4.NOCUPACION,t2.rut,t2.ape_paterno,t2.ape_materno,t2.nombres,T3.NAGENTE,t5.AUNIDAD from sgrs_medpersonales t1 inner join uca_web.uca_personas t2 on t1.CRUT=t2.RUT ";
+				$Consulta="select t1.REGACCIONES,t6.CVINFORME,t6.TNARCHIVO,t1.CMEDPERSONAL,t1.QMEDICION,t1.QMR,t1.QDOSIS,t3.QLPP,t1.FINICIO,t1.FTERMINO,t4.NOCUPACION,t2.rut,t2.ape_paterno,t2.ape_materno,t2.nombres,T3.NAGENTE,t5.AUNIDAD from sgrs_medpersonales t1 inner join uca_web.uca_personas t2 on t1.CRUT=t2.RUT ";
 				$Consulta.="inner join sgrs_cagentes t3 on t1.CAGENTE=t3.CAGENTE inner join sgrs_unidades t5 on t3.CUNIDAD=T5.CUNIDAD inner join sgrs_ocupaciones t4 on t1.COCUPACION=t4.COCUPACION inner join sgrs_informes t6 on t1.CINFORME=t6.CINFORME where t1.CRUT <> 0 and t2.estado<>'I' ";
 				switch($Buscar)
 				{
@@ -247,12 +247,12 @@ if($Proceso=='NMP'||$Proceso=='MMP')
 				}
 				$Consulta.="group by t2.rut,t1.CMEDPERSONAL order by t2.ape_paterno";
 				//echo $Consulta;
-				$Resp=mysqli_query($link, $Consulta);
-				while($Fila=mysql_fetch_array($Resp))
+				$Resp=mysqli_query($link,$Consulta);
+				while($Fila=mysqli_fetch_array($Resp))
 				{
 					echo "<tr>";
 					echo "<td align='center'><input type='checkbox' name='CheckRut' class='SinBorde' value='".$Fila[CMEDPERSONAL]."'></td>";
-					echo "<td align='left'>&nbsp;".str_pad($Fila["rut"],10,'0',STR_PAD_LEFT)."<br>".$Fila[ape_paterno]." ".$Fila[ape_materno]." ".$Fila["nombres"]."</td>";
+					echo "<td align='left'>&nbsp;".str_pad($Fila[rut],10,'0',STR_PAD_LEFT)."<br>".$Fila[ape_paterno]." ".$Fila[ape_materno]." ".$Fila[nombres]."</td>";
 					echo "<td align='left'>&nbsp;".$Fila[NAGENTE]."</td>";
 					echo "<td>".$Fila[QMEDICION]."</td>";
 					echo "<td>".$Fila[QLPP]."</td>";
@@ -292,7 +292,7 @@ if($Proceso=='NMP'||$Proceso=='MMP')
 	<td width="5" background="imagenes/tab_separator.gif"></td>
 </tr>
 </table>
-  <?  
+  <?php  
 		
 		if($MostrarDivMed=='S')
 			$Visible='visible';
@@ -311,15 +311,15 @@ if($Proceso=='NMP'||$Proceso=='MMP')
 				break;
 			case "MMP":
 				$TituloProceso="Modificar Mediciones Personales";
-				$Consulta="SELECT * from sgrs_medpersonales where CMEDPERSONAL='".$DatosMed."'";
+				$Consulta="select * from sgrs_medpersonales where CMEDPERSONAL='".$DatosMed."'";
 				//echo $Consulta;
-				$Resp=mysqli_query($link, $Consulta);
-				$Fila=mysql_fetch_array($Resp);
+				$Resp=mysqli_query($link,$Consulta);
+				$Fila=mysqli_fetch_array($Resp);
 				$CodMedPers=$DatosMed;
 				$Rut=$Fila[CRUT];
-				$Consulta="SELECT CPARENT from sgrs_areaorg where CAREA='".$Fila[CAREA]."'";
-				$RespArea=mysqli_query($link, $Consulta);
-				$FilaArea=mysql_fetch_array($RespArea);
+				$Consulta="select CPARENT from sgrs_areaorg where CAREA='".$Fila[CAREA]."'";
+				$RespArea=mysqli_query($link,$Consulta);
+				$FilaArea=mysqli_fetch_array($RespArea);
 				if($CambiaOrg=='S')
 					$NOSE='';
 				else
@@ -329,9 +329,9 @@ if($Proceso=='NMP'||$Proceso=='MMP')
 
 					$CmbOcupacion=$Fila[COCUPACION];
 					$CmbAgentes=$Fila[CAGENTE];
-					$Consulta="SELECT TNARCHIVO from sgrs_informes where CINFORME='".$Fila[CINFORME]."'";
-					$RespInf=mysqli_query($link, $Consulta);
-					$FilaInf=mysql_fetch_array($RespInf);
+					$Consulta="select TNARCHIVO from sgrs_informes where CINFORME='".$Fila[CINFORME]."'";
+					$RespInf=mysqli_query($link,$Consulta);
+					$FilaInf=mysqli_fetch_array($RespInf);
 					$CmbInformes=$Fila[CINFORME]."~#".$FilaInf[TNARCHIVO];
 					$FechaHoraIni=explode(' ',$Fila[FINICIO]);
 					$TxtFechaIni=FormatoFechaDDMMAAAA($FechaHoraIni[0]);
@@ -377,7 +377,7 @@ if($Proceso=='NMP'||$Proceso=='MMP')
 		}
 			
   ?>
-  <div id='DivMedPers'  style='FILTER: alpha(opacity=100); overflow:auto; VISIBILITY: <? echo $Visible;?>; WIDTH: 80%; height:490px; POSITION: absolute; moz-opacity: .75; opacity: .75;  left: 154px; top: 9px;'>
+  <div id='DivMedPers'  style='FILTER: alpha(opacity=100); overflow:auto; VISIBILITY: <?php echo $Visible;?>; WIDTH: 80%; height:490px; POSITION: absolute; moz-opacity: .75; opacity: .75;  left: 154px; top: 9px;'>
 	<table width="100%" height="85%" align="center"  border="0" cellpadding="0"  cellspacing="0" class="TablaPricipalColor">
       <tr>
         <td width="1%" height="1%"><img src="imagenes/interior/esq1.gif"></td>
@@ -389,8 +389,8 @@ if($Proceso=='NMP'||$Proceso=='MMP')
         <td width="97%" height="99%" valign="top" align="center">
 		<table width="98%" height="31" border="0" align="center" cellpadding="2" cellspacing="0" >
             <tr>
-              <td><p align="left" class="titulo_azul"><img src="imagenes/vineta.gif" border="0" /><span class="Estilo7"><? echo $TituloProceso;?></span></p></td>
-              <td align="right" ><a href="JavaScript:Grabar('<? echo $Proceso;?>')"><img src="imagenes/btn_guardar.png" height="20" alt="Guardar" width="20" border="0" align="absmiddle" /></a> <a href="JavaScript:Cerrar()"><img src="imagenes/cerrar1.png" width="25" height="25" border="0" alt="Cerrar" align="absmiddle" /></a> </td>
+              <td><p align="left" class="titulo_azul"><img src="imagenes/vineta.gif" border="0" /><span class="Estilo7"><?php echo $TituloProceso;?></span></p></td>
+              <td align="right" ><a href="JavaScript:Grabar('<?php echo $Proceso;?>')"><img src="imagenes/btn_guardar.png" height="20" alt="Guardar" width="20" border="0" align="absmiddle" /></a> <a href="JavaScript:Cerrar()"><img src="imagenes/cerrar1.png" width="25" height="25" border="0" alt="Cerrar" align="absmiddle" /></a> </td>
             </tr>
             <tr>
               <td colspan="2" align='center' ></td>
@@ -401,14 +401,14 @@ if($Proceso=='NMP'||$Proceso=='MMP')
 			  <td width="194" rowspan="13" align="left" valign="top" class="formulario">
 			  <div style='position:absolute; visibility:visible;width:180px; height:300px; OVERFLOW:auto;' id='OrganicaHI'>
 			  <table border='0' cellpadding='0' cellspacing='0' >
-			  <?
+			  <?php
 				 CrearArbolHI($Navega,$Estado,$SelTarea,'');
 			   ?>
 			  </table></div></td>
 			  <td width="1" background="imagenes/tab_separator.gif" rowspan="13" align="left" valign="top" class="formulario"></td>
 			  <td width="157" rowspan="2" align="left" class="formulario">&nbsp;Funcionario:</td>
 			  <td align="left" colspan="3">
-			  <?
+			  <?php
 			  if($Proceso=='NMP')
 			  {
 			  ?>
@@ -416,52 +416,52 @@ if($Proceso=='NMP'||$Proceso=='MMP')
 		      <input name="TxtBuscApePaterno" type="text" size="12">&nbsp;Ape.Paterno
 			  <input type="radio" name="Opt" class="SinBorde" checked="checked">&nbsp;Rut<input type="radio" name="Opt" class="SinBorde">
 			  <a href="JavaScript:FiltrarApePat()"><img src="imagenes/btn_buscar.gif" width="19" height="18" border="0"></a>
-			  <?
+			  <?php
 			  }
 			  ?>
 			  </td>
 		    </tr>
 			<tr>
 			  <td colspan="3" align="left">
-			  <?
+			  <?php
 			  if($Proceso=='NMP')
 			  {
 			  ?>
-			  <SELECT name="CmbFun">
-			  <option value="S" SELECTed>Seleccionar</option>
-			  <?
-			  	$Consulta="SELECT * from uca_web.uca_personas where estado<>'I' and nombres <> 'S/N' ";
+			  <select name="CmbFun">
+			  <option value="S" selected>Seleccionar</option>
+			  <?php
+			  	$Consulta="select * from uca_web.uca_personas where estado<>'I' and nombres <> 'S/N' ";
 				if($FiltrarApePat=='A')
 					$Consulta.=" and ape_paterno like '".$TxtBuscApePaterno."%'";
 				if($FiltrarApePat=='R')
 					$Consulta.=" and rut like '".$TxtBuscApePaterno."%'";	
 				$Consulta.="group by rut order by ape_paterno";
 				
-				$Resp=mysqli_query($link, $Consulta);
-				while($Fila=mysql_fetch_array($Resp))
+				$Resp=mysqli_query($link,$Consulta);
+				while($Fila=mysqli_fetch_array($Resp))
 				{
-					if($Fila["rut"]==$CmbFun)
-						echo "<option value='".$Fila["rut"]."' SELECTed>".str_pad($Fila["rut"],10,'0',STR_PAD_LEFT)." -  ".ucwords(strtolower($Fila[ape_paterno]))." ".ucwords(strtolower($Fila[ape_materno]))." ".ucwords(strtolower($Fila["nombres"]))."</option>";
+					if($Fila[rut]==$CmbFun)
+						echo "<option value='".$Fila[rut]."' selected>".str_pad($Fila[rut],10,'0',STR_PAD_LEFT)." -  ".ucwords(strtolower($Fila[ape_paterno]))." ".ucwords(strtolower($Fila[ape_materno]))." ".ucwords(strtolower($Fila[nombres]))."</option>";
 					else
-						echo "<option value='".$Fila["rut"]."'>".str_pad($Fila["rut"],10,'0',STR_PAD_LEFT)." -  ".ucwords(strtolower($Fila[ape_paterno]))." ".ucwords(strtolower($Fila[ape_materno]))." ".ucwords(strtolower($Fila["nombres"]))."</option>";
+						echo "<option value='".$Fila[rut]."'>".str_pad($Fila[rut],10,'0',STR_PAD_LEFT)." -  ".ucwords(strtolower($Fila[ape_paterno]))." ".ucwords(strtolower($Fila[ape_materno]))." ".ucwords(strtolower($Fila[nombres]))."</option>";
 				}
 			  
 			  ?>
-			  </SELECT>
-			  <?
+			  </select>
+			  <?php
 			  //echo $Consulta;
 			  }
 			  else
 			  {
-				$Consulta="SELECT * from uca_web.uca_personas where rut='".$Rut."'";
-				$Resp=mysqli_query($link, $Consulta);
-				$Fila=mysql_fetch_array($Resp);
-				echo "<span class='Estilo7'>".ucwords(strtolower($Fila[ape_paterno]))." ".ucwords(strtolower($Fila[ape_materno]))." ".ucwords(strtolower($Fila["nombres"]))."</span>";
+				$Consulta="select * from uca_web.uca_personas where rut='".$Rut."'";
+				$Resp=mysqli_query($link,$Consulta);
+				$Fila=mysqli_fetch_array($Resp);
+				echo "<span class='Estilo7'>".ucwords(strtolower($Fila[ape_paterno]))." ".ucwords(strtolower($Fila[ape_materno]))." ".ucwords(strtolower($Fila[nombres]))."</span>";
 				
 		  		
 			  ?>
-			  		<input type="hidden" name="CodMedPers" value="<? echo $CodMedPers;?>">
-			  <?
+			  		<input type="hidden" name="CodMedPers" value="<?php echo $CodMedPers;?>">
+			  <?php
 			  }
 			  ?>
 			  </td>
@@ -469,7 +469,7 @@ if($Proceso=='NMP'||$Proceso=='MMP')
 			<tr>
 			  <td height="24" align="left" class="formulario">&nbsp;Unidad Operativa:</td>
 			  <td colspan="3" align="left"><img src="imagenes/arbol.gif" height="18" alt="Organica" width="18" border="0" align="bottom">
-		  	  <?
+		  	  <?php
 				if(!isset($CodNivel))
 				{
 					$CodNivel=ObtenerCodParent($SelTarea);
@@ -481,43 +481,43 @@ if($Proceso=='NMP'||$Proceso=='MMP')
 					}*/
 			  	}
 			  ?>
-		      <input name="CodNivel" type="hidden" value="<? echo $CodNivel;?>" size="2"><label class='InputAzul'><? echo strtoupper(DescripOrganica3($CodNivel));?></label></td>
+		      <input name="CodNivel" type="hidden" value="<?php echo $CodNivel;?>" size="2"><label class='InputAzul'><?php echo strtoupper(DescripOrganica3($CodNivel));?></label></td>
 			</tr>
 			<tr>
 			  <td width="162" align="left" class="formulario">&nbsp;Ocupaci&oacute;n:</td>
 			  <td width="168" align="left">
-				<SELECT name="CmbOcupacion" style="width:100px">
-				<option value="1" SELECTed>SIN DEFINIR</option>
+				<select name="CmbOcupacion" style="width:100px">
+				<option value="1" selected>SIN DEFINIR</option>
 				
-				  <?
-					$Consulta="SELECT * from sgrs_ocupaciones where COCUPACION <>'1' order by NOCUPACION ";
-					$Resp=mysqli_query($link, $Consulta);
-					while($Fila=mysql_fetch_array($Resp))
+				  <?php
+					$Consulta="select * from sgrs_ocupaciones where COCUPACION <>'1' order by NOCUPACION ";
+					$Resp=mysqli_query($link,$Consulta);
+					while($Fila=mysqli_fetch_array($Resp))
 					{
 						if($CmbOcupacion==$Fila[COCUPACION])
-							echo "<option value='".$Fila[COCUPACION]."' SELECTed>".$Fila[NOCUPACION]."</option>";
+							echo "<option value='".$Fila[COCUPACION]."' selected>".$Fila[NOCUPACION]."</option>";
 						else
 							echo "<option value='".$Fila[COCUPACION]."'>".$Fila[NOCUPACION]."</option>";	
 					}
 				  ?>
-			  </SELECT></td>
+			  </select></td>
 			  <td colspan="2" align="left">&nbsp;</td>
 			</tr>
 			
 			<tr>
 			  <td width="162" align="left" class="formulario">&nbsp;Agente:</td>
 			  <td width="168" align="left">
-				<SELECT name="CmbAgentes" style="width:100px" onchange="MostrarLPP()">
+				<select name="CmbAgentes" style="width:100px" onchange="MostrarLPP()">
 				<option value='S'>Seleccionar</option>
-				  <?
+				  <?php
 					$QLPP='';$Unidad='';
-					$Consulta="SELECT t1.CAGENTE,t1.NAGENTE,t1.QLPP,t2.AUNIDAD from sgrs_cagentes t1 inner join sgrs_unidades t2 on t1.CUNIDAD=t2.CUNIDAD where t1.MVIGENTE='1' order by t1.NAGENTE";
-					$Resp=mysqli_query($link, $Consulta);
-					while($Fila=mysql_fetch_array($Resp))
+					$Consulta="select t1.CAGENTE,t1.NAGENTE,t1.QLPP,t2.AUNIDAD from sgrs_cagentes t1 inner join sgrs_unidades t2 on t1.CUNIDAD=t2.CUNIDAD where t1.MVIGENTE='1' order by t1.NAGENTE";
+					$Resp=mysqli_query($link,$Consulta);
+					while($Fila=mysqli_fetch_array($Resp))
 					{
 						if($CmbAgentes==$Fila[CAGENTE])
 						{
-							echo "<option value='".$Fila[CAGENTE]."' SELECTed>".$Fila[NAGENTE]."</option>";
+							echo "<option value='".$Fila[CAGENTE]."' selected>".$Fila[NAGENTE]."</option>";
 							$QLPP=$Fila[QLPP];
 							$Unidad=$Fila[AUNIDAD];
 						}
@@ -525,52 +525,52 @@ if($Proceso=='NMP'||$Proceso=='MMP')
 							echo "<option value='".$Fila[CAGENTE]."'>".$Fila[NAGENTE]."</option>";	
 					}
 				  ?>
-			  </SELECT><? //echo $Consulta;?></td>
-			  <td width="98" align="left" class="formulario">LPP:&nbsp;&nbsp;&nbsp;<? echo $QLPP." ".strtolower($Unidad);?><input name="LPP" type="hidden" value="<? echo $QLPP;?>"><input name="Unidad" type="hidden" value="<? echo $Unidad;?>"></td>
+			  </select><?php //echo $Consulta;?></td>
+			  <td width="98" align="left" class="formulario">LPP:&nbsp;&nbsp;&nbsp;<?php echo $QLPP." ".strtolower($Unidad);?><input name="LPP" type="hidden" value="<?php echo $QLPP;?>"><input name="Unidad" type="hidden" value="<?php echo $Unidad;?>"></td>
 			  <td align="left"></td>
 			</tr>
 			<tr>
 			  <td align="left" class="formulario">&nbsp;Fecha de Inicio:</td>
-			  <td align="left"><input name="TxtFechaIni" type="text" class="InputCen" value="<? echo $TxtFechaIni; ?>" size="10" maxlength="10" onBlur="DateFormat(this,this.value,event,true,'3',Mantenedor,'DIF')" onKeyUp="DateFormat(this,this.value,event,false,'3')"  onfocus="javascript:vDateType='3'"></td>
+			  <td align="left"><input name="TxtFechaIni" type="text" class="InputCen" value="<?php echo $TxtFechaIni; ?>" size="10" maxlength="10" onBlur="DateFormat(this,this.value,event,true,'3',Mantenedor,'DIF')" onKeyUp="DateFormat(this,this.value,event,false,'3')"  onfocus="javascript:vDateType='3'"></td>
 			  <td width="98" align="left" class="formulario">Hora de Inicio:</td>
-			  <td width="77" align="left"><input name="TxtHoraIni" type="text" value="<? echo $TxtHoraIni;?>" size="5" onblur="ValidarHora('I')" maxlength="5"></td>
+			  <td width="77" align="left"><input name="TxtHoraIni" type="text" value="<?php echo $TxtHoraIni;?>" size="5" onblur="ValidarHora('I')" maxlength="5"></td>
 			</tr>
 			<tr>
-			  <td align="left" class="formulario">&nbsp;Fecha de Tï¿½rmino:</td>
-			  <td align="left"><input name="TxtFechaFin" type="text" class="InputCen" value="<? echo $TxtFechaFin; ?>" size="10" maxlength="10" onBlur="DateFormat(this,this.value,event,true,'3',Mantenedor,'DIF')" onKeyUp="DateFormat(this,this.value,event,false,'3')"  onfocus="javascript:vDateType='3'"></td>
-			  <td align="left" class="formulario">Hora de Tï¿½rmino:</td>
-			  <td align="left"><input name="TxtHoraFin" type="text" size="5"  value="<? echo $TxtHoraFin;?>" maxlength="5" onblur="ValidarHora('F')"></td>
+			  <td align="left" class="formulario">&nbsp;Fecha de Término:</td>
+			  <td align="left"><input name="TxtFechaFin" type="text" class="InputCen" value="<?php echo $TxtFechaFin; ?>" size="10" maxlength="10" onBlur="DateFormat(this,this.value,event,true,'3',Mantenedor,'DIF')" onKeyUp="DateFormat(this,this.value,event,false,'3')"  onfocus="javascript:vDateType='3'"></td>
+			  <td align="left" class="formulario">Hora de Término:</td>
+			  <td align="left"><input name="TxtHoraFin" type="text" size="5"  value="<?php echo $TxtHoraFin;?>" maxlength="5" onblur="ValidarHora('F')"></td>
 			</tr>
 			<tr>
-			  <td height="24" align="left" class="formulario">&nbsp;Duraciï¿½n:</td>
-			  <td colspan="2" align="left"><input name="TxtDuracion" type="text" size="5" value="<? echo $TxtDuracion;?>" readonly></td>
+			  <td height="24" align="left" class="formulario">&nbsp;Duración:</td>
+			  <td colspan="2" align="left"><input name="TxtDuracion" type="text" size="5" value="<?php echo $TxtDuracion;?>" readonly></td>
 			  <td align="left">&nbsp;</td>
 			</tr>
 			<tr>
 			  <td height="27" align="left" class="formulario">&nbsp;Magnitud: </td>
-			  <td align="left"><input name="TxtMag" type="text" size="10" value="<? echo $TxtMag; ?>" onKeyDown="TeclaPulsada(true)" maxlength="10" onBlur="CalculoMR()"></td>
+			  <td align="left"><input name="TxtMag" type="text" size="10" value="<?php echo $TxtMag; ?>" onKeyDown="TeclaPulsada(true)" maxlength="10" onBlur="CalculoMR()"></td>
 			  <td align="left" class="formulario">Dosis</td>
 			  <td align="left">
-			  <?
+			  <?php
 			  	//if($Unidad=='DB')
 					$DosisRead='';
 				//else
 				//	$DosisRead='readonly';	
 			  ?>
-			  <input name="TxtDosis" type="text" size="10" value="<? echo $TxtDosis;?>" <? echo $DosisRead;?> onKeyDown="TeclaPulsada(true)" maxlength="10" onblur="CalculoMag()" >
+			  <input name="TxtDosis" type="text" size="10" value="<?php echo $TxtDosis;?>" <?php echo $DosisRead;?> onKeyDown="TeclaPulsada(true)" maxlength="10" onblur="CalculoMag()" >
 			  </td>
 			</tr>
 			<tr>
 			  <td height="27" align="left" class="formulario">&nbsp;MR:</td>
 			  <td align="left" class="formulario" nowrap="nowrap">
-			  <input name="MR" type="text" value="<? echo $MR;?>" readonly="true" class="SinBorde2">
-			  <div id="DivSemVerde" style="visibility:<? echo $DivVisV;?>; position:absolute;">
+			  <input name="MR" type="text" value="<?php echo $MR;?>" readonly="true" class="SinBorde2">
+			  <div id="DivSemVerde" style="visibility:<?php echo $DivVisV;?>; position:absolute;">
 			  <img src='imagenes/semaforo_verde.jpg' border=0 width='18' height='30'>
 			  </div>
-			  <div id="DivSemAmarillo" style="visibility:<? echo $DivVisA;?>; position:absolute;">
+			  <div id="DivSemAmarillo" style="visibility:<?php echo $DivVisA;?>; position:absolute;">
 			  <img src='imagenes/semaforo_amarillo.jpg' border=0 width='18' height='30'>
 			  </div>
-			  <div id="DivSemRojo" style="visibility:<? echo $DivVisR;?>; position:absolute;">
+			  <div id="DivSemRojo" style="visibility:<?php echo $DivVisR;?>; position:absolute;">
 			  <img src='imagenes/semaforo_rojo.jpg' border=0 width='18' height='30'>
 			  </div>
 			  </td>
@@ -580,57 +580,57 @@ if($Proceso=='NMP'||$Proceso=='MMP')
 			<tr>
 			  <td height="27" align="left" class="formulario">&nbsp;Informe:</td>
 			  <td align="left" colspan="3">
-			  <SELECT name="CmbInformes" style="width:250px">
+			  <select name="CmbInformes" style="width:250px">
 			  <option value="S">Seleccionar</option>
-			  <?
-				$Consulta="SELECT * from sgrs_informes order by CVINFORME";
-				$Resp=mysqli_query($link, $Consulta);
-				while($Fila=mysql_fetch_array($Resp))
+			  <?php
+				$Consulta="select * from sgrs_informes order by CVINFORME";
+				$Resp=mysqli_query($link,$Consulta);
+				while($Fila=mysqli_fetch_array($Resp))
 				{
 					if($CmbInformes==$Fila[CINFORME]."~#".$Fila[TNARCHIVO])
-						echo "<option value='".$Fila[CINFORME]."~#".$Fila[TNARCHIVO]."' SELECTed>".$Fila[CVINFORME]."</option>";
+						echo "<option value='".$Fila[CINFORME]."~#".$Fila[TNARCHIVO]."' selected>".$Fila[CVINFORME]."</option>";
 					else
 						echo "<option value='".$Fila[CINFORME]."~#".$Fila[TNARCHIVO]."'>".$Fila[CVINFORME]."</option>";	
 				}
 			  
 			  ?>
-			  </SELECT><a href="JavaScript:Adjunto();"><img src="imagenes/btn_adjuntar2.png" height="20" alt="Ver Informe Adjunto" width="20" border="0" align="absmiddle" /></a></td>
+			  </select><a href="JavaScript:Adjunto();"><img src="imagenes/btn_adjuntar2.png" height="20" alt="Ver Informe Adjunto" width="20" border="0" align="absmiddle" /></a></td>
 			</tr>
 			<tr>
-			  <td height="27" align="left" class="formulario">&nbsp;Observaciï¿½n:</td>
-			  <td height="27" colspan="3" align="left"><textarea name="TxtObs" cols="100" rows="3"><? echo $TxtObs;?></textarea></td>
+			  <td height="27" align="left" class="formulario">&nbsp;Observación:</td>
+			  <td height="27" colspan="3" align="left"><textarea name="TxtObs" cols="100" rows="3"><?php echo $TxtObs;?></textarea></td>
 			</tr>
 			<tr>
 			  <td height="27" align="left" class="formulario">
 			  &nbsp;
-				<?
+				<?php
 				if($Nivel=='6'&&$MR=='INACEPTABLE')
 				{
 				?>
 			    <input name="TxtNomAccion" type="text" value="Acciones Tomadas" readonly="true" class="SinBorde2">
-				<?
+				<?php
 				}
 				else
 				{
 				?>
 				<input name="TxtNomAccion" type="text" value="Acciones Tomadas" readonly="true" class="SinBorde2" style="visibility:hidden">
-				<?
+				<?php
 				}
 				?>
 			  </td>
 			  <td height="27" colspan="3"align="left">
-				<?
+				<?php
 				if($Nivel=='6'&&$MR=='INACEPTABLE')
 				{
 				?>
-				  <textarea name="TxtAccion" cols="100" rows="5"><? echo $TxtAccion;?></textarea>
-				<?
+				  <textarea name="TxtAccion" cols="100" rows="5"><?php echo $TxtAccion;?></textarea>
+				<?php
 				}
 				else
 				{
 				?>
-					<textarea name="TxtAccion" cols="100" rows="5" style="visibility:hidden"><? echo $TxtAccion;?></textarea>
-				<?
+					<textarea name="TxtAccion" cols="100" rows="5" style="visibility:hidden"><?php echo $TxtAccion;?></textarea>
+				<?php
 				}
 				?>
 			  </td>
@@ -661,7 +661,7 @@ if($Proceso=='NMP'||$Proceso=='MMP')
 </form>
 </body>
 </html>
-<?
+<?php
 	echo "<script languaje='javascript'>";
 	echo "CalculoMR();";
 	echo "ValidarHora();";

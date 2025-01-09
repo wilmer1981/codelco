@@ -49,29 +49,29 @@ function Salir(Opt)
     <td background="imagenes/bg_sup.gif" class="BordeTop">&nbsp;<img src="imagenes/arbol.gif">&nbsp;Buscador de Tareas&nbsp;
       <input name='TxtBuscaTarea' type='text' value='<? echo $TxtBuscaTarea;?>' style='width:150' />
       <a href="javascript:BuscaTarea()"><img src="imagenes/btn_aceptar.png" alt='Aceptar' width="18" height="18" border="0" align="absmiddle" /></a><span class="ColorTabla02">
-      <SELECT name="CmbTareas" onChange="top.frames['Organica'].BuscaItem()">
-        <option value="S" SELECTed="SELECTed">Seleccionar</option>
+      <select name="CmbTareas" onChange="top.frames['Organica'].BuscaItem()">
+        <option value="S" selected="selected">Seleccionar</option>
         <?
 		if($TxtBuscaTarea!='')
 		{
 			ObtieneAccesoOrg2($CookieRut,&$AccesoOrg);
 			if($AccesoOrg!='')
 			{
-				$Consulta="SELECT * from sgrs_areaorg where CTAREA='8' ".$AccesoOrg."";
+				$Consulta="select * from sgrs_areaorg where CTAREA='8' ".$AccesoOrg."";
 				$Consulta.=" and upper(NAREA) like '%".strtoupper($TxtBuscaTarea)."%'";
 				$Consulta.=" order by NAREA";	
-				$RespTarea=mysqli_query($link, $Consulta);
+				$RespTarea=mysql_query($Consulta);
 				while($FilaTarea=mysql_fetch_array($RespTarea))
 				{
 					if(strtoupper($FilaTarea[NAREA])==strtoupper($CmbTareas))
-						echo "<option value='".$FilaTarea[CPARENT].$FilaTarea[CAREA].",' SELECTed>".$FilaTarea[NAREA]."</option>";
+						echo "<option value='".$FilaTarea[CPARENT].$FilaTarea[CAREA].",' selected>".$FilaTarea[NAREA]."</option>";
 					else
 						echo "<option value='".$FilaTarea[CPARENT].$FilaTarea[CAREA].",'>".$FilaTarea[NAREA]."</option>";
 				}
 			}
 		}
 	  ?>
-      </SELECT><? //echo $Consulta;?>
+      </select><? //echo $Consulta;?>
     </span><input name="PestanaActiva" type="hidden" value="1">
 	<?
 		OrigenOrg($CodSelTarea,&$Ruta,&$CodNiveles);

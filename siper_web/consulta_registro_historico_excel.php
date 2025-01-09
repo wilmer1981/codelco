@@ -1,4 +1,4 @@
-<?
+<?php
 include('conectar_ori.php');
 include('funciones/siper_funciones.php');
 
@@ -32,7 +32,7 @@ if(!isset($FHasta))
 ?>
 <html>
 <head>
-<title>Consulta Histï¿½rica</title>
+<title>Consulta Histórica</title>
 <form name="FrmPrincipal" method="post" action="">
 <br>
 <table width="100%" border="1" align="center" cellpadding="2" cellspacing="0">
@@ -42,14 +42,14 @@ if(!isset($FHasta))
     <td width="15%" align="center" class="TituloCabecera">Tipo Proceso</td>
     <td width="30%" align="center" class="TituloCabecera">Observaci&oacute;n</td>
     <td width="30%" align="center" class="TituloCabecera">Observaci&oacute;n (Solo Modificaci&oacute;n)</td>
-    <td width="20%" align="center" class="TituloCabecera">Observaciï¿½n (Eliminaciï¿½n)</td>
-    <td width="20%" align="center" class="TituloCabecera">Observaciï¿½n (Sustituciï¿½n)</td>
+    <td width="20%" align="center" class="TituloCabecera">Observación (Eliminación)</td>
+    <td width="20%" align="center" class="TituloCabecera">Observación (Sustitución)</td>
   </tr>
-  <?
+  <?php
 			$FDesde=$FDesde." 00:00:00";
 			$FHasta=$FHasta." 23:59:59";
 
-			$Consulta = "SELECT * from sgrs_registro_historico t1 inner join proyecto_modernizacion.sub_clase t2 on t2.cod_clase='29000' and valor_subclase2='S' and t1.tipo_proceso=t2.cod_subclase";
+			$Consulta = "select * from sgrs_registro_historico t1 inner join proyecto_modernizacion.sub_clase t2 on t2.cod_clase='29000' and valor_subclase2='S' and t1.tipo_proceso=t2.cod_subclase";
 			$Consulta.= " where rut_funcionario<>'' and fecha_registro between '".$FDesde."' and '".$FHasta."'";
 			if($CmbFuncionario!='T')
 				$Consulta.=" and rut_funcionario='".$CmbFuncionario."'";
@@ -59,14 +59,14 @@ if(!isset($FHasta))
 				$Consulta.=" and parent like '%".$SelTarea."%'";					
 			$Consulta.=" order by fecha_registro";	
 			//echo $Consulta."<br>";
-			$Resp = mysqli_query($link, $Consulta);
-			while ($Fila=mysql_fetch_array($Resp))
+			$Resp = mysqli_query($link,$Consulta);
+			while ($Fila=mysqli_fetch_array($Resp))
 			{
-				$Consulta1="SELECT * from proyecto_modernizacion.funcionarios where rut='".$Fila["rut_funcionario"]."'";
+				$Consulta1="select * from proyecto_modernizacion.funcionarios where rut='".$Fila[rut_funcionario]."'";
 				//echo $Consulta;
-				$Resultado=mysql_query($Consulta1);
-				if($Fila1=mysql_fetch_array($Resultado))
-					$Nombre=$Fila1["apellido_paterno"]." ".$Fila1["apellido_materno"]." ".$Fila1["nombres"];
+				$Resultado=mysqli_query($link,$Consulta1);
+				if($Fila1=mysqli_fetch_array($Resultado))
+					$Nombre=$Fila1[apellido_paterno]." ".$Fila1[apellido_materno]." ".$Fila1[nombres];
 					
 				if($Fila[observacion2]=='')
 					$Obs2='';
@@ -81,7 +81,7 @@ if(!isset($FHasta))
 				{
 					if($Fila[Tipo_Eli_Sust]!='')
 					{
-						if($Fila[Tipo_Eli_Sust]==1)//ELIMINACIï¿½N
+						if($Fila[Tipo_Eli_Sust]==1)//ELIMINACIÓN
 						{
 							$Obs3="<td align='left' >".$Fila[obs_elimina]."</td>
 								   <td align='center' >&nbsp;</td>";		
@@ -95,15 +95,15 @@ if(!isset($FHasta))
 				}	
 					?>
 			  <tr>
-				<td ><? echo $Fila["rut_funcionario"]." ".$Nombre; ?></td>
-				<td align="center" ><? echo $Fila["fecha_registro"]; ?>&nbsp;</td>
-				<td align="center" ><? echo $Fila["nombre_subclase"]; ?>&nbsp;</td>
-				<td align="center" ><? echo $Fila["observacion"];?>
+				<td ><?php echo $Fila[rut_funcionario]." ".$Nombre; ?></td>
+				<td align="center" ><?php echo $Fila[fecha_registro]; ?>&nbsp;</td>
+				<td align="center" ><?php echo $Fila[nombre_subclase]; ?>&nbsp;</td>
+				<td align="center" ><?php echo $Fila[observacion];?>
 				  &nbsp;</td>
-				<td align="center" ><? echo $Obs2;?>&nbsp;</td>
-				<? echo $Obs3;?>
+				<td align="center" ><?php echo $Obs2;?>&nbsp;</td>
+				<?php echo $Obs3;?>
 			  </tr>
-			  <?		
+			  <?php		
 			}
 ?>
 </table>

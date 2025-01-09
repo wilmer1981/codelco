@@ -1,4 +1,4 @@
-<?php 	
+<?phpphp 	
 
 include('conectar_ori.php');
 //include("includes/phpchartdir.php");
@@ -15,25 +15,25 @@ $FHasta=$FHasta." 23:59:59";
 
 
 //echo "PANTALLA:   ".$CmbM;
-$Consulta="SELECT  * from proyecto_modernizacion.pantallas t1 inner join sgrs_control_acceso t2 on t1.cod_pantalla=t2.pantalla where cod_sistema='29' and fecha_hora between '".$FDesde."' and '".$FHasta."'";
+$Consulta="select  * from proyecto_modernizacion.pantallas t1 inner join sgrs_control_acceso t2 on t1.cod_pantalla=t2.pantalla where cod_sistema='29' and fecha_hora between '".$FDesde."' and '".$FHasta."'";
 if($USUARIO!='T')
 	$Consulta.= " and t2.rut='".$USUARIO."'";
 if($CmbM!='T')
 	$Consulta.=" and t1.cod_pantalla='".$CmbM."'";
 $Consulta.=" group by t1.cod_pantalla order by t1.descripcion ";
 //echo $Consulta."<br>";
-$Respuesta=mysqli_query($link, $Consulta);
-while($Fila=mysql_fetch_array($Respuesta))
+$Respuesta=mysqli_query($link,$Consulta);
+while($Fila=mysqli_fetch_array($Respuesta))
 {	
-	$ArregloNom[$Cont]=$Fila["descripcion"];
+	$ArregloNom[$Cont]=$Fila[descripcion];
 	
-	$Consulta1="SELECT  count(*) as Cantidad from proyecto_modernizacion.pantallas t1 inner join sgrs_control_acceso t2 on t1.cod_pantalla=t2.pantalla where cod_sistema='29' and t2.rut<>'' and fecha_hora between '".$FDesde."' and '".$FHasta."'";
+	$Consulta1="select  count(*) as Cantidad from proyecto_modernizacion.pantallas t1 inner join sgrs_control_acceso t2 on t1.cod_pantalla=t2.pantalla where cod_sistema='29' and t2.rut<>'' and fecha_hora between '".$FDesde."' and '".$FHasta."'";
 	if($USUARIO!='T')
-		$Consulta1.= " and t2.rut='".$Fila["rut"]."'";
+		$Consulta1.= " and t2.rut='".$Fila[rut]."'";
 	$Consulta1.=" and cod_pantalla='".$Fila[cod_pantalla]."' order by t1.descripcion";
 	//echo $Consulta1."<br>";
-	$Respuesta1=mysql_query($Consulta1);$Cant=0;
-	$Fila1=mysql_fetch_array($Respuesta1);	
+	$Respuesta1=mysqli_query($link,$Consulta1);$Cant=0;
+	$Fila1=mysqli_fetch_array($Respuesta1);	
 	$Cant=$Fila1[Cantidad];
 	$ArrCant[$Cont]=$Cant;
 	$Cont=$Cont+1;
@@ -48,14 +48,14 @@ if($USUARIO=='T')
 	$Usu='Todos';
 else
 {
-	$Consulta1="SELECT  CONCAT(T1.APELLIDO_PATERNO, ' ', T1.APELLIDO_MATERNO, ' ', T1.NOMBRES) AS NOMBRE  from proyecto_modernizacion.funcionarios t1 where t1.rut='".$USUARIO."'";
-	$Respuesta1=mysql_query($Consulta1);
-	$Fila1=mysql_fetch_array($Respuesta1);
+	$Consulta1="select  CONCAT(T1.APELLIDO_PATERNO, ' ', T1.APELLIDO_MATERNO, ' ', T1.NOMBRES) AS NOMBRE  from proyecto_modernizacion.funcionarios t1 where t1.rut='".$USUARIO."'";
+	$Respuesta1=mysqli_query($link,$Consulta1);
+	$Fila1=mysqli_fetch_array($Respuesta1);
 	//echo $Consulta1."<br>";
-	$Usu=$Fila1["nombre"];	
+	$Usu=$Fila1[NOMBRE];	
 }	
 #Add a title to the chart using Arial Bold Italic font
-$c->addTitle("Control Acceso (Grï¿½fico) Rango Fechas: ".$FDesdeT." - ".$FHastaT.", Funcionario: ".$Usu."", "arialbi.ttf");
+$c->addTitle("Control Acceso (Gráfico) Rango Fechas: ".$FDesdeT." - ".$FHastaT.", Funcionario: ".$Usu."", "arialbi.ttf");
 
 #Set the plotarea at (100, 30) and of size 400 x 200 pixels. Set the
 #plotarea border, background and grid lines to Transparent

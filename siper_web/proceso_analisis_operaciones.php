@@ -4,7 +4,7 @@
 	<td align="center">
 		<table width="90%" border="0" cellpadding="0" cellspacing="4">
 		<tr>
-			<td align="right"><a href="javascript:ValidarTarea('VT','<? echo $CodSelTarea;?>')"></td>
+			<td align="right"><a href="javascript:ValidarTarea('VT','<?php echo $CodSelTarea;?>')"></td>
 		</tr>
 		</table>
 		<table width="90%" border="1" cellpadding="0" cellspacing="0">
@@ -19,12 +19,12 @@
 	    </table>
 	    <div id='load'  style='overflow:auto;WIDTH: 90%; height:360px;left: 15px; top: 65px;'>
           <table width="100%" border="1" cellpadding="0" cellspacing="0">
-            <? 
-			//$Consulta="SELECT * from sgrs_areaorg where CTAREA ='1' and MVIGENTE='1' order by NAREA";
-			$Consulta="SELECT * from sgrs_areaorg where CPARENT = ',0,1,'  and MVIGENTE='1' order by NAREA";
+            <?php 
+			//$Consulta="select * from sgrs_areaorg where CTAREA ='1' and MVIGENTE='1' order by NAREA";
+			$Consulta="select * from sgrs_areaorg where CPARENT = ',0,1,'  and MVIGENTE='1' order by NAREA";
 			//echo $Consulta;
-			$Resultado=mysqli_query($link, $Consulta);$TotGenIden=0;$TotGenNoIden=0;$TotGenVal=0;$TotGenNoVal=0;
-			while ($Fila=mysql_fetch_array($Resultado))
+			$Resultado=mysqli_query($link,$Consulta);$TotGenIden=0;$TotGenNoIden=0;$TotGenVal=0;$TotGenNoVal=0;
+			while ($Fila=mysqli_fetch_array($Resultado))
 			{
 				$Codigo=$Fila[CPARENT].$Fila[CAREA].",";
 				echo "<tr>";
@@ -61,7 +61,7 @@
 	<td width="5" background="imagenes/tab_separator.gif"></td>
 </tr>
 </table>
-<?
+<?php
 	function SumaOperaciones($Cod,$TipoCampo,$TipoFiltro)
 	{
 		switch($TipoCampo)
@@ -79,12 +79,12 @@
 				$Filtro='';			
 			break;	
 		}
-		$Consulta="SELECT count(".$Campo.") as cant from sgrs_areaorg t1 inner join sgrs_siperoperaciones t2 on t1.CAREA=t2.CAREA ";
+		$Consulta="select count(".$Campo.") as cant from sgrs_areaorg t1 inner join sgrs_siperoperaciones t2 on t1.CAREA=t2.CAREA ";
 		$Consulta.="where CTAREA ='8' and CPARENT like '%".$Cod."%' ".$Filtro;
-		$RespIdent=mysqli_query($link, $Consulta);
+		$RespIdent=mysqli_query($link,$Consulta);
 		//echo $Consulta."<br><br>";
-		$FilaIdent=mysql_fetch_array($RespIdent);
-		return($FilaIdent["Cant"]);
+		$FilaIdent=mysqli_fetch_array($RespIdent);
+		return($FilaIdent[cant]);
 	
 	}
 ?>

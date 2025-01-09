@@ -1,4 +1,4 @@
-<?php
+<?phpphp
 	include('conectar_consulta.php');
 	include('funciones/siper_funciones.php');
 	//1:PESTAÑA PARA VALIDAR TAREAS.
@@ -78,9 +78,9 @@ function ValidarTarea(Proceso)
 </head>
 <body>
 <form name='Mantenedor'>
-<input name="CodSelTarea" type="hidden" size="100" value="<? echo $CodSelTarea;?>">
+<input name="CodSelTarea" type="hidden" size="100" value="<?php echo $CodSelTarea;?>">
 <input name="Salida" type="hidden" value="L">
-<?php
+<?phpphp
 	
 	switch($TipoPestana)
 	{
@@ -101,14 +101,14 @@ function ValidarTarea(Proceso)
   <table width="100%" border="0" cellpadding="0" cellspacing="0">
 	<tr>
 	  <td width="9%" height="25"><img src="imagenes/tab_slide_hm_next.gif" ></td>
-	  <td width="45%" align="center" background="<?php echo $Fondo1;?>"><a href="javascript:SeleccionPestana(1)"><?php echo '<span class="'.$LinkPestana1.'">';?>Consulta Tareas </a></td>
+	  <td width="45%" align="center" background="<?phpphp echo $Fondo1;?>"><a href="javascript:SeleccionPestana(1)"><?phpphp echo '<span class="'.$LinkPestana1.'">';?>Consulta Tareas </a></td>
 	  <td width="1" ><img src="imagenes/tab_separator.gif"></td>
-	  <td width="45%" align="center" background="<?php echo $Fondo2;?>"><a href="javascript:SeleccionPestana(2)"><?php echo "<span class='".$LinkPestana2."'>";?>Consulta Peligros  </a></td>
+	  <td width="45%" align="center" background="<?phpphp echo $Fondo2;?>"><a href="javascript:SeleccionPestana(2)"><?phpphp echo "<span class='".$LinkPestana2."'>";?>Consulta Peligros  </a></td>
 	  <td width="1" align="right"><img src="imagenes/tab_separator.gif"></td>
 	</tr>
     <tr class="estilos2">
       <td colspan="9" align="center" >
-	    <?php
+	    <?phpphp
 		switch($TipoPestana)
 		{
 			case "1":
@@ -136,7 +136,7 @@ function ValidarTarea(Proceso)
 </form>
 </body>
 </html>
-<?php
+<?phpphp
 if($Msj!='')
 {
 	echo "<script languaje='javascript'>";

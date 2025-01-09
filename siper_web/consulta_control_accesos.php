@@ -1,4 +1,4 @@
-<? include("conectar_principal.php");?>
+<?php include("conectar_principal.php");?>
 <html>
 <head>
 <title>Sistemas Locales - Control de Acceso</title>
@@ -82,15 +82,15 @@ function Salir(f)
   <table width="770" border="0" cellspacing="0" cellpadding="0" class="TablaPrincipal">
     <tr>
       <td height="316" valign="top"> 
-        <?
+        <?php
 	$dia_actual = date("d");
 	$mes_actual = date("m"); //ENTREGA NUMERO DE MES SIN CERO (1-12)
-	$ano_actual = date("Y"); //ENTREGA NUMERO DE Aï¿½O DE 4 DIGITOS (2002)
+	$ano_actual = date("Y"); //ENTREGA NUMERO DE AÑO DE 4 DIGITOS (2002)
 	echo "<input type='hidden' name='DiaActual' value='$dia_actual'>\n";
 	echo "<input type='hidden' name='MesActual' value='$mes_actual'>\n";
 	echo "<input type='hidden' name='AnoActual' value='$ano_actual'>\n";
 	//FUNCION DE FECHA
-	$dias = array("Domingo","Lunes","Martes","Miï¿½rcoles","Jueves","Viernes","Sï¿½bado");
+	$dias = array("Domingo","Lunes","Martes","Miércoles","Jueves","Viernes","Sábado");
 	$meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
   	$str_dia = date("w");
   	$str_dia = $str_dia;
@@ -104,10 +104,10 @@ function Salir(f)
   echo "<tr>\n";
   $dia_actual=date("j");
   $mes_actual=date("n"); //ENTREGA NUMERO DE MES SIN CERO (1-12)
-  $ano_actual=date("Y"); //ENTREGA NUMERO DE Aï¿½O DE 4 DIGITOS (2002)
+  $ano_actual=date("Y"); //ENTREGA NUMERO DE AÑO DE 4 DIGITOS (2002)
   echo "<td><font>Fecha Inicio:</font></td>\n";
   echo "<td>\n";
-  echo "<SELECT name='cmb_dia'>\n";
+  echo "<select name='cmb_dia'>\n";
 	for ($i=1; $i<=31; $i++)
   	{
 		if ($i < 10)
@@ -120,9 +120,9 @@ function Salir(f)
 		}
 		echo "<option value='$cont_dia'>&nbsp;".$cont_dia."&nbsp;</option>\n";
   	}
-  echo "</SELECT>\n";
+  echo "</select>\n";
   // MES
-  echo "<SELECT name=cmb_mes >\n";
+  echo "<select name=cmb_mes >\n";
   for ($i=1; $i<=12; $i++)
   {
   	  if ($i < 10)
@@ -139,7 +139,7 @@ function Salir(f)
 	  {
 		if ($i==$cmb_mes)
 	  	{
-		  	echo "<option value='$Valor' SELECTed>&nbsp;$meses[$num_aux]&nbsp;</option>\n";
+		  	echo "<option value='$Valor' selected>&nbsp;$meses[$num_aux]&nbsp;</option>\n";
 	  	}
 		else
 		{
@@ -150,7 +150,7 @@ function Salir(f)
 	  {
 	  	if ($i==$num_mes)
 	  	{
-		  	echo "<option value='$Valor' SELECTed>&nbsp;$meses[$num_aux]&nbsp;</option>\n";
+		  	echo "<option value='$Valor' selected>&nbsp;$meses[$num_aux]&nbsp;</option>\n";
 	  	}
 	  	else
 	 	{
@@ -158,23 +158,23 @@ function Salir(f)
 	  	}
 	}
 }
-  echo "</SELECT>\n";
-  // Aï¿½O (i indica la cantidad de aÃ±os que me muestra ahora 5 desde el 2001)
-  echo "<SELECT name=cmb_ano>\n";
+  echo "</select>\n";
+  // AÑO (i indica la cantidad de años que me muestra ahora 5 desde el 2001)
+  echo "<select name=cmb_ano>\n";
   for ($i=2001; $i<=date('Y')+1; $i++)
   {
   	if ($opcion==1)
 	{
 		if ($i==$cmb_ano)
 	  	{
-		  	echo "<option value='$i' SELECTed>&nbsp;$i&nbsp;</option>\n";
+		  	echo "<option value='$i' selected>&nbsp;$i&nbsp;</option>\n";
 	  	}
 	}
 	else
 	{
 		if ($i==$ano_actual)
 	  	{
-		  	echo "<option value='$i' SELECTed>&nbsp;$i&nbsp;</option>\n";
+		  	echo "<option value='$i' selected>&nbsp;$i&nbsp;</option>\n";
 	  	}
 	  	else
 	  	{
@@ -182,8 +182,8 @@ function Salir(f)
 	  	}
 	}
   }
-  echo "</SELECT>\n";
-  echo "<SELECT name=HoraIni>";
+  echo "</select>\n";
+  echo "<select name=HoraIni>";
   for ($i=0;$i<=23;$i++)
   {
   	if ($i < 10)
@@ -196,8 +196,8 @@ function Salir(f)
 	}
   	echo "<option value='".$Valor."'>".$Valor."</option>";
   }
-  echo "</SELECT>";
-  echo "<SELECT name=MinIni>";
+  echo "</select>";
+  echo "<select name=MinIni>";
   for ($i=0;$i<=59;$i++)
   {
   	if ($i < 10)
@@ -210,17 +210,17 @@ function Salir(f)
 	}
   	echo "<option value='".$Valor."'>".$Valor."</option>";
   }
-  echo "</SELECT>";
+  echo "</select>";
   echo "<font size=1>HRS.</font>";
   echo "</td>";
   echo "</tr><tr>";
   // FECHA TERMINO
   $dia_actual=date("d");
   $mes_actual=date("n"); //ENTREGA NUMERO DE MES SIN CERO (1-12)
-  $ano_actual=date("Y"); //ENTREGA NUMERO DE Aï¿½O DE 4 DIGITOS (2002)
+  $ano_actual=date("Y"); //ENTREGA NUMERO DE AÑO DE 4 DIGITOS (2002)
   echo "<td><font>Fecha Termino:</font></td>\n";
   echo "<td>\n";
-  echo "<SELECT name='cmb_dia_fin'>\n";
+  echo "<select name='cmb_dia_fin'>\n";
 	for ($i=1; $i<=31; $i++)
   	{
 		if ($i < 10)
@@ -233,16 +233,16 @@ function Salir(f)
 		}
 		if ($i == $dia_actual)
 		{
-			echo "<option value='$cont_dia' SELECTed>&nbsp;".$cont_dia."&nbsp;</option>\n";
+			echo "<option value='$cont_dia' selected>&nbsp;".$cont_dia."&nbsp;</option>\n";
 		}
 		else
 		{
 			echo "<option value='$cont_dia'>&nbsp;".$cont_dia."&nbsp;</option>\n";
 		}
   	}
-  echo "</SELECT>\n";
+  echo "</select>\n";
   // MES
-  echo "<SELECT name=cmb_mes_fin >\n";
+  echo "<select name=cmb_mes_fin >\n";
   for ($i=1; $i<=12; $i++)
   {
   	  if ($i < 10)
@@ -259,7 +259,7 @@ function Salir(f)
 	  {
 		if ($i==$cmb_mes)
 	  	{
-		  	echo "<option value='$Valor' SELECTed>&nbsp;$meses[$num_aux]&nbsp;</option>\n";
+		  	echo "<option value='$Valor' selected>&nbsp;$meses[$num_aux]&nbsp;</option>\n";
 	  	}
 		else
 		{
@@ -270,7 +270,7 @@ function Salir(f)
 	  {
 	  	if ($i==$num_mes)
 	  	{
-		  	echo "<option value='$Valor' SELECTed>&nbsp;$meses[$num_aux]&nbsp;</option>\n";
+		  	echo "<option value='$Valor' selected>&nbsp;$meses[$num_aux]&nbsp;</option>\n";
 	  	}
 	  	else
 	 	{
@@ -278,23 +278,23 @@ function Salir(f)
 	  	}
 	}
 }
-  echo "</SELECT>\n";
-  // Aï¿½O (i indica la cantidad de aÃ±os que me muestra ahora 5 desde el 2001)
-  echo "<SELECT name=cmb_ano_fin>\n";
+  echo "</select>\n";
+  // AÑO (i indica la cantidad de años que me muestra ahora 5 desde el 2001)
+  echo "<select name=cmb_ano_fin>\n";
   for ($i=2001; $i<=date('Y')+1; $i++)
   {
   	if ($opcion==1)
 	{
 		if ($i==$cmb_ano)
 	  	{
-		  	echo "<option value='$i' SELECTed>&nbsp;$i&nbsp;</option>\n";
+		  	echo "<option value='$i' selected>&nbsp;$i&nbsp;</option>\n";
 	  	}
 	}
 	else
 	{
 		if ($i==$ano_actual)
 	  	{
-		  	echo "<option value='$i' SELECTed>&nbsp;$i&nbsp;</option>\n";
+		  	echo "<option value='$i' selected>&nbsp;$i&nbsp;</option>\n";
 	  	}
 	  	else
 	  	{
@@ -302,8 +302,8 @@ function Salir(f)
 	  	}
 	}
   }
-  echo "</SELECT>\n";
-  echo "<SELECT name=HoraFin>";
+  echo "</select>\n";
+  echo "<select name=HoraFin>";
   for ($i=0;$i<=23;$i++)
   {
   	if ($i < 10)
@@ -316,15 +316,15 @@ function Salir(f)
 	}
 	if ($Valor == 23)
 	{
-  		echo "<option value='".$Valor."' SELECTed>".$Valor."</option>";
+  		echo "<option value='".$Valor."' selected>".$Valor."</option>";
 	}
 	else
 	{
 		echo "<option value='".$Valor."'>".$Valor."</option>";
 	}
   }
-  echo "</SELECT>";
-  echo "<SELECT name=MinFin>";
+  echo "</select>";
+  echo "<select name=MinFin>";
   for ($i=0;$i<=59;$i++)
   {
   	if ($i < 10)
@@ -337,14 +337,14 @@ function Salir(f)
 	}
   	if ($Valor == 59)
 	{
-  		echo "<option value='".$Valor."' SELECTed>".$Valor."</option>";
+  		echo "<option value='".$Valor."' selected>".$Valor."</option>";
 	}
 	else
 	{
 		echo "<option value='".$Valor."'>".$Valor."</option>";
 	}
   }
-  echo "</SELECT>";
+  echo "</select>";
   echo "<font size=1>HRS.</font>";
   echo "</td>";
   echo "</tr>";
@@ -354,56 +354,56 @@ function Salir(f)
         <table width="500" border="0" cellspacing="0" cellpadding="3" align="center" class="TablaDetalle">
           <tr valign="LEFT"> 
             <td><font face="Verdana, Arial, Helvetica, sans-serif" size="1">Usuario</font></td>
-            <td align="LEFT"> <SELECT name="USUARIO" style="width:300px;">
+            <td align="LEFT"> <select name="USUARIO" style="width:300px;">
                 <option value="S">Todos</option>
-                <?
+                <?php
 	$Consulta = "SELECT distinct(T1.RUT), CONCAT(T2.APELLIDO_PATERNO, ' ', T2.APELLIDO_MATERNO, ' ', T2.NOMBRES) AS NOMBRE ";
 	$Consulta.= " FROM proyecto_modernizacion.CONTROL_ACCESO T1 INNER JOIN proyecto_modernizacion.FUNCIONARIOS T2 ON T1.RUT = T2.RUT  ORDER BY NOMBRE";
-	$Respuesta = mysqli_query($link, $Consulta);
-	while ($Row = mysql_fetch_array($Respuesta))
+	$Respuesta = mysqli_query($link,$Consulta);
+	while ($Row = mysqli_fetch_array($Respuesta))
 	{
-		echo "<option value='".$Row[RUT]."'>".$Row["nombre"]."</option>\n";
+		echo "<option value='".$Row[RUT]."'>".$Row[NOMBRE]."</option>\n";
 	}
 ?>
-              </SELECT> </td>
+              </select> </td>
           </tr>
           <tr valign="LEFT"> 
             <td><font size="1" face="Verdana, Arial, Helvetica, sans-serif">Sistema</font></td>
-            <td align="LEFT"> <SELECT name="SISTEMA" style="width:300px;">
+            <td align="LEFT"> <select name="SISTEMA" style="width:300px;">
                 <option value="S">Todos</option>
-                <?
+                <?php
 	$Consulta = "SELECT * FROM proyecto_modernizacion.SISTEMAS ORDER BY COD_SISTEMA";
-	$Respuesta = mysqli_query($link, $Consulta);
-	while ($Row = mysql_fetch_array($Respuesta))
+	$Respuesta = mysqli_query($link,$Consulta);
+	while ($Row = mysqli_fetch_array($Respuesta))
 	{
-		echo "<option value='".$Row[cod_sistema]."'>".ucwords(strtolower($Row["descripcion"]))."</option>\N";
+		echo "<option value='".$Row[cod_sistema]."'>".ucwords(strtolower($Row[descripcion]))."</option>\N";
 	}
 ?>
-              </SELECT> </td>
+              </select> </td>
           </tr>
           <tr valign="bottom"> 
             <td height="40" COLSPAN="2"><font face="Verdana, Arial, Helvetica, sans-serif" size="1"><strong>EXTRAS 
-              PARA GRï¿½FICO</strong></font></td>
+              PARA GRÁFICO</strong></font></td>
           </tr>
           <tr valign="LEFT"> 
             <td><font face="Verdana, Arial, Helvetica, sans-serif" size="1">Tipo 
               Consulta </font></td>
-            <td align="LEFT"> <SELECT name="TIPO_CONSULTA">
+            <td align="LEFT"> <select name="TIPO_CONSULTA">
                 <option value="COUNT(DISTINCT(RUT))">CANTIDAD DE PERSONAS</option>
                 <option value="COUNT(*)">CANTIDAD DE ACCESOS</option>
-              </SELECT> </td>
+              </select> </td>
           </tr>
           <tr valign="LEFT"> 
             <td><font face="Verdana, Arial, Helvetica, sans-serif" size="1">Tipo 
               de Grafico</font></td>
-            <td align="LEFT"> <SELECT name="TIPO_GRAF">
+            <td align="LEFT"> <select name="TIPO_GRAF">
                 <option value="bars">BARRAS</option>
                 <option value="lines">LINEAS</option>
                 <option value="pie">PIE</option>
                 <option value="linepoints">LINEAS Y PUNTOS</option>
                 <option value="points">PUNTOS</option>
                 <option value="area">AREA</option>
-              </SELECT> </td>
+              </select> </td>
           </tr>
         </table>
         <br> <div align="center"> 

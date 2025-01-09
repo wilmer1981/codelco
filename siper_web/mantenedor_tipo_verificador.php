@@ -1,4 +1,4 @@
-<?
+<?php
 include('conectar_ori.php');
 include('funciones/siper_funciones.php');
 
@@ -80,7 +80,7 @@ function Proceso(Opc)
 			}
 			else
 			{
-				alert('Debe Ingresar Descripciï¿½n')
+				alert('Debe Ingresar Descripción')
 				f.TxtNombre.focus();
 			}
 		break;
@@ -91,7 +91,7 @@ function Proceso(Opc)
 /*		case "E":
 			if(SoloUnElemento(f.name,'CheckRut','E'))
 			{
-				mensaje=confirm("ï¿½Esta Seguro de Eliminar estos Registros?");
+				mensaje=confirm("¿Esta Seguro de Eliminar estos Registros?");
 				if(mensaje==true)
 				{
 					DatosUni=Recuperar(f.name,'CheckRut');
@@ -113,7 +113,7 @@ function EliminarControl()
 	f=document.FrmPrincipal;
 	if(SoloUnElemento(f.name,'CheckRut','E'))
 	{
-		mensaje=confirm("ï¿½Esta Seguro de Eliminar estos Registros?");
+		mensaje=confirm("¿Esta Seguro de Eliminar estos Registros?");
 		if(mensaje==true)
 		{
 
@@ -136,7 +136,7 @@ function ConfirmaEliminar()
 	var f=document.FrmPrincipal;
 	if(f.ObsEli.value=='')
 	{
-		alert('Debe Ingresar Observaciï¿½n de Eliminaciï¿½n');
+		alert('Debe Ingresar Observación de Eliminación');
 		f.ObsEli.focus();
 		return;
 	}
@@ -154,9 +154,9 @@ function CloseDiv()
 </script>
 <link href="estilos/siper_style.css" rel="stylesheet" type="text/css">
 <form name="FrmPrincipal" method="post" action="">
-<input name="Datos" type="hidden" value="<? echo $Datos;?>">
-<input name="Proc" type="hidden" value="<? echo $Proc;?>">
-<input name="Vigente" type="hidden" value="<? echo $Vigente;?>">
+<input name="Datos" type="hidden" value="<?php echo $Datos;?>">
+<input name="Proc" type="hidden" value="<?php echo $Proc;?>">
+<input name="Vigente" type="hidden" value="<?php echo $Vigente;?>">
 <table width="71%" align="center"  border="0" cellpadding="0"  cellspacing="0">
   <tr>
 	<td height="1%"><img src="imagenes/interior2/esq1.gif" width="15" height="15"></td>
@@ -172,16 +172,16 @@ function CloseDiv()
 	 <tr>       
 	   <td width="52" height="35" align="left" class="formulario"   ><img src="imagenes/LblCriterios.png" /> </td>
        <td align="right" class="formulario" >
-	   <div id="DivOCu" style="visibility:<? echo $VisibleDiv;?>">
+	   <div id="DivOCu" style="visibility:<?php echo $VisibleDiv;?>">
 	   <a href="JavaScript:Proceso('N')"><img src="imagenes/btn_agregar.png"  border="0"  alt="Nuevo" align="absmiddle" /></a>&nbsp; <a href="JavaScript:Proceso('M')"><img src="imagenes/btn_modificar.png" alt="Modificar" width="30" height="30" border="0" align="absmiddle"></a>&nbsp; <a href="JavaScript:EliminarControl()"><img src="imagenes/btn_eliminar2.png"  alt="Eliminar" width="25" height="25" border="0" align="absmiddle"></a>&nbsp; <a href="JavaScript:Proceso('S')"><img src="imagenes/btn_volver2.png"  alt=" Volver " width="25" height="25"  border="0" align="absmiddle"></a> 
        </div></td>
 	 </tr>
      <tr>
-       <td colspan="3" class="formulario">Descripciï¿½n
-         <input name="TxtDescripcion" type="text" id="TxtDescripcion" value="<? echo $TxtDescripcion; ?>" size="30" />
+       <td colspan="3" class="formulario">Descripción
+         <input name="TxtDescripcion" type="text" id="TxtDescripcion" value="<?php echo $TxtDescripcion; ?>" size="30" />
          <a href="JavaScript:Proceso('C')"><img src="imagenes/Btn_buscar.gif"   alt="Buscar" width="20" height="20"  border="0" align="absmiddle" /></a>
          </td>
-       <? 
+       <?php 
 		if($Check=='S')
 		{	
 			$checked='checked';
@@ -215,21 +215,21 @@ function CloseDiv()
     <td><table width="100%" border="1" align="center" cellpadding="2" cellspacing="0">
       <tr>
         <td width="5%" class="TituloCabecera" align="center"><input class='SinBorde' type="checkbox" name="ChkTodos" value="" onClick="CheckearTodo(this.form,'CheckRut','ChkTodos');"></td>
-	    <td width="5%" align="center" class="TituloCabecera">Cï¿½digo</td>
+	    <td width="5%" align="center" class="TituloCabecera">Código</td>
 	    <td width="80%" align="center" class="TituloCabecera">Familia de verificadores </td>
-	    <td width="80%" align="center" class="TituloCabecera">Descripciï¿½n del Verificador</td>
+	    <td width="80%" align="center" class="TituloCabecera">Descripción del Verificador</td>
 		 <td width="10%" align="center" class="TituloCabecera">Vigente</td>
         </tr>
-      <?
+      <?php
 		//if($Buscar=='S')
 		//{
-			$Consulta = "SELECT * from sgrs_tipo_verificador ";
+			$Consulta = "select * from sgrs_tipo_verificador ";
 			if($TxtDescripcion!='')
 				$Consulta.= " where upper(DESCRIP_VERIFICADOR) like('%".strtoupper($TxtDescripcion)."%') ";
-			$Resp = mysqli_query($link, $Consulta);
+			$Resp = mysqli_query($link,$Consulta);
 			echo "<input name='CheckRut' type='hidden'  value=''>";
 			$cont=1;
-			while ($Fila=mysql_fetch_array($Resp))
+			while ($Fila=mysqli_fetch_array($Resp))
 			{
 			
 			if($Fila["ACTIVO"]=='S')
@@ -239,13 +239,13 @@ function CloseDiv()
 			
 		?>
 			 	<tr>
-				<td align="center" ><? echo "<input name='CheckRut' class='SinBorde' type='checkbox'  value='".$Fila["COD_VERIFICADOR"]."'"; ?></td>
-				<td align="center"><? echo $Fila["COD_VERIFICADOR"]."&nbsp;"; ?></td>
-				<td ><? echo $Fila["DESCRIP_VERIFICADOR"]."&nbsp;"; ?></td>
-				<td ><textarea name="Obs" cols="50" readonly="readonly"><? echo $Fila["OBS"];?></textarea></td>
-				<td align="center" ><? echo $VIg; ?>&nbsp;</td>
+				<td align="center" ><?php echo "<input name='CheckRut' class='SinBorde' type='checkbox'  value='".$Fila["COD_VERIFICADOR"]."'"; ?></td>
+				<td align="center"><?php echo $Fila["COD_VERIFICADOR"]."&nbsp;"; ?></td>
+				<td ><?php echo $Fila["DESCRIP_VERIFICADOR"]."&nbsp;"; ?></td>
+				<td ><textarea name="Obs" cols="50" readonly="readonly"><?php echo $Fila["OBS"];?></textarea></td>
+				<td align="center" ><?php echo $VIg; ?>&nbsp;</td>
 			  </tr>
-			  <?		$cont++;
+			  <?php		$cont++;
 			}
 		//}
 ?>
@@ -258,14 +258,14 @@ function CloseDiv()
     <td width="1%" height="15"><img src="imagenes/interior2/esq4.gif" width="15" height="15"></td>
   </tr>
 </table><br>
-<? 
+<?php 
 if (!isset($VisibleDivProceso))
 {
 	$VisibleDivProceso='hidden';
 	$DivTrans='hidden';
 }	
 ?>
-<!--<div id="DivOCu" style="visibility:<? echo $VisibleDivProceso;?>;FILTER: alpha(opacity=100);overflow:auto;  POSITION: absolute; moz-opacity: .75; opacity: .75;left: 672px; top: 33px; width:150px; height:80px;" align="center">
+<!--<div id="DivOCu" style="visibility:<?php echo $VisibleDivProceso;?>;FILTER: alpha(opacity=100);overflow:auto;  POSITION: absolute; moz-opacity: .75; opacity: .75;left: 672px; top: 33px; width:150px; height:80px;" align="center">
 <table width="100%">
   <tr>
     <td >&nbsp;</td>
@@ -289,9 +289,9 @@ if (!isset($VisibleDivProceso))
   width:300px;
 }
 </style>
-<div class="trans2" id="Transparente2" align="center" style='FILTER: alpha(opacity=10); overflow:auto; VISIBILITY:<? echo $DivTrans;?>; WIDTH: 100%; height:80%; POSITION: absolute; moz-opacity: .60; opacity: .60;'>
+<div class="trans2" id="Transparente2" align="center" style='FILTER: alpha(opacity=10); overflow:auto; VISIBILITY:<?php echo $DivTrans;?>; WIDTH: 100%; height:80%; POSITION: absolute; moz-opacity: .60; opacity: .60;'>
  </div>
-<div id="DivProceso" style="visibility:<? echo $VisibleDivProceso;?>;FILTER: alpha(opacity=100);overflow:auto; POSITION: absolute; moz-opacity: .75; opacity: .75;left: 300px; top: 110px; width:500px; height:143px;" align="center">
+<div id="DivProceso" style="visibility:<?php echo $VisibleDivProceso;?>;FILTER: alpha(opacity=100);overflow:auto; POSITION: absolute; moz-opacity: .75; opacity: .75;left: 300px; top: 110px; width:500px; height:143px;" align="center">
 <table width="100%" align="center"  border="0" cellpadding="0"  cellspacing="0" class="TablaPricipalColor">
   <tr>
     <td ><img src="imagenes/interior2/esq1.gif" width="15" height="15"></td>
@@ -306,16 +306,16 @@ if (!isset($VisibleDivProceso))
       </tr>
 	  <tr>
 	  
-	  <? 
+	  <?php 
 	  	if($Proc=='M')
 		{
 			$Consulta="Select * from sgrs_tipo_verificador where COD_VERIFICADOR='".$Datos."' ";
-			$Resp1 = mysqli_query($link, $Consulta);
-			if ($Fila1=mysql_fetch_array($Resp1))
+			$Resp1 = mysqli_query($link,$Consulta);
+			if ($Fila1=mysqli_fetch_array($Resp1))
 			{
 			 $TxtCod=$Fila1[COD_VERIFICADOR];
 			 $TxtNombre=$Fila1[DESCRIP_VERIFICADOR];
-			 $Vigente=$Fila1["ACTIVO"];
+			 $Vigente=$Fila1[ACTIVO];
 			 $OBSVERI=$Fila1[OBS];
 			}
 			$TxtQLPP=number_format($TxtQLPP,3,',','');
@@ -329,24 +329,24 @@ if (!isset($VisibleDivProceso))
 	  ?>
 	  
         <td class="formulario">Nombre</td>
-		<td> <input name="TxtNombre" type="text" id="TxtNombre" value="<? echo $TxtNombre; ?>" maxlength="50" size="60"  maxlength="100"/><span class="InputRojo">(*)</span></td>
+		<td> <input name="TxtNombre" type="text" id="TxtNombre" value="<?php echo $TxtNombre; ?>" maxlength="50" size="60"  maxlength="100"/><span class="InputRojo">(*)</span></td>
       </tr>
 	  <tr>
-       <td class="formulario">Descripciï¿½n</td>
-		<td><textarea name="ObsVeri" cols="60"><? echo $OBSVERI;?></textarea></td>
+       <td class="formulario">Descripción</td>
+		<td><textarea name="ObsVeri" cols="60"><?php echo $OBSVERI;?></textarea></td>
       </tr>
 	     <tr>
         <td class="formulario">Vigente</td>
 		<td class="formulario">
-		<? 
+		<?php 
 		if($Vigente=='S')
 		{?>Si<input name="rdvigente" type="radio" id="rdvigente" class="SinBorde" checked="checked" >&nbsp;&nbsp;No<input name="rdvigente" type="radio" id="rdvigente" class="SinBorde"  >
-		<?
+		<?php
 		}
 		else
 		{?>
 			Si<input name="rdvigente" type="radio" id="rdvigente"  class="SinBorde" >&nbsp;&nbsp;No<input name="rdvigente" type="radio" id="rdvigente"  checked="checked"  class="SinBorde" >
-		<? }	?>
+		<?php }	?>
 		</td>
       </tr>
        </table></td>
@@ -359,13 +359,13 @@ if (!isset($VisibleDivProceso))
   </tr>
 </table>
 </div>
- <?
+ <?php
 include('div_obs_elimina_mantenedor.php');
 ?>
 </form>
 </body>
 </html>
-<?
+<?php
 echo "<script language='javascript'>";
 if($Mensaje!='')
 	echo "alert('".$Mensaje."');";

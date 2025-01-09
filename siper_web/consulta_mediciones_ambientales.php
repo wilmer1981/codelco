@@ -1,4 +1,4 @@
-<?
+<?php
 if($Buscar=='')
 {
 	$CmbUnidOpe='T';
@@ -50,7 +50,7 @@ function Buscar(Opt)
 			if(f.TxtFechaFin.value=='')
 			{
 				f.TxtFechaFin.value=f.TxtFechaIni.value
-				//alert('Debe Ingresar Fecha Tï¿½rmino');
+				//alert('Debe Ingresar Fecha Término');
 				//return;
 			}	
 		break;
@@ -148,7 +148,7 @@ function oculta(numero)
         <td width="41%" rowspan="5" align="left" valign="top"><br>
 		<div style='position:absolute; visibility:visible; width:380px; height:159px; OVERFLOW:auto;' id='OrganicaHI'>
           <table border='0' cellpadding='0' cellspacing='0' >
-            <?
+            <?php
 		 CrearArbolHI($Navega,$Estado,$SelTarea,'');
 	    ?>
           </table>
@@ -158,82 +158,82 @@ function oculta(numero)
       </tr>
       <tr>
         <td height="28" colspan="2" align="left" class="formulario">Lugar de Medici&oacute;n:		  
-          <SELECT name="CmbLugares" style="width:280px">
-            <option value='T' SELECTed>Todos</option>
-            <?
-			$Consulta="SELECT * from sgrs_lugares order by NLUGAR ";
-			$Resp=mysqli_query($link, $Consulta);
-			while($Fila=mysql_fetch_array($Resp))
+          <select name="CmbLugares" style="width:280px">
+            <option value='T' selected>Todos</option>
+            <?php
+			$Consulta="select * from sgrs_lugares order by NLUGAR ";
+			$Resp=mysqli_query($link,$Consulta);
+			while($Fila=mysqli_fetch_array($Resp))
 			{
 				if($CmbLugares==$Fila[CLUGAR])
-					echo "<option value='".$Fila[CLUGAR]."' SELECTed>".$Fila[NLUGAR]."  -> CORD_XYZ (".$Fila[CCORDX].",".$Fila[CCORDY].",".$Fila[CCORDZ].")</option>";
+					echo "<option value='".$Fila[CLUGAR]."' selected>".$Fila[NLUGAR]."  -> CORD_XYZ (".$Fila[CCORDX].",".$Fila[CCORDY].",".$Fila[CCORDZ].")</option>";
 				else
 					echo "<option value='".$Fila[CLUGAR]."'>".$Fila[NLUGAR]."  -> CORD_XYZ (".$Fila[CCORDX].",".$Fila[CCORDY].",".$Fila[CCORDZ].")</option>";	
 			}
 		  ?>
-            </SELECT></td>
+            </select></td>
         <td width="8%" align="right" nowrap="nowrap" class="formulario">Agente: </td>
-        <td width="17%" align="left" nowrap="nowrap"><SELECT name="CmbAgentes" style="width:100px" onChange="MostrarLPP()">
-            <option value='T' SELECTed>Todos</option>
-            <?
-			$Consulta="SELECT t1.CAGENTE,t1.NAGENTE,t1.QLPP,t2.NUNIDAD from sgrs_cagentes t1 inner join sgrs_unidades t2 on t1.CUNIDAD=t2.CUNIDAD where t1.MVIGENTE='1' order by t1.NAGENTE";
-			$Resp=mysqli_query($link, $Consulta);
-			while($Fila=mysql_fetch_array($Resp))
+        <td width="17%" align="left" nowrap="nowrap"><select name="CmbAgentes" style="width:100px" onChange="MostrarLPP()">
+            <option value='T' selected>Todos</option>
+            <?php
+			$Consulta="select t1.CAGENTE,t1.NAGENTE,t1.QLPP,t2.NUNIDAD from sgrs_cagentes t1 inner join sgrs_unidades t2 on t1.CUNIDAD=t2.CUNIDAD where t1.MVIGENTE='1' order by t1.NAGENTE";
+			$Resp=mysqli_query($link,$Consulta);
+			while($Fila=mysqli_fetch_array($Resp))
 			{
 				if($CmbAgentes==$Fila[CAGENTE])
-					echo "<option value='".$Fila[CAGENTE]."' SELECTed>".$Fila[NAGENTE]."</option>";
+					echo "<option value='".$Fila[CAGENTE]."' selected>".$Fila[NAGENTE]."</option>";
 				else
 					echo "<option value='".$Fila[CAGENTE]."'>".$Fila[NAGENTE]."</option>";	
 			}
 		  ?>
-          </SELECT>          </td>
+          </select>          </td>
       </tr>
       <tr>
         <td height="25" colspan="2" align="left" class="formulario">Unidad Operativa:
-          <SELECT name="CmbUnidOpe" style="width:280px">
-            <option value='T' SELECTed>Todos</option>
-            <?
-			$Consulta="SELECT t1.CAREA,t1.NAREA from sgrs_areaorg t1 where t1.CTAREA='5' order by t1.NAREA";
-			$Resp=mysqli_query($link, $Consulta);
-			while($Fila=mysql_fetch_array($Resp))
+          <select name="CmbUnidOpe" style="width:280px">
+            <option value='T' selected>Todos</option>
+            <?php
+			$Consulta="select t1.CAREA,t1.NAREA from sgrs_areaorg t1 where t1.CTAREA='5' order by t1.NAREA";
+			$Resp=mysqli_query($link,$Consulta);
+			while($Fila=mysqli_fetch_array($Resp))
 			{
 				if($CmbUnidOpe==$Fila[CAREA])
-					echo "<option value='".$Fila[CAREA]."' SELECTed>".$Fila[NAREA]."</option>";
+					echo "<option value='".$Fila[CAREA]."' selected>".$Fila[NAREA]."</option>";
 				else
 					echo "<option value='".$Fila[CAREA]."'>".$Fila[NAREA]."</option>";	
 			}
 		  ?>
-            </SELECT></td>
+            </select></td>
         <td align="right" class="formulario"> Valor Magnitud:</td>
-        <td align="left"><input name="TxtMag" type="text" size="8" value="<? echo $TxtMag; ?>" onKeyDown="TeclaPulsada(true)" maxlength="5" onBlur="ValidarRango()">
+        <td align="left"><input name="TxtMag" type="text" size="8" value="<?php echo $TxtMag; ?>" onKeyDown="TeclaPulsada(true)" maxlength="5" onBlur="ValidarRango()">
           &nbsp;Y&nbsp;
-          <input name="TxtMag2" type="text" size="8" value="<? echo $TxtMag2; ?>" onKeyDown="TeclaPulsada(true)" maxlength="5" onBlur="ValidarRango()">         </td>
+          <input name="TxtMag2" type="text" size="8" value="<?php echo $TxtMag2; ?>" onKeyDown="TeclaPulsada(true)" maxlength="5" onBlur="ValidarRango()">         </td>
       </tr>
       <tr>
         <td height="25" colspan="2" align="left" class="formulario">Rango de Fechas:<span class="formulario">Desde</span>
-          <input name="TxtFechaIni" type="text" class="InputCen" value="<? echo $TxtFechaIni; ?>" size="10" maxlength="10" onblur="DateFormat(this,this.value,event,true,'3',Mantenedor,'DIF')" onkeyup="DateFormat(this,this.value,event,false,'3')"  onfocus="javascript:vDateType='3'" />
+          <input name="TxtFechaIni" type="text" class="InputCen" value="<?php echo $TxtFechaIni; ?>" size="10" maxlength="10" onblur="DateFormat(this,this.value,event,true,'3',Mantenedor,'DIF')" onkeyup="DateFormat(this,this.value,event,false,'3')"  onfocus="javascript:vDateType='3'" />
           <span class="formulario">Hasta</span>
-          <input name="TxtFechaFin" type="text" class="InputCen" value="<? echo $TxtFechaFin; ?>" size="10" maxlength="10" onblur="DateFormat(this,this.value,event,true,'3',Mantenedor,'DIF')" onkeyup="DateFormat(this,this.value,event,false,'3')"  onfocus="javascript:vDateType='3'" /></td>
+          <input name="TxtFechaFin" type="text" class="InputCen" value="<?php echo $TxtFechaFin; ?>" size="10" maxlength="10" onblur="DateFormat(this,this.value,event,true,'3',Mantenedor,'DIF')" onkeyup="DateFormat(this,this.value,event,false,'3')"  onfocus="javascript:vDateType='3'" /></td>
         <td align="right" class="formulario">MR:</td>
-        <td align="left"><SELECT name="CmbMr">
-          <option value="T" SELECTed>Todos</option>
-          <?
+        <td align="left"><select name="CmbMr">
+          <option value="T" selected>Todos</option>
+          <?php
 			switch($CmbMr)
 			{
 				case "ACEPTABLE":
-					echo "<option value='ACEPTABLE' SELECTed>Aceptable</option>";
+					echo "<option value='ACEPTABLE' selected>Aceptable</option>";
 					echo "<option value='MODERADO'>Moderado</option>";
 					echo "<option value='INACEPTABLE'>Inaceptable</option>";
 				break;
 				case "MODERADO":
 					echo "<option value='ACEPTABLE'>Aceptable</option>";
-					echo "<option value='MODERADO' SELECTed>Moderado</option>";
+					echo "<option value='MODERADO' selected>Moderado</option>";
 					echo "<option value='INACEPTABLE'>Inaceptable</option>";
 				break;
 				case "INACEPTABLE":
 					echo "<option value='ACEPTABLE'>Aceptable</option>";
 					echo "<option value='MODERADO'>Moderado</option>";
-					echo "<option value='INACEPTABLE' SELECTed>Inaceptable</option>";
+					echo "<option value='INACEPTABLE' selected>Inaceptable</option>";
 				break;
 				default:
 					echo "<option value='ACEPTABLE'>Aceptable</option>";
@@ -242,28 +242,28 @@ function oculta(numero)
 				break;
 			}
 		?>
-        </SELECT></td>
+        </select></td>
       </tr>
       <tr>
         <td height="36" align="right" class="formulario">&nbsp;</td>
         <td align="left">&nbsp;</td>
-        <td align="right" class="formulario"><?
+        <td align="right" class="formulario"><?php
 		if($Nivel=='6')
 			echo "Con Obs. de Gesti&oacute;n";	
 		?></td>
         <td align="left">&nbsp;&nbsp;
-          <?
+          <?php
 		if($Nivel=='6')
 		{	
 		?>
-          <input type="checkbox" name="OptAccion" value="checkbox" <? echo $CheckAccion;?> class="SinBorde" />
-          <?
+          <input type="checkbox" name="OptAccion" value="checkbox" <?php echo $CheckAccion;?> class="SinBorde" />
+          <?php
 		}
 		else
 		{
 		?>
-          <input type="hidden" name="OptAccion" value="checkbox" <? echo $CheckAccion;?> class="SinBorde" />
-          <?
+          <input type="hidden" name="OptAccion" value="checkbox" <?php echo $CheckAccion;?> class="SinBorde" />
+          <?php
 		}
 		?></td>
       </tr>
@@ -284,17 +284,17 @@ function oculta(numero)
 			<td width="3%" class="TituloCabecera" align="center">MR</td>
 			<td width="1%" class="TituloCabecera" align="center">&nbsp;</td>
 			<td width="10%" class="TituloCabecera" align="center">Fecha Inicio</td>
-			<td width="10%" class="TituloCabecera" align="center">Fecha Tï¿½rmino</td>
+			<td width="10%" class="TituloCabecera" align="center">Fecha Término</td>
 			<td width="10%" class="TituloCabecera" align="center">Informe</td>
-			<?
+			<?php
 			if($Nivel=='6')
-				echo "<td width='10%' class='TituloCabecera' align='center'>Acciï¿½n Tomada</td>";
+				echo "<td width='10%' class='TituloCabecera' align='center'>Acción Tomada</td>";
 			?>
 		 </tr>
-		 <? 
+		 <?php 
 			if($Buscar!='')
 			{
-				$Consulta="SELECT t1.REGACCIONES,t7.CPARENT,t7.NAREA,t5.TNARCHIVO,t5.CVINFORME,t1.CMEDAMB,t1.QMR,t1.QDOSIS,t1.QMEDICION,t1.FINICIO,t1.FTERMINO,t2.NAREA,t4.NLUGAR,t3.NAGENTE,t3.QLPP,t4.CCORDX,t4.CCORDY,t4.CCORDZ,t6.AUNIDAD from sgrs_medambientes t1 inner join sgrs_areaorg t2 on t1.CAREA=t2.CAREA ";
+				$Consulta="select t1.REGACCIONES,t7.CPARENT,t7.NAREA,t5.TNARCHIVO,t5.CVINFORME,t1.CMEDAMB,t1.QMR,t1.QDOSIS,t1.QMEDICION,t1.FINICIO,t1.FTERMINO,t2.NAREA,t4.NLUGAR,t3.NAGENTE,t3.QLPP,t4.CCORDX,t4.CCORDY,t4.CCORDZ,t6.AUNIDAD from sgrs_medambientes t1 inner join sgrs_areaorg t2 on t1.CAREA=t2.CAREA ";
 				$Consulta.="inner join sgrs_cagentes t3 on t1.CAGENTE=t3.CAGENTE inner join sgrs_unidades t6 on t3.CUNIDAD=t6.CUNIDAD inner join sgrs_lugares t4 on t1.CLUGAR = t4.CLUGAR inner join sgrs_informes t5 on t1.CINFORME=t5.CINFORME inner join sgrs_areaorg t7 on t1.CAREA=t7.CAREA where t1.CMEDAMB <> 0 ";
 				switch($Buscar)
 				{
@@ -323,8 +323,8 @@ function oculta(numero)
 				}
 				$Consulta.="order by t4.NLUGAR";
 				//echo $Consulta;
-				$Resp=mysqli_query($link, $Consulta);$Cont=0;
-				while($Fila=mysql_fetch_array($Resp))
+				$Resp=mysqli_query($link,$Consulta);$Cont=0;
+				while($Fila=mysqli_fetch_array($Resp))
 				{
 					echo "<tr>";
 					OrigenOrg($Fila[CPARENT],&$Ruta);
@@ -343,8 +343,8 @@ function oculta(numero)
 					/*if($Fila[AUNIDAD]!='DB')
 					{
 						$Dosis=round(($Fila[QMEDICION]/$Fila[QLPP])*100)/100;
-						$Actualizar="UPDATE sgrs_medambientes set QDOSIS=".$Dosis." where CMEDAMB='".$Fila[CMEDAMB]."'";
-						mysql_query($Actualizar);
+						$Actualizar="update sgrs_medambientes set QDOSIS=".$Dosis." where CMEDAMB='".$Fila[CMEDAMB]."'";
+						mysqli_query($link,$Actualizar);
 						echo $Fila[QMEDICION]."    ".$Fila[QLPP]."<br>";
 						echo $Actualizar."<br>";
 					}*/

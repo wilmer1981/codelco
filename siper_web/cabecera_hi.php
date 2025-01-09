@@ -1,4 +1,4 @@
-<? 
+<?php 
 include('conectar_ori.php');
 include('funciones/siper_funciones.php');
 ?>
@@ -35,39 +35,39 @@ function Salir(Opt)
     </tr>
   <tr >
     <td background="imagenes/bg_sup.gif" class="BordeTop">&nbsp;<img src="imagenes/arbol.gif">&nbsp;Buscador de Unidades Operativas&nbsp;
-      <input name='TxtBuscaUnidad' type='text' value='<? echo $TxtBuscaUnidad;?>' style='width:150' />
+      <input name='TxtBuscaUnidad' type='text' value='<?php echo $TxtBuscaUnidad;?>' style='width:150' />
       <a href="javascript:BuscaUnidad()"><img src="imagenes/btn_aceptar.png" alt='Aceptar' width="18" height="18" border="0" align="absmiddle" /></a><span class="ColorTabla02">
-      <SELECT name="CmbUnidades" onChange="top.frames['Organica'].BuscaItem()">
-        <option value="S" SELECTed="SELECTed">Seleccionar</option>
-        <?
+      <select name="CmbUnidades" onChange="top.frames['Organica'].BuscaItem()">
+        <option value="S" selected="selected">Seleccionar</option>
+        <?php
 		if($TxtBuscaUnidad!='')
 		{
 			ObtieneAccesoOrg2($CookieRut,&$AccesoOrg);
 			if($AccesoOrg!='')
 			{
-				$Consulta="SELECT * from sgrs_areaorg where CTAREA='5' ".$AccesoOrg."";
+				$Consulta="select * from sgrs_areaorg where CTAREA='5' ".$AccesoOrg."";
 				$Consulta.=" and upper(NAREA) like '%".strtoupper($TxtBuscaUnidad)."%'";
 				$Consulta.=" order by NAREA";	
-				$RespTarea=mysqli_query($link, $Consulta);
-				while($FilaTarea=mysql_fetch_array($RespTarea))
+				$RespTarea=mysqli_query($link,$Consulta);
+				while($FilaTarea=mysqli_fetch_array($RespTarea))
 				{
 					if(strtoupper($FilaTarea[NAREA])==strtoupper($CmbUnidades))
-						echo "<option value='".$FilaTarea[CPARENT].$FilaTarea[CAREA].",' SELECTed>".$FilaTarea[NAREA]."</option>";
+						echo "<option value='".$FilaTarea[CPARENT].$FilaTarea[CAREA].",' selected>".$FilaTarea[NAREA]."</option>";
 					else
 						echo "<option value='".$FilaTarea[CPARENT].$FilaTarea[CAREA].",'>".$FilaTarea[NAREA]."</option>";
 				}
 			}
 		}
 	  ?>
-      </SELECT><? //echo $Consulta;?>
+      </select><?php //echo $Consulta;?>
     </span><input name="PestanaActiva" type="hidden" value="1">
-	<?
+	<?php
 		OrigenOrg($CodSelTarea,&$Ruta,&$CodNiveles);
 		//echo $Ruta."<br>";
 	?>	</td>	
     <td background="imagenes/bg_sup.gif" class="BordeTop" align="right">
 	<font style="FONT-WEIGHT: bold; FONT-SIZE: 12px; COLOR: #9c3031; FONT-FAMILY: Arial, Helvetica, sans-serif">
-	<? 
+	<?php 
 	ObtieneUsuario($CookieRut,&$NombreUser);
 	echo "Usuario: ".$NombreUser;?>	</font>
 	<a href="Manual_Usuario_hi.pdf" target="_blank">

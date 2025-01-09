@@ -1,38 +1,38 @@
-<? include('conectar_ori.php');
+<?php include('conectar_ori.php');
 	$Encontro=false;
 	
 	
 	switch($Proceso)
 	{
 		case "N":
-			$Consulta = "SELECT ifnull(max(CTEXAMEN),0) as mayor from sgrs_codexlaboratorio"; 
-			$Respuesta=mysqli_query($link, $Consulta);
-			$Fila=mysql_fetch_array($Respuesta);
-			$Mayor=$Fila["mayor"] + 1;			
-			$Inserta="INSERT INTO sgrs_codexlaboratorio (CTEXAMEN,NEXAMEN,CUNIDAD,QPARAMETRO,MVIGENTE)";
+			$Consulta = "select ifnull(max(CTEXAMEN),0) as mayor from sgrs_codexlaboratorio"; 
+			$Respuesta=mysqli_query($link,$Consulta);
+			$Fila=mysqli_fetch_array($Respuesta);
+			$Mayor=$Fila[mayor] + 1;			
+			$Inserta="insert into sgrs_codexlaboratorio (CTEXAMEN,NEXAMEN,CUNIDAD,QPARAMETRO,MVIGENTE)";
 			$Inserta.=" values('".$Mayor."','".$TxtNombre."','".$CmbUnidad."','".$TxtQPARAMETRO."','".$Vigente."')";
-			mysql_query($Inserta);
+			mysqli_query($link,$Inserta);
 			header("location:mantenedor_examenes.php?Buscar=S&TxtDescripcion=".$TxtDescripcion."&Mensaje=".$Mensaje);
 		break;
 		case "M":
-			$Actualizar="UPDATE sgrs_codexlaboratorio set NEXAMEN='".$TxtNombre."',CUNIDAD='".$CmbUnidad."',QPARAMETRO='".$TxtQPARAMETRO."',MVIGENTE='".$Vigente."' where CTEXAMEN='".$Datos."' ";
-			mysql_query($Actualizar);
+			$Actualizar="update sgrs_codexlaboratorio set NEXAMEN='".$TxtNombre."',CUNIDAD='".$CmbUnidad."',QPARAMETRO='".$TxtQPARAMETRO."',MVIGENTE='".$Vigente."' where CTEXAMEN='".$Datos."' ";
+			mysqli_query($link,$Actualizar);
 			header("location:mantenedor_examenes.php?Buscar=S&TxtDescripcion=".$TxtDescripcion."&Mensaje=".$Mensaje);
 		break;
 		case "E":
 			$Mensaje='';
 			$Datos = explode("//",$DatosUni);
-			foreach($Datos as $clave => $Codigo)
+			while (list($clave,$Codigo)=each($Datos))
 			{
 				$DatosRel='N';
-				$Consulta="SELECT * from sgrs_exlaboratorio where CTEXAMEN='".$Codigo."'";
-				$Resp=mysqli_query($link, $Consulta);
-				if($Fila=mysql_fetch_array($Resp))
+				$Consulta="select * from sgrs_exlaboratorio where CTEXAMEN='".$Codigo."'";
+				$Resp=mysqli_query($link,$Consulta);
+				if($Fila=mysqli_fetch_array($Resp))
 					$DatosRel='S';
 				if($DatosRel=='N')
 				{
 					$Eliminar="delete from sgrs_codexlaboratorio where CTEXAMEN='".$Codigo."'";
-					mysql_query($Eliminar);
+					mysqli_query($link,$Eliminar);
 				}
 				else
 					$Mensaje='No se puede Eliminar Examen, Existen Examenes asociados';	

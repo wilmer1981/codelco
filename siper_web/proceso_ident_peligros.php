@@ -1,8 +1,8 @@
-<?
+<?php
 	if(isset($CMBR))
 	{
-		$Actualiza="UPDATE sgrs_siperoperaciones set MRUTINARIA='".$Ruti."' where CAREA='".$CMBR."'";
-		mysql_query($Actualiza);
+		$Actualiza="update sgrs_siperoperaciones set MRUTINARIA='".$Ruti."' where CAREA='".$CMBR."'";
+		mysqli_query($link,$Actualiza);
 	}
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -128,7 +128,7 @@ function ConfirmaEliminar(CodPel)
 {
 	if(top.frames['Procesos'].document.Mantenedor.ObsEli.value=='')
 	{
-		alert('Debe Ingresar Observaciï¿½n de Eliminaciï¿½n');
+		alert('Debe Ingresar Observación de Eliminación');
 		//document.Mantenedor.ObsEli.value.focus();
 		return;
 	}
@@ -198,15 +198,15 @@ function CambiaRuti(CodSelTarea,Carea,Tipo)
 	<td align="center">
 		<table width="92%" border="0" cellpadding="0" cellspacing="4">
 		<tr>
-			<td align="left"><? echo DescripOrganica2($CodSelTarea);?></td>
+			<td align="left"><?php echo DescripOrganica2($CodSelTarea);?></td>
 			<td align="left"><label class="formulario"></label></td>
 		    <td align="right">
-			<?
+			<?php
 			$CODAREA=ObtenerCodParent($CodSelTarea);	
-			$Consulta1="SELECT MVALIDADO,MRUTINARIA from sgrs_siperoperaciones where CAREA='".$CODAREA."'";
+			$Consulta1="select MVALIDADO,MRUTINARIA from sgrs_siperoperaciones where CAREA='".$CODAREA."'";
 			//echo $Consulta1."<br>";
-			$Resultado1=mysql_query($Consulta1);
-			$Fila1=mysql_fetch_array($Resultado1);
+			$Resultado1=mysqli_query($link,$Consulta1);
+			$Fila1=mysqli_fetch_array($Resultado1);
 			$AREAVALID=$Fila1[MVALIDADO];
 			$MRUTI=$Fila1[MRUTINARIA];
 			if($AREAVALID=='0')
@@ -217,9 +217,9 @@ function CambiaRuti(CodSelTarea,Carea,Tipo)
 					echo "<span class='formulario'>Tarea Rutinaria&nbsp;</span><input type='checkbox' name='Ruti' class='SinBorde' onclick=javascript:CambiaRuti('".$CodSelTarea."','".$CODAREA."','1')>";
 					//"<a href=javascript:CambiaRuti('".$CodSelTarea."','".$CODAREA."','1')><img src='imagenes/cerrar1.png' alt='NO' border='0' width='19' align='absmiddle'></a>";	
 			?>
-				<a href="javascript:AgregarPeligro('AP','<? echo $CodSelTarea;?>')"><img src="imagenes/btn_agregar.png" alt='Agregar Peligros' border="0" align="absmiddle"></a>
-				<a href="javascript:ModObs('MP')"><img src='imagenes/btn_guardar.png' alt='Guarda Descripciï¿½n de Peligros' border='0' width='25' align='absmiddle'></a></td>
-			<?
+				<a href="javascript:AgregarPeligro('AP','<?php echo $CodSelTarea;?>')"><img src="imagenes/btn_agregar.png" alt='Agregar Peligros' border="0" align="absmiddle"></a>
+				<a href="javascript:ModObs('MP')"><img src='imagenes/btn_guardar.png' alt='Guarda Descripción de Peligros' border='0' width='25' align='absmiddle'></a></td>
+			<?php
 			}
 			?>
 		</tr>
@@ -239,10 +239,10 @@ function CambiaRuti(CodSelTarea,Carea,Tipo)
 			<td width="25%" align="center" class="TituloCabecera" >Peligro</td>
 			<td width="11%" align="center" class="TituloCabecera" >P</td>
 			<td width="11%" align="center" class="TituloCabecera" >C</td>
-			<td width="36%" align="center" class="TituloCabecera" >Descripciï¿½n</td>
+			<td width="36%" align="center" class="TituloCabecera" >Descripción</td>
 		  </tr>
 
-		 <? 
+		 <?php 
 			$CodOrganica=substr($CodSelTarea,1);
 			$CodOrganica=substr($CodOrganica,0,strlen($CodOrganica)-1);
 			$CodOrganica=explode(',',$CodOrganica);
@@ -254,11 +254,11 @@ function CambiaRuti(CodSelTarea,Carea,Tipo)
 				$ContArr++;	
 			}
 			$Cod=$CodOrganicaAux;$CodPelAgre="('-','";		
-			$Consulta="SELECT t2.NCONTACTO,t1.TOBSERVACION,t1.CPELIGRO,t1.CCONTACTO,t1.QPROBHIST,t1.QCONSECHIST,t1.MVALIDADO from sgrs_siperpeligros t1 inner join sgrs_codcontactos t2 on t1.CCONTACTO=t2.CCONTACTO where t1.MVIGENTE<>'0' and t1.CAREA ='".$Cod."' order by NCONTACTO";
+			$Consulta="select t2.NCONTACTO,t1.TOBSERVACION,t1.CPELIGRO,t1.CCONTACTO,t1.QPROBHIST,t1.QCONSECHIST,t1.MVALIDADO from sgrs_siperpeligros t1 inner join sgrs_codcontactos t2 on t1.CCONTACTO=t2.CCONTACTO where t1.MVIGENTE<>'0' and t1.CAREA ='".$Cod."' order by NCONTACTO";
 			//echo $Consulta."<br>";
-			$Resultado=mysqli_query($link, $Consulta);
+			$Resultado=mysqli_query($link,$Consulta);
 			echo "<input type='hidden' name='CodPel'><input type='hidden' name='ObsPel'>";
-			while ($Fila=mysql_fetch_array($Resultado))
+			while ($Fila=mysqli_fetch_array($Resultado))
 			{
 				//echo "<tr onMouseOver=\"CCA(this,'CL01')\" onMouseOut=\"CCA(this,'CL02')\">";
 				echo "<tr>";
@@ -279,7 +279,7 @@ function CambiaRuti(CodSelTarea,Carea,Tipo)
 			$CodPelAgre=$CodPelAgre."')";
 		 ?>
 	    </table><br>
-		 <?
+		 <?php
 			$CodOrganica=substr($CodSelTarea,1);
 			$CodOrganica=substr($CodOrganica,0,strlen($CodOrganica)-1);
 			$CodOrganica=explode(',',$CodOrganica);
@@ -291,12 +291,12 @@ function CambiaRuti(CodSelTarea,Carea,Tipo)
 				$ContArr++;	
 			}
 			$Cod=$CodOrganicaAux;
-			$Consulta="SELECT t2.NCONTACTO,t1.TOBSERVACION,t1.CPELIGRO,t1.CCONTACTO from sgrs_siperpeligros t1 inner join sgrs_codcontactos t2 on t1.CCONTACTO=t2.CCONTACTO where t1.MVIGENTE='0' and t1.CAREA ='".$Cod."' group by t1.CCONTACTO order by NCONTACTO";
+			$Consulta="select t2.NCONTACTO,t1.TOBSERVACION,t1.CPELIGRO,t1.CCONTACTO from sgrs_siperpeligros t1 inner join sgrs_codcontactos t2 on t1.CCONTACTO=t2.CCONTACTO where t1.MVIGENTE='0' and t1.CAREA ='".$Cod."' group by t1.CCONTACTO order by NCONTACTO";
 			//echo $Consulta;
-			$Resultado=mysqli_query($link, $Consulta);
+			$Resultado=mysqli_query($link,$Consulta);
 			echo "<input type='hidden' name='CodPel'><input type='hidden' name='ObservacionPel'>";
 
-			if($Fila=mysql_fetch_array($Resultado))
+			if($Fila=mysqli_fetch_array($Resultado))
 			{
 		 		echo "<table width='97%' border='1' cellpadding='0' cellspacing='0'>";
 				echo "<tr>";
@@ -305,11 +305,11 @@ function CambiaRuti(CodSelTarea,Carea,Tipo)
 				echo "<td width='45%' align='center' class='TituloCabecera'>Peligro No Vigentes</td>";
 				echo "<td width='49%' align='center' class='TituloCabecera'>Observaciones / Comentarios</td>";
 		  		echo "</tr>";
-				$Consulta="SELECT t2.NCONTACTO,t1.TOBSERVACION,t1.CPELIGRO,t1.CCONTACTO from sgrs_siperpeligros t1 inner join sgrs_codcontactos t2 on t1.CCONTACTO=t2.CCONTACTO where t1.MVIGENTE='0' and t1.CAREA ='".$Cod."' group by t1.CCONTACTO order by NCONTACTO";
+				$Consulta="select t2.NCONTACTO,t1.TOBSERVACION,t1.CPELIGRO,t1.CCONTACTO from sgrs_siperpeligros t1 inner join sgrs_codcontactos t2 on t1.CCONTACTO=t2.CCONTACTO where t1.MVIGENTE='0' and t1.CAREA ='".$Cod."' group by t1.CCONTACTO order by NCONTACTO";
 				//echo $Consulta;
-				$Resultado=mysqli_query($link, $Consulta);
+				$Resultado=mysqli_query($link,$Consulta);
 				echo "<input type='hidden' name='CodPel'><input type='hidden' name='ObsPel'>";
-				while ($Fila=mysql_fetch_array($Resultado))
+				while ($Fila=mysqli_fetch_array($Resultado))
 				{
 					echo "<tr>";
 					echo "<td align='center' width='4%'><a href=javascript:ActivarPeligro('".$Fila[CPELIGRO]."')><img src='imagenes/acepta.png' alt='Activar Peligro' border='0' width='20' align='absmiddle'></a></td>";
@@ -338,7 +338,7 @@ function CambiaRuti(CodSelTarea,Carea,Tipo)
    <td width="97%" height="99%" valign="top" align="center">
 		<table width="90%" border="0" align="center" cellpadding="2" cellspacing="0" >
 		<tr>
-		  <td align="left" width="30%"><label class="InputAzul">Tarea&nbsp;<img src="imagenes/vineta.gif" border="0">&nbsp;<? echo DescripOrganica($CodSelTarea,'T');?></label></td>
+		  <td align="left" width="30%"><label class="InputAzul">Tarea&nbsp;<img src="imagenes/vineta.gif" border="0">&nbsp;<?php echo DescripOrganica($CodSelTarea,'T');?></label></td>
           <td align="center" width="40%"><span class="titulo_azul"><img src="imagenes/vineta.gif" border="0">Agregar Peligros</span></td>
 		  <td align="right" width="30%">
 		  	  <a href="JavaScript:Grabar('GP')"><img src="imagenes/btn_guardar.png" height="20" alt="Guardar" width="20" border="0" align="absmiddle" /></a> 
@@ -354,16 +354,16 @@ function CambiaRuti(CodSelTarea,Carea,Tipo)
 		 <table width="97%" border="1" cellpadding="0" cellspacing="0">
 			<tr>
 				<td width="4%" class="TituloCabecera" align="center" >Sel.</td>
-				<td width="86%" class="TituloCabecera" align="center" >Codigos de Contactos (Peligros)&nbsp;&nbsp;<a href=JavaScript:ObsPeligros('')><img src='imagenes/obs.png' alt="Descripciï¿½n de los Peligros" border=0 width='17' height='17'></a></td>
+				<td width="86%" class="TituloCabecera" align="center" >Codigos de Contactos (Peligros)&nbsp;&nbsp;<a href=JavaScript:ObsPeligros('')><img src='imagenes/obs.png' alt="Descripción de los Peligros" border=0 width='17' height='17'></a></td>
 				<td width="86%" class="TituloCabecera" align="center" >P&nbsp;&nbsp;<a href='documento/Guia para calculo de la Magnitud de Riesgo Inicial.pdf' target="_blank"><img src='imagenes/obs.png' alt="Guia para calculo de la Magnitud de Riesgo Inicial" border=0 width='17' height='17'></a></td>
 				<td width="86%" class="TituloCabecera" align="center" >C&nbsp;&nbsp;<a href='documento/Guia para calculo de la Magnitud de Riesgo Inicial.pdf' target="_blank"><img src='imagenes/obs.png' alt="Guia para calculo de la Magnitud de Riesgo Inicial" border=0 width='17' height='17'></a></td>
 			 </tr>
-			 <input type="hidden" name="CodPelAgre" size="100" value="<? echo $CodPelAgre;?>" />
-		 <? //and CCONTACTO NOT IN ".$CodPelAgre."
-			$Consulta="SELECT *,ceiling(CCONTACTO) as order_codigo from sgrs_codcontactos where MVIGENTE ='1' and MOPCIONAL='1' and NCONTACTO <> '' order by NCONTACTO";
+			 <input type="hidden" name="CodPelAgre" size="100" value="<?php echo $CodPelAgre;?>" />
+		 <?php //and CCONTACTO NOT IN ".$CodPelAgre."
+			$Consulta="select *,ceiling(CCONTACTO) as order_codigo from sgrs_codcontactos where MVIGENTE ='1' and MOPCIONAL='1' and NCONTACTO <> '' order by NCONTACTO";
 			//echo $Consulta;
-			$Resultado=mysqli_query($link, $Consulta);echo "<input type='hidden' name='CheckPel'>";
-			while ($Fila=mysql_fetch_array($Resultado))
+			$Resultado=mysqli_query($link,$Consulta);echo "<input type='hidden' name='CheckPel'>";
+			while ($Fila=mysqli_fetch_array($Resultado))
 			{
 				$CmbProbH=$Fila[QPROBHIST];
 				$CmbConsH=$Fila[QCONSECHIST];
@@ -372,36 +372,36 @@ function CambiaRuti(CodSelTarea,Carea,Tipo)
 					echo "<td align='left' width='86%'>".$Fila[NCONTACTO]."</td>";
 					echo "<td>";
 					?>	
-	                <SELECT name='CmbProbH'>
-					<?
+	                <select name='CmbProbH'>
+					<?php
 						switch($CmbProbH)
 						{
 							case "1":
-								echo "<option value='1' SELECTed>1</option>";
+								echo "<option value='1' selected>1</option>";
 								echo "<option value='2'>2</option>";
 								echo "<option value='4'>4</option>";
 								echo "<option value='8'>8</option>";
 							break;
 							case "2":
 								echo "<option value='1'>1</option>";
-								echo "<option value='2' SELECTed>2</option>";
+								echo "<option value='2' selected>2</option>";
 								echo "<option value='4'>4</option>";
 								echo "<option value='8'>8</option>";
 							break;
 							case "4":
 								echo "<option value='1'>1</option>";
 								echo "<option value='2'>2</option>";
-								echo "<option value='4' SELECTed>4</option>";
+								echo "<option value='4' selected>4</option>";
 								echo "<option value='8'>8</option>";
 							break;
 							case "8":
 								echo "<option value='1'>1</option>";
 								echo "<option value='2'>2</option>";
 								echo "<option value='4'>4</option>";
-								echo "<option value='8' SELECTed>8</option>";
+								echo "<option value='8' selected>8</option>";
 							break;
 							default:
-								echo "<option value='1' SELECTed>1</option>";
+								echo "<option value='1' selected>1</option>";
 								echo "<option value='2'>2</option>";
 								echo "<option value='4'>4</option>";
 								echo "<option value='8'>8</option>";
@@ -410,39 +410,39 @@ function CambiaRuti(CodSelTarea,Carea,Tipo)
 						}
 				  
 				    ?>
-				    </SELECT>
-				    <?
+				    </select>
+				    <?php
 					echo "</td>";
 			  		echo "<td>";
-			  		?><SELECT name='CmbConsH'><?
+			  		?><select name='CmbConsH'><?php
 			  		switch($CmbConsH)
 					{
 							case "1":
-								echo "<option value='1' SELECTed>1</option>";
+								echo "<option value='1' selected>1</option>";
 								echo "<option value='2'>2</option>";
 								echo "<option value='4'>4</option>";
 								echo "<option value='8'>8</option>";
 							break;
 							case "2":
 								echo "<option value='1'>1</option>";
-								echo "<option value='2' SELECTed>2</option>";
+								echo "<option value='2' selected>2</option>";
 								echo "<option value='4'>4</option>";
 								echo "<option value='8'>8</option>";
 							break;
 							case "4":
 								echo "<option value='1'>1</option>";
 								echo "<option value='2'>2</option>";
-								echo "<option value='4' SELECTed>4</option>";
+								echo "<option value='4' selected>4</option>";
 								echo "<option value='8'>8</option>";
 							break;
 							case "8":
 								echo "<option value='1'>1</option>";
 								echo "<option value='2'>2</option>";
 								echo "<option value='4'>4</option>";
-								echo "<option value='8' SELECTed>8</option>";
+								echo "<option value='8' selected>8</option>";
 							break;
 							default:
-								echo "<option value='1' SELECTed>1</option>";
+								echo "<option value='1' selected>1</option>";
 								echo "<option value='2'>2</option>";
 								echo "<option value='4'>4</option>";
 								echo "<option value='8'>8</option>";
@@ -450,8 +450,8 @@ function CambiaRuti(CodSelTarea,Carea,Tipo)
 						
 					}
 				    ?>
-				    </SELECT>
-				    <?					
+				    </select>
+				    <?php					
 					echo "</td>";
 				echo "</tr>";
 			}
@@ -467,7 +467,7 @@ function CambiaRuti(CodSelTarea,Carea,Tipo)
   </tr>
   </table>
   </div>
-<?
+<?php
 include('div_obs_elimina3.php');
 ?>    
 </form>

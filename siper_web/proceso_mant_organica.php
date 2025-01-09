@@ -1,4 +1,4 @@
-<?
+<?php
 include('conectar_ori.php');
 	 
 	$Cont=1;$CodNiveles=0;$CodNivelesAux=0;
@@ -7,15 +7,15 @@ include('conectar_ori.php');
 	{
 		if($v!=''&&$v!='0')
 		{
-			$Consulta="SELECT CTAREA from sgrs_areaorg where CAREA='".$v."'";
-			$Resp=mysqli_query($link, $Consulta);
-			$Fila=mysql_fetch_array($Resp);
+			$Consulta="select CTAREA from sgrs_areaorg where CAREA='".$v."'";
+			$Resp=mysqli_query($link,$Consulta);
+			$Fila=mysqli_fetch_array($Resp);
 			$CodNivelesAux=$CodNiveles;
 			if($CodNiveles<$Fila[CTAREA])
 				$CodNiveles=$Fila[CTAREA];
-			$Consulta="SELECT min(CTAREA) as tarea_menor from sgrs_areaorg where CPARENT like '".$CodSelTarea."%' and CAREA<>'".$v."'";
-			$Resp=mysqli_query($link, $Consulta);
-			$Fila=mysql_fetch_array($Resp);
+			$Consulta="select min(CTAREA) as tarea_menor from sgrs_areaorg where CPARENT like '".$CodSelTarea."%' and CAREA<>'".$v."'";
+			$Resp=mysqli_query($link,$Consulta);
+			$Fila=mysqli_fetch_array($Resp);
 			$NivelInferior=$Fila[tarea_menor];
 			$NivelSuperior=$CodNivelesAux;			
 		}	
@@ -36,9 +36,9 @@ include('conectar_ori.php');
 	}
 	//$CheckedRut="checked";
 	$Parent=$CodOrganicaAux;
-	$Consulta="SELECT t1.NAREA,t1.CTAREA,t2.NORGANICA,t2.CORGANICA,t3.MRUTINARIA,t1.MVIGENTE from sgrs_areaorg t1 inner join sgrs_organica t2 on t1.ctarea=t2.corganica left join sgrs_siperoperaciones t3 on t1.CAREA=t3.CAREA where t1.CAREA ='".$Parent."' ";
-	$Resp=mysqli_query($link, $Consulta);
-	$Fila=mysql_fetch_array($Resp);	
+	$Consulta="select t1.NAREA,t1.CTAREA,t2.NORGANICA,t2.CORGANICA,t3.MRUTINARIA,t1.MVIGENTE from sgrs_areaorg t1 inner join sgrs_organica t2 on t1.ctarea=t2.corganica left join sgrs_siperoperaciones t3 on t1.CAREA=t3.CAREA where t1.CAREA ='".$Parent."' ";
+	$Resp=mysqli_query($link,$Consulta);
+	$Fila=mysqli_fetch_array($Resp);	
 	$TxtDescrip=$Fila[NAREA];$CheckedRut='checked';$LabelRut='hidden';$CheckedVig="checked";
 	if($MostrarCmb=='S')
 	{
@@ -112,7 +112,7 @@ function ModificarItem(Proceso,Opcion)
 	Vigente=0;
 	if(Mantenedor.CheckVigente.checked==true)
 		Vigente=1;		
-	var mensaje=confirm('ï¿½Desea Cambiar Nombre de Nivel?')
+	var mensaje=confirm('¿Desea Cambiar Nombre de Nivel?')
 	if(mensaje==true)
 	{
 		//Cod='Rutinario='+Rutinario+'&Descrip='+top.frames['Procesos'].document.Mantenedor.TxtDescrip.value+'&Proceso='+Proceso+'&Parent='+top.frames['Organica'].document.FrmOrganica.SelTarea.value;
@@ -184,7 +184,7 @@ function ConfirmaEliminar()
 	var f=document.Mantenedor;
 	if(f.ObsEli.value=='')
 	{
-		alert('Debe Ingresar Observaciï¿½n de Eliminaciï¿½n');
+		alert('Debe Ingresar Observación de Eliminación');
 		f.ObsEli.focus();
 		return;
 	}
@@ -217,60 +217,60 @@ function Activa()
 	</td>
 	<td width="74%" align="right">
 	<div id="BtnAgregar"  style="visibility:hidden; position:inherit;">
-	<a href="javascript:Grabar('GI','<? echo $CodSelTarea;?>')"><img src="imagenes/btn_guardar.png" alt='Grabar Item' border="0" align="absmiddle"></a>
+	<a href="javascript:Grabar('GI','<?php echo $CodSelTarea;?>')"><img src="imagenes/btn_guardar.png" alt='Grabar Item' border="0" align="absmiddle"></a>
 	<a href="javascript:Volver()"><img src="imagenes/btn_volver.png" alt='Volver' border="0" width="25" align="absmiddle"></a></div></td>
 	<td width="14%" align="right"><div id="BtnGeneral" style="visibility:visible; position:inherit;" >
-	<a href="javascript:AgregarItem('AI','<? echo $CodSelTarea;?>')"><img src="imagenes/btn_agregar.png" alt='Agregar Item' border="0" align="absmiddle"></a>
+	<a href="javascript:AgregarItem('AI','<?php echo $CodSelTarea;?>')"><img src="imagenes/btn_agregar.png" alt='Agregar Item' border="0" align="absmiddle"></a>
 	<a href="javascript:ModificarItem('MI')"><img src="imagenes/btn_modificar.png" alt='Modificar Item' border="0" width="25" align="absmiddle"></a>
 	<a href="javascript:MoverItem('MN')"><img src="imagenes/btn_mover_arbol.png" alt='Mover Niveles' border="0" width="25" align="absmiddle"></a>
-	<a href="javascript:EliminarItem('EI','<? echo $CodSelTarea;?>')"><img src="imagenes/btn_eliminar2.png" alt='Eliminar Item' border="0" align="absmiddle"></a></div>
+	<a href="javascript:EliminarItem('EI','<?php echo $CodSelTarea;?>')"><img src="imagenes/btn_eliminar2.png" alt='Eliminar Item' border="0" align="absmiddle"></a></div>
 	</td>
 	</tr>
 	 <tr>
-	   <td width="12%" class="formulario" align="left">&nbsp;Descripciï¿½n</td>
-	   <td colspan="2" align="left"><input name="TxtDescrip" type="text" class="InputIzq" value="<? echo $TxtDescrip; ?>" size="70" maxlength="70" /> </tr>
+	   <td width="12%" class="formulario" align="left">&nbsp;Descripción</td>
+	   <td colspan="2" align="left"><input name="TxtDescrip" type="text" class="InputIzq" value="<?php echo $TxtDescrip; ?>" size="70" maxlength="70" /> </tr>
 	  <div id="DescripTipo"  style="visibility:visible; position:relative; position:relative">
 	 <tr>
 	   <td width="12%" class="formulario" align="left">&nbsp;Tipo</td>
-	   <td colspan="2" align="left" class="formulario"><input type="hidden" name="TipoMod" value="<? echo $CodTipo;?>" /><label id="LblNombreTipo" style="visibility:visible; width:auto"><? echo trim($NombreTipo)." ".$Rutinaria;?></label>
-	   <SELECT name="CmbTipo" style="visibility:hidden" onChange="Activa()">
+	   <td colspan="2" align="left" class="formulario"><input type="hidden" name="TipoMod" value="<?php echo $CodTipo;?>" /><label id="LblNombreTipo" style="visibility:visible; width:auto"><?php echo trim($NombreTipo)." ".$Rutinaria;?></label>
+	   <select name="CmbTipo" style="visibility:hidden" onChange="Activa()">
 	   <option value="S">Seleccionar</option>
-	   <? 
+	   <?php 
 			if(intval($CodNiveles)=='5')//UNIDAD
-				$Consulta="SELECT * from sgrs_organica where CORGANICA<>0 and CORGANICA IN ('4','5','6','7','8')  order by orden";
+				$Consulta="select * from sgrs_organica where CORGANICA<>0 and CORGANICA IN ('4','5','6','7','8')  order by orden";
 			else
-				$Consulta="SELECT * from sgrs_organica where CORGANICA<>0 and CORGANICA > ".intval($CodNiveles)." order by orden";
-			$RespTipo=mysqli_query($link, $Consulta);
-			while($Fila=mysql_fetch_array($RespTipo))
+				$Consulta="select * from sgrs_organica where CORGANICA<>0 and CORGANICA > ".intval($CodNiveles)." order by orden";
+			$RespTipo=mysqli_query($link,$Consulta);
+			while($Fila=mysqli_fetch_array($RespTipo))
 			{
 				if($CmbTipo==$Fila[CORGANICA])
-					echo "<option value='".$Fila[CORGANICA]."' SELECTed>".$Fila[NORGANICA]."</option>";
+					echo "<option value='".$Fila[CORGANICA]."' selected>".$Fila[NORGANICA]."</option>";
 				else
 					echo "<option value='".$Fila[CORGANICA]."'>".$Fila[NORGANICA]."</option>";	
 			}
 	   ?>
-	   </SELECT>
-	   <? //echo "1:   ".$Consulta;?>
-	   <SELECT name="CmbTipo2" style="visibility:" onChange="Activa()">
+	   </select>
+	   <?php //echo "1:   ".$Consulta;?>
+	   <select name="CmbTipo2" style="visibility:" onChange="Activa()">
 	   <option value="S">Seleccionar</option>
-	   <? 
-			$Consulta="SELECT * from sgrs_organica where CORGANICA not in (0,'".$CodNiveles."') and (CORGANICA > ".intval($NivelSuperior)." and CORGANICA <  ".intval($NivelInferior).") order by orden";
-			$RespTipo=mysqli_query($link, $Consulta);
-			while($Fila=mysql_fetch_array($RespTipo))
+	   <?php 
+			$Consulta="select * from sgrs_organica where CORGANICA not in (0,'".$CodNiveles."') and (CORGANICA > ".intval($NivelSuperior)." and CORGANICA <  ".intval($NivelInferior).") order by orden";
+			$RespTipo=mysqli_query($link,$Consulta);
+			while($Fila=mysqli_fetch_array($RespTipo))
 			{
 				if($CmbTipo2==$Fila[CORGANICA])
-					echo "<option value='".$Fila[CORGANICA]."' SELECTed>".$Fila[NORGANICA]."</option>";
+					echo "<option value='".$Fila[CORGANICA]."' selected>".$Fila[NORGANICA]."</option>";
 				else
 					echo "<option value='".$Fila[CORGANICA]."'>".$Fila[NORGANICA]."</option>";	
 			}
 	   ?>
-	   </SELECT>
-	   <? //echo "2:   ".$Consulta;?>
+	   </select>
+	   <?php //echo "2:   ".$Consulta;?>
 
-	   <label id="LblRutinarios" style="visibility:<? echo $LabelRut;?>">
-	   <input type="checkbox" name="CheckRutinaria" value="checkbox" class="SinBorde" <? echo $CheckedRut;?>>
+	   <label id="LblRutinarios" style="visibility:<?php echo $LabelRut;?>">
+	   <input type="checkbox" name="CheckRutinaria" value="checkbox" class="SinBorde" <?php echo $CheckedRut;?>>
 	   Rutinario&nbsp;&nbsp;&nbsp;
-	   <input type="checkbox" name="CheckVigente" value="checkbox" class="SinBorde" <? echo $CheckedVig;?>>
+	   <input type="checkbox" name="CheckVigente" value="checkbox" class="SinBorde" <?php echo $CheckedVig;?>>
 	   Vigente
 	   </label></td>
 		</div>
@@ -282,6 +282,6 @@ function Activa()
 <td width="5" background="imagenes/tab_separator.gif"></td>
 </tr>
 </table>
-<?
+<?php
 include('div_obs_elimina.php');
 ?>

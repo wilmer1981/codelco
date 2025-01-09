@@ -1,4 +1,4 @@
-<? include('conectar_ori.php');
+<?php include('conectar_ori.php');
 	$Encontro=false;
 	
 	
@@ -9,13 +9,13 @@
 			$TxtQLPP=str_replace(',','.',$TxtQLPP);
 			if($TxtQLPP=='')
 			$TxtQLPP=0;
-			$Consulta = "SELECT ifnull(max(CAGENTE),0) as mayor from sgrs_cagentes"; 
-			$Respuesta=mysqli_query($link, $Consulta);
-			$Fila=mysql_fetch_array($Respuesta);
-			$Mayor=$Fila["mayor"] + 1;			
-			$Inserta="INSERT INTO sgrs_cagentes (CAGENTE,NAGENTE,CUNIDAD,QLPP,MVIGENTE)";
+			$Consulta = "select ifnull(max(CAGENTE),0) as mayor from sgrs_cagentes"; 
+			$Respuesta=mysqli_query($link,$Consulta);
+			$Fila=mysqli_fetch_array($Respuesta);
+			$Mayor=$Fila[mayor] + 1;			
+			$Inserta="insert into sgrs_cagentes (CAGENTE,NAGENTE,CUNIDAD,QLPP,MVIGENTE)";
 			$Inserta.=" values('".$Mayor."','".$TxtNombre."','".$CmbUnidad."','".$TxtQLPP."','".$Vigente."')";
-			mysql_query($Inserta);
+			mysqli_query($link,$Inserta);
 			header("location:mantenedor_agente.php?Buscar=S&TxtDescripcion=".$TxtDescripcion."&Mensaje=".$Mensaje);
 		break;
 		case "M":
@@ -23,28 +23,28 @@
 			$TxtQLPP=str_replace(',','.',$TxtQLPP);
 			if($TxtQLPP=='')
 			$TxtQLPP=0;
-			$Actualizar="UPDATE sgrs_cagentes set NAGENTE='".$TxtNombre."',CUNIDAD='".$CmbUnidad."',QLPP='".$TxtQLPP."',MVIGENTE='".$Vigente."' where CAGENTE='".$Datos."' ";
-			mysql_query($Actualizar);
+			$Actualizar="update sgrs_cagentes set NAGENTE='".$TxtNombre."',CUNIDAD='".$CmbUnidad."',QLPP='".$TxtQLPP."',MVIGENTE='".$Vigente."' where CAGENTE='".$Datos."' ";
+			mysqli_query($link,$Actualizar);
 			header("location:mantenedor_agente.php?Buscar=S&TxtDescripcion=".$TxtDescripcion."&Mensaje=".$Mensaje);
 		break;
 		case "E":
 			$Mensaje='';
 			$Datos = explode("//",$DatosUni);
-			foreach($Datos as $clave => $Codigo)
+			while (list($clave,$Codigo)=each($Datos))
 			{
 				$DatosRel='N';
-				$Consulta="SELECT * from sgrs_medpersonales where CAGENTE='".$Codigo."'";
-				$Resp=mysqli_query($link, $Consulta);
-				if($Fila=mysql_fetch_array($Resp))
+				$Consulta="select * from sgrs_medpersonales where CAGENTE='".$Codigo."'";
+				$Resp=mysqli_query($link,$Consulta);
+				if($Fila=mysqli_fetch_array($Resp))
 					$DatosRel='S';
-				$Consulta="SELECT * from sgrs_medambientes where CAGENTE='".$Codigo."'";
-				$Resp=mysqli_query($link, $Consulta);
-				if($Fila=mysql_fetch_array($Resp))
+				$Consulta="select * from sgrs_medambientes where CAGENTE='".$Codigo."'";
+				$Resp=mysqli_query($link,$Consulta);
+				if($Fila=mysqli_fetch_array($Resp))
 					$DatosRel='S';
 				if($DatosRel=='N')
 				{
 					$Eliminar="delete from sgrs_cagentes where CAGENTE='".$Codigo."'";
-					mysql_query($Eliminar);
+					mysqli_query($link,$Eliminar);
 				}
 				else
 					$Mensaje='No se puede Eliminar Agente, Existen Mediciones asociadas';	

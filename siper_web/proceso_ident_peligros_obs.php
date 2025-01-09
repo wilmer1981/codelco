@@ -1,6 +1,6 @@
-<? include('conectar_ori.php');?>
+<?php include('conectar_ori.php');?>
 <html >
-<title>Descripciï¿½n de los Peligros</title>
+<title>Descripción de los Peligros</title>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 <title>Documento sin t&iacute;tulo</title>
@@ -18,15 +18,15 @@
     <td width="1%" background="imagenes/interior2/form_izq.gif"></td>
 	<td align="center"><table width="100%" border="1" cellpadding="0"cellspacing="0">
 	<tr>
-	<td colspan="2" align="center" class="TituloCabecera">Descripciï¿½n de los Peligros</td>
+	<td colspan="2" align="center" class="TituloCabecera">Descripción de los Peligros</td>
 	</tr>
-	<?	
+	<?php	
 	$Peligros=str_replace("\'","'",$Peligros);
-	//$Consulta="SELECT * from sgrs_codcontactos where MVIGENTE ='1' and MOPCIONAL='1' and CCONTACTO NOT IN ".$Peligros." and NCONTACTO <> '' order by CCONTACTO";
-	$Consulta="SELECT *,ceiling(CCONTACTO) as order_codigo from sgrs_codcontactos where MVIGENTE ='1' and MOPCIONAL='1' and NCONTACTO <> '' order by NCONTACTO";
+	//$Consulta="select * from sgrs_codcontactos where MVIGENTE ='1' and MOPCIONAL='1' and CCONTACTO NOT IN ".$Peligros." and NCONTACTO <> '' order by CCONTACTO";
+	$Consulta="select *,ceiling(CCONTACTO) as order_codigo from sgrs_codcontactos where MVIGENTE ='1' and MOPCIONAL='1' and NCONTACTO <> '' order by NCONTACTO";
 	//echo $Consulta;
-	$Resultado=mysqli_query($link, $Consulta);echo "<input type='hidden' name='CheckPel'>";
-	while ($Fila=mysql_fetch_array($Resultado))
+	$Resultado=mysqli_query($link,$Consulta);echo "<input type='hidden' name='CheckPel'>";
+	while ($Fila=mysqli_fetch_array($Resultado))
 	{
 		$CmbProbH=$Fila[QPROBHIST];
 		$CmbConsH=$Fila[QCONSECHIST];

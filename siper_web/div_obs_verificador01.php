@@ -1,28 +1,28 @@
-<?
+<?php
 	include('conectar_ori.php');
 	include('funciones/siper_funciones.php');	
 	
 	if($OPC=='GO')
 	{
-		$Consulta="SELECT max(CIDVERIFICADOR+1) as maximo from sgrs_siperverificadores_obs ";
-		$Resp=mysqli_query($link, $Consulta);
-		if($Fila=mysql_fetch_array($Resp))
+		$Consulta="select max(CIDVERIFICADOR+1) as maximo from sgrs_siperverificadores_obs ";
+		$Resp=mysqli_query($link,$Consulta);
+		if($Fila=mysqli_fetch_array($Resp))
 		{
-			if($Fila["maximo"]=='')
+			if($Fila[maximo]=='')
 				$TxtVeriObs='1';
 			else		
-				$TxtVeriObs=$Fila["maximo"];
+				$TxtVeriObs=$Fila[maximo];
 		}
 		
 		$Inserta="INSERT INTO sgrs_siperverificadores_obs  (CIDVERIFICADOR,COD_VERIFICADOR,CPELIGRO,TOBSERVACION,CAREA,CCONTACTO)";
 		$Inserta.=" values('".$TxtVeriObs."','".$CodVeri."','".$Peligro."','".$ObsVeri."','".$Area."','".$CodCCONTACTO."')";		
-		mysql_query($Inserta);
+		mysqli_query($link,$Inserta);
 	}
 	else
 	{
-		$Actualiza="UPDATE sgrs_siperverificadores_obs set TOBSERVACION='".$ObsVeri."'  where CIDVERIFICADOR='".$CIDCORR."' and COD_VERIFICADOR='".$CodVeri."' and CPELIGRO='".$Peligro."' and CAREA='".$Area."' and CCONTACTO='".$CodCCONTACTO."'";		
+		$Actualiza="update sgrs_siperverificadores_obs set TOBSERVACION='".$ObsVeri."'  where CIDVERIFICADOR='".$CIDCORR."' and COD_VERIFICADOR='".$CodVeri."' and CPELIGRO='".$Peligro."' and CAREA='".$Area."' and CCONTACTO='".$CodCCONTACTO."'";		
 		//echo $Actualiza."<br>";
-		mysql_query($Actualiza);
+		mysqli_query($link,$Actualiza);
 	}
 	echo "<script languaje='JavaScript'>";
 	echo "window.opener.document.Mantenedor.action='procesos_organica.php?CodSelTarea=$CodSelTarea&TipoPestana=2';";

@@ -1,11 +1,16 @@
-<?
+<?phpphp
 include('conectar_consulta.php');
-if(!isset($Navega))
+$Navega = isset($_REQUEST["Navega"])?$_REQUEST["Navega"]:"";
+$Estado = isset($_REQUEST["Estado"])?$_REQUEST["Estado"]:"";
+$SelTarea = isset($_REQUEST["SelTarea"])?$_REQUEST["SelTarea"]:"";
+
+if($Navega=="")
 {
 	$Navega=",0,";
 	$Estado='C';
 }
-?><head>
+?>
+<head>
 <!--<script language="JavaScript" type="text/javascript" src="ajax.js"></script>-->
 <title>Organica</title>
 <script language="JavaScript">
@@ -78,14 +83,14 @@ function ItemSelec(Codigo)
 <link href="estilos/siper_style.css" rel="stylesheet" type="text/css">
 <body>
 <form name='FrmOrganica' method="post">
-<input type="hidden" value="<? echo $Navega;?>" name="Navega">
-<input type="hidden" value="<? echo $Estado;?>" name="Estado">
-<input type="hidden" value="<? echo $SelTarea;?>" name="SelTarea">
+<input type="hidden" value="<?phpphp echo $Navega;?>" name="Navega">
+<input type="hidden" value="<?phpphp echo $Estado;?>" name="Estado">
+<input type="hidden" value="<?phpphp echo $SelTarea;?>" name="SelTarea">
 <div style='position:absolute; left:10px; top:10px; width:100%; height:450; OVERFLOW:auto;' id='OrganicaGen'>
 <table border='0' cellpadding='0' cellspacing='0' >
-<?
+<?phpphp
 include('funciones/siper_funciones.php');
-CrearArbol($Navega,$Estado,$SelTarea,'','S');
+CrearArbol($Navega,$Estado,$SelTarea,'','S',$link);
 ?>
 </table></div>
 </form>

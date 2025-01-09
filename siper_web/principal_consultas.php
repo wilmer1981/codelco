@@ -1,3 +1,8 @@
+<?phpphp
+//include('conectar_sasso.php');
+//include('funciones/siper_funciones.php');
+
+?>
 <html> 
    <head> 
    <title>SASSO - MODULO CONSULTAS</title> 

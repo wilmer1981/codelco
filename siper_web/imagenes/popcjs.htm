@@ -27,7 +27,7 @@ var VicPopCal = new Object();
 
 //****************************************************************************
 // Param: popCtrl is the widget beyond which you want this calendar to appear;
-//        dateCtrl is the widget into which you want to put the SELECTed date;
+//        dateCtrl is the widget into which you want to put the selected date;
 //        popCal is the widget to display the calendar;  
 // i.e.: <input type="text" name="dc" style="text-align:center" readonly><INPUT type="button" value="V" onclick="fPopCalendar(dc,dc,popCal);return false">
 //****************************************************************************
@@ -149,10 +149,10 @@ function fUpdateCal(iYear, iMonth) {
 }
 
 function fSetYearMon(iYear, iMon){
-  tbSelMonth.options[iMon-1].SELECTed = true;
+  tbSelMonth.options[iMon-1].selected = true;
   for (i = 0; i < tbSelYear.length; i++)
 	if (tbSelYear.options[i].value == iYear)
-		tbSelYear.options[i].SELECTed = true;
+		tbSelYear.options[i].selected = true;
   fUpdateCal(iYear, iMon);
 }
 
@@ -197,7 +197,7 @@ with (document) {
 write("<table id='popTable' border='0' bgcolor='#FFFFFF'>");
 write("<TR>");
 write("<td valign='middle' align='center'><img src='ico_atras_ano.gif' onClick='fPrevMonth()' align='absmiddle'>");
-write("&nbsp;<SELECT style='font-size=11px;font-family=Verdana' name='tbSelMonth' onChange='fUpdateCal(tbSelYear.value, tbSelMonth.value)' Victor='Won'>");
+write("&nbsp;<select style='font-size=11px;font-family=Verdana' name='tbSelMonth' onChange='fUpdateCal(tbSelYear.value, tbSelMonth.value)' Victor='Won'>");
 for (i=0; i<12; i++)
 	write("<option value='"+(i+1)+"'>"+gMonths[i]+"</option>");
 write("</SELECT>");

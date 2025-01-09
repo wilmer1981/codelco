@@ -1,4 +1,4 @@
-<? 	
+<?php 	
 	include("../principal/conectar_principal.php");
 	switch($Proceso)
 	{
@@ -7,12 +7,12 @@
 		case "M":
 			$Datos=explode('//',$Valores);
 			$TxtCodigo=$Datos[0];
-			$Consulta = "SELECT * from proyecto_modernizacion.funcionarios t1 inner join proyecto_modernizacion.sistemas_por_usuario t2 on t1.rut=t2.rut";
+			$Consulta = "select * from proyecto_modernizacion.funcionarios t1 inner join proyecto_modernizacion.sistemas_por_usuario t2 on t1.rut=t2.rut";
 			$Consulta.=" inner join proyecto_modernizacion.niveles_por_sistema t3 on t2.cod_sistema=t3.cod_sistema and t2.nivel=t3.nivel";
 			$Consulta.=" where t2.cod_sistema='29' and t1.rut='".$TxtCodigo."' order by apellido_paterno";
 			//echo $Consulta."<br>";
-			$Respuesta=mysqli_query($link, $Consulta);
-			$Fila=mysql_fetch_array($Respuesta);
+			$Respuesta=mysqli_query($link,$Consulta);
+			$Fila=mysqli_fetch_array($Respuesta);
 			$CmbCCosto2=substr($Fila["cod_centro_costo"],3);
 			$CmbCCosto2=str_replace('.','',$CmbCCosto2);
 			$TxtCodigo=$Fila["rut"];
@@ -50,7 +50,7 @@ function Salir()
 </script>
 <title>Proceso</title>
 <link href="estilos/siper_style.css" rel="stylesheet" type="text/css">
-<?
+<?php
 	echo "<body leftmargin='3' topmargin='5' marginwidth='0' marginheight='0'>";
 ?>
 
@@ -71,68 +71,68 @@ function Salir()
 				</tr>
                 <tr>
                   <td width="96" class="formulario">Rut</td>
-                  <td width="336"><?
+                  <td width="336"><?php
 			  if($Proceso=='M')
 					echo $TxtCodigo;	
 			  else
 			  {
-					$Consulta="SELECT distinct t1.rut,t1.apellido_paterno,t1.apellido_materno,t1.nombres from proyecto_modernizacion.funcionarios t1 inner join sistemas_por_usuario t2 on t1.rut=t2.rut where t2.cod_sistema='29' order by apellido_paterno";
-					$Resultado=mysqli_query($link, $Consulta);
-					while ($Fila=mysql_fetch_array($Resultado))
-						$In=$In."'".$Fila["rut"]."',";
+					$Consulta="select distinct t1.rut,t1.apellido_paterno,t1.apellido_materno,t1.nombres from proyecto_modernizacion.funcionarios t1 inner join sistemas_por_usuario t2 on t1.rut=t2.rut where t2.cod_sistema='29' order by apellido_paterno";
+					$Resultado=mysqli_query($link,$Consulta);
+					while ($Fila=mysqli_fetch_array($Resultado))
+						$In=$In."'".$Fila[rut]."',";
 					 if($In !='')
 							$In=substr($In,0,strlen($In)-1);						
-					echo "<SELECT name='CmbRut' style='width:320'>";
+					echo "<select name='CmbRut' style='width:320'>";
 					echo "<option value='-1'>SELECCIONAR</option>";
-					//$Consulta1="SELECT distinct t1.rut,t1.apellido_paterno,t1.apellido_materno,t1.nombres from proyecto_modernizacion.funcionarios t1 inner join sistemas_por_usuario t2 on t1.rut=t2.rut ";
+					//$Consulta1="select distinct t1.rut,t1.apellido_paterno,t1.apellido_materno,t1.nombres from proyecto_modernizacion.funcionarios t1 inner join sistemas_por_usuario t2 on t1.rut=t2.rut ";
 					//$Consulta1.="where t2.cod_sistema<>'29' and t1.rut not in($In) order by apellido_paterno";
-					$Consulta1="SELECT distinct t1.rut,t1.apellido_paterno,t1.apellido_materno,t1.nombres from proyecto_modernizacion.funcionarios t1 ";
+					$Consulta1="select distinct t1.rut,t1.apellido_paterno,t1.apellido_materno,t1.nombres from proyecto_modernizacion.funcionarios t1 ";
 					$Consulta1.="where t1.rut not in($In) order by t1.apellido_paterno";
 					
-					$Resultado1=mysql_query($Consulta1);
-					while ($Fila1=mysql_fetch_array($Resultado1))
+					$Resultado1=mysqli_query($link,$Consulta1);
+					while ($Fila1=mysqli_fetch_array($Resultado1))
 					{
-						if(strlen($Fila1["rut"])==9)
-							$Rut='0'.$Fila1["rut"];	
+						if(strlen($Fila1[rut])==9)
+							$Rut='0'.$Fila1[rut];	
 						else
-							$Rut=$Fila1["rut"];				
-						$Nombre=$Fila1["apellido_paterno"]." ".$Fila1["apellido_materno"]." ".$Fila1["nombres"];
-						if ($CmbRut==$Fila1["rut"])			
-							echo "<option value='$Fila1["rut"]."' SELECTed>".$Rut."-".strtoupper($Nombre)."</option>";
+							$Rut=$Fila1[rut];				
+						$Nombre=$Fila1[apellido_paterno]." ".$Fila1[apellido_materno]." ".$Fila1[nombres];
+						if ($CmbRut==$Fila1[rut])			
+							echo "<option value='$Fila1[rut]' selected>".$Rut."-".strtoupper($Nombre)."</option>";
 						else
-							echo "<option value='$Fila1["rut"]."'>".$Rut."-".strtoupper($Nombre)."</option>";
+							echo "<option value='$Fila1[rut]'>".$Rut."-".strtoupper($Nombre)."</option>";
 					}
-					echo "</SELECT>";  
+					echo "</select>";  
 			  }		
   			  ?>                  </td>
                 </tr>
-                <?
+                <?php
 			 if($Proceso=='M')
 			{		  
 		  ?>
                 <tr>
                   <td class="formulario">Nombres</td>
-                  <td><? echo $TxtNombres;?></td>
+                  <td><?php echo $TxtNombres;?></td>
                 </tr>
-                <?
+                <?php
 		  	}
 		  ?>
                 <tr>
                   <td class="formulario">Perfil</td>
-                  <td><?
-			echo "<SELECT name='CmbNivel3' style='width:200'>";
+                  <td><?php
+			echo "<select name='CmbNivel3' style='width:200'>";
 			echo "<option value='-1'>SELECCIONAR</option>";
-			$Consulta1="SELECT nivel,descripcion from proyecto_modernizacion.niveles_por_sistema ";
+			$Consulta1="select nivel,descripcion from proyecto_modernizacion.niveles_por_sistema ";
 			$Consulta1.=" where cod_sistema='29' order by nivel";			
-			$Resultado1=mysql_query($Consulta1);
-			while ($Fila1=mysql_fetch_array($Resultado1))
+			$Resultado1=mysqli_query($link,$Consulta1);
+			while ($Fila1=mysqli_fetch_array($Resultado1))
 			{
-				if ($CmbNivel3==$Fila1["nivel"])			
-					echo "<option value=".$Fila1["nivel"]." SELECTed>".$Fila1["nivel"]."-".strtoupper($Fila1["descripcion"])."</option>";
+				if ($CmbNivel3==$Fila1[nivel])			
+					echo "<option value=".$Fila1[nivel]." selected>".$Fila1[nivel]."-".strtoupper($Fila1[descripcion])."</option>";
 				else
-					echo "<option value=".$Fila1[nivel].">".$Fila1[nivel]."-".strtoupper($Fila1["descripcion"])."</option>";
+					echo "<option value=".$Fila1[nivel].">".$Fila1[nivel]."-".strtoupper($Fila1[descripcion])."</option>";
 			}
-			echo "</SELECT>";
+			echo "</select>";
 			?>
                   </td>
                 </tr>
@@ -140,7 +140,7 @@ function Salir()
                 <br />
                 <table width="100%" border="1" cellpadding="0" cellspacing="0" class="TablaInterior">
                   <tr>
-                    <td  align="center" width="465"><a href="JavaScript:Grabar('<? echo $Proceso;?>','<? echo $Valores;?>')"><img src="imagenes/btn_guardar.png" width="29" height="26" border="0" /></a>&nbsp; <a href="JavaScript:Salir()"><img src="imagenes/cerrar1.png" width="25" height="25" border="0" alt="Cerrar" align="absmiddle" /></a> &nbsp; </td>
+                    <td  align="center" width="465"><a href="JavaScript:Grabar('<?php echo $Proceso;?>','<?php echo $Valores;?>')"><img src="imagenes/btn_guardar.png" width="29" height="26" border="0" /></a>&nbsp; <a href="JavaScript:Salir()"><img src="imagenes/cerrar1.png" width="25" height="25" border="0" alt="Cerrar" align="absmiddle" /></a> &nbsp; </td>
                   </tr>
               </table></td>
           </tr>
@@ -156,7 +156,7 @@ function Salir()
 </form>
 </body>
 </html>
-<?
+<?php
 	if (isset($EncontroCoincidencia))
 	{
 		if ($EncontroCoincidencia==true)

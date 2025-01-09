@@ -1,13 +1,13 @@
 <table width="100%" border="0" cellpadding="0"cellspacing="0">
 <tr>
-<? //echo "tipo control:   ".$TipoControl;?>
+<?php //echo "tipo control:   ".$TipoControl;?>
 	<td width="5" background="imagenes/tab_separator.gif"></td>
 	<td align="center">
 		<table width="90%" border="0" cellpadding="0" cellspacing="4">
 		<tr>
-			<td align="left"><? echo DescripOrganica2($CodSelTarea);?></td>
-			<td align="right"><span class="formulario">Fin Identificacion Peligros&nbsp;</span><a href="javascript:ValidarFinIdentPel('VFIP','<? echo $CodSelTarea;?>')"><img src="imagenes/acepta.png" alt='Aceptar Fin Identificacion Peligros' border="0" align="absmiddle"></a></td>
-			<? //echo $CodSelTarea;?>
+			<td align="left"><?php echo DescripOrganica2($CodSelTarea);?></td>
+			<td align="right"><span class="formulario">Fin Identificacion Peligros&nbsp;</span><a href="javascript:ValidarFinIdentPel('VFIP','<?php echo $CodSelTarea;?>')"><img src="imagenes/acepta.png" alt='Aceptar Fin Identificacion Peligros' border="0" align="absmiddle"></a></td>
+			<?php //echo $CodSelTarea;?>
 		</tr>
 		</table>
 		<!--<table width="100%" border="1" cellpadding="0" cellspacing="0" align="left">
@@ -27,20 +27,20 @@
           <table width="140%" border="1" cellpadding="0" cellspacing="0" align="left">
 			<tr>
 				<td width="20%" class="TituloCabecera" align="center" >Peligro</td>
-				<td width="10%" class="TituloCabecera" align="center">Descripciï¿½n</td>
+				<td width="10%" class="TituloCabecera" align="center">Descripción</td>
 				<td align='center' width='3%' class='TituloCabecera' >MRi</td>
-				<td align='left' width='30%' class='TituloCabecera' ><table width="100%" class="TituloCabecera"><td width="70%">Famila de Controles</td><td width="30%">Especificaciï¿½n</td></table></td>
-				<td width="35%" class="TituloCabecera"><table width="100%" class="TituloCabecera"><td width="70%">Familia de Verificadores</td><td width="30%">Especificaciï¿½n</td></table></td>
+				<td align='left' width='30%' class='TituloCabecera' ><table width="100%" class="TituloCabecera"><td width="70%">Famila de Controles</td><td width="30%">Especificación</td></table></td>
+				<td width="35%" class="TituloCabecera"><table width="100%" class="TituloCabecera"><td width="70%">Familia de Verificadores</td><td width="30%">Especificación</td></table></td>
 				<td width="3%" class="TituloCabecera" >MRr</td>
 				<td width="3%" class="TituloCabecera" align="center">Val</td>
 		    </tr>
 
-			<? 
+			<?php 
 			$CODAREA=ObtenerCodParent($CodSelTarea);
-			$Consulta="SELECT t2.NCONTACTO,t1.TOBSERVACION,t1.CPELIGRO,t1.CCONTACTO,t1.MVALIDADO,t1.MR1,t1.MR2,t1.QPROBHIST,t1.QCONSECHIST from sgrs_siperpeligros t1 inner join sgrs_codcontactos t2 on t1.CCONTACTO=t2.CCONTACTO where t1.MVIGENTE<>'0' and t1.CAREA ='".$CODAREA."' group by t1.CPELIGRO order by NCONTACTO";
+			$Consulta="select t2.NCONTACTO,t1.TOBSERVACION,t1.CPELIGRO,t1.CCONTACTO,t1.MVALIDADO,t1.MR1,t1.MR2,t1.QPROBHIST,t1.QCONSECHIST from sgrs_siperpeligros t1 inner join sgrs_codcontactos t2 on t1.CCONTACTO=t2.CCONTACTO where t1.MVIGENTE<>'0' and t1.CAREA ='".$CODAREA."' group by t1.CPELIGRO order by NCONTACTO";
 			//echo $Consulta;
-			$Resultado=mysqli_query($link, $Consulta);
-			while ($Fila=mysql_fetch_array($Resultado))
+			$Resultado=mysqli_query($link,$Consulta);
+			while ($Fila=mysqli_fetch_array($Resultado))
 			{				
 				$PH='';$CH='';$PC='';$CC='';$Validado='';
 				if($Fila[MVALIDADO]=='1')
@@ -58,34 +58,34 @@
 					//echo "<td align='left'>&nbsp;</td>";	
 				echo "<td align='left' width='20%' style='vertical-align:top;'>";
 				echo "<table width='100%' border='1' cellspacing='0' cellpadding='0'>";
-				$Consulta="SELECT t2.NCONTROL,t1.CCONTROL,t3.ATCONTROLES from sgrs_sipercontroles t1";
+				$Consulta="select t2.NCONTROL,t1.CCONTROL,t3.ATCONTROLES from sgrs_sipercontroles t1";
 				$Consulta.=" inner join sgrs_codcontroles t2 on t1.CCONTROL=t2.CCONTROL inner join sgrs_tipo_controles t3 on t1.MCONTROL=t3.CTCONTROLES";
 				$Consulta.=" where t1.CPELIGRO ='".$Fila[CPELIGRO]."'";
 				//echo $Consulta."<br>";
-				$RespCtrl=mysqli_query($link, $Consulta);
-				if($FilaCtrl=mysql_fetch_array($RespCtrl))
+				$RespCtrl=mysqli_query($link,$Consulta);
+				if($FilaCtrl=mysqli_fetch_array($RespCtrl))
 				{
-					$Consulta="SELECT t2.NCONTROL,t1.CCONTROL,t3.ATCONTROLES from sgrs_sipercontroles t1";
+					$Consulta="select t2.NCONTROL,t1.CCONTROL,t3.ATCONTROLES from sgrs_sipercontroles t1";
 					$Consulta.=" inner join sgrs_codcontroles t2 on t1.CCONTROL=t2.CCONTROL inner join sgrs_tipo_controles t3 on t1.MCONTROL=t3.CTCONTROLES";
 					$Consulta.=" where t1.CPELIGRO ='".$Fila[CPELIGRO]."'";
 					//echo $Consulta."<br>";
-					$RespCtrl=mysqli_query($link, $Consulta);
-					while($FilaCtrl=mysql_fetch_array($RespCtrl))
+					$RespCtrl=mysqli_query($link,$Consulta);
+					while($FilaCtrl=mysqli_fetch_array($RespCtrl))
 					{
 						echo "<tr>";
-						$ConsuOBS="SELECT * from sgrs_sipercontroles_obs where CPELIGRO='".$Fila[CPELIGRO]."' and CCONTROL='".$FilaCtrl[CCONTROL]."'";
-						$RespOBS=mysql_query($ConsuOBS);$Rows=0;
-						while($FilaOBS=mysql_fetch_array($RespOBS))
+						$ConsuOBS="select * from sgrs_sipercontroles_obs where CPELIGRO='".$Fila[CPELIGRO]."' and CCONTROL='".$FilaCtrl[CCONTROL]."'";
+						$RespOBS=mysqli_query($link,$ConsuOBS);$Rows=0;
+						while($FilaOBS=mysqli_fetch_array($RespOBS))
 							$Rows=$Rows+1;
 						echo "<td rowspan='".$Rows."' align='left' width='70%'>".$FilaCtrl[NCONTROL]."&nbsp;&nbsp;&nbsp;</td>";
-						$ConsuOBS="SELECT * from sgrs_sipercontroles_obs where CPELIGRO='".$Fila[CPELIGRO]."' and CCONTROL='".$FilaCtrl[CCONTROL]."'";
+						$ConsuOBS="select * from sgrs_sipercontroles_obs where CPELIGRO='".$Fila[CPELIGRO]."' and CCONTROL='".$FilaCtrl[CCONTROL]."'";
 						//echo $ConsuOBS."<br>";
-						$RespOBS=mysql_query($ConsuOBS);
-						if($FilaOBS=mysql_fetch_array($RespOBS))
+						$RespOBS=mysqli_query($link,$ConsuOBS);
+						if($FilaOBS=mysqli_fetch_array($RespOBS))
 						{
-							$ConsuOBS="SELECT * from sgrs_sipercontroles_obs where CPELIGRO='".$Fila[CPELIGRO]."' and CCONTROL='".$FilaCtrl[CCONTROL]."'";							
-							$RespOBS=mysql_query($ConsuOBS);
-							while($FilaOBS=mysql_fetch_array($RespOBS))
+							$ConsuOBS="select * from sgrs_sipercontroles_obs where CPELIGRO='".$Fila[CPELIGRO]."' and CCONTROL='".$FilaCtrl[CCONTROL]."'";							
+							$RespOBS=mysqli_query($link,$ConsuOBS);
+							while($FilaOBS=mysqli_fetch_array($RespOBS))
 							{
 								echo "<td align='left' width='30%'>&nbsp;<textarea cols='40' readonly>&nbsp;".$FilaOBS[TOBSERVACION]."</textarea></td>";
 								echo "</tr>";
@@ -100,29 +100,29 @@
 				echo "</table>";
 				echo "</td>";
 				echo "<td style='vertical-align:top;'>";
-				$ConsuVeri="SELECT * from sgrs_siperverificadores t1 inner join sgrs_tipo_verificador t2 on t1.COD_VERIFICADOR=t2.COD_VERIFICADOR where CPELIGRO='".$Fila[CPELIGRO]."' order by t1.COD_VERIFICADOR";
-				$RespVeri=mysql_query($ConsuVeri);
-				if($FilaVeri=mysql_fetch_array($RespVeri))
+				$ConsuVeri="select * from sgrs_siperverificadores t1 inner join sgrs_tipo_verificador t2 on t1.COD_VERIFICADOR=t2.COD_VERIFICADOR where CPELIGRO='".$Fila[CPELIGRO]."' order by t1.COD_VERIFICADOR";
+				$RespVeri=mysqli_query($link,$ConsuVeri);
+				if($FilaVeri=mysqli_fetch_array($RespVeri))
 				{
 					echo "<table width='100%' border='1' cellspacing='0' cellpadding='0'>";														
-					$ConsuVeri="SELECT * from sgrs_siperverificadores t1 inner join sgrs_tipo_verificador t2 on t1.COD_VERIFICADOR=t2.COD_VERIFICADOR where CPELIGRO='".$Fila[CPELIGRO]."' order by t1.COD_VERIFICADOR";
-					$RespVeri=mysql_query($ConsuVeri);
-					while($FilaVeri=mysql_fetch_array($RespVeri))
+					$ConsuVeri="select * from sgrs_siperverificadores t1 inner join sgrs_tipo_verificador t2 on t1.COD_VERIFICADOR=t2.COD_VERIFICADOR where CPELIGRO='".$Fila[CPELIGRO]."' order by t1.COD_VERIFICADOR";
+					$RespVeri=mysqli_query($link,$ConsuVeri);
+					while($FilaVeri=mysqli_fetch_array($RespVeri))
 					{
 						echo "<tr>";
-						$ConsuOBS="SELECT * from sgrs_siperverificadores_obs where CPELIGRO='".$Fila[CPELIGRO]."' and COD_VERIFICADOR='".$FilaVeri[COD_VERIFICADOR]."'";
-						$RespOBS=mysql_query($ConsuOBS);$Rows=0;
-						while($FilaOBS=mysql_fetch_array($RespOBS))
+						$ConsuOBS="select * from sgrs_siperverificadores_obs where CPELIGRO='".$Fila[CPELIGRO]."' and COD_VERIFICADOR='".$FilaVeri[COD_VERIFICADOR]."'";
+						$RespOBS=mysqli_query($link,$ConsuOBS);$Rows=0;
+						while($FilaOBS=mysqli_fetch_array($RespOBS))
 							$Rows=$Rows+1;
 						echo "<td rowspan='".$Rows."' align='left' width='70%'>".$FilaVeri[DESCRIP_VERIFICADOR]."&nbsp;&nbsp;&nbsp;</td>";
-						$ConsuOBS="SELECT * from sgrs_siperverificadores_obs where CPELIGRO='".$Fila[CPELIGRO]."' and COD_VERIFICADOR='".$FilaVeri[COD_VERIFICADOR]."'";
+						$ConsuOBS="select * from sgrs_siperverificadores_obs where CPELIGRO='".$Fila[CPELIGRO]."' and COD_VERIFICADOR='".$FilaVeri[COD_VERIFICADOR]."'";
 						//echo $ConsuOBS."<br>";
-						$RespOBS=mysql_query($ConsuOBS);
-						if($FilaOBS=mysql_fetch_array($RespOBS))
+						$RespOBS=mysqli_query($link,$ConsuOBS);
+						if($FilaOBS=mysqli_fetch_array($RespOBS))
 						{
-							$ConsuOBS="SELECT * from sgrs_siperverificadores_obs where CPELIGRO='".$Fila[CPELIGRO]."' and COD_VERIFICADOR='".$FilaVeri[COD_VERIFICADOR]."'";
-							$RespOBS=mysql_query($ConsuOBS);
-							while($FilaOBS=mysql_fetch_array($RespOBS))
+							$ConsuOBS="select * from sgrs_siperverificadores_obs where CPELIGRO='".$Fila[CPELIGRO]."' and COD_VERIFICADOR='".$FilaVeri[COD_VERIFICADOR]."'";
+							$RespOBS=mysqli_query($link,$ConsuOBS);
+							while($FilaOBS=mysqli_fetch_array($RespOBS))
 							{
 								echo "<td align='left' width='30%'>&nbsp;<textarea cols='40' readonly>&nbsp;".$FilaOBS[TOBSERVACION]."</textarea></td>";
 								echo "</tr>";
