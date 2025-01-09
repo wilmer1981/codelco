@@ -16,7 +16,8 @@
 	$NumPaqueteF01 = isset($_REQUEST["NumPaqueteF01"])?$_REQUEST["NumPaqueteF01"]:"";
 	$CmbMes = isset($_REQUEST["CmbMes"])?$_REQUEST["CmbMes"]:"";
 	$CmbAno = isset($_REQUEST["CmbAno"])?$_REQUEST["CmbAno"]:"";
-	
+	$cod_cliente = isset($_REQUEST["cod_cliente"])?$_REQUEST["cod_cliente"]:"";
+	$Var1=0;
 	switch ($Proceso)
 	{
 		case "G":
@@ -189,21 +190,27 @@
 									
 									//if($Fila["fecha_programacion"]==$Fila1["fecha_disponible"])
 									//{
-										$insertar="INSERT INTO sec_web.embarque_ventana ";
-										$insertar.=" (num_envio,corr_enm,cod_bulto,num_bulto,fecha_embarque,fecha_programacion, ";
-										$insertar.=" bulto_paquetes,bulto_peso,cod_marca,cod_producto,cod_subproducto,cod_cliente ";
-										$insertar.=" ,tipo_enm_code,cod_puerto,cod_nave,tipo_embarque,fecha_envio,cod_confirmado,rut_cliente,cod_sub_cliente,orden_compra) values ";
-										$insertar.="('".$Envio."','".$Valores."','".$Fila0["cod_bulto"]."','".$Fila0["num_bulto"]."', ";
-										$insertar.=" '".$Fila1["fecha_disponible"]."','".$Fila1["fecha_programacion"]."','".$Fila0["unidades"]."' ";
-										$insertar.=" ,'".$Fila0["peso_preparado"]."','".$Fila0["cod_marca"]."','".$Fila1["cod_producto"]."', ";
-										$insertar.="'".$Fila1["cod_subproducto"]."','".$Fila1["cod_cliente"]."','".$enami_codelco."','".$Fila["cod_puerto"]."','".$Fila["cod_nave"]."',";
-										$insertar.="'".$Fila["tipo_embarque"]."','".$Fila["fecha_envio"]."','C','".$Fila["rut_cliente"]."','".$Fila["cod_sub_cliente"]."' ";
-										if ($cod_cliente == '45')
-											$insertar.=" ,'".$NumOrden."') ";
-										else
-											$insertar.=" ,'".$Var1."')";
-										
-										mysqli_query($link, $insertar);
+										$consulta= "SELECT * FROM sec_web.embarque_ventana WHERE num_envio='$Envio' and corr_enm='$Valores' and cod_bulto='".$Fila0["cod_bulto"]."' and num_bulto='".$Fila0["num_bulto"]."' ";
+										$resp= mysqli_query($link, $consulta);
+										$cont = mysqli_num_rows($resp);
+										//echo "Cont:".$cont;
+										if($cont==0){
+											$insertar="INSERT INTO sec_web.embarque_ventana ";
+											$insertar.=" (num_envio,corr_enm,cod_bulto,num_bulto,fecha_embarque,fecha_programacion, ";
+											$insertar.=" bulto_paquetes,bulto_peso,cod_marca,cod_producto,cod_subproducto,cod_cliente ";
+											$insertar.=" ,tipo_enm_code,cod_puerto,cod_nave,tipo_embarque,fecha_envio,cod_confirmado,rut_cliente,cod_sub_cliente,orden_compra) values ";
+											$insertar.="('".$Envio."','".$Valores."','".$Fila0["cod_bulto"]."','".$Fila0["num_bulto"]."', ";
+											$insertar.=" '".$Fila1["fecha_disponible"]."','".$Fila1["fecha_programacion"]."','".$Fila0["unidades"]."' ";
+											$insertar.=" ,'".$Fila0["peso_preparado"]."','".$Fila0["cod_marca"]."','".$Fila1["cod_producto"]."', ";
+											$insertar.="'".$Fila1["cod_subproducto"]."','".$Fila1["cod_cliente"]."','".$enami_codelco."','".$Fila["cod_puerto"]."','".$Fila["cod_nave"]."',";
+											$insertar.="'".$Fila["tipo_embarque"]."','".$Fila["fecha_envio"]."','C','".$Fila["rut_cliente"]."','".$Fila["cod_sub_cliente"]."' ";
+											if ($cod_cliente == '45')
+												$insertar.=" ,'".$NumOrden."') ";
+											else
+												$insertar.=" ,'".$Var1."')";
+											
+											mysqli_query($link, $insertar);
+										}
 										//	echo "II".$insertar."<br>";
 									//}
 									//else

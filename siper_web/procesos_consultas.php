@@ -1,18 +1,33 @@
-<?
+<?php
 	include('conectar_consulta.php');
 	include('funciones/siper_funciones.php');
 	//1:PESTAÑA PARA VALIDAR TAREAS.
 	//2:ANALISIS DE OPERACIONES
-	$CODAREA=ObtenerCodParent($CodSelTarea);
-	$CodNivel=ObtenerNivel($CODAREA);	
-	if(!isset($TipoPestana))
+	$CookieRut   = isset($_COOKIE['CookieRut'])?$_COOKIE['CookieRut']:"";
+	$CodSelTarea = isset($_REQUEST["CodSelTarea"])?$_REQUEST["CodSelTarea"]:"";
+	$TipoPestana = isset($_REQUEST["TipoPestana"])?$_REQUEST["TipoPestana"]:"";
+	$Pantalla    = isset($_REQUEST["Pantalla"])?$_REQUEST["Pantalla"]:0;
+	$MostrarCmb  = isset($_REQUEST["MostrarCmb"])?$_REQUEST["MostrarCmb"]:"";
+	$Msj         = isset($_REQUEST["Msj"])?$_REQUEST["Msj"]:"";
+	$Consulta    = isset($_REQUEST["Consulta"])?$_REQUEST["Consulta"]:"";
+	$CmbRut      = isset($_REQUEST["CmbRut"])?$_REQUEST["CmbRut"]:"";
+	$CmbIdent    = isset($_REQUEST["CmbIdent"])?$_REQUEST["CmbIdent"]:"";
+	$CmbValidado = isset($_REQUEST["CmbValidado"])?$_REQUEST["CmbValidado"]:"";	
+	$OptSoloTareaNivel  = isset($_REQUEST["OptSoloTareaNivel"])?$_REQUEST["OptSoloTareaNivel"]:"";
+	$CmbPeligros = isset($_REQUEST["CmbPeligros"])?$_REQUEST["CmbPeligros"]:"";
+
+	
+	$CODAREA  = ObtenerCodParent($CodSelTarea);
+	$CodNivel = ObtenerNivel($CODAREA,$link);	
+	if($TipoPestana=="")
 		$TipoPestana='1';
-set_time_limit('3000');
+	
+	set_time_limit('3000');
 		
-if(isset($Pantalla)&&isset($CookieRut))
-	acceso($CookieRut,$Pantalla);
-else
-	acceso('9999999-9',$Pantalla);
+	if($Pantalla!="" && $CookieRut!="")
+		acceso($CookieRut,$Pantalla,$link);
+	else
+		acceso('9999999-9',$Pantalla,$link);
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -65,7 +80,7 @@ function ValidarTarea(Proceso)
 <form name='Mantenedor'>
 <input name="CodSelTarea" type="hidden" size="100" value="<? echo $CodSelTarea;?>">
 <input name="Salida" type="hidden" value="L">
-<?
+<?php
 	
 	switch($TipoPestana)
 	{
@@ -86,14 +101,14 @@ function ValidarTarea(Proceso)
   <table width="100%" border="0" cellpadding="0" cellspacing="0">
 	<tr>
 	  <td width="9%" height="25"><img src="imagenes/tab_slide_hm_next.gif" ></td>
-	  <td width="45%" align="center" background="<? echo $Fondo1;?>"><a href="javascript:SeleccionPestana(1)"><? echo '<span class="'.$LinkPestana1.'">';?>Consulta Tareas </a></td>
+	  <td width="45%" align="center" background="<?php echo $Fondo1;?>"><a href="javascript:SeleccionPestana(1)"><?php echo '<span class="'.$LinkPestana1.'">';?>Consulta Tareas </a></td>
 	  <td width="1" ><img src="imagenes/tab_separator.gif"></td>
-	  <td width="45%" align="center" background="<? echo $Fondo2;?>"><a href="javascript:SeleccionPestana(2)"><? echo "<span class='".$LinkPestana2."'>";?>Consulta Peligros  </a></td>
+	  <td width="45%" align="center" background="<?php echo $Fondo2;?>"><a href="javascript:SeleccionPestana(2)"><?php echo "<span class='".$LinkPestana2."'>";?>Consulta Peligros  </a></td>
 	  <td width="1" align="right"><img src="imagenes/tab_separator.gif"></td>
 	</tr>
     <tr class="estilos2">
       <td colspan="9" align="center" >
-	    <?
+	    <?php
 		switch($TipoPestana)
 		{
 			case "1":
@@ -121,7 +136,7 @@ function ValidarTarea(Proceso)
 </form>
 </body>
 </html>
-<?
+<?php
 if($Msj!='')
 {
 	echo "<script languaje='javascript'>";

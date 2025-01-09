@@ -1,7 +1,21 @@
-<?
+<?php
 	include('conectar_consulta.php');
 	include('funciones/siper_funciones.php');	
-set_time_limit(2000);
+	set_time_limit(2000);
+	
+	$CodSelTarea  = isset($_REQUEST["CodSelTarea"])?$_REQUEST["CodSelTarea"]:"";
+	$CmbRut   = isset($_REQUEST["CmbRut"])?$_REQUEST["CmbRut"]:"";
+	$CmbIdent = isset($_REQUEST["CmbIdent"])?$_REQUEST["CmbIdent"]:"";
+	$CmbValidado = isset($_REQUEST["CmbValidado"])?$_REQUEST["CmbValidado"]:"";
+	$OptSoloTareaNivel  = isset($_REQUEST["OptSoloTareaNivel"])?$_REQUEST["OptSoloTareaNivel"]:"";
+	$CodPel  = isset($_REQUEST["CodPel"])?$_REQUEST["CodPel"]:"";
+	$MR  = isset($_REQUEST["MR"])?$_REQUEST["MR"]:"";
+	$Control  = isset($_REQUEST["Control"])?$_REQUEST["Control"]:"";
+	$TipoControl  = isset($_REQUEST["TipoControl"])?$_REQUEST["TipoControl"]:"";
+	$TipoVerif  = isset($_REQUEST["TipoVerif"])?$_REQUEST["TipoVerif"]:"";
+	$MRiCC  = isset($_REQUEST["MRiCC"])?$_REQUEST["MRiCC"]:"";
+	$CookieRut   = isset($_COOKIE['CookieRut'])?$_COOKIE['CookieRut']:"";
+
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -20,7 +34,7 @@ set_time_limit(2000);
 <link href="estilos/siper_style.css" rel="stylesheet" type="text/css">
 <body>
 <form name="ConsultaPel" method="post">
-<? echo DescripOrganica2($CodSelTarea);?>
+<?php echo DescripOrganica2($CodSelTarea,$link);?>
 <table width="90%" border="0" cellpadding="0" cellspacing="4">
   <tr>
 	<td height="36" align="left"><img src="imagenes/LblCriterios.png" width="168" height="28"></td>
@@ -29,21 +43,21 @@ set_time_limit(2000);
 	<td align="right" colspan="2"><a href="javascript:window.print();"><img src="imagenes/btn_imprimir.png" width="30" height="30" border="0" alt="Imprimir"></a></td>
   </tr>
   <tr>
-	<td width="20%" align="left" class="formulario">Rutinaria:&nbsp;<? if($CmbRut=='0') echo "NO"; if($CmbRut=='1') echo "SI"; if($CmbRut=='T') echo "TODOS";?></td>
-	<td width="16%" align="left" class="formulario">Identificado:&nbsp;<? if($CmbIdent=='0') echo "NO"; if($CmbIdent=='1') echo "SI"; if($CmbIdent=='T') echo "TODOS";?></td>
-	<td width="27%" align="left" class="formulario">Validado:&nbsp;<?  if($CmbValidado=='0') echo "NO"; if($CmbValidado=='1') echo "SI"; if($CmbValidado=='T') echo "TODOS";?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Solo Tarea Nivel:&nbsp;<? echo $OptSoloTareaNivel;?></td>
+	<td width="20%" align="left" class="formulario">Rutinaria:&nbsp;<?php if($CmbRut=='0') echo "NO"; if($CmbRut=='1') echo "SI"; if($CmbRut=='T') echo "TODOS";?></td>
+	<td width="16%" align="left" class="formulario">Identificado:&nbsp;<?php if($CmbIdent=='0') echo "NO"; if($CmbIdent=='1') echo "SI"; if($CmbIdent=='T') echo "TODOS";?></td>
+	<td width="27%" align="left" class="formulario">Validado:&nbsp;<?php  if($CmbValidado=='0') echo "NO"; if($CmbValidado=='1') echo "SI"; if($CmbValidado=='T') echo "TODOS";?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Solo Tarea Nivel:&nbsp;<?php echo $OptSoloTareaNivel;?></td>
 	<td align="right" colspan="2">&nbsp;</td>
   </tr>
   <tr>
 	<td colspan="5" align="left" class="formulario">Peligros:
-	  <?
+	  <?php
 			if($CodPel!='T')
 			{
-				$Consulta="SELECT t1.CCONTACTO,NCONTACTO from sgrs_siperpeligros t1 inner join sgrs_codcontactos t2 on t1.CCONTACTO=t2.CCONTACTO where CPELIGRO='".$CodPel."'";
-				$Resp=mysqli_query($link, $Consulta);
-				$Fila=mysql_fetch_array($Resp);
-				echo $Fila[NCONTACTO];
-				$CodPel1=$Fila[CCONTACTO];
+				$Consulta="select t1.CCONTACTO,NCONTACTO from sgrs_siperpeligros t1 inner join sgrs_codcontactos t2 on t1.CCONTACTO=t2.CCONTACTO where CPELIGRO='".$CodPel."'";
+				$Resp=mysqli_query($link,$Consulta);
+				$Fila=mysqli_fetch_array($Resp);
+				echo $Fila["NCONTACTO"];
+				$CodPel1=$Fila["CCONTACTO"];
 			}
 			else
 				echo "TODOS";
@@ -51,7 +65,7 @@ set_time_limit(2000);
 	</tr>
   <tr>
 	<td align="left" class="formulario">MRi:	  
-	  <?
+	  <?php
 		switch($MRiCC)
 		{
 			case "1";
@@ -69,7 +83,7 @@ set_time_limit(2000);
 		}
 	  
 	  ?></td>
-	<td align="left" class="formulario">MR:	  <?
+	<td align="left" class="formulario">MR:	  <?php
 		switch($MR)
 		{
 			case "A";
@@ -92,37 +106,37 @@ set_time_limit(2000);
 	  
 	  ?></td>
 	<td align="left" class="formulario">Controles:
-      <?
+      <?php
 			if($Control!='T')
 			{
-				$Consulta="SELECT NCONTROL from sgrs_codcontroles where CCONTROL='".$Control."'";
-				$Resp=mysqli_query($link, $Consulta);
-				$Fila=mysql_fetch_array($Resp);
-				echo $Fila[NCONTROL];
+				$Consulta="select NCONTROL from sgrs_codcontroles where CCONTROL='".$Control."'";
+				$Resp=mysqli_query($link,$Consulta);
+				$Fila=mysqli_fetch_array($Resp);
+				echo $Fila["NCONTROL"];
 			}
 			else
 				echo "TODOS";	 
 	  ?></td>
 	<td width="15%" align="left" class="formulario">Control:
-		<?
+		<?php
 			if($TipoControl!='T')
 			{
-				$Consulta="SELECT NTCONTROLES from sgrs_tipo_controles where CTCONTROLES='".$TipoControl."'";
-				$Resp=mysqli_query($link, $Consulta);
-				$Fila=mysql_fetch_array($Resp);
-				echo $Fila[NTCONTROLES];
+				$Consulta="select NTCONTROLES from sgrs_tipo_controles where CTCONTROLES='".$TipoControl."'";
+				$Resp=mysqli_query($link,$Consulta);
+				$Fila=mysqli_fetch_array($Resp);
+				echo $Fila["NTCONTROLES"];
 			}
 			else
 				echo "TODOS";
 	  ?>	  </td>
 	<td width="22%" align="left" class="formulario">Verificador:
-		<?
+		<?php
 			if($TipoVerif!='T')
 			{
-				$Consulta="SELECT DESCRIP_VERIFICADOR from sgrs_tipo_verificador where COD_VERIFICADOR='".$TipoVerif."'";
-				$Resp=mysqli_query($link, $Consulta);
-				$Fila=mysql_fetch_array($Resp);
-				echo $Fila[DESCRIP_VERIFICADOR];
+				$Consulta="select DESCRIP_VERIFICADOR from sgrs_tipo_verificador where COD_VERIFICADOR='".$TipoVerif."'";
+				$Resp=mysqli_query($link,$Consulta);
+				$Fila=mysqli_fetch_array($Resp);
+				echo $Fila["DESCRIP_VERIFICADOR"];
 			}
 			else
 				echo "TODOS";
@@ -134,13 +148,13 @@ set_time_limit(2000);
 	</table>
 
 	 <table width="100%" border="1" cellpadding="0" cellspacing="0">
-	 <? 
+	 <?php 
 			$CODAREA=ObtenerCodParent($CodSelTarea);
-			$Consulta="SELECT t1.CTAREA,t1.CPARENT from sgrs_areaorg t1 where t1.CAREA = '".$CODAREA."'";
-			$Resultado=mysqli_query($link, $Consulta);
-			$Fila=mysql_fetch_array($Resultado);
-			$CodTarea=$Fila[CTAREA];
-			$RutaCompleta=$Fila[CPARENT];
+			$Consulta="select t1.CTAREA,t1.CPARENT from sgrs_areaorg t1 where t1.CAREA = '".$CODAREA."'";
+			$Resultado=mysqli_query($link,$Consulta);
+			$Fila=mysqli_fetch_array($Resultado);
+			$CodTarea=$Fila["CTAREA"];
+			$RutaCompleta=$Fila["CPARENT"];
 			if($CodTarea==8)
 				$Filtro=" t1.CAREA='".$CODAREA."'";
 			else
@@ -148,11 +162,11 @@ set_time_limit(2000);
 					$Filtro.=" t1.CPARENT = '".$CodSelTarea."' ";
 				else
 					$Filtro.=" t1.CPARENT like '".$CodSelTarea."%'";
-			/*$Consulta="SELECT t1.NAREA,t1.CAREA,t1.CPARENT from sgrs_areaorg t1 inner join sgrs_siperoperaciones t2 on t1.CAREA=t2.CAREA ";
+			/*$Consulta="select t1.NAREA,t1.CAREA,t1.CPARENT from sgrs_areaorg t1 inner join sgrs_siperoperaciones t2 on t1.CAREA=t2.CAREA ";
 			$Consulta.=" left join sgrs_siperpeligros t3 on t1.CAREA=t3.CAREA left join sgrs_siperverificadores t7 on t3.CPELIGRO=t7.CPELIGRO";
 			$Consulta.=" left join sgrs_sipercontroles t5 on t7.CPELIGRO=t5.CPELIGRO";*/
 			
-			$Consulta="SELECT t1.NAREA,t1.CAREA,t1.CPARENT 	from sgrs_areaorg t1 ";
+			$Consulta="select t1.NAREA,t1.CAREA,t1.CPARENT 	from sgrs_areaorg t1 ";
 			$Consulta.="inner join sgrs_siperpeligros t2 on t1.CAREA=t2.CAREA and t2.MVIGENTE<>'0'";
 			$Consulta.="inner join sgrs_siperoperaciones t3 on t2.CAREA=t3.CAREA ";
 			$Consulta.="left join sgrs_siperverificadores t7 on t2.CPELIGRO=t7.CPELIGRO "; 
@@ -177,48 +191,53 @@ set_time_limit(2000);
 			//echo $Consulta;
 		
 			$MRAux=$MR;	
-			$Resp=mysqli_query($link, $Consulta);$TotTarea=0;$TotPel=0;
-			while($Fila=mysql_fetch_array($Resp))
+			$Resp=mysqli_query($link,$Consulta);$TotTarea=0;$TotPel=0;
+			while($Fila=mysqli_fetch_array($Resp))
 			{
 				echo "<tr>";
-				$RutaOri=OrigenOrg($Fila[CPARENT],&$Ruta);
-				echo "<td align='left' colspan='5' class='titulo_azul'>".strtoupper($Fila[NAREA])."&nbsp;&nbsp;<img src='imagenes/vineta.gif' border='0'>&nbsp;<label class='titulo_cafe_claro'>".$Ruta."<label></td>";
+				$Ruta=OrigenOrg($Fila["CPARENT"],$Ruta,$link);
+				echo "<td align='left' colspan='5' class='titulo_azul'>".strtoupper($Fila["NAREA"])."&nbsp;&nbsp;<img src='imagenes/vineta.gif' border='0'>&nbsp;<label class='titulo_cafe_claro'>".$Ruta."<label></td>";
 				echo "</tr>";
 				echo "<tr>";
 				echo "<td align='center' width='20%' class='TituloCabecera' >Peligro</td>";
-				echo "<td align='center' width='20%' class='TituloCabecera' >Descripciï¿½n</td>";
+				echo "<td align='center' width='20%' class='TituloCabecera' >Descripción</td>";
 				echo "<td align='center' width='2%' class='TituloCabecera' >MRi</td>";				
-				echo "<td align='left' width='30%' class='TituloCabecera' >Especificaciï¿½n del Control </td>";
-				//echo "<td width='35%' class='TituloCabecera'>Especificaciï¿½n del Verificador</td>";
+				echo "<td align='left' width='30%' class='TituloCabecera' >Especificación del Control </td>";
+				//echo "<td width='35%' class='TituloCabecera'>Especificación del Verificador</td>";
 				echo "<td align='center' width='2%' class='TituloCabecera' >MRr</td>";
 				//echo "<td align='center' width='3%' class='TituloCabecera' >Valid.</td>";
 				echo "</tr>";
 
-				$Consulta="SELECT t6.NCONTACTO,t2.TOBSERVACION,t2.CPELIGRO,t2.CCONTACTO,t2.MVALIDADO,t2.MR1,t2.MR2,t2.QPROBHIST,t2.QCONSECHIST 	from sgrs_areaorg t1 ";
+				$Consulta="select t6.NCONTACTO,t2.TOBSERVACION,t2.CPELIGRO,t2.CCONTACTO,t2.MVALIDADO,t2.MR1,t2.MR2,t2.QPROBHIST,t2.QCONSECHIST 	from sgrs_areaorg t1 ";
 				$Consulta.="inner join sgrs_siperpeligros t2 on t1.CAREA=t2.CAREA ";
 				$Consulta.="left join sgrs_siperoperaciones t3 on t2.CAREA=t3.CAREA ";
 				$Consulta.="inner join sgrs_codcontactos t6 on t2.CCONTACTO=t6.CCONTACTO ";
 				$Consulta.="left join sgrs_siperverificadores t7 on t2.CPELIGRO=t7.CPELIGRO "; 
 				$Consulta.="left join sgrs_sipercontroles t5 on t2.CPELIGRO=t5.CPELIGRO ";			
-				$Consulta.=" where t1.CTAREA='8' and t1.CAREA = '".$Fila[CAREA]."' and t2.MVIGENTE <> 0";
+				$Consulta.=" where t1.CTAREA='8' and t1.CAREA = '".$Fila["CAREA"]."' and t2.MVIGENTE <> 0";
 				if($MR=='S')
 					$Consulta=$Consulta.$Consulta3." group by t2.CPELIGRO ";
 				else
 					$Consulta=$Consulta.$Consulta2." group by t2.CPELIGRO ";
 				
 				//echo $Consulta."<br>";
-				$Resp2=mysqli_query($link, $Consulta);
-				while($Fila2=mysql_fetch_array($Resp2))
+				$Resp2=mysqli_query($link,$Consulta);
+				while($Fila2=mysqli_fetch_array($Resp2))
 				{
 					$PH='';$CH='';$PC='';$CC='';$Validado='';$Most_PelMRi='';$Most_PelMRr='';
-					if($Fila2[MVALIDADO]=='1')
+					if($Fila2["MVALIDADO"]=='1')
 						$Validado='SI';
 					else
 						$Validado='NO';
 						
 					//CalculoMR($Fila2[CCONTACTO],$Fila2[CPELIGRO],&$PH,&$CH,&$MRi,&$PC,&$CC,&$MR,&$Descrip,&$Semaforo);
 					//echo "PH: ".$Fila2[QPROBHIST]." - CH: ".$Fila2[QCONSECHIST]."<br>";
-					CalculoMRIConsulta($Fila2[QPROBHIST],$Fila2[QCONSECHIST],&$DESMRI,&$SEMAMRI,&$NMRi);
+					$DESMRI="";$SEMAMRI="";$NMRi="";
+					$Result = CalculoMRIConsulta($Fila2["QPROBHIST"],$Fila2["QCONSECHIST"],$DESMRI,$SEMAMRI,$NMRi);
+					$valor  = explode('**',$Result);
+					$DESMRI = $valor[0];
+					$SEMAMRI= $valor[1];
+					$NMRi   = $valor[2];
 					if($MRiCC=='T')
 						$Most_PelMRi='S';
 					else
@@ -231,7 +250,7 @@ set_time_limit(2000);
 					else
 					{
 						//echo $Fila2[MR1]."            ".$Fila2[MR2];
-						if($Fila2[MR1]==1&&$Fila2[MR2]==1)//PUEDE SER 1=1. 
+						if($Fila2["MR1"]==1&&$Fila2["MR2"]==1)//PUEDE SER 1=1. 
 						{
 							if($MRAux=='A')
 								$Most_PelMRr='S';
@@ -240,7 +259,7 @@ set_time_limit(2000);
 						}	
 						else
 							$Most_PelMRr='N';
-						if($Fila2[MR1]==2&&$Fila2[MR2]==2)//PUEDE SER 2=2. 
+						if($Fila2["MR1"]==2&&$Fila2["MR2"]==2)//PUEDE SER 2=2. 
 						{
 							if($MRAux=='M')
 								$Most_PelMRr='S';
@@ -249,7 +268,7 @@ set_time_limit(2000);
 						}	
 						else
 							$Most_PelMRr='N';
-						if($Fila2[MR1]==3&&$Fila2[MR2]==3)//PUEDE SER 3=3.
+						if($Fila2["MR1"]==3&&$Fila2["MR2"]==3)//PUEDE SER 3=3.
 						{
 							//echo "aca<br>";
 							if($MRAux=='I')
@@ -264,45 +283,45 @@ set_time_limit(2000);
 					if($Most_PelMRi=='S'&&$Most_PelMRr=='S')
 					{
 							echo "<tr>";
-							echo "<td align='left'>".$Fila2[NCONTACTO]."</td>";
-							echo "<td align='left'><textarea name='ObsEspe' cols='40' rows='5'>".$Fila2[TOBSERVACION]."</textarea></td>";
+							echo "<td align='left'>".$Fila2["NCONTACTO"]."</td>";
+							echo "<td align='left'><textarea name='ObsEspe' cols='40' rows='5'>".$Fila2["TOBSERVACION"]."</textarea></td>";
 							echo "<td align='center'><img src='imagenes/$SEMAMRI' border=0 width='18' height='30'></td>";
 							echo "<td align='left'>";
-							$Consulta="SELECT t2.NCONTROL,t1.CCONTROL,t3.ATCONTROLES from sgrs_sipercontroles t1";
+							$Consulta="select t2.NCONTROL,t1.CCONTROL,t3.ATCONTROLES from sgrs_sipercontroles t1";
 							$Consulta.=" inner join sgrs_codcontroles t2 on t1.CCONTROL=t2.CCONTROL inner join sgrs_tipo_controles t3 on t1.MCONTROL=t3.CTCONTROLES";
-							$Consulta.=" where t1.CPELIGRO ='".$Fila2[CPELIGRO]."'";
+							$Consulta.=" where t1.CPELIGRO ='".$Fila2["CPELIGRO"]."'";
 							if($Control!='T')
 								$Consulta.=" and t1.CCONTROL='".$Control."' and t1.MCONTROL<>0 ";					
-							$RespCtrl=mysqli_query($link, $Consulta);
-							if($FilaCtrl=mysql_fetch_array($RespCtrl))
+							$RespCtrl=mysqli_query($link,$Consulta);
+							if($FilaCtrl=mysqli_fetch_array($RespCtrl))
 							{
 								echo "<table width='96%' border='1' cellspacing='0' cellpadding='0'>";
-								$Consulta="SELECT t2.NCONTROL,t1.CCONTROL,t3.ATCONTROLES from sgrs_sipercontroles t1";
+								$Consulta="select t2.NCONTROL,t1.CCONTROL,t3.ATCONTROLES from sgrs_sipercontroles t1";
 								$Consulta.=" inner join sgrs_codcontroles t2 on t1.CCONTROL=t2.CCONTROL inner join sgrs_tipo_controles t3 on t1.MCONTROL=t3.CTCONTROLES";
-								$Consulta.=" where t1.CPELIGRO ='".$Fila2[CPELIGRO]."' ";
+								$Consulta.=" where t1.CPELIGRO ='".$Fila2["CPELIGRO"]."' ";
 								if($Control!='T')
 									$Consulta.=" and t1.CCONTROL='".$Control."' and t1.MCONTROL<>0 ";
 								//echo $Consulta."<br>";
-								$RespCtrl=mysqli_query($link, $Consulta);
-								while($FilaCtrl=mysql_fetch_array($RespCtrl))
+								$RespCtrl=mysqli_query($link,$Consulta);
+								while($FilaCtrl=mysqli_fetch_array($RespCtrl))
 								{
 									echo "<tr>";
-									$ConsuOBS="SELECT * from sgrs_sipercontroles_obs where CPELIGRO='".$Fila2[CPELIGRO]."' and CCONTROL='".$FilaCtrl[CCONTROL]."'";
-									$RespOBS=mysql_query($ConsuOBS);$Rows=0;
-									while($FilaOBS=mysql_fetch_array($RespOBS))
+									$ConsuOBS="select * from sgrs_sipercontroles_obs where CPELIGRO='".$Fila2["CPELIGRO"]."' and CCONTROL='".$FilaCtrl["CCONTROL"]."'";
+									$RespOBS=mysqli_query($link,$ConsuOBS);$Rows=0;
+									while($FilaOBS=mysqli_fetch_array($RespOBS))
 										$Rows=$Rows+1;
-									$ConsuOBS="SELECT * from sgrs_sipercontroles_obs where CPELIGRO='".$Fila2[CPELIGRO]."' and CCONTROL='".$FilaCtrl[CCONTROL]."'";
-									$RespOBS=mysql_query($ConsuOBS);
-									if($FilaOBS=mysql_fetch_array($RespOBS))
+									$ConsuOBS="select * from sgrs_sipercontroles_obs where CPELIGRO='".$Fila2["CPELIGRO"]."' and CCONTROL='".$FilaCtrl["CCONTROL"]."'";
+									$RespOBS=mysqli_query($link,$ConsuOBS);
+									if($FilaOBS=mysqli_fetch_array($RespOBS))
 									{
-										$ConsuOBS="SELECT * from sgrs_sipercontroles_obs where CPELIGRO='".$Fila2[CPELIGRO]."' and CCONTROL='".$FilaCtrl[CCONTROL]."'";
-										$RespOBS=mysql_query($ConsuOBS);
-										while($FilaOBS=mysql_fetch_array($RespOBS))
+										$ConsuOBS="select * from sgrs_sipercontroles_obs where CPELIGRO='".$Fila2["CPELIGRO"]."' and CCONTROL='".$FilaCtrl["CCONTROL"]."'";
+										$RespOBS=mysqli_query($link,$ConsuOBS);
+										while($FilaOBS=mysqli_fetch_array($RespOBS))
 										{
 											echo "<td align='left' width='30%'>";
-											$Descripcion=nl2br($FilaOBS[TOBSERVACION]);
+											$Descripcion=nl2br($FilaOBS["TOBSERVACION"]);
 											$Detalle=explode('<br>',$Descripcion);
-											while (list($Clave,$Valor)=each($Detalle))
+											foreach($Detalle as $Clave=>$Valor)
 											{
 												echo $Valor."<br>";
 											}
@@ -319,30 +338,30 @@ set_time_limit(2000);
 							else
 								echo "SIN CONTROLES";
 							/*echo "<td><br>";
-							$ConsuVeri="SELECT * from sgrs_siperverificadores t1 inner join sgrs_tipo_verificador t2 on t1.COD_VERIFICADOR=t2.COD_VERIFICADOR where CPELIGRO='".$Fila2[CPELIGRO]."' order by t1.COD_VERIFICADOR";
-							$RespVeri=mysql_query($ConsuVeri);
-							if($FilaVeri=mysql_fetch_array($RespVeri))
+							$ConsuVeri="select * from sgrs_siperverificadores t1 inner join sgrs_tipo_verificador t2 on t1.COD_VERIFICADOR=t2.COD_VERIFICADOR where CPELIGRO='".$Fila2[CPELIGRO]."' order by t1.COD_VERIFICADOR";
+							$RespVeri=mysqli_query($ConsuVeri);
+							if($FilaVeri=mysqli_fetch_array($RespVeri))
 							{
 								echo "<table width='100%' border='1' cellspacing='0' cellpadding='0'>";														
-								$ConsuVeri="SELECT * from sgrs_siperverificadores t1 inner join sgrs_tipo_verificador t2 on t1.COD_VERIFICADOR=t2.COD_VERIFICADOR where CPELIGRO='".$Fila2[CPELIGRO]."'";
+								$ConsuVeri="select * from sgrs_siperverificadores t1 inner join sgrs_tipo_verificador t2 on t1.COD_VERIFICADOR=t2.COD_VERIFICADOR where CPELIGRO='".$Fila2[CPELIGRO]."'";
 								if($TipoVerif!='T')
 									$ConsuVeri.=" and t2.COD_VERIFICADOR='".$TipoVerif."' ";
 								$ConsuVeri.=" order by t1.COD_VERIFICADOR";	
-								$RespVeri=mysql_query($ConsuVeri);
-								while($FilaVeri=mysql_fetch_array($RespVeri))
+								$RespVeri=mysqli_query($ConsuVeri);
+								while($FilaVeri=mysqli_fetch_array($RespVeri))
 								{
 									echo "<tr>";
-									$ConsuOBS="SELECT * from sgrs_siperverificadores_obs where CPELIGRO='".$Fila2[CPELIGRO]."' and COD_VERIFICADOR='".$FilaVeri[COD_VERIFICADOR]."'";
-									$RespOBS=mysql_query($ConsuOBS);$Rows=0;
-									while($FilaOBS=mysql_fetch_array($RespOBS))
+									$ConsuOBS="select * from sgrs_siperverificadores_obs where CPELIGRO='".$Fila2[CPELIGRO]."' and COD_VERIFICADOR='".$FilaVeri[COD_VERIFICADOR]."'";
+									$RespOBS=mysqli_query($ConsuOBS);$Rows=0;
+									while($FilaOBS=mysqli_fetch_array($RespOBS))
 										$Rows=$Rows+1;
-									$ConsuOBS="SELECT * from sgrs_siperverificadores_obs where CPELIGRO='".$Fila2[CPELIGRO]."' and COD_VERIFICADOR='".$FilaVeri[COD_VERIFICADOR]."'";
-									$RespOBS=mysql_query($ConsuOBS);
-									if($FilaOBS=mysql_fetch_array($RespOBS))
+									$ConsuOBS="select * from sgrs_siperverificadores_obs where CPELIGRO='".$Fila2[CPELIGRO]."' and COD_VERIFICADOR='".$FilaVeri[COD_VERIFICADOR]."'";
+									$RespOBS=mysqli_query($ConsuOBS);
+									if($FilaOBS=mysqli_fetch_array($RespOBS))
 									{
-										$ConsuOBS="SELECT * from sgrs_siperverificadores_obs where CPELIGRO='".$Fila2[CPELIGRO]."' and COD_VERIFICADOR='".$FilaVeri[COD_VERIFICADOR]."'";
-										$RespOBS=mysql_query($ConsuOBS);
-										while($FilaOBS=mysql_fetch_array($RespOBS))
+										$ConsuOBS="select * from sgrs_siperverificadores_obs where CPELIGRO='".$Fila2[CPELIGRO]."' and COD_VERIFICADOR='".$FilaVeri[COD_VERIFICADOR]."'";
+										$RespOBS=mysqli_query($ConsuOBS);
+										while($FilaOBS=mysqli_fetch_array($RespOBS))
 										{
 											echo "<td align='left' width='30%'>".$FilaOBS[TOBSERVACION]."&nbsp;</td>";
 											echo "</tr>";
@@ -365,13 +384,13 @@ set_time_limit(2000);
 								echo "</table>";
 							}					
 							echo "</td>";*/
-							if($Fila2[MR1]==$Fila2[MR2]&&$Fila2[MR1]!=0&&$Fila2[MR2]!=0)// SI SON IGUALES
+							if($Fila2["MR1"]==$Fila2["MR2"]&&$Fila2["MR1"]!=0&&$Fila2["MR2"]!=0)// SI SON IGUALES
 							{
-								if($Fila2[MR1]==1&&$Fila2[MR2]==1)// SI SON IGUALES VERDE
+								if($Fila2["MR1"]==1&&$Fila2["MR2"]==1)// SI SON IGUALES VERDE
 									$SEMAMRI="<img src='imagenes/semaforo_verde.jpg' border=0 width='18' height='30'>";
-								if($Fila2[MR1]==2&&$Fila2[MR2]==2)// SI SON IGUALES AMARILLO
+								if($Fila2["MR1"]==2&&$Fila2["MR2"]==2)// SI SON IGUALES AMARILLO
 									$SEMAMRI="<img src='imagenes/semaforo_amarillo.jpg' border=0 width='18' height='30'>";
-								if($Fila2[MR1]==3&&$Fila2[MR2]==3)// SI SON IGUALES ORJO
+								if($Fila2["MR1"]==3&&$Fila2["MR2"]==3)// SI SON IGUALES ORJO
 									$SEMAMRI="<img src='imagenes/semaforo_rojo.jpg' border=0 width='18' height='30'>";
 							}
 							else
@@ -391,17 +410,18 @@ set_time_limit(2000);
 </form>
 </body>
 </html>
-<?
-$CODAREA=ObtenerCodParent(&$CodSelTarea);
+<?php
+$CODAREA=ObtenerCodParent($CodSelTarea);
 //echo $CODAREA."<br>";
 //$Datos=explode('//',$DatosPel);
-$Consulta="SELECT * from sgrs_areaorg where CAREA='".$CODAREA."'";
-$Resp=mysqli_query($link, $Consulta);
-$Fila=mysql_fetch_array($Resp);
-$NOMAREA=$Fila[NAREA];
+$Consulta="select * from sgrs_areaorg where CAREA='".$CODAREA."'";
+$Resp=mysqli_query($link,$Consulta);
+$Fila=mysqli_fetch_array($Resp);
+$NOMAREA=$Fila["NAREA"];
 $RutaCompleta=$RutaCompleta.$CODAREA.',';
-$RutaOri=OrigenOrg($RutaCompleta,&$Ruta);
+$Ruta="";
+$Ruta=OrigenOrg($RutaCompleta,$Ruta,$link);
 //echo "SSS:".$RutaCompleta."<br>";
 $Obs='Consulta Peligros realizada en el nivel '.$Ruta;
-InsertaHistorico($CookieRut,'28',$Obs,'',$RutaCompleta,'');//REGISTRA ACCESO A CONSULTA COMO HISTORICO
+InsertaHistorico($CookieRut,'28',$Obs,'',$RutaCompleta,'',$link);//REGISTRA ACCESO A CONSULTA COMO HISTORICO
 ?>
