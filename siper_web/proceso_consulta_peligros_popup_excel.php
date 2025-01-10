@@ -247,7 +247,7 @@
 				echo "<tr>";
 				$Ruta = "";
 				$Ruta = OrigenOrg($Fila["CPARENT"],$Ruta,$link);
-				echo "<td align='left' colspan='10' class='titulo_azul'><b>".strtoupper($Fila["NAREA"])."&nbsp;&nbsp;->&nbsp;<label class='titulo_cafe_claro'>".$Ruta."<label></b></td>";
+				echo "<td align='left' colspan='10' class='titulo_azul'><b>".strtoupper($Fila["NAREA"])."&nbsp;&nbsp;->&nbsp;<label class='titulo_cafe_claro'>".utf8_decode($Ruta)."<label></b></td>";
 				echo "</tr>";
 				echo "<tr>";
 				echo "<td align='center' width='30%' class='TituloCabecera' ><b>Peligro</b></td>";
@@ -256,7 +256,7 @@
 				echo "<td align='center' width='5%' class='TituloCabecera' ><b>C</b></td>";
 				echo "<td align='center' width='3%' class='TituloCabecera' ><b>MRi</b></td>";
 				//echo "<td align='center' width='25%' class='TituloCabecera' ><b>Obs/Comentario</b></td>";
-				echo "<td align='left' width='30%' class='TituloCabecera' ><table width='96%' border='1' cellspacing='0' cellpadding='0'><td><b>Familia de Controles </b></td><td><b>Especificación del Control </b></td></table></td>";
+				echo "<td align='left' width='30%' class='TituloCabecera' ><table width='96%' border='1' cellspacing='0' cellpadding='0'><td><b>Familia de Controles </b></td><td><b>Especificaci&oacute;n del Control </b></td></table></td>";
 				//echo "<td align='left' width='30%' class='TituloCabecera' ><table width='96%' border='1' cellspacing='0' cellpadding='0'><td><b>Familia del Verificadores </b></td><td><b>Especificación del Verificador </b></td></table></td>";
 				echo "<td align='center' width='5%' class='TituloCabecera' ><b>P</b></td>";
 				echo "<td align='center' width='5%' class='TituloCabecera'><b>C</b></td>";
@@ -349,8 +349,8 @@
 					if($Most_PelMRi=='S'&&$Most_PelMRr=='S')
 					{
 						echo "<tr>";
-						echo "<td align='left' width='30%'>".$Fila2["NCONTACTO"]."</td>";
-						echo "<td align='left'>".$Fila2["TOBSERVACION"]."</td>";
+						echo "<td align='left' width='30%'>".utf8_decode($Fila2["NCONTACTO"])."</td>";
+						echo "<td align='left'>".utf8_decode($Fila2["TOBSERVACION"])."</td>";
 						echo "<td align='center' width='5%'>".$Fila2["QPROBHIST"]."</td>";
 						echo "<td align='center' width='5%'>".$Fila2["QCONSECHIST"]."</td>";
 						//if($Descrip!='NO CALCULADO')
@@ -383,7 +383,7 @@
 								while($FilaOBS=mysqli_fetch_array($RespOBS))
 									$Rows=$Rows+1;
 								echo "<tr>";
-								echo "<td rowspan='".$Rows."' align='left' width='70%'>".$FilaCtrl["NCONTROL"]."&nbsp;&nbsp;&nbsp;</td>";
+								echo "<td rowspan='".$Rows."' align='left' width='70%'>".utf8_decode($FilaCtrl["NCONTROL"])."&nbsp;&nbsp;&nbsp;</td>";
 								$ConsuOBS="select * from sgrs_sipercontroles_obs where CPELIGRO='".$Fila2["CPELIGRO"]."' and CCONTROL='".$FilaCtrl["CCONTROL"]."'";
 								$RespOBS=mysqli_query($link,$ConsuOBS);
 								if($FilaOBS=mysqli_fetch_array($RespOBS))
@@ -392,7 +392,7 @@
 									$RespOBS=mysqli_query($link,$ConsuOBS);
 									while($FilaOBS=mysqli_fetch_array($RespOBS))
 									{
-										echo "<td align='left' width='30%'>&nbsp;".$FilaOBS["TOBSERVACION"]."</td>";
+										echo "<td align='left' width='30%'>&nbsp;".utf8_decode($FilaOBS["TOBSERVACION"])."</td>";
 										echo "</tr>";
 									}	
 								}

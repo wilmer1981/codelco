@@ -201,7 +201,8 @@ function Consultar(Opt)
 					//echo $Consulta."<br>";
 					$RespPel=mysqli_query($link,$Consulta);
 					$FilaPel=mysqli_fetch_array($RespPel);
-					if(is_null($FilaPel["cant_pel"]))
+					$cant_pel = isset($FilaPel["cant_pel"])?$FilaPel["cant_pel"]:"";
+					if($cant_pel=="")
 						$CantPel=0;
 					else
 						$CantPel=$FilaPel["cant_pel"];

@@ -287,8 +287,8 @@
 					if($Most_PelMRi=='S'&&$Most_PelMRr=='S')
 					{
 							echo "<tr>";
-							echo "<td align='left'>".$Fila2["NCONTACTO"]."</td>";
-							echo "<td align='left'><textarea name='ObsEspe' cols='40' rows='5'>".$Fila2["TOBSERVACION"]."</textarea></td>";
+							echo "<td align='left'>".utf8_decode($Fila2["NCONTACTO"])."</td>";
+							echo "<td align='left'><textarea name='ObsEspe' cols='40' rows='5'>".utf8_decode($Fila2["TOBSERVACION"])."</textarea></td>";
 							echo "<td align='center'><img src='imagenes/$SEMAMRI' border=0 width='18' height='30'></td>";
 							echo "<td align='left'>";
 							$Consulta="select t2.NCONTROL,t1.CCONTROL,t3.ATCONTROLES from sgrs_sipercontroles t1";
@@ -327,7 +327,7 @@
 											$Detalle=explode('<br>',$Descripcion);
 											foreach($Detalle as $Clave=>$Valor)
 											{
-												echo $Valor."<br>";
+												echo utf8_decode($Valor)."<br>";
 											}
 											echo "&nbsp;</td>";
 											echo "</tr>";
