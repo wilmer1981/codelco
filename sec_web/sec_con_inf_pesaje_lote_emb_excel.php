@@ -40,13 +40,13 @@
 		$CmbAno = isset($_REQUEST["CmbAno"])?$_REQUEST["CmbAno"]:date('Y');
 
 
- 	if ($DiaIni < 10)
+ 	if (strlen($DiaIni)==1)
 		$DiaIni = "0".$DiaIni;
-	if ($MesIni < 10)
+	if (strlen($MesIni)==1)
 		$MesIni = "0".$MesIni;
-	if ($DiaFin < 10)
+	if (strlen($DiaFin)==1)
 		$DiaFin = "0".$DiaFin;
-	if ($MesFin < 10)
+	if (strlen($MesFin)==1)
 		$MesFin = "0".$MesFin;
 	$FechaInicio = $AnoIni."-".$MesIni."-".$DiaIni;
 	$FechaAux = $FechaInicio;
@@ -54,7 +54,7 @@
 	$Var10 = 0.0;
 	if (isset($CodLote) && isset($NumLote))
 	{
-		$Consulta = "SELECT t1.cod_bulto, t1.num_bulto, t1.corr_enm, t2.cod_producto, t2.cod_subproducto, t3.descripcion,";
+		$Consulta = "SELECT t1.cod_bulto, t1.num_bulto, t1.corr_enm,t1.fecha_creacion_lote, t2.cod_producto, t2.cod_subproducto, t3.descripcion,";
 		$Consulta.= " t1.cod_marca, t4.descripcion as marca, count(*) as bulto_paquetes, sum(t2.peso_paquetes) as bulto_peso";
 		$Consulta.= " from sec_web.lote_catodo t1 inner join sec_web.paquete_catodo t2";
 		$Consulta.= " on t1.cod_paquete = t2.cod_paquete and t1.num_paquete = t2.num_paquete";
