@@ -230,9 +230,9 @@
 				//echo $Consulta;
 				$Respuesta0=mysqli_query($link, $Consulta);
 				$Fila0=mysqli_fetch_array($Respuesta0);
-				$RutCliente=$Fila0["rut"];
-				$DescripcionReceptor=$Fila0["nombre"];
-				$Receptor=$Fila["cod_estiba"];
+				$RutCliente         =isset($Fila0["rut"])?$Fila0["rut"]:"";
+				$DescripcionReceptor=isset($Fila0["nombre"])?$Fila0["nombre"]:"";
+				$Receptor           =isset($Fila["cod_estiba"])?$Fila["cod_estiba"]:"";
 			}
 		} 
 		else
