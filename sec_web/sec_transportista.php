@@ -94,7 +94,7 @@ function Proceso(opt,NumEnvio)//
 		//echo "<input type='radio'  name='IdFecha' value='".$Row["fecha"]."' onClick=\"Proceso('E');\">\n";
 		//echo "<td><input type='checkbox' name='RutTransporte' value='".$Row["rut_transportista"]."'>\n";
 		echo "<td><input type='radio' name='RutTransporte' value='".$Row["rut_transportista"]."'>\n";
-		echo "'".$Row["nombre_transportista"]."'</td>";
+		echo $Row["nombre_transportista"]."</td>";
 		$cont =$cont+ 1;
 	}
 ?>

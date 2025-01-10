@@ -110,6 +110,7 @@ $ValoresCheck = isset($_REQUEST["ValoresCheck"])?$_REQUEST["ValoresCheck"]:"";
 							$Actualizar.=" set rut_transportista='".$valor."' where corr_enm='".$valorIe."' ";
 							//echo $Actualizar."<br>";
 							mysqli_query($link, $Actualizar);
+							$Mensaje="Transportista Actualizado correctamente.";
 						}
 						else
 						{
@@ -118,6 +119,7 @@ $ValoresCheck = isset($_REQUEST["ValoresCheck"])?$_REQUEST["ValoresCheck"]:"";
 							$insertar.= " values ('".$valor."','".$valorIe."','".$Fecha."')";
 							//echo $insertar."<br>";
 							mysqli_query($link, $insertar);
+							$Mensaje="Transportista insertado correctamente.";
 						}
 					}
 				}	
