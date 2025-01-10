@@ -219,15 +219,17 @@
 					}
 					else
 					{
-						$Consulta="SELECT usuario,fecha_confirmacion,t2.nombres,t2.apellido_paterno from sec_web.programa_enami t1";
+						$Consulta="SELECT t1.usuario,t1.fecha_confirmacion,t2.nombres,t2.apellido_paterno from sec_web.programa_enami t1";
 						$Consulta.=" inner join proyecto_modernizacion.funcionarios t2 on t1.usuario =t2.rut 	";
-						$Consulta.=" where corr_enm='".$Fila["corr_enm"]."'  and not isnull(usuario) ";
+						$Consulta.=" where t1.corr_enm='".$Fila["corr_enm"]."'  and not isnull(t1.usuario) ";
 						//echo $Consulta."<br>";
 						$Respuesta6=mysqli_query($link, $Consulta);
 						$Fila6=mysqli_fetch_array($Respuesta6);
 						//$FechaConf=substr($Fila6["fecha_confirmacion"],0,10);
-						$FechaConf=$Fila6["fecha_confirmacion"];
-						$Usuario=substr($Fila6["nombres"],0,1)." ".$Fila6["apellido_paterno"];	
+						$FechaConf       =isset($Fila6["fecha_confirmacion"])?$Fila6["fecha_confirmacion"]:"";
+						$nombres         =isset($Fila6["nombres"])?$Fila6["nombres"]:"";
+						$apellido_paterno=isset($Fila6["apellido_paterno"])?$Fila6["apellido_paterno"]:"";
+						$Usuario         =substr($nombres,0,1)." ".$apellido_paterno;	
 					}
 					echo "<td width='100' align='center'>".$FechaConf."&nbsp;</td>";				
 					echo "<td width='100' align='center'>".$Usuario."&nbsp;</td>";
