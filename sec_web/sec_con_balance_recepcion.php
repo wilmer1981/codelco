@@ -312,7 +312,7 @@ function Informacion(Mes,Lote,Ano)
 		if ($Encontro == false)
 		{
 			//CREA CERTIFICADO VIRTUAL			
-			CertifVirtual($Fila["cod_bulto"],$Fila["num_bulto"],$Fila["AnoLote"]);			
+			CertifVirtual($Fila["cod_bulto"],$Fila["num_bulto"],$Fila["AnoLote"],$link);			
 			//CONSULTA LA TABLA TEMPORAL
 			$Consulta = "SELECT t1.cod_leyes, t1.valor, t1.signo ";
 			$Consulta.= " from sec_web.tmp_certificacion_catodos t1";
@@ -355,11 +355,14 @@ function Informacion(Mes,Lote,Ano)
 		if ($Certif == true)
 		{
 			reset($ArrLeyes);
+			$SumaImpurezas=0;
 			foreach($ArrLeyes as $k => $v)
-			{
+			{   				
+				//$v2 = isset($v[2])?$v[2]:'0';
+				//echo "V2:".$v2;
 				if ($v[0] != "48")		
 				{
-					$SumaImpurezas = $SumaImpurezas + ($v[2]/10000);
+					$SumaImpurezas = $SumaImpurezas + ((int)$v[2]/10000);
 				}
 			}
 			
@@ -367,29 +370,33 @@ function Informacion(Mes,Lote,Ano)
 			//echo $ArrLeyes["02"][2]."--".$SumaImpurezas."</br>";
 			//$SumaImpurezas = 0;
 		}			
-		reset($ArrLeyes);		
-		while (list($k,$v)=each($ArrLeyes))
+		reset($ArrLeyes);	
+		//$Valor=0;		
+		foreach($ArrLeyes as $k => $v)
 		{
+			$ArrTotalv01 = isset($ArrTotal[$v[0]][1])?$ArrTotal[$v[0]][1]:0;
 			if ($FinoLeyes == "L")
 			{
 				$Valor = $v[2];
 				switch ($v[0])
 				{
 					case "02":
-						$ValorAux = ($v[2] * $Fila["peso"]) / 100;
+						$ValorAux = ((int)$v[2] * (int)$Fila["peso"]) / 100;
 						break;
 					case "04":
-						$ValorAux = ($v[2] * $Fila["peso"]) / 1000;
+						$ValorAux = ((int)$v[2] * (int)$Fila["peso"]) / 1000;
 						break;
 					case "05":
-						$ValorAux = ($v[2] * $Fila["peso"]) / 1000;
+						$ValorAux = ((int)$v[2] * (int)$Fila["peso"]) / 1000;
 						break;
 					default:
-						$ValorAux = ($v[2] * $Fila["peso"]) / 1000000;
+						$ValorAux = ((int)$v[2] * (int)$Fila["peso"]) / 1000000;
 						break;
 				}
-				$ArrTotal[$v[0]][0] = $v[0];				
-				$ArrTotal[$v[0]][1] = $ArrTotal[$v[0]][1] + $ValorAux;
+				
+				$ArrTotal[$v[0]][0] = $v[0];
+				$ArrTotal[$v[0]][1] = $ArrTotalv01 + $ValorAux;				
+				//$ArrTotal[$v[0]][1] = $ArrTotal[$v[0]][1] + $ValorAux;
 			}
 			else
 			{
@@ -409,12 +416,13 @@ function Informacion(Mes,Lote,Ano)
 						break;
 				}
 				$ArrTotal[$v[0]][0] = $v[0];
-				$ArrTotal[$v[0]][1] = $ArrTotal[$v[0]][1] + $Valor;
+				//$ArrTotal[$v[0]][1] = $ArrTotal[$v[0]][1] + $Valor;
+				$ArrTotal[$v[0]][1] = $ArrTotalv01 + $Valor;	
 			}					
 			if ($v[0] == "02") 
-				echo "<td align='right'>".number_format($Valor,2,",",".")."</td>";
+				echo "<td align='right'>".number_format((float)$Valor,2,",",".")."</td>";
 			else
-				echo "<td align='right'>".number_format($Valor,1,",",".")."</td>";
+				echo "<td align='right'>".number_format((float)$Valor,1,",",".")."</td>";
 		}			
 		
 		echo "</tr>\n";

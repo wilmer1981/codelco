@@ -1,6 +1,7 @@
 <?php	
 	$CodigoDeSistema = 3;
 	$CodigoDePantalla =16; 
+	
 	if (!isset($DiaIni))
 	{
 		$DiaFin = "31";
@@ -52,10 +53,10 @@ function Historial(SA)
       <td width="120"><strong>PRODUCTO</strong></td>
       <td width="387"> 
         <?php
-		$Consulta = "SELECT * from proyecto_modernizacion.productos ";
+		$Consulta = "select * from proyecto_modernizacion.productos ";
 		$Consulta.= " where cod_producto = '".$Producto."'";
-		$Respuesta = mysqli_query($link, $Consulta);
-		if ($Fila = mysqli_fetch_array($Respuesta))
+		$Respuesta = mysql_query($Consulta);
+		if ($Fila = mysql_fetch_array($Respuesta))
 		{
 			echo strtoupper($Fila["descripcion"]);
 		}
@@ -66,11 +67,11 @@ function Historial(SA)
       <td><strong>SUBPRODUCTO</strong></td>
       <td> 
         <?php
-		$Consulta = "SELECT * from proyecto_modernizacion.subproducto ";
+		$Consulta = "select * from proyecto_modernizacion.subproducto ";
 		$Consulta.= " where cod_producto = '".$Producto."'";
 		$Consulta.= " and cod_subproducto = '".$SubProducto."'";
-		$Respuesta = mysqli_query($link, $Consulta);
-		if ($Fila = mysqli_fetch_array($Respuesta))
+		$Respuesta = mysql_query($Consulta);
+		if ($Fila = mysql_fetch_array($Respuesta))
 		{
 			echo strtoupper($Fila["descripcion"]);
 		}
@@ -81,9 +82,9 @@ function Historial(SA)
       <td><strong>PERIODO</strong></td>
       <td> 
         <?php
-		$Consulta = "SELECT * from proyecto_modernizacion.sub_clase where cod_clase = '2' and cod_subclase = '".$Periodo."'";	  
-		$Respuesta = mysqli_query($link, $Consulta);
-		if ($Fila = mysqli_fetch_array($Respuesta))
+		$Consulta = "select * from proyecto_modernizacion.sub_clase where cod_clase = '2' and cod_subclase = '".$Periodo."'";	  
+		$Respuesta = mysql_query($Consulta);
+		if ($Fila = mysql_fetch_array($Respuesta))
 		{
 			$DescPeriodo = $Fila["nombre_subclase"];
 			echo $DescPeriodo;
@@ -121,12 +122,12 @@ function Historial(SA)
   </table>
 <br>
 <?php
-$Consulta = "SELECT count(*) as reg ";
+$Consulta = "select count(*) as reg ";
 $Consulta.= " from sec_web.tmp_tipo_mov_det ";
 $Consulta.= " where cod_periodo = '".$Periodo."'";
-$Respuesta = mysqli_query($link, $Consulta);
+$Respuesta = mysql_query($Consulta);
 //echo $Consulta;
-$Fila = mysqli_fetch_array($Respuesta);
+$Fila = mysql_fetch_array($Respuesta);
 if ($Fila["reg"] != 0)
 {
   	echo "<table width='469' border='1' cellpadding='3' cellspacing='0' class='TablaDetalle'>\n";
@@ -146,12 +147,12 @@ if ($Fila["reg"] != 0)
 	}
 	echo "<td width='23' align='center'>P.SECO<br>kg</td>\n";
 	$ArrLeyes = array();
-	$Consulta = "SELECT STRAIGHT_JOIN distinct t1.cod_leyes, t2.abreviatura from sec_web.tmp_tipo_mov_det t1 inner join proyecto_modernizacion.leyes t2 ";
+	$Consulta = "select STRAIGHT_JOIN distinct t1.cod_leyes, t2.abreviatura from sec_web.tmp_tipo_mov_det t1 inner join proyecto_modernizacion.leyes t2 ";
 	$Consulta.= " on t1.cod_leyes = t2.cod_leyes ";
 	$Consulta.= " where cod_periodo = '".$Periodo."'";
 	$Consulta.= " order by t1.cod_leyes";
-	$Respuesta = mysqli_query($link, $Consulta);
-	while ($Fila = mysqli_fetch_array($Respuesta))
+	$Respuesta = mysql_query($Consulta);
+	while ($Fila = mysql_fetch_array($Respuesta))
 	{
 		$ArrLeyes[$Fila["cod_leyes"]][0] = $Fila["cod_leyes"];
 		$ArrLeyes[$Fila["cod_leyes"]][1] = $Fila["abreviatura"];
@@ -197,13 +198,13 @@ if ($Fila["reg"] != 0)
 		$CambiaColor = "S";
 	else
 		$CambiaColor = "N";		
-	$Consulta = "SELECT distinct tipo_mov, cod_producto, cod_subproducto, cod_periodo, fecha1, fecha2, ";
+	$Consulta = "select distinct tipo_mov, cod_producto, cod_subproducto, cod_periodo, fecha1, fecha2, ";
 	$Consulta.= " grupo, cuba, num_envio, lote, nro_sa, num_certificado, grupo, cuba, peso ";
 	$Consulta.= " from sec_web.tmp_tipo_mov_cab ";
 	$Consulta.= " where cod_periodo = '".$Periodo."'";
 	$Consulta.= " order by cod_producto, cod_subproducto, cod_periodo, fecha1, fecha2, grupo, cuba";
-	$Respuesta = mysqli_query($link, $Consulta);
-	while ($Fila = mysqli_fetch_array($Respuesta))
+	$Respuesta = mysql_query($Consulta);
+	while ($Fila = mysql_fetch_array($Respuesta))
 	{		
 		if ($Fila["cod_producto"] = 18 && $Fila["cod_subproducto"] == 3 && ($Fila["cuba"] == "00" || $Fila["cuba"] == ""))
 		{
@@ -212,7 +213,7 @@ if ($Fila["reg"] != 0)
 		else
 		{
 			$Peso = $PesoMuestra + $Fila["peso"];
-			$Consulta = "SELECT nro_sa from sec_web.tmp_tipo_mov_det ";
+			$Consulta = "select nro_sa from sec_web.tmp_tipo_mov_det ";
 			$Consulta.= " where fecha1 = '".$Fila["fecha1"]."'";
 			$Consulta.= " and fecha2 = '".$Fila["fecha2"]."'";
 			$Consulta.= " and num_envio = '".$Fila["num_envio"]."'";
@@ -220,9 +221,9 @@ if ($Fila["reg"] != 0)
 			$Consulta.= " and num_certificado = '".$Fila["num_certificado"]."'";
 			$Consulta.= " and grupo = '".$Fila["grupo"]."'";
 			$Consulta.= " and cuba = '".$Fila["cuba"]."'";
-			$Resp2 = mysqli_query($link, $Consulta);
+			$Resp2 = mysql_query($Consulta);
 			$NroSA = "";
-			if ($Fila2 = mysqli_fetch_array($Resp2))
+			if ($Fila2 = mysql_fetch_array($Resp2))
 				$NroSA = $Fila2["nro_sa"];
 			if ($CambiaColor == "N")
 				echo "<tr>\n";
@@ -256,7 +257,7 @@ if ($Fila["reg"] != 0)
 			reset($ArrLeyes);
 			while (list($k,$v)=each($ArrLeyes))
 			{
-				$Consulta = "SELECT * from sec_web.tmp_tipo_mov_det ";
+				$Consulta = "select * from sec_web.tmp_tipo_mov_det ";
 				$Consulta.= " where fecha1 = '".$Fila["fecha1"]."'";
 				$Consulta.= " and fecha2 = '".$Fila["fecha2"]."'";
 				$Consulta.= " and num_envio = '".$Fila["num_envio"]."'";
@@ -266,8 +267,8 @@ if ($Fila["reg"] != 0)
 				$Consulta.= " and grupo = '".$Fila["grupo"]."'";
 				$Consulta.= " and cuba = '".$Fila["cuba"]."'";
 				$Consulta.= " and cod_leyes = '".$v[0]."'";
-				$Resp2 = mysqli_query($link, $Consulta);
-				if ($Fila2 = mysqli_fetch_array($Resp2))
+				$Resp2 = mysql_query($Consulta);
+				if ($Fila2 = mysql_fetch_array($Resp2))
 				{
 					$Valor = $Fila2["valor"];
 					switch ($v[0])
@@ -318,7 +319,7 @@ if ($Fila["reg"] != 0)
 		echo "<td colspan='4'><b>TOTAL</b></td>\n";
 	}
 	echo "<td>".number_format($TotalPesoSeco,0,",",".")."</td>\n";
-	foreach($ArrTotal as $k => $v)
+	while (list($k,$v) = each($ArrTotal))
 	{
 		echo "<td align='right'>\n";	 
 		switch ($FinoLeyes)

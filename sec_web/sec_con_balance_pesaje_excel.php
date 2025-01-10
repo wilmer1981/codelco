@@ -25,10 +25,10 @@
 
 	$AnoIni  = isset($_REQUEST["AnoIni"])?$_REQUEST["AnoIni"]:"";
 	$MesIni  = isset($_REQUEST["MesIni"])?$_REQUEST["MesIni"]:"";
-	$DiaIni  = isset($_REQUEST["DiaIni"])?$_REQUEST["DiaIni"]:"01";
+	$DiaIni  = isset($_REQUEST["DiaIni"])?$_REQUEST["DiaIni"]:"";
 	$AnoFin  = isset($_REQUEST["AnoFin"])?$_REQUEST["AnoFin"]:"";
 	$MesFin  = isset($_REQUEST["MesFin"])?$_REQUEST["MesFin"]:"";
-	$DiaFin  = isset($_REQUEST["DiaFin"])?$_REQUEST["DiaFin"]:"31";
+	$DiaFin  = isset($_REQUEST["DiaFin"])?$_REQUEST["DiaFin"]:"";
 
 	$Producto     = isset($_REQUEST["Producto"])?$_REQUEST["Producto"]:"";
 	$SubProducto  = isset($_REQUEST["SubProducto"])?$_REQUEST["SubProducto"]:"";
@@ -36,10 +36,10 @@
 
 	if ($DiaIni=="")
 	{
-		//$DiaFin = "31";
+		$DiaFin = "31";
 		$MesFin = str_pad($MesFin,2, "0", STR_PAD_LEFT);
 		$AnoFin = $AnoFin;
-		//$DiaIni = "01";
+		$DiaIni = "01";
 		$MesIni = $MesFin;
 		$AnoIni = $AnoFin;		
 	}
@@ -378,7 +378,7 @@ function Informacion(Mes,Lote)
 		if ($Encontro == false)
 		{
 			//CREA CERTIFICADO VIRTUAL			
-			CertifVirtual($Fila["cod_bulto"],$Fila["num_bulto"],$Ano);			
+			CertifVirtual($Fila["cod_bulto"],$Fila["num_bulto"],$Ano,$link);			
 			//CONSULTA LA TABLA TEMPORAL
 			$Consulta = "SELECT t1.cod_leyes, t1.valor, t1.signo ";
 			$Consulta.= " from sec_web.tmp_certificacion_catodos t1";
@@ -421,52 +421,54 @@ function Informacion(Mes,Lote)
 		}									
 		reset($ArrLeyes);			
 		foreach($ArrLeyes as $k => $v)
-		{
+		{   $ArrTotalv01 = isset($ArrTotal[$v[0]][1])?$ArrTotal[$v[0]][1]:0;
 			if ($FinoLeyes == "L")
 			{
 				$Valor = $v[2];
 				switch ($v[0])
 				{
 					case "02":
-						$ValorAux = ($v[2] * $Fila["peso"]) / 100;
+						$ValorAux = ((int)$v[2] * (int)$Fila["peso"]) / 100;
 						break;
 					case "04":
-						$ValorAux = ($v[2] * $Fila["peso"]) / 1000;
+						$ValorAux = ((int)$v[2] * (int)$Fila["peso"]) / 1000;
 						break;
 					case "05":
-						$ValorAux = ($v[2] * $Fila["peso"]) / 1000;
+						$ValorAux = ((int)$v[2] * (int)$Fila["peso"]) / 1000;
 						break;
 					default:
-						$ValorAux = ($v[2] * $Fila["peso"]) / 1000000;
+						$ValorAux = ((int)$v[2] * (int)$Fila["peso"]) / 1000000;
 						break;
 				}
 				$ArrTotal[$v[0]][0] = $v[0];				
-				$ArrTotal[$v[0]][1] = $ArrTotal[$v[0]][1] + $ValorAux;
+				//$ArrTotal[$v[0]][1] = $ArrTotal[$v[0]][1] + $ValorAux;
+				$ArrTotal[$v[0]][1] = $ArrTotalv01 + $ValorAux;
 			}
 			else
 			{
 				switch ($v[0])
 				{
 					case "02":
-						$Valor = ($v[2] * $Fila["peso"]) / 100;
+						$Valor = ((int)$v[2] * (int)$Fila["peso"]) / 100;
 						break;
 					case "04":
-						$Valor = ($v[2] * $Fila["peso"]) / 1000;
+						$Valor = ((int)$v[2] * (int)$Fila["peso"]) / 1000;
 						break;
 					case "05":
-						$Valor = ($v[2] * $Fila["peso"]) / 1000;
+						$Valor = ((int)$v[2] * (int)$Fila["peso"]) / 1000;
 						break;
 					default:
-						$Valor = ($v[2] * $Fila["peso"]) / 1000000;
+						$Valor = ((int)$v[2] * (int)$Fila["peso"]) / 1000000;
 						break;
 				}
 				$ArrTotal[$v[0]][0] = $v[0];
-				$ArrTotal[$v[0]][1] = $ArrTotal[$v[0]][1] + $Valor;
+				//$ArrTotal[$v[0]][1] = $ArrTotal[$v[0]][1] + $Valor;
+				$ArrTotal[$v[0]][1] = $ArrTotalv01 + $Valor;
 			}					
 			if ($v[0] == "02") 
-				echo "<td align='right'>".number_format($Valor,2,",",".")."</td>";
+				echo "<td align='right'>".number_format((float)$Valor,2,",",".")."</td>";
 			else
-				echo "<td align='right'>".number_format($Valor,1,",",".")."</td>";
+				echo "<td align='right'>".number_format((float)$Valor,1,",",".")."</td>";
 		}
 		$TotalPaquetes = $TotalPaquetes + $Fila["NumPaquetes"];
 		$TotalPeso = $TotalPeso + $Fila["peso"];			
@@ -480,7 +482,7 @@ function Informacion(Mes,Lote)
       <td align="right"><?php echo number_format($TotalPeso,0,",","."); ?></td>
       <?php
 	foreach($ArrTotal as $k => $v)
-	{
+	{   $v1 = isset($v[1])?$v[1]:0;
 		echo "<td align='right'>\n";	 
 		switch ($FinoLeyes)
 		{
@@ -488,21 +490,21 @@ function Informacion(Mes,Lote)
 				switch ($v[0])
 				{
 					case "02":
-		      			echo number_format(($v[1] / $TotalPeso)*100,2,",",".");
+		      			echo number_format(($v1 / $TotalPeso)*100,2,",",".");
 						break;
 					case "04":
-		      			echo number_format(($v[1] / $TotalPeso)*1000,1,",",".");
+		      			echo number_format(($v1 / $TotalPeso)*1000,1,",",".");
 						break;
 					case "05":
-		      			echo number_format(($v[1] / $TotalPeso)*1000,1,",",".");
+		      			echo number_format(($v1 / $TotalPeso)*1000,1,",",".");
 						break;
 					default:
-						echo number_format(($v[1] / $TotalPeso)*1000000,1,",",".");
+						echo number_format(($v1 / $TotalPeso)*1000000,1,",",".");
 						break;
 				}
 				break;
 			case "F":
-				echo number_format($v[1],0,",",".");
+				echo number_format($v1,0,",",".");
 				break;
 		}
 		echo "</td>\n";

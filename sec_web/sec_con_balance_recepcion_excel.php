@@ -282,7 +282,7 @@
 		if ($Encontro == false)
 		{
 			//CREA CERTIFICADO VIRTUAL			
-			CertifVirtual($Fila["cod_bulto"],$Fila["num_bulto"],$Ano);			
+			CertifVirtual($Fila["cod_bulto"],$Fila["num_bulto"],$Ano,$link);			
 			//CONSULTA LA TABLA TEMPORAL
 			$Consulta = "SELECT t1.cod_leyes, t1.valor, t1.signo ";
 			$Consulta.= " from sec_web.tmp_certificacion_catodos t1";
@@ -320,36 +320,39 @@
 		if ($Certif == true)
 		{
 			reset($ArrLeyes);
+			$SumaImpurezas=0;
 			foreach($ArrLeyes as $k => $v)
 			{
 				if ($v[0] != "48")				
-					$SumaImpurezas = $SumaImpurezas + ($v[2]/1000);
+					$SumaImpurezas = $SumaImpurezas + ((int)$v[2]/1000);
 			}
 			$ArrLeyes["02"][2] = 100 - $SumaImpurezas;
 		}				
 		reset($ArrLeyes);
 		foreach($ArrLeyes as $k => $v)
 		{
+			$ArrTotalv01 = isset($ArrTotal[$v[0]][1])?$ArrTotal[$v[0]][1]:0;
 			if ($FinoLeyes == "L")
 			{
 				$Valor = $v[2];
 				switch ($v[0])
 				{
 					case "02":
-						$ValorAux = ($v[2] * $Fila["peso"]) / 100;
+						$ValorAux = ((int)$v[2] * (int)$Fila["peso"]) / 100;
 						break;
 					case "04":
-						$ValorAux = ($v[2] * $Fila["peso"]) / 1000;
+						$ValorAux = ((int)$v[2] * (int)$Fila["peso"]) / 1000;
 						break;
 					case "05":
-						$ValorAux = ($v[2] * $Fila["peso"]) / 1000;
+						$ValorAux = ((int)$v[2] * (int)$Fila["peso"]) / 1000;
 						break;
 					default:
-						$ValorAux = ($v[2] * $Fila["peso"]) / 1000000;
+						$ValorAux = ((int)$v[2] * (int)$Fila["peso"]) / 1000000;
 						break;
 				}
 				$ArrTotal[$v[0]][0] = $v[0];				
-				$ArrTotal[$v[0]][1] = $ArrTotal[$v[0]][1] + $ValorAux;
+				//$ArrTotal[$v[0]][1] = $ArrTotal[$v[0]][1] + $ValorAux;
+				$ArrTotal[$v[0]][1] = $ArrTotalv01 + $ValorAux;
 			}
 			else
 			{
@@ -369,12 +372,13 @@
 						break;
 				}
 				$ArrTotal[$v[0]][0] = $v[0];
-				$ArrTotal[$v[0]][1] = $ArrTotal[$v[0]][1] + $Valor;
+				//$ArrTotal[$v[0]][1] = $ArrTotal[$v[0]][1] + $Valor;
+				$ArrTotal[$v[0]][1] = $ArrTotalv01 + $Valor;
 			}					
 			if ($v[0] == "02") 
-				echo "<td align='right'>".number_format($Valor,2,",",".")."</td>";
+				echo "<td align='right'>".number_format((float)$Valor,2,",",".")."</td>";
 			else
-				echo "<td align='right'>".number_format($Valor,1,",",".")."</td>";
+				echo "<td align='right'>".number_format((float)$Valor,1,",",".")."</td>";
 		}			
 		
 		echo "</tr>\n";

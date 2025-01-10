@@ -652,7 +652,8 @@ function CertifVirtual($Mes, $Lote, $Ano,$link)
 		$Respuesta2 = mysqli_query($link,$Consulta);
 		if ($Fila2 = mysqli_fetch_array($Respuesta2) || ($CodProducto == 18 && ($CodSubProducto==4 || $CodSubProducto==5) && $Fila2["cod_leyes"]=="02"))
 		{
-			if (round($ValorLey,3) < round(($Fila2["valor_subclase6"] * 1),3))
+			$valor_subclase6 = isset($Fila2["valor_subclase6"])?$Fila2["valor_subclase6"]:0;
+			if (round($ValorLey,3) < round(($valor_subclase6 * 1),3))
 				$Signo = "<";						
 		}
 		if ($Signo == "<")		

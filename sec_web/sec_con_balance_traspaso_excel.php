@@ -298,7 +298,7 @@
 		if ($Encontro == false)
 		{
 			//CREA CERTIFICADO VIRTUAL			
-			CertifVirtual($Fila["cod_bulto"],$Fila["num_bulto"],$Ano);			
+			CertifVirtual($Fila["cod_bulto"],$Fila["num_bulto"],$Ano,$link);			
 			//CONSULTA LA TABLA TEMPORAL
 			$Consulta = "SELECT t1.cod_leyes, t1.valor, t1.signo ";
 			$Consulta.= " from sec_web.tmp_certificacion_catodos t1";
