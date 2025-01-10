@@ -60,6 +60,9 @@
 	$TxtFechaFin     = $_REQUEST["TxtFechaFin"];
 	$CmbGrupoProd    = $_REQUEST["CmbGrupoProd"];
 	$CmbSubProducto  = $_REQUEST["CmbSubProducto"];
+	
+	$RutProved       = isset($_REQUEST["RutProved"])?$_REQUEST["RutProved"]:"";
+	$NombreProved     = isset($_REQUEST["NombreProved"])?$_REQUEST["NombreProved"]:"";
  
 ?>
 <html>
@@ -361,11 +364,14 @@ if (isset($TipoCon) && $TipoCon!="")
 				$NomProv = $Fila["nom_proveedor"];
 				break;
 			case "D":
-				ObtenerProveedorDespacho('D',$Fila["rut_prv"],$Fila["correlativo"],$Fila["guia_despacho"],$RutProved,$NombreProved);
-				$NomProv = $NombreProved;
+				$proveedor = ObtenerProveedorDespacho('D',$Fila["rut_prv"],$Fila["correlativo"],$Fila["guia_despacho"],$RutProved,$NombreProved,$link);
+				$prov      = explode("**",$proveedor);
+				$RutProved = $prov[0];
+				$NomProv   = $prov[1];
+				//$NomProv = $NombreProved;
 				break;
 			case "O":
-				$Nombre=$Fila["nombre"];
+				$Nombre  = $Fila["nombre"];
 				$NomProv = $Fila["descripcion"];
 				break;
 			case "C":

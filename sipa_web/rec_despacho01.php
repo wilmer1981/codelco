@@ -231,7 +231,7 @@ function FuncionEnvioCorreo($Corr,$link)
 			$cuerpoMsj.= '<tr><td>';
 			$cuerpoMsj.= ''.$Mensaje.'';
 			$cuerpoMsj.= "<br>";
-			$cuerpoMsj.="Por Su Atenci�n Muchas Gracias.";
+			$cuerpoMsj.="Por Su Atención Muchas Gracias.";
 			$cuerpoMsj.= "<br>";
 			$cuerpoMsj.="Servicio Automatico de Sistema de Pesaje 'SIPA'.";
 			$cuerpoMsj.= "<br>";

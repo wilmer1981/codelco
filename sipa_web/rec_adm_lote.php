@@ -358,7 +358,7 @@ a:active {
 
 <body><DIV id=popCal style="BORDER-TOP:solid 1px #000000;BORDER-BOTTOM:solid 2px #000000;BORDER-LEFT:solid 1px #000000;
 BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=event.cancelBubble=true>
-<IFRAME name=popFrame src="../principal/popcjs.htm" frameBorder=0 width=165 scrolling=no height=185></IFRAME></DIV>
+<IFRAME name="popFrame" src="../principal/popcjs.htm" frameBorder=0 width=165 scrolling="no" height="185"></IFRAME></DIV>
 <form name="frmPrincipal" action="" method="post">
 <?php include("../principal/encabezado.php") ?>
 <input type="hidden" name="TipoBusqueda" value="<?php echo $TipoCon; ?>">
@@ -841,8 +841,11 @@ if (isset($TipoCon) && $TipoCon!="")
 				$NomProv = $Fila["nom_proveedor"];
 				break;
 			case "D":
-				ObtenerProveedorDespacho('D',$Fila["rut_prv"],$Fila["correlativo"],$Fila["guia_despacho"],$RutProved,$NombreProved,$link);
-				$NomProv = $NombreProved;
+				$proveedor = ObtenerProveedorDespacho('D',$Fila["rut_prv"],$Fila["correlativo"],$Fila["guia_despacho"],$RutProved,$NombreProved,$link);
+				$prov      = explode("**",$proveedor);
+				$RutProved = $prov[0];
+				$NomProv   = $prov[1];
+				//$NomProv = $NombreProved;
 				break;
 			case "O":
 				$Nombre=$Fila["nombre"];
