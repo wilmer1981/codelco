@@ -52,8 +52,8 @@
 			$Respuesta=mysqli_query($link, $Consulta);
 			$Fila=mysqli_fetch_array($Respuesta);
 			$RutDV=explode('-',$Fila["rut"]);
-			$TxtRut=$RutDV[0];
-			$TxtDv=$RutDV[1];
+			$TxtRut=isset($RutDV[0])?$RutDV[0]:"";
+			$TxtDv =isset($RutDV[1])?$RutDV[1]:"";
 			$TxtNombre=$Fila["nombre_cliente"];
 			$TxtNombre2=$Fila["sigla_cliente"];
 			$TxtDireccion=$Fila["direccion2"];
