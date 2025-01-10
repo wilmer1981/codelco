@@ -477,14 +477,19 @@ function Proceso(opt)
 						$Respuesta3 = mysqli_query($link,$Consulta);				
 						if ($Fila3 = mysqli_fetch_array($Respuesta3))
 						{
-							$Insertar = "insert into sec_web.tmp_leyes_grupos (cod_grupo, fecha, cod_leyes, valor, signo, fecha_creacion_paquete) ";
-							$Insertar.= " values('".$v[0]."',";
-							if ($v[0] >= 50)
-								$Insertar.= "'".$v[2]."',";
-							else
-								$Insertar.= "'".$v[1]."',";
-							$Insertar.= "'".$Fila2["cod_leyes"]."','".$Fila2["valor"]."','".$Fila2["signo"]."', '".$v[2]."')";
-							mysqli_query($link,$Insertar);				
+							$consulta="select * from sec_web.tmp_leyes_grupos where cod_grupo='".$v[0]."' and cod_leyes='".$Fila2["cod_leyes"]."' ";
+							$result = mysqli_query($link, $consulta);
+							$cont = mysqli_num_rows($result);
+							if($cont==0){
+								$Insertar = "insert into sec_web.tmp_leyes_grupos (cod_grupo, fecha, cod_leyes, valor, signo, fecha_creacion_paquete) ";
+								$Insertar.= " values('".$v[0]."',";
+								if ($v[0] >= 50)
+									$Insertar.= "'".$v[2]."',";
+								else
+									$Insertar.= "'".$v[1]."',";
+								$Insertar.= "'".$Fila2["cod_leyes"]."','".$Fila2["valor"]."','".$Fila2["signo"]."', '".$v[2]."')";
+								mysqli_query($link,$Insertar);
+							}
 						}
 					}
 					if (($v[0] >= 50) && ($Encontro == false))

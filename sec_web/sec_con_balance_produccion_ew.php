@@ -210,7 +210,7 @@ function Salir()
 			$Consulta.= " and t1.estado_actual <> '16' and t1.estado_actual <> '7'";
 			$Consulta.= " and t1.frx <> 'S' and t1.cod_analisis = '1'";
 			$Consulta.= " and t1.cod_producto = '".$Producto."' ";			
-			$Consulta.= " and t1.cod_subproducto = '".$SubProducto."'";
+			$Consulta.= " and t1.cod_subproducto = '".$SubProducto."' ";
 			$Consulta.= " and t1.tipo = '1'";	
 			$Consulta.= " AND t2.cod_leyes IN(";
 			reset($ArrLeyes);
@@ -218,10 +218,11 @@ function Salir()
 			{
 				$Consulta.= "'".$k[0]."',";
 			}
+			//echo $Consulta;
 			$Consulta = substr($Consulta,0,strlen($Consulta)-1);
 			$Consulta.= ")";
 			$Consulta.= " ORDER BY t3.cod_leyes";	
-			//echo $Consulta;
+			echo $Consulta;
 			$Resp2 = mysqli_query($link, $Consulta);
 			$SA = "";			
 			while ($Fila2 = mysqli_fetch_array($Resp2))

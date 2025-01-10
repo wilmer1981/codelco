@@ -3,8 +3,8 @@ function CertifVirtual($Mes, $Lote, $Ano,$link)
 {	
 	$DiasMenos=3;
 	$DiasMas=4;
-	if($CodProducto==18 && $CodSubProducto==57)
-	{							
+	//if($CodProducto==18 && $CodSubProducto==57)
+	//{							
 		$Consulta="select * from proyecto_modernizacion.sub_clase where cod_clase='3111' and  cod_subclase='1' ";
 		$Respuesta = mysqli_query($link,$Consulta);
 		if ($Fila = mysqli_fetch_array($Respuesta))
@@ -18,7 +18,7 @@ function CertifVirtual($Mes, $Lote, $Ano,$link)
 			$DiasMas=$Fila["valor_subclase1"];
 		}
 
-	}
+	//}
 	include("../principal/conectar_principal.php");
 	$FechaActual = date("Y-m-d H:i:s");
 	
