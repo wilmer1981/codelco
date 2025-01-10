@@ -79,7 +79,8 @@
 					$Consulta.=" where corr_enm='".$Fila["corr_enm"]."' and cod_bulto='".$Fila["cod_bulto"]."' and num_bulto='".$Fila["num_bulto"]."'	";
 					$Respuesta4=mysqli_query($link, $Consulta);
 					$Fila4=mysqli_fetch_array($Respuesta4);
-					echo "<td width='100' align='center'>".$Fila4["descripcion"]."&nbsp;</td>";
+					$descripcion = isset($Fila4["descripcion"])?$Fila4["descripcion"]:"";
+					echo "<td width='100' align='center'>".$descripcion."&nbsp;</td>";
 					/* CONSULTA DE SUBPRODUCTO DE CATODOS*/
 					$Consulta="SELECT abreviatura from proyecto_modernizacion.subproducto where cod_producto='".$Fila["cod_producto"]."' ";
 					$Consulta.=" and cod_subproducto='".$Fila["cod_subproducto"]."'	";
