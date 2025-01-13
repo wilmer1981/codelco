@@ -168,7 +168,6 @@ function Salir()
 	$fecha_aux = $fecha_ini;
 	$Cont = 0;
 	$TotalPSeco = 0;
-	$SumPesoSeco=0;		
 	while(date($fecha_aux) <= date($fecha_ter)) //Recorre los dias.
 	{		
 		$dia = substr($fecha_aux,8,2);
@@ -179,13 +178,13 @@ function Salir()
 		$Consulta.= " and fecha_produccion between '".$fecha_aux."' and '".$fecha_aux."'";					
 		$Consulta.= " group by cod_grupo";				
 		$Rs = mysqli_query($link, $Consulta);
-		
+		$SumPesoSeco=0;		
 		while($Fila = mysqli_fetch_array($Rs))
 		{					
 			echo'<tr>';
 			echo'<td align="center">'.$Fila["fecha_produccion"].'</td>';
 			echo'<td align="center">'.number_format($Fila["peso_produccion"],0,",",".").'</td>';						
-			$PesoSeco = $Fila["peso_produccion"];			
+			$PesoSeco   = $Fila["peso_produccion"];			
 			$TotalPSeco = $TotalPSeco + $PesoSeco;			
 			//RESCATA LEYES DE CALIDAD
 			//LIMPIA ARREGLO DE LEYES
@@ -211,18 +210,20 @@ function Salir()
 			$Consulta.= " and t1.frx <> 'S' and t1.cod_analisis = '1'";
 			$Consulta.= " and t1.cod_producto = '".$Producto."' ";			
 			$Consulta.= " and t1.cod_subproducto = '".$SubProducto."' ";
-			$Consulta.= " and t1.tipo = '1'";	
-			$Consulta.= " AND t2.cod_leyes IN(";
-			reset($ArrLeyes);
-			foreach($ArrLeyes as $v => $k)
-			{
-				$Consulta.= "'".$k[0]."',";
+			$Consulta.= " and t1.tipo = '1'";			
+			if(isset($ArrLeyes) && count($ArrLeyes) > 0){	
+                $Consulta.= " AND t2.cod_leyes IN(";			
+				reset($ArrLeyes);
+				foreach($ArrLeyes as $v => $k)
+				{
+					$Consulta.= "'".$k[0]."',";
+				}
+			   //echo $Consulta;
+				$Consulta = substr($Consulta,0,strlen($Consulta)-1);
+				$Consulta.= ")";
 			}
-			//echo $Consulta;
-			$Consulta = substr($Consulta,0,strlen($Consulta)-1);
-			$Consulta.= ")";
 			$Consulta.= " ORDER BY t3.cod_leyes";	
-			echo $Consulta;
+			//echo $Consulta;
 			$Resp2 = mysqli_query($link, $Consulta);
 			$SA = "";			
 			while ($Fila2 = mysqli_fetch_array($Resp2))
@@ -264,7 +265,7 @@ function Salir()
 			}			
 			//Vars. Acumuladores
 			$Cont++;
-			$SumPesoSeco = $SumPesoSeco + number_format($PesoSeco,0,"","");				  	
+			$SumPesoSeco = (int)$SumPesoSeco + number_format($PesoSeco,0,"","");				  	
 			echo'</tr>';
 		}
 		//******************************CORTE DE SEMANAS******************************************
@@ -322,14 +323,16 @@ function Salir()
 			$Consulta.= " and t1.cod_producto = '".$Producto."' ";
 			$Consulta.= " and t1.cod_subproducto = '".$SubProducto."' ";
 			$Consulta.= " and t1.tipo = '1'";
-			$Consulta.= " AND t2.cod_leyes IN(";
-			reset($ArrLeyes);
-			foreach($ArrLeyes as $v => $k)
-			{
-				$Consulta.= "'".$k[0]."',";
+			if(isset($ArrLeyes) && count($ArrLeyes) > 0){	
+				$Consulta.= " AND t2.cod_leyes IN(";
+				reset($ArrLeyes);
+				foreach($ArrLeyes as $v => $k)
+				{
+					$Consulta.= "'".$k[0]."',";
+				}
+				$Consulta= substr($Consulta,0,strlen($Consulta)-1);
+				$Consulta.= ")";
 			}
-			$Consulta= substr($Consulta,0,strlen($Consulta)-1);
-			$Consulta.= ")";
 			$Consulta.= " ORDER BY t3.cod_leyes";	
 			//echo "Consulta:".$Consulta;
 			$Resp2 = mysqli_query($link, $Consulta);

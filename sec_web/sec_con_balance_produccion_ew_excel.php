@@ -24,12 +24,12 @@
 	$Producto     = isset($_REQUEST["Producto"])?$_REQUEST["Producto"]:"";
 	$SubProducto  = isset($_REQUEST["SubProducto"])?$_REQUEST["SubProducto"]:"";
 
-	$AnoIni  = isset($_REQUEST["AnoIni"])?$_REQUEST["AnoIni"]:date("Y");
-	$MesIni  = isset($_REQUEST["MesIni"])?$_REQUEST["MesIni"]:date("m");
-	$DiaIni  = isset($_REQUEST["DiaIni"])?$_REQUEST["DiaIni"]:"01";
-	$AnoFin  = isset($_REQUEST["AnoFin"])?$_REQUEST["AnoFin"]:date("Y");
-	$MesFin  = isset($_REQUEST["MesFin"])?$_REQUEST["MesFin"]:date("m");
-	$DiaFin  = isset($_REQUEST["DiaFin"])?$_REQUEST["DiaFin"]:"31";
+	$AnoIni  = isset($_REQUEST["AnoIni"])?$_REQUEST["AnoIni"]:"";
+	$MesIni  = isset($_REQUEST["MesIni"])?$_REQUEST["MesIni"]:"";
+	$DiaIni  = isset($_REQUEST["DiaIni"])?$_REQUEST["DiaIni"]:"";
+	$AnoFin  = isset($_REQUEST["AnoFin"])?$_REQUEST["AnoFin"]:"";
+	$MesFin  = isset($_REQUEST["MesFin"])?$_REQUEST["MesFin"]:"";
+	$DiaFin  = isset($_REQUEST["DiaFin"])?$_REQUEST["DiaFin"]:"";
 
 	if ($FinoLeyes == "F")
 		$Unidad = "kg";
@@ -38,10 +38,10 @@
 	
 	if ($DiaIni=="")
 	{
-		//$DiaFin = "31";
+		$DiaFin = "31";
 		$MesFin = str_pad($MesFin,2, "0", STR_PAD_LEFT);
 		$AnoFin = $AnoFin;
-		//$DiaIni = "01";
+		$DiaIni = "01";
 		$MesIni = $MesFin;
 		$AnoIni = $AnoFin;		
 	}
@@ -169,7 +169,8 @@
 		$Consulta.= " and cod_subproducto = '".$SubProducto."'";
 		$Consulta.= " and fecha_produccion between '".$fecha_aux."' and '".$fecha_aux."'";					
 		$Consulta.= " group by cod_grupo";				
-		$Rs = mysqli_query($link, $Consulta);		
+		$Rs = mysqli_query($link, $Consulta);	
+        $SumPesoSeco=0;	//WSO	
 		while($Fila = mysqli_fetch_array($Rs))
 		{					
 			echo'<tr>';
@@ -199,14 +200,16 @@
 			$Consulta.= " and t1.cod_producto = '".$Producto."' ";			
 			$Consulta.= " and t1.cod_subproducto = '".$SubProducto."'";
 			$Consulta.= " and t1.tipo = '1'";	
-			$Consulta.= " AND t2.cod_leyes IN(";
-			reset($ArrLeyes);
-			foreach($ArrLeyes as $v => $k)
-			{
-				$Consulta.= "'".$k[0]."',";
+			if(isset($ArrLeyes) && count($ArrLeyes) > 0){	
+				$Consulta.= " AND t2.cod_leyes IN(";
+				reset($ArrLeyes);
+				foreach($ArrLeyes as $v => $k)
+				{
+					$Consulta.= "'".$k[0]."',";
+				}
+				$Consulta = substr($Consulta,0,strlen($Consulta)-1);
+				$Consulta.= ")";
 			}
-			$Consulta = substr($Consulta,0,strlen($Consulta)-1);
-			$Consulta.= ")";
 			$Consulta.= " ORDER BY t3.cod_leyes";	
 			//echo $Consulta;
 			$Resp2 = mysqli_query($link, $Consulta);
@@ -250,7 +253,7 @@
 			}			
 			//Vars. Acumuladores
 			$Cont++;
-			$SumPesoSeco = $SumPesoSeco + number_format($PesoSeco,0,"","");				  	
+			$SumPesoSeco = (int)$SumPesoSeco + number_format($PesoSeco,0,"","");				  	
 			echo'</tr>';
 		}
 		//******************************CORTE DE SEMANAS******************************************
@@ -308,14 +311,16 @@
 			$Consulta.= " and t1.cod_producto = '".$Producto."' ";
 			$Consulta.= " and t1.cod_subproducto = '".$SubProducto."'";
 			$Consulta.= " and t1.tipo = '1'";
-			$Consulta.= " AND t2.cod_leyes IN(";
-			reset($ArrLeyes);
-			foreach($ArrLeyes as $v => $k)
-			{
-				$Consulta.= "'".$k[0]."',";
+			if(isset($ArrLeyes) && count($ArrLeyes) > 0){	
+				$Consulta.= " AND t2.cod_leyes IN(";
+				reset($ArrLeyes);
+				foreach($ArrLeyes as $v => $k)
+				{
+					$Consulta.= "'".$k[0]."',";
+				}
+				$Consulta = substr($Consulta,0,strlen($Consulta)-1);
+				$Consulta.= ")";
 			}
-			$Consulta = substr($Consulta,0,strlen($Consulta)-1);
-			$Consulta.= ")";
 			$Consulta.= " ORDER BY t3.cod_leyes";	
 			//echo $Consulta;
 			$Resp2 = mysqli_query($link, $Consulta);
