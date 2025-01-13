@@ -88,7 +88,7 @@
 		$Hornos = $Horno;
 		$num_hornada = $Hornada;
 		//CONSULTO LOS DATOS DEL REGISTRO A ELIMINAR
-		$Consulta = "SELECT * from sea_web.detalle_pesaje ";
+		$Consulta = "select * from sea_web.detalle_pesaje ";
 		$Consulta.= " where fecha = '".$FechaHora."'";
 		$Consulta.= " and hornada = '".$Hornada."'";
 		$Consulta.= " and horno = '".$Hornos."'";
@@ -132,14 +132,14 @@
 	//$PesoCarro =0;
 	//$PesoNeto=0;
 
-	$Consulta = "SELECT * from sea_web.taras where tipo_tara='C' and numero='".$NumCarro."'";
+	$Consulta = "select * from sea_web.taras where tipo_tara='C' and numero='".$NumCarro."'";
 	$Respuesta = mysqli_query($link, $Consulta);
 	if ($Fila = mysqli_fetch_array($Respuesta))
 	{
 		$PesoCarro = $Fila["peso"];
 	}
 	$PesoRack=0;
-	$Consulta = "SELECT * from sea_web.taras where tipo_tara='R' and numero='".$NumRack."'";
+	$Consulta = "select * from sea_web.taras where tipo_tara='R' and numero='".$NumRack."'";
 	$Respuesta = mysqli_query($link, $Consulta);
 	if ($Fila = mysqli_fetch_array($Respuesta))
 	{
@@ -157,29 +157,29 @@
   <tr>
     <td width="18%">Fecha Producci&oacute;n</td>
     <td colspan="5"><font color="#000000" size="2">
-      <SELECT name="dia" style="width:50px" onChange="Proceso('R')">
+      <select name="dia" style="width:50px" onChange="Proceso('R')">
         <?php			
 			for ($i=1;$i<=31;$i++)
 			{
 				if (isset($dia))
 				{
 					if ($i==$dia)
-						echo "<option SELECTed value= '".$i."'>".$i."</option>";
+						echo "<option selected value= '".$i."'>".$i."</option>";
 					else
 						echo "<option value='".$i."'>".$i."</option>"; 
 				}
 				else
 				{
 					if ($i==date("j"))
-						echo "<option SELECTed value= '".$i."'>".$i."</option>";
+						echo "<option selected value= '".$i."'>".$i."</option>";
 					else
 						echo "<option value='".$i."'>".$i."</option>";    							
 				}				
 			}
 	?>
-      </SELECT>
+      </select>
       </font> <font color="#000000" size="2">
-      <SELECT name="mes" style="width:90px"  onChange="Proceso('R')">
+      <select name="mes" style="width:90px"  onChange="Proceso('R')">
         <?php
         $Meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");					
 		for($i=1;$i<=12;$i++)
@@ -187,41 +187,41 @@
 			if (isset($mes))
 			{
 				if ($i==$mes)
-					echo "<option SELECTed value ='".$i."'>".$Meses[$i-1]." </option>";
+					echo "<option selected value ='".$i."'>".$Meses[$i-1]." </option>";
 				else
 					echo "<option value='$i'>".$Meses[$i-1]."</option>\n";			
 			}
 			else
 			{
 				if ($i==date("n"))
-					echo "<option SELECTed value ='".$i."'>".$Meses[$i-1]." </option>";
+					echo "<option selected value ='".$i."'>".$Meses[$i-1]." </option>";
 				else
 					echo "<option value='$i'>".$Meses[$i-1]."</option>\n";
 			}
 		}  			
      ?>
-      </SELECT>
-      <SELECT name="ano" style="width:60px;"  onChange="Proceso('R')">
+      </select>
+      <select name="ano" style="width:60px;"  onChange="Proceso('R')">
         <?php	
 		for ($i=date("Y")-1;$i<=date("Y")+1;$i++)	
 		{
 			if (isset($ano))
 			{
 				if ($i==$ano)
-					echo "<option SELECTed value ='$i'>$i</option>";
+					echo "<option selected value ='$i'>$i</option>";
 				else	
 					echo "<option value='".$i."'>".$i."</option>";
 			}
 			else
 			{
 				if ($i==date("Y"))
-					echo "<option SELECTed value ='$i'>$i</option>";
+					echo "<option selected value ='$i'>$i</option>";
 				else	
 					echo "<option value='".$i."'>".$i."</option>";
 			}
 		} 
 ?>
-      </SELECT>
+      </select>
       <input type="hidden" name="Hora" value="<?php 
 		if (!isset($Hora))	  
 			echo date("H:i:s");
@@ -234,7 +234,7 @@
   <tr class="boxcontent">
     <td><font color="#000000">Hornos</font></td>
     <td colspan="6"><font color="#000000">
-      <SELECT name="Hornos" style="width:210px" onChange="Proceso('R')">
+      <select name="Hornos" style="width:210px" onChange="Proceso('R')">
         <option value="S">HORNO</option>
         <?php            		
 				$Consulta = "SELECT * FROM sub_clase WHERE cod_clase = 2006 ORDER BY cod_subclase";
@@ -242,14 +242,14 @@
 				while ($row = mysqli_fetch_array($rs))
 				{
 					if ($row["cod_subclase"] == $Hornos)	
-						echo '<option value="'.$row["cod_subclase"].'" SELECTed>'.$row["nombre_subclase"].'</option>';
+						echo '<option value="'.$row["cod_subclase"].'" selected>'.$row["nombre_subclase"].'</option>';
 					else 
 						echo '<option value="'.$row["cod_subclase"].'">'.$row["nombre_subclase"].'</option>';				
 				}
 
            					
 		?>
-      </SELECT>
+      </select>
       <input type="button" name="BtnNuevaHornada" value="Generar Hornada" onClick="GenerarHornada('N')">
       </font>
         <input type="button" name="BtnReiniciarHornada" value="Reiniciar Hornada" onClick="GenerarHornada('S')">
@@ -257,10 +257,10 @@
   </tr>
   <tr class="boxcontent">
     <td><font color="#000000">Num Hornada:</font></td>
-    <td colspan="6"><SELECT name="num_hornada" style="width:150px " onChange="Proceso('R')">
+    <td colspan="6"><select name="num_hornada" style="width:150px " onChange="Proceso('R')">
         <option value="S">HORNADA</option>
         <?php 
-					$Consulta = "SELECT distinct hornada from sea_web.detalle_pesaje ";
+					$Consulta = "select distinct hornada from sea_web.detalle_pesaje ";
 					$Consulta.= " where horno = '".$Hornos."' ";
 					$Consulta.= " and fecha between '".$Fecha." 00:00:00' and '".$Fecha." 23:59:59'";
 					$Consulta.= " and tipo_pesaje = 'PA'";
@@ -269,12 +269,12 @@
 					while ($Fila = mysqli_fetch_array($Respuesta))
 					{
 						if ($Fila["hornada"]==$num_hornada)
-							echo "<option SELECTed value='".$Fila["hornada"]."'>".substr($Fila["hornada"],-4)."</option>\n";								
+							echo "<option selected value='".$Fila["hornada"]."'>".substr($Fila["hornada"],-4)."</option>\n";								
 						else
 							echo "<option value='".$Fila["hornada"]."'>".substr($Fila["hornada"],-4)."</option>\n";								
 					}
 		?>
-      </SELECT>
+      </select>
         <?php
 	$HornadaAux = substr($num_hornada,-4);
 	if ($HornadaAux != '' && $HornadaAux != 0)
@@ -480,7 +480,7 @@ Peso Automatico<font color="#000000">&nbsp;</font>
 	if ($AuxPesoHM != 0 && $AuxUnidHM != 0)
 		$PromRealHM = $AuxPesoHM/$AuxUnidHM;
 	//TOTALES UNIDADES
-	$Consulta = "SELECT cod_producto, cod_subproducto, sum(unidades) as unidades, sum(peso) as peso_real ";
+	$Consulta = "select cod_producto, cod_subproducto, sum(unidades) as unidades, sum(peso) as peso_real ";
 	$Consulta.= " from sea_web.detalle_pesaje ";
 	$Consulta.= " where fecha between '".$Fecha." 00:00:00' and '".$Fecha." 23:59:59'";
 	$Consulta.= " and tipo_pesaje = 'PA'";
@@ -531,7 +531,7 @@ Peso Automatico<font color="#000000">&nbsp;</font>
 		$TotalUnid = $TotalUnid + $Fila["unidades"];		
 	}
 	//TOTALES POR RUEDA
-	$Consulta = "SELECT cod_producto, cod_subproducto, rueda, unidades, peso ";
+	$Consulta = "select cod_producto, cod_subproducto, rueda, unidades, peso ";
 	$Consulta.= " from sea_web.detalle_pesaje ";
 	$Consulta.= " where fecha between '".$Fecha." 00:00:00' and '".$Fecha." 23:59:59'";
 	$Consulta.= " and tipo_pesaje = 'PA'";
@@ -678,7 +678,7 @@ Peso Automatico<font color="#000000">&nbsp;</font>
 </table>
 <?php
 	//SELECCIONA TARAS DE CARROS
-	$Consulta = "SELECT * from sea_web.taras where tipo_tara='C' order by numero";
+	$Consulta = "select * from sea_web.taras where tipo_tara='C' order by numero";
 	$Respuesta = mysqli_query($link, $Consulta);
 	$Cont=0;
 	while ($Fila = mysqli_fetch_array($Respuesta))
@@ -688,7 +688,7 @@ Peso Automatico<font color="#000000">&nbsp;</font>
 	}
 	echo "<input type='hidden' name='CantCarros' value='".$Cont."'>\n";
 	//SELECCIONA TARAS DE RACKS
-	$Consulta = "SELECT * from sea_web.taras where tipo_tara='R' order by numero";
+	$Consulta = "select * from sea_web.taras where tipo_tara='R' order by numero";
 	$Respuesta = mysqli_query($link, $Consulta);
 	$Cont=0;
 	while ($Fila = mysqli_fetch_array($Respuesta))

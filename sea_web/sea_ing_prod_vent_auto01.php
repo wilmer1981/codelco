@@ -128,17 +128,17 @@ if(isset($_REQUEST["Hornos"])) {
 if(isset($_REQUEST["NumRueda"])) {
 	$NumRueda = $_REQUEST["NumRueda"];
 }else{
-	$NumRueda = "";
+	$NumRueda = 0;
 }
 if(isset($_REQUEST["NumCarro"])) {
 	$NumCarro = $_REQUEST["NumCarro"];
 }else{
-	$NumCarro = "";
+	$NumCarro = 0;
 }
 if(isset($_REQUEST["NumRack"])) {
 	$NumRack = $_REQUEST["NumRack"];
 }else{
-	$NumRack = "";
+	$NumRack = 0;
 }
 if(isset($_REQUEST["NumCubas"])) {
 	$NumCubas = $_REQUEST["NumCubas"];
@@ -240,6 +240,11 @@ if(isset($_REQUEST["Dia"])) {
 	$Dia = "";
 }
 
+if(isset($_REQUEST["Periodo"])) {
+	$Periodo = $_REQUEST["Periodo"];
+}else{
+	$Periodo = "";
+}
 /****************** CUBAS ****************************** */
 if(isset($_REQUEST["GrupoProd"])) {
 	$GrupoProd = $_REQUEST["GrupoProd"];
@@ -282,6 +287,11 @@ if(isset($_REQUEST["FechaHoraElim"])) {
 }else{
 	$FechaHoraElim = "";
 }
+if(isset($_REQUEST["FechaG"])) {
+	$FechaG = $_REQUEST["FechaG"];
+}else{
+	$FechaG = "";
+}
 
 	//*******************************************************************************//
 	//Valida que no se realicen cambios de movimientos, en la fecha ingresada.
@@ -304,7 +314,7 @@ switch ($Proceso)
 			$Prom = "S";	
 		else
 			$Prom = "N";
-		$PesoNeto = $PesoBruto - $TotalTara;		
+		$PesoNeto = (int)$PesoBruto - (int)$TotalTara;		
 		if (trim($UnidCorrientes) == "")
 			$UnidCorrientes = "0";
 		if (trim($UnidEspeciales) == "")
@@ -314,8 +324,9 @@ switch ($Proceso)
 		//ANODOS CORRIENTES		
 		if ($UnidCorrientes != "")
 		{			
-			$Consulta = "SELECT * from sea_web.detalle_pesaje ";
-			$Consulta.= " where fecha = '".$fecha." ".$Hora."'";
+			$Consulta = "select * from sea_web.detalle_pesaje ";
+			//$Consulta.= " where fecha = '".$fecha." ".$Hora."'";
+			$Consulta.= " where fecha = '".$FechaG."'";
 			$Consulta.= " and tipo_pesaje = 'PA'";
 			$Consulta.= " and hornada = '".$num_hornada."'";
 			$Consulta.= " and cod_producto = '17'";
@@ -343,17 +354,22 @@ switch ($Proceso)
 			else
 			{			
 				//INSERTA DATOS
-				$Insertar = "INSERT INTO sea_web.`detalle_pesaje` (`fecha`, `cod_producto`,`cod_subproducto`,`tipo_pesaje`, `horno`, `rueda`, `hornada`, ";
-				$Insertar.= " `num_carro`, `num_rack`, `unidades`, `peso`, `peso_total`, `estado`, `promedio`, `bascula`) ";
-				$Insertar.= " VALUES ('".$fecha." ".$Hora."', '17', '4', 'PA', '".$Hornos."', '".$NumRueda."', '".$num_hornada."', ";
-				$Insertar.= " '".$NumCarro."', '".$NumRack."', '".$UnidCorrientes."', '0', '".$PesoNeto."', 'P', '".$Prom."', '".$IpPc."')";
-				mysqli_query($link, $Insertar);	
+				$Consulta ="Select * from sea_web.detalle_pesaje where cod_producto = '17' and cod_subproducto  = '4' and fecha  = '".$fecha." ".$Hora."' ";
+				$resp = mysqli_query($link, $Consulta);
+				$cont = mysqli_num_rows($resp);
+				if($cont==0){
+					$Insertar = "INSERT INTO sea_web.`detalle_pesaje` (`fecha`, `cod_producto`,`cod_subproducto`,`tipo_pesaje`, `horno`, `rueda`, `hornada`, ";
+					$Insertar.= " `num_carro`, `num_rack`, `unidades`, `peso`, `peso_total`, `estado`, `promedio`, `bascula`) ";
+					$Insertar.= " VALUES ('".$fecha." ".$Hora."', '17', '4', 'PA', '".$Hornos."', '".$NumRueda."', '".$num_hornada."', ";
+					$Insertar.= " '".$NumCarro."', '".$NumRack."', '".$UnidCorrientes."', '0', '".$PesoNeto."', 'P', '".$Prom."', '".$IpPc."')";
+					mysqli_query($link, $Insertar);	
+				}
 			}
 		}
 		//ANODOS ESPECIALES
 		if ($UnidEspeciales != "")
 		{
-			$Consulta = "SELECT * from sea_web.detalle_pesaje ";
+			$Consulta = "select * from sea_web.detalle_pesaje ";
 			$Consulta.= " where fecha = '".$fecha." ".$Hora."'";
 			$Consulta.= " and tipo_pesaje = 'PA'";
 			$Consulta.= " and hornada = '".$num_hornada."'";
@@ -382,17 +398,22 @@ switch ($Proceso)
 			else
 			{			
 				//INSERTA DATOS
-				$Insertar = "INSERT INTO sea_web.`detalle_pesaje` (`fecha`, `cod_producto`,`cod_subproducto`,`tipo_pesaje`, `horno`, `rueda`, `hornada`, ";
-				$Insertar.= " `num_carro`, `num_rack`, `unidades`, `peso`, `peso_total`, `estado`, `promedio`, `bascula`) ";
-				$Insertar.= " VALUES ('".$fecha." ".$Hora."', '17', '11', 'PA', '".$Hornos."', '".$NumRueda."', '".$num_hornada."', ";
-				$Insertar.= " '".$NumCarro."', '".$NumRack."', '".$UnidEspeciales."', '0', '".$PesoNeto."', 'P', '".$Prom."', '".$IpPc."')";
-				mysqli_query($link, $Insertar);
+				$Consulta ="Select * from sea_web.detalle_pesaje where cod_producto = '17' and cod_subproducto  = '11' and fecha  = '".$fecha." ".$Hora."' ";
+				$resp = mysqli_query($link, $Consulta);
+				$cont = mysqli_num_rows($resp);
+				if($cont==0){
+					$Insertar = "INSERT INTO sea_web.`detalle_pesaje` (`fecha`, `cod_producto`,`cod_subproducto`,`tipo_pesaje`, `horno`, `rueda`, `hornada`, ";
+					$Insertar.= " `num_carro`, `num_rack`, `unidades`, `peso`, `peso_total`, `estado`, `promedio`, `bascula`) ";
+					$Insertar.= " VALUES ('".$fecha." ".$Hora."', '17', '11', 'PA', '".$Hornos."', '".$NumRueda."', '".$num_hornada."', ";
+					$Insertar.= " '".$NumCarro."', '".$NumRack."', '".$UnidEspeciales."', '0', '".$PesoNeto."', 'P', '".$Prom."', '".$IpPc."')";
+					mysqli_query($link, $Insertar);
+				}
 			}
 		}
 		//ANODOS HOJAS MADRE
 		if ($UnidHM != "")
 		{
-			$Consulta = "SELECT * from sea_web.detalle_pesaje ";
+			$Consulta = "select * from sea_web.detalle_pesaje ";
 			$Consulta.= " where fecha = '".$fecha." ".$Hora."'";
 			$Consulta.= " and tipo_pesaje = 'PA'";
 			$Consulta.= " and hornada = '".$num_hornada."'";
@@ -421,11 +442,16 @@ switch ($Proceso)
 			else
 			{			
 				//INSERTA DATOS
-				$Insertar = "INSERT INTO sea_web.`detalle_pesaje` (`fecha`, `cod_producto`,`cod_subproducto`,`tipo_pesaje`, `horno`, `rueda`, `hornada`, ";
-				$Insertar.= " `num_carro`, `num_rack`, `unidades`, `peso`, `peso_total`, `estado`, `promedio`, `bascula`) ";
-				$Insertar.= " VALUES ('".$fecha." ".$Hora."', '17', '8', 'PA', '".$Hornos."', '".$NumRueda."', '".$num_hornada."', ";
-				$Insertar.= " '".$NumCarro."', '".$NumRack."', '".$UnidHM."', '0', '".$PesoNeto."', 'P', '".$Prom."', '".$IpPc."')";
-				mysqli_query($link, $Insertar);
+				$Consulta ="Select * from sea_web.detalle_pesaje where cod_producto = '17' and cod_subproducto  = '8' and fecha  = '".$fecha." ".$Hora."' ";
+			    $resp = mysqli_query($link, $Consulta);
+				$cont = mysqli_num_rows($resp);
+				if($cont==0){
+					$Insertar = "INSERT INTO sea_web.`detalle_pesaje` (`fecha`, `cod_producto`,`cod_subproducto`,`tipo_pesaje`, `horno`, `rueda`, `hornada`, ";
+					$Insertar.= " `num_carro`, `num_rack`, `unidades`, `peso`, `peso_total`, `estado`, `promedio`, `bascula`) ";
+					$Insertar.= " VALUES ('".$fecha." ".$Hora."', '17', '8', 'PA', '".$Hornos."', '".$NumRueda."', '".$num_hornada."', ";
+					$Insertar.= " '".$NumCarro."', '".$NumRack."', '".$UnidHM."', '0', '".$PesoNeto."', 'P', '".$Prom."', '".$IpPc."')";
+					mysqli_query($link, $Insertar);
+				}
 			}
 		}
 		//ELIMINA REGISTROS CON UNIDADES EN 0 CERO DE LA HORNADA
@@ -494,7 +520,7 @@ switch ($Proceso)
 			if ($Fila2 = mysqli_fetch_array($Resp2))
 			{
 				//CONSULTO EL PESO TOTAL DE LAS PESADAS
-				$Consulta = "SELECT DISTINCT fecha, peso_total ";
+				$Consulta = "select DISTINCT fecha, peso_total ";
 				$Consulta.= " from sea_web.detalle_pesaje ";
 				$Consulta.= " where hornada = '".$num_hornada."'";		
 				$Consulta.= " and horno = '".$Hornos."'";
@@ -508,7 +534,7 @@ switch ($Proceso)
 				$PesoHM = $Fila2["peso"];
 				$PesoRestante = $PesoTotal - $PesoHM;				
 				//TOTAL DE UNIDADES DE LOS OTROS PRODUCTOS
-				$Consulta = "SELECT sum(unidades) as unidades ";
+				$Consulta = "select sum(unidades) as unidades ";
 				$Consulta.= " from sea_web.detalle_pesaje ";
 				$Consulta.= " where hornada = '".$num_hornada."'";
 				$Consulta.= " and horno = '".$Hornos."'";
@@ -525,7 +551,7 @@ switch ($Proceso)
 				}
 				//echo "PESO TOTAL=".$PesoTotal." PROMEDIO H.M.=".$Fila["promedio"]." PESO H.M.=".$PesoHM." PESO RESTANTE=".$PesoRestante." PROM. RESTANTE=".$PromedioCtte."<br>";
 				//TOTAL DE UNIDADES POR CADA UNO DE LOS OTROS PRODUCTOS
-				$Consulta = "SELECT cod_producto, cod_subproducto, sum(unidades) as unidades ";
+				$Consulta = "select cod_producto, cod_subproducto, sum(unidades) as unidades ";
 				$Consulta.= " from sea_web.detalle_pesaje ";
 				$Consulta.= " where hornada = '".$num_hornada."'";
 				$Consulta.= " and horno = '".$Hornos."'";
@@ -537,7 +563,7 @@ switch ($Proceso)
 				while ($Fila3 = mysqli_fetch_array($Resp3))
 				{
 					//ACTUALIZA LAS UNIDADES DEL RESTO DE LOS PRODUCTO
-					$Actualizar = "UPDATE sea_web.detalle_pesaje set ";
+					$Actualizar = "update sea_web.detalle_pesaje set ";
 					$Actualizar.= " peso = (unidades * ".str_replace(",",".",$PromedioCtte).")";
 					$Actualizar.= " where hornada = '".$num_hornada."'";		
 					$Actualizar.= " and horno = '".$Hornos."'";
@@ -548,7 +574,7 @@ switch ($Proceso)
 					mysqli_query($link, $Actualizar);
 				}
 				//CONSULTO EL PESO TOTAL DE LAS UNIDADES Y LO COMPARO CON EL PESO TOTAL
-				$Consulta = "SELECT sum(peso) as peso ";
+				$Consulta = "select sum(peso) as peso ";
 				$Consulta.= " from sea_web.detalle_pesaje ";
 				$Consulta.= " where hornada = '".$num_hornada."'";		
 				$Consulta.= " and horno = '".$Hornos."'";
@@ -562,7 +588,7 @@ switch ($Proceso)
 						//LE QUITO LA DIF. DE MAS A LAS H.M.
 						$Diferencia = $Fila3["peso"] - $PesoTotal;
 						//CONSULTO LA PESADA DE LA HORNADA DE H.M. CON MAS PESO
-						$Consulta = "SELECT * ";
+						$Consulta = "select * ";
 						$Consulta.= " from sea_web.detalle_pesaje ";
 						$Consulta.= " where hornada = '".$num_hornada."'";
 						$Consulta.= " and horno = '".$Hornos."'";
@@ -575,7 +601,7 @@ switch ($Proceso)
 						if ($Fila4 = mysqli_fetch_array($Resp4))
 						{
 							//ACTUALIZA LA PESADA DE LA HORNADA CON MAS PESO
-							$Actualizar = "UPDATE sea_web.detalle_pesaje set ";
+							$Actualizar = "update sea_web.detalle_pesaje set ";
 							$Actualizar.= " peso = (peso - ".str_replace(",",".",$Diferencia).")";
 							$Actualizar.= " where hornada = '".$num_hornada."'";		
 							$Actualizar.= " and horno = '".$Hornos."'";
@@ -596,7 +622,7 @@ switch ($Proceso)
 							//LE DOY LA DIF. DE MAS A LAS H.M.
 							$Diferencia =  $PesoTotal - $Fila3["peso"];
 							//CONSULTO LA PESADA DE LA HORNADA DE H.M. CON MAS PESO
-							$Consulta = "SELECT * ";
+							$Consulta = "select * ";
 							$Consulta.= " from sea_web.detalle_pesaje ";
 							$Consulta.= " where hornada = '".$num_hornada."'";
 							$Consulta.= " and horno = '".$Hornos."'";
@@ -609,7 +635,7 @@ switch ($Proceso)
 							if ($Fila4 = mysqli_fetch_array($Resp4))
 							{
 								//ACTUALIZA LA PESADA DE LA HORNADA CON MAS PESO
-								$Actualizar = "UPDATE sea_web.detalle_pesaje set ";
+								$Actualizar = "update sea_web.detalle_pesaje set ";
 								$Actualizar.= " peso = (peso + ".str_replace(",",".",$Diferencia).")";
 								$Actualizar.= " where hornada = '".$num_hornada."'";		
 								$Actualizar.= " and horno = '".$Hornos."'";
@@ -652,7 +678,7 @@ switch ($Proceso)
 			}		 
 			//LOS COMENTARIOS SON PARA TODOS IGUALES
 			/************* Hojas Madres *********/	
-			$Consulta = "SELECT sum(peso) as peso, sum(unidades) as unidades ";
+			$Consulta = "select sum(peso) as peso, sum(unidades) as unidades ";
 			$Consulta.= " from sea_web.detalle_pesaje ";
 			$Consulta.= " where hornada = '".$num_hornada."'";
 			$Consulta.= " and horno = '".$Hornos."'";
@@ -666,7 +692,7 @@ switch ($Proceso)
 				if($Fila["unidades"] != 0)
 				{	
 					//CONSULTA SI EL MOV. YA FUE CREADO
-					$Consulta = "SELECT * from sea_web.movimientos ";
+					$Consulta = "select * from sea_web.movimientos ";
 					$Consulta.= " where tipo_movimiento = '1'";
 					$Consulta.= " and cod_producto = '17'";
 					$Consulta.= " and cod_subproducto = '8'";
@@ -714,7 +740,7 @@ switch ($Proceso)
 				}			
 			}
 			/********************** Corrientes ********************/			
-			$Consulta = "SELECT sum(peso) as peso, sum(unidades) as unidades ";
+			$Consulta = "select sum(peso) as peso, sum(unidades) as unidades ";
 			$Consulta.= " from sea_web.detalle_pesaje ";
 			$Consulta.= " where hornada = '".$num_hornada."'";
 			$Consulta.= " and horno = '".$Hornos."'";
@@ -727,7 +753,7 @@ switch ($Proceso)
 			{ 
 				if($Fila["unidades"] != 0)
 				{			
-					$Consulta = "SELECT * from sea_web.movimientos ";
+					$Consulta = "select * from sea_web.movimientos ";
 					$Consulta.= " where tipo_movimiento = '1'";
 					$Consulta.= " and cod_producto = '17'";
 					$Consulta.= " and cod_subproducto = '4'";
@@ -771,7 +797,7 @@ switch ($Proceso)
 				}	
 			}		
 			/***************** Especiales **************/	  
-			$Consulta = "SELECT sum(peso) as peso, sum(unidades) as unidades ";
+			$Consulta = "select sum(peso) as peso, sum(unidades) as unidades ";
 			$Consulta.= " from sea_web.detalle_pesaje ";
 			$Consulta.= " where hornada = '".$num_hornada."'";
 			$Consulta.= " and horno = '".$Hornos."'";
@@ -785,7 +811,7 @@ switch ($Proceso)
 				if($Fila["unidades"] != 0)
 				{	
 					//CONSULTA SI EL MOV. YA FUE CREADO
-					$Consulta = "SELECT * from sea_web.movimientos ";
+					$Consulta = "select * from sea_web.movimientos ";
 					$Consulta.= " where tipo_movimiento = '1'";
 					$Consulta.= " and cod_producto = '17'";
 					$Consulta.= " and cod_subproducto = '11'";
@@ -840,7 +866,7 @@ switch ($Proceso)
 		mysqli_query($link, $Eliminar);
 		$num_hornada = $HornadaElim;
 		//CALCULAR PROMEDIOS
-		$Consulta = "SELECT sum(peso_total) as peso_total, sum(unidades) as unidades,";
+		$Consulta = "select sum(peso_total) as peso_total, sum(unidades) as unidades,";
 		$Consulta.= " (sum(peso_total)/sum(unidades)) as promedio ";
 		$Consulta.= " from sea_web.detalle_pesaje ";
 		$Consulta.= " where hornada = '".$num_hornada."'";		
@@ -866,7 +892,7 @@ switch ($Proceso)
 			$Actualizar.= " and promedio <> 'S'";
 			mysqli_query($link, $Actualizar);
 			//CONSULTO EL PESO DE LAS H.M.
-			$Consulta = "SELECT sum(peso) as peso ";
+			$Consulta = "select sum(peso) as peso ";
 			$Consulta.= " from sea_web.detalle_pesaje ";
 			$Consulta.= " where hornada = '".$num_hornada."'";		
 			$Consulta.= " and tipo_pesaje = 'PA'";
@@ -877,7 +903,7 @@ switch ($Proceso)
 			if ($Fila2 = mysqli_fetch_array($Resp2))
 			{
 				//CONSULTO EL PESO TOTAL DE LAS PESADAS
-				$Consulta = "SELECT DISTINCT fecha, peso_total ";
+				$Consulta = "select DISTINCT fecha, peso_total ";
 				$Consulta.= " from sea_web.detalle_pesaje ";
 				$Consulta.= " where hornada = '".$num_hornada."'";	
 				$Consulta.= " and tipo_pesaje = 'PA'";
@@ -890,7 +916,7 @@ switch ($Proceso)
 				$PesoHM = $Fila2["peso"];
 				$PesoRestante = $PesoTotal - $PesoHM;				
 				//TOTAL DE UNIDADES DE LOS OTROS PRODUCTOS
-				$Consulta = "SELECT sum(unidades) as unidades ";
+				$Consulta = "select sum(unidades) as unidades ";
 				$Consulta.= " from sea_web.detalle_pesaje ";
 				$Consulta.= " where hornada = '".$num_hornada."'";
 				$Consulta.= " and tipo_pesaje = 'PA'";
@@ -906,7 +932,7 @@ switch ($Proceso)
 				}
 				//echo "PESO TOTAL=".$PesoTotal." PROMEDIO H.M.=".$Fila["promedio"]." PESO H.M.=".$PesoHM." PESO RESTANTE=".$PesoRestante." PROM. RESTANTE=".$PromedioCtte."<br>";
 				//TOTAL DE UNIDADES POR CADA UNO DE LOS OTROS PRODUCTOS
-				$Consulta = "SELECT cod_producto, cod_subproducto, sum(unidades) as unidades ";
+				$Consulta = "select cod_producto, cod_subproducto, sum(unidades) as unidades ";
 				$Consulta.= " from sea_web.detalle_pesaje ";
 				$Consulta.= " where hornada = '".$num_hornada."'";
 				$Consulta.= " and tipo_pesaje = 'PA'";
@@ -917,7 +943,7 @@ switch ($Proceso)
 				while ($Fila3 = mysqli_fetch_array($Resp3))
 				{
 					//ACTUALIZA LAS UNIDADES DEL RESTO DE LOS PRODUCTO
-					$Actualizar = "UPDATE sea_web.detalle_pesaje set ";
+					$Actualizar = "update sea_web.detalle_pesaje set ";
 					$Actualizar.= " peso = (unidades * ".str_replace(",",".",$PromedioCtte).")";
 					$Actualizar.= " where hornada = '".$num_hornada."'";	
 					$Actualizar.= " and tipo_pesaje = 'PA'";
@@ -927,7 +953,7 @@ switch ($Proceso)
 					mysqli_query($link, $Actualizar);
 				}
 				//CONSULTO EL PESO TOTAL DE LAS UNIDADES Y LO COMPARO CON EL PESO TOTAL
-				$Consulta = "SELECT sum(peso) as peso ";
+				$Consulta = "select sum(peso) as peso ";
 				$Consulta.= " from sea_web.detalle_pesaje ";
 				$Consulta.= " where hornada = '".$num_hornada."'";		
 				$Consulta.= " and tipo_pesaje = 'PA'";	
@@ -940,7 +966,7 @@ switch ($Proceso)
 						//LE QUITO LA DIF. DE MAS A LAS H.M.
 						$Diferencia = $Fila3["peso"] - $PesoTotal;
 						//CONSULTO LA PESADA DE LA HORNADA DE H.M. CON MAS PESO
-						$Consulta = "SELECT * ";
+						$Consulta = "select * ";
 						$Consulta.= " from sea_web.detalle_pesaje ";
 						$Consulta.= " where hornada = '".$num_hornada."'";
 						$Consulta.= " and tipo_pesaje = 'PA'";
@@ -952,7 +978,7 @@ switch ($Proceso)
 						if ($Fila4 = mysqli_fetch_array($Resp4))
 						{
 							//ACTUALIZA LA PESADA DE LA HORNADA CON MAS PESO
-							$Actualizar = "UPDATE sea_web.detalle_pesaje set ";
+							$Actualizar = "update sea_web.detalle_pesaje set ";
 							$Actualizar.= " peso = (peso - ".str_replace(",",".",$Diferencia).")";
 							$Actualizar.= " where hornada = '".$num_hornada."'";	
 							$Actualizar.= " and tipo_pesaje = 'PA'";
@@ -972,7 +998,7 @@ switch ($Proceso)
 							//LE DOY LA DIF. DE MAS A LAS H.M.
 							$Diferencia =  $PesoTotal - $Fila3["peso"];
 							//CONSULTO LA PESADA DE LA HORNADA DE H.M. CON MAS PESO
-							$Consulta = "SELECT * ";
+							$Consulta = "select * ";
 							$Consulta.= " from sea_web.detalle_pesaje ";
 							$Consulta.= " where hornada = '".$num_hornada."'";
 							$Consulta.= " and tipo_pesaje = 'PA'";	
@@ -984,7 +1010,7 @@ switch ($Proceso)
 							if ($Fila4 = mysqli_fetch_array($Resp4))
 							{
 								//ACTUALIZA LA PESADA DE LA HORNADA CON MAS PESO
-								$Actualizar = "UPDATE sea_web.detalle_pesaje set ";
+								$Actualizar = "update sea_web.detalle_pesaje set ";
 								$Actualizar.= " peso = (peso + ".str_replace(",",".",$Diferencia).")";
 								$Actualizar.= " where hornada = '".$num_hornada."'";	
 								$Actualizar.= " and tipo_pesaje = 'PA'";
@@ -1002,7 +1028,7 @@ switch ($Proceso)
 			}
 		}
 		//FINALIZAR HORNADA
-		$Consulta = "SELECT distinct estado from sea_web.detalle_pesaje "; 
+		$Consulta = "select distinct estado from sea_web.detalle_pesaje "; 
 		$Consulta.= " where hornada = '".$num_hornada."'";
 		$Consulta.= " and tipo_pesaje = 'PA'";	
 		$Respuesta = mysqli_query($link, $Consulta);
@@ -1021,7 +1047,7 @@ switch ($Proceso)
 			$Actualizar.= " and tipo_pesaje = 'PA'";	
 			mysqli_query($link, $Actualizar);
 			/************* Hojas Madres *********/	
-			$Consulta = "SELECT sum(peso) as peso, sum(unidades) as unidades ";
+			$Consulta = "select sum(peso) as peso, sum(unidades) as unidades ";
 			$Consulta.= " from sea_web.detalle_pesaje ";
 			$Consulta.= " where hornada = '".$num_hornada."'";
 			$Consulta.= " and tipo_pesaje = 'PA'";
@@ -1034,7 +1060,7 @@ switch ($Proceso)
 				if($Fila["unidades"] != 0)
 				{	
 					//CONSULTA SI EL MOV. YA FUE CREADO
-					$Consulta = "SELECT * from sea_web.movimientos ";
+					$Consulta = "select * from sea_web.movimientos ";
 					$Consulta.= " where tipo_movimiento = '1'";
 					$Consulta.= " and cod_producto = '17'";
 					$Consulta.= " and cod_subproducto = '8'";
@@ -1082,7 +1108,7 @@ switch ($Proceso)
 				}			
 			}
 			/********************** Corrientes ********************/			
-			$Consulta = "SELECT sum(peso) as peso, sum(unidades) as unidades ";
+			$Consulta = "select sum(peso) as peso, sum(unidades) as unidades ";
 			$Consulta.= " from sea_web.detalle_pesaje ";
 			$Consulta.= " where hornada = '".$num_hornada."'";
 			$Consulta.= " and tipo_pesaje = 'PA'";
@@ -1094,7 +1120,7 @@ switch ($Proceso)
 			{ 
 				if($Fila["unidades"] != 0)
 				{			
-					$Consulta = "SELECT * from sea_web.movimientos ";
+					$Consulta = "select * from sea_web.movimientos ";
 					$Consulta.= " where tipo_movimiento = '1'";
 					$Consulta.= " and cod_producto = '17'";
 					$Consulta.= " and cod_subproducto = '4'";
@@ -1138,7 +1164,7 @@ switch ($Proceso)
 				}	
 			}		
 			/***************** Especiales **************/	  
-			$Consulta = "SELECT sum(peso) as peso, sum(unidades) as unidades ";
+			$Consulta = "select sum(peso) as peso, sum(unidades) as unidades ";
 			$Consulta.= " from sea_web.detalle_pesaje ";
 			$Consulta.= " where hornada = '".$num_hornada."'";
 			$Consulta.= " and tipo_pesaje = 'PA'";
@@ -1151,7 +1177,7 @@ switch ($Proceso)
 				if($Fila["unidades"] != 0)
 				{	
 					//CONSULTA SI EL MOV. YA FUE CREADO
-					$Consulta = "SELECT * from sea_web.movimientos ";
+					$Consulta = "select * from sea_web.movimientos ";
 					$Consulta.= " where tipo_movimiento = '1'";
 					$Consulta.= " and cod_producto = '17'";
 					$Consulta.= " and cod_subproducto = '11'";
@@ -1250,7 +1276,7 @@ switch ($Proceso)
 			$num_hornada = $ano.str_pad($mes,2,"0",STR_PAD_LEFT).$num_hornada; 
 			if ($num_hornada != "")
 			{
-				$Consulta = "SELECT * from sea_web.detalle_pesaje ";
+				$Consulta = "select * from sea_web.detalle_pesaje ";
 				$Consulta.= " where hornada = '".$num_hornada."'";
 				$Consulta.= " and fecha between '".$fecha." 00:00:00' and '".$fecha." 23:59:59'";
 				$Consulta.= " and horno = '".$Hornos."'";
@@ -1264,7 +1290,7 @@ switch ($Proceso)
 				}
 				else
 				{
-					$Consulta = "SELECT * from sea_web.detalle_pesaje ";
+					$Consulta = "select * from sea_web.detalle_pesaje ";
 					$Consulta.= " where estado <> 'F'";
 					$Consulta.= " and fecha between '".$fecha." 00:00:00' and '".$fecha." 23:59:59'";
 					$Consulta.= " and horno = '".$Hornos."'";
@@ -1332,7 +1358,7 @@ switch ($Proceso)
 		if ($Fila = mysqli_fetch_array($Respuesta))
 		{
 			//ACTUALIZA DATOS
-			$Actualizar = "UPDATE proyecto_modernizacion.sub_clase set ";
+			$Actualizar = "update proyecto_modernizacion.sub_clase set ";
 			$Actualizar.= " valor_subclase1 = '".$Periodo."'";
 			$Actualizar.= " where cod_clase = '2012' and cod_subclase = '1'";
 			mysqli_query($link, $Actualizar);
@@ -1353,7 +1379,7 @@ switch ($Proceso)
 			$FechaProd = $ano."-".$mes."-".$dia;	
 			//BUSCA PRIMERO DENTRO DEL DIA SI HAY PESADAS PARA ESE GRUPO, SI LAS HAY LE ASIGNA EL MISMO GRUPO/LADO
 			//YA QUE NO PUEDE ESTAR EL MISMO GRUPO 2 VECES EN EL DIA
-			$Consulta = "SELECT * from sea_web.detalle_pesaje ";
+			$Consulta = "select * from sea_web.detalle_pesaje ";
 			$Consulta.= " where tipo_pesaje = 'RA'";
 			$Consulta.= " and fecha between '".$FechaProd." 00:00:00' and '".$FechaProd." 23:59:59'";
 			$Consulta.= " and cod_producto = '".$Grupo."' and estado = 'F'";
@@ -1451,7 +1477,7 @@ switch ($Proceso)
 			$SegAux=date('s');
 			$Hora=$HoraAux.":".$MinAux.":".$SegAux;		
 			$PesoNeto = $PesoBruto - $TotalTara;									
-			$Consulta = "SELECT * from sea_web.detalle_pesaje ";
+			$Consulta = "select * from sea_web.detalle_pesaje ";
 			$Consulta.= " where fecha = '".$fecha." ".$Hora."'";
 			$Consulta.= " and tipo_pesaje = 'RA'";
 			$Consulta.= " and cod_producto = '".$Grupo."'";
@@ -1475,8 +1501,8 @@ switch ($Proceso)
 				mysqli_query($link, $Actualizar);
 			}
 			else
-			{	
-				//INSERTA DATOS		
+			{			
+				//INSERTA DATOS
 				$Insertar = "INSERT INTO sea_web.`detalle_pesaje` (`fecha`, `cod_producto`,`cod_subproducto`,`tipo_pesaje`, `horno`, `rueda`, `hornada`, ";
 				$Insertar.= " `num_carro`, `num_rack`, `unidades`, `peso`, `peso_total`, `estado`, `promedio`, `fecha_carga`, `bascula`) ";
 				$Insertar.= " VALUES ('".$fecha." ".$Hora."', '".$Grupo."', '".$Lado."', 'RA', '".$NumCubas."', '0', '0', ";
@@ -1511,7 +1537,7 @@ switch ($Proceso)
 				mysqli_query($link, $Actualizar);
 				//FINALIZAR HORNADA Graba datos a tablas principales													
 				//CALCULA EL PESO PRODUCCION
-				$Consulta = "SELECT sum(peso_total) as peso_prod from sea_web.detalle_pesaje ";
+				$Consulta = "select sum(peso_total) as peso_prod from sea_web.detalle_pesaje ";
 				$Consulta.= " where tipo_pesaje = 'RA'";
 				$Consulta.= " and cod_producto = '".$Grupo."'";
 				$Consulta.= " and cod_subproducto = '".$Lado."'";
@@ -1883,7 +1909,7 @@ switch ($Proceso)
 					}								
 					//SE RECALCULA lA HORNADA (= QUE UN MODIFICAR)
 					//CALCULA EL PESO PRODUCCION
-					$Consulta = "SELECT sum(peso_total) as peso_prod from sea_web.detalle_pesaje ";
+					$Consulta = "select sum(peso_total) as peso_prod from sea_web.detalle_pesaje ";
 					$Consulta.= " where tipo_pesaje = 'RA'";
 					$Consulta.= " and cod_producto = '".$Grupo."'";
 					$Consulta.= " and cod_subproducto = '".$Lado."'";
@@ -2132,9 +2158,8 @@ switch ($Proceso)
 			$Hora = $HoraAux.":".$MinAux.":".$SegAux;
 			$Fecha = $ano."-".$mes."-".$dia;
 			$PesoNeto = $PesoBruto - $TotalTara;									
-			$Consulta = "SELECT * from sea_web.detalle_pesaje ";
-			$Consulta.= " where fecha = '".$Fecha."'";
-			//$Consulta.= " where fecha = '".$FechaG."'";
+			$Consulta = "select * from sea_web.detalle_pesaje ";
+			$Consulta.= " where fecha = '".$FechaG."'";
 			$Consulta.= " and tipo_pesaje = 'RA'";
 			$Consulta.= " and cod_producto = '".$Grupo."'";
 			$Consulta.= " and cod_subproducto = '".$Lado."'";
@@ -2149,8 +2174,7 @@ switch ($Proceso)
 				$Actualizar.= " , num_rack = '".$NumRack."'";
 				$Actualizar.= " , peso_total = '".$PesoNeto."'";
 				$Actualizar.= " , bascula = '".$IpPc."' ";
-				//$Actualizar.= " where fecha = '".$FechaG."'";
-				$Actualizar.= " where fecha = '".$Fecha."'";
+				$Actualizar.= " where fecha = '".$FechaG."'";
 				$Actualizar.= " and tipo_pesaje = 'RA'";
 				$Actualizar.= " and cod_producto = '".$Grupo."'";
 				$Actualizar.= " and cod_subproducto = '".$Lado."'";			
@@ -2165,8 +2189,8 @@ switch ($Proceso)
 				//INSERTA DATOS CUANDO EL DATO NO SE ENCUENTRA
 				$Insertar = "INSERT INTO sea_web.`detalle_pesaje` (`fecha`, `cod_producto`,`cod_subproducto`,`tipo_pesaje`, `horno`, `rueda`, `hornada`, ";
 				$Insertar.= " `num_carro`, `num_rack`, `unidades`, `peso`, `peso_total`, `estado`, `promedio`, `fecha_carga`, `bascula`) ";
-				$Insertar.= " VALUES ('".$Fecha." ".$Hora."', '".$Grupo."', '".$Lado."', 'RA', '".$NumCubas."', '', '', ";
-				$Insertar.= " '".$NumCarro."', '".$NumRack."', '', '', '".$PesoNeto."', 'P', '', '".$FechaCarga."', '".$IpPc."')";
+				$Insertar.= " VALUES ('".$Fecha." ".$Hora."', '".$Grupo."', '".$Lado."', 'RA', '".$NumCubas."', '0', '0', ";
+				$Insertar.= " '".$NumCarro."', '".$NumRack."', '0', '0', '".$PesoNeto."', 'P', '', '".$FechaCarga."', '".$IpPc."')";
 				mysqli_query($link, $Insertar);	
 			}
 			//OTRAS OPCIONES
@@ -2193,7 +2217,7 @@ switch ($Proceso)
 				$Actualizar.= " and tipo_pesaje = 'RA'";	
 				mysqli_query($link, $Actualizar);
 				//CALCULA EL PESO PRODUCCION
-				$Consulta = "SELECT sum(peso_total) as peso_prod from sea_web.detalle_pesaje ";
+				$Consulta = "select sum(peso_total) as peso_prod from sea_web.detalle_pesaje ";
 				$Consulta.= " where tipo_pesaje = 'RA'";
 				$Consulta.= " and cod_producto = '".$Grupo."'";
 				$Consulta.= " and cod_subproducto = '".$Lado."'";
@@ -2438,7 +2462,7 @@ switch ($Proceso)
 				$FechaCarga = $Fila["fecha_movimiento"];		
 			}
 			//RESCATA HORNADA CREADA EN LA PRODUCCION SI LA UBIERA
-			$Consulta = "SELECT distinct hornada ";
+			$Consulta = "select distinct hornada ";
 			$Consulta.= " from sea_web.detalle_pesaje ";
 			$Consulta.= " where tipo_pesaje = 'RHM'";
 			$Consulta.= " and fecha between '".$Fecha." 00:00:00' and '".$Fecha." 23:59:59'";
@@ -2457,7 +2481,7 @@ switch ($Proceso)
 			$Insertar.= " '".$GrupoProd."', '".$Cuba."', '".$FechaHora."', 'RHM', '', '', '".$Hornada."', '', '', '".$Unidades."', '".$Peso."', '', 'C', '', '".$FechaCarga."', '".$IpPc."')";
 			mysqli_query($link, $Insertar);
 			//CONSULTA ESTADO DEL GRUPO.
-			$Consulta = "SELECT distinct estado from sea_web.detalle_pesaje ";
+			$Consulta = "select distinct estado from sea_web.detalle_pesaje ";
 			$Consulta.= " where fecha between '".$Fecha." 00:00:00' and '".$Fecha." 23:59:59'";
 			$Consulta.= " and cod_producto = '".$Grupo."'";
 			$Consulta.= " and tipo_pesaje = 'RHM'";
@@ -2477,7 +2501,7 @@ switch ($Proceso)
 					mysqli_query($link, $Actualizar);
 					//FINALIZAR HORNADA Graba datos a tablas principales													
 					//CALCULA EL PESO PRODUCCION
-					$Consulta = "SELECT sum(peso_total) as peso_prod from sea_web.detalle_pesaje ";
+					$Consulta = "select sum(peso_total) as peso_prod from sea_web.detalle_pesaje ";
 					$Consulta.= " where tipo_pesaje = 'RHM'";
 					$Consulta.= " and cod_producto = '".$Grupo."'";
 					$Consulta.= " and estado <> 'C'"; //NO LAS CUBAS
@@ -2486,7 +2510,7 @@ switch ($Proceso)
 					if ($Fila = mysqli_fetch_array($Respuesta))				
 						$PesoProduccion = $Fila["peso_prod"];		
 					//CALCULA EL PESO Y UNIDADES CARGADAS
-					$Consulta = "SELECT hornada, sum(unidades) as unid_carga, sum(peso) as peso_carga ";
+					$Consulta = "select hornada, sum(unidades) as unid_carga, sum(peso) as peso_carga ";
 					$Consulta.= " from sea_web.detalle_pesaje ";
 					$Consulta.= " where tipo_pesaje = 'RHM'";
 					$Consulta.= " and cod_producto = '".$Grupo."'";
@@ -2608,7 +2632,7 @@ switch ($Proceso)
 			$Grupo = $GrupoElim;
 			$Cuba = $CubaElim;					
 			//CONSULTA ESTADO DEL GRUPO.
-			$Consulta = "SELECT distinct estado from sea_web.detalle_pesaje ";
+			$Consulta = "select distinct estado from sea_web.detalle_pesaje ";
 			$Consulta.= " where fecha between '".$Fecha." 00:00:00' and '".$Fecha." 23:59:59'";
 			$Consulta.= " and cod_producto = '".$Grupo."'";
 			$Consulta.= " and tipo_pesaje = 'RHM'";
@@ -2618,7 +2642,7 @@ switch ($Proceso)
 			{
 				if ($Fila["estado"] == "F") //YA FUE FINALIZADO EL GRUPO Y HAY QUE MODIFICAR LA HORNADA
 				{
-					$Consulta = "SELECT distinct hornada from sea_web.detalle_pesaje ";
+					$Consulta = "select distinct hornada from sea_web.detalle_pesaje ";
 					$Consulta.= " where fecha between '".$Fecha." 00:00:00' and '".$Fecha." 23:59:59'";
 					$Consulta.= " and cod_producto = '".$Grupo."'";
 					$Consulta.= " and tipo_pesaje = 'RHM'";
@@ -2644,7 +2668,7 @@ switch ($Proceso)
 					mysqli_query($link, $Eliminar);
 					//HACE UNA MODIFICACION EN LA HORNADA Y LOS MOVIMIENTOS DE ELLA
 					//CALCULA EL PESO PRODUCCION
-					$Consulta = "SELECT sum(peso_total) as peso_prod from sea_web.detalle_pesaje ";
+					$Consulta = "select sum(peso_total) as peso_prod from sea_web.detalle_pesaje ";
 					$Consulta.= " where tipo_pesaje = 'RHM'";
 					$Consulta.= " and cod_producto = '".$Grupo."'";
 					$Consulta.= " and estado <> 'C'"; //NO LAS CUBAS
@@ -2653,7 +2677,7 @@ switch ($Proceso)
 					if ($Fila = mysqli_fetch_array($Respuesta))				
 						$PesoProduccion = $Fila["peso_prod"];		
 					//CALCULA EL PESO Y UNIDADES CARGADAS
-					$Consulta = "SELECT hornada, sum(unidades) as unid_carga, sum(peso) as peso_carga ";
+					$Consulta = "select hornada, sum(unidades) as unid_carga, sum(peso) as peso_carga ";
 					$Consulta.= " from sea_web.detalle_pesaje ";
 					$Consulta.= " where tipo_pesaje = 'RHM'";
 					$Consulta.= " and cod_producto = '".$Grupo."'";
@@ -2740,7 +2764,7 @@ switch ($Proceso)
 		case "G_RestosHM":
 			$Fecha = $ano."-".$mes."-".$dia;
 			$PesoNeto = $PesoBruto - $TotalTara;						
-			$Consulta = "SELECT * from sea_web.detalle_pesaje ";
+			$Consulta = "select * from sea_web.detalle_pesaje ";
 			$Consulta.= " where fecha = '".$Fecha." ".$Hora."'";
 			$Consulta.= " and tipo_pesaje = 'RHM'";
 			$Consulta.= " and cod_producto = '".$Grupo."'";
@@ -2801,7 +2825,7 @@ switch ($Proceso)
 					$mes = "0".$mes;
 				$ano_mes = $ano.$mes;
 				//CALCULA EL PESO PRODUCCION
-				$Consulta = "SELECT sum(peso_total) as peso_prod from sea_web.detalle_pesaje ";
+				$Consulta = "select sum(peso_total) as peso_prod from sea_web.detalle_pesaje ";
 				$Consulta.= " where tipo_pesaje = 'RHM'";
 				$Consulta.= " and cod_producto = '".$Grupo."'";
 				$Consulta.= " and estado <> 'C'"; //NO LAS CUBAS
@@ -2810,7 +2834,7 @@ switch ($Proceso)
 				if ($Fila = mysqli_fetch_array($Respuesta))				
 					$PesoProduccion = $Fila["peso_prod"];		
 				//CALCULA EL PESO Y UNIDADES CARGADAS
-				$Consulta = "SELECT sum(unidades) as unid_carga, sum(peso) as peso_carga from sea_web.detalle_pesaje ";
+				$Consulta = "select sum(unidades) as unid_carga, sum(peso) as peso_carga from sea_web.detalle_pesaje ";
 				$Consulta.= " where tipo_pesaje = 'RHM'";
 				$Consulta.= " and cod_producto = '".$Grupo."'";
 				$Consulta.= " and estado = 'C'"; //SOLO CUBAS
@@ -2852,7 +2876,7 @@ switch ($Proceso)
 					$Totales[$c][0] = 0; //unidades.
 					$Totales[$c][1] = 0; //peso.
 				}									
-				$Consulta = "SELECT cod_producto, cod_subproducto, unidades, peso, fecha_carga from sea_web.detalle_pesaje ";
+				$Consulta = "select cod_producto, cod_subproducto, unidades, peso, fecha_carga from sea_web.detalle_pesaje ";
 				$Consulta.= " where tipo_pesaje = 'RHM'";
 				$Consulta.= " and cod_producto = '".$Grupo."'";
 				$Consulta.= " and estado = 'C'"; //SOLO CUBAS
@@ -2946,7 +2970,7 @@ switch ($Proceso)
 		case "M_RestosHM":
 			$Fecha = $ano."-".$mes."-".$dia;
 			$PesoNeto = $PesoBruto - $TotalTara;						
-			$Consulta = "SELECT * from sea_web.detalle_pesaje ";
+			$Consulta = "select * from sea_web.detalle_pesaje ";
 			$Consulta.= " where fecha = '".$Fecha." ".$Hora."'";
 			$Consulta.= " and tipo_pesaje = 'RHM'";
 			$Consulta.= " and cod_producto = '".$Grupo."'";
@@ -3007,7 +3031,7 @@ switch ($Proceso)
 				mysqli_query($link, $Actualizar);
 				//FINALIZAR HORNADA Graba datos a tablas principales													
 				//CALCULA EL PESO PRODUCCION
-				$Consulta = "SELECT sum(peso_total) as peso_prod from sea_web.detalle_pesaje ";
+				$Consulta = "select sum(peso_total) as peso_prod from sea_web.detalle_pesaje ";
 				$Consulta.= " where tipo_pesaje = 'RHM'";
 				$Consulta.= " and cod_producto = '".$Grupo."'";
 				$Consulta.= " and estado <> 'C'"; //NO LAS CUBAS
@@ -3016,7 +3040,7 @@ switch ($Proceso)
 				if ($Fila = mysqli_fetch_array($Respuesta))				
 					$PesoProduccion = $Fila["peso_prod"];		
 				//CALCULA EL PESO Y UNIDADES CARGADAS
-				$Consulta = "SELECT hornada, sum(unidades) as unid_carga, sum(peso) as peso_carga ";
+				$Consulta = "select hornada, sum(unidades) as unid_carga, sum(peso) as peso_carga ";
 				$Consulta.= " from sea_web.detalle_pesaje ";
 				$Consulta.= " where tipo_pesaje = 'RHM'";
 				$Consulta.= " and cod_producto = '".$Grupo."'";
@@ -3107,7 +3131,7 @@ switch ($Proceso)
 			$Grupo = $GrupoElim;
 			$Corr = $CorrElim;
 			//SI ELIMINA UN REGISTRO Y NO TODA LA PROD.
-			$Consulta = "SELECT distinct estado from sea_web.detalle_pesaje ";
+			$Consulta = "select distinct estado from sea_web.detalle_pesaje ";
 			$Consulta.= " where fecha between '".$Fecha." 00:00:00' and '".$Fecha." 23:59:59'";
 			$Consulta.= " and cod_producto = '".$Grupo."'";
 			$Consulta.= " and tipo_pesaje = 'RHM'";
@@ -3120,7 +3144,7 @@ switch ($Proceso)
 				{
 					//HACE UNA MODIFICACION EN LA HORNADA Y LOS MOVIMIENTOS DE ELLA
 					//CALCULA EL PESO PRODUCCION
-					$Consulta = "SELECT sum(peso_total) as peso_prod from sea_web.detalle_pesaje ";
+					$Consulta = "select sum(peso_total) as peso_prod from sea_web.detalle_pesaje ";
 					$Consulta.= " where tipo_pesaje = 'RHM'";
 					$Consulta.= " and cod_producto = '".$Grupo."'";
 					$Consulta.= " and estado <> 'C'"; //NO LAS CUBAS
@@ -3129,7 +3153,7 @@ switch ($Proceso)
 					if ($Fila = mysqli_fetch_array($Respuesta))				
 						$PesoProduccion = $Fila["peso_prod"];		
 					//CALCULA EL PESO Y UNIDADES CARGADAS
-					$Consulta = "SELECT hornada, sum(unidades) as unid_carga, sum(peso) as peso_carga ";
+					$Consulta = "select hornada, sum(unidades) as unid_carga, sum(peso) as peso_carga ";
 					$Consulta.= " from sea_web.detalle_pesaje ";
 					$Consulta.= " where tipo_pesaje = 'RHM'";
 					$Consulta.= " and cod_producto = '".$Grupo."'";
@@ -3211,7 +3235,7 @@ switch ($Proceso)
 			{		
 				//RESCATO LA HORNADA QUE SE HABIA CREADO
 				$Hornada = "";
-				$Consulta = "SELECT distinct hornada";
+				$Consulta = "select distinct hornada";
 				$Consulta.= " from sea_web.detalle_pesaje ";
 				$Consulta.= " where tipo_pesaje = 'RHM'";
 				$Consulta.= " and fecha between '".$Fecha." 00:00:00' and '".$Fecha." 23:59:59'";

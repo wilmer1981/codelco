@@ -274,7 +274,7 @@ if ($Proceso == 'CT')//CERRAR TENIENTE Y TRASPASAR AL MES SIGUIENTE
 		$Consulta = "select ifnull(max(correlativo)+1,1) as correlativo from sipa_web.recepciones";
 		$RespCorr = mysqli_query($link, $Consulta);
 		$FilaCorr=mysqli_fetch_array($RespCorr);
-		$Corr = $FilaCorr[correlativo];
+		$Corr = $FilaCorr["correlativo"];
 		
 		$Insertar = "insert into sipa_web.recepciones (correlativo,lote,recargo,ult_registro,rut_operador,bascula_entrada,bascula_salida,fecha,";
 		$Insertar.="rut_prv,cod_mina,cod_grupo,cod_producto,cod_subproducto,guia_despacho,patente,cod_clase,conjunto,observacion,tipo) values(";
@@ -286,7 +286,7 @@ if ($Proceso == 'CT')//CERRAR TENIENTE Y TRASPASAR AL MES SIGUIENTE
 	else
 	{
 		//echo "PROCESO II<br>";
-		$LoteVentana = $FilaAux[lote_ventana];
+		$LoteVentana = $FilaAux["lote_ventana"];
 		$Consulta = "select * from sea_web.recepcion_externa where guia='".$Guia."' and lote_origen='".str_replace('-','',$LoteOrigen)."'";
 		$RespAux = mysqli_query($link, $Consulta);
 		if($Fila=mysqli_fetch_array($RespAux))
@@ -298,12 +298,12 @@ if ($Proceso == 'CT')//CERRAR TENIENTE Y TRASPASAR AL MES SIGUIENTE
 			$Consulta = "select  max(lpad(recargo,2,'0'))+1 as recargo_nuevo from sipa_web.recepciones where lote = '".$LoteVentana."' group by lote";
 			$RespAux = mysqli_query($link, $Consulta);
 			$FilaAux=mysqli_fetch_array($RespAux);
-			$Rec=$FilaAux[recargo_nuevo];
+			$Rec=$FilaAux["recargo_nuevo"];
 			
 			$Consulta = "select ifnull(max(correlativo)+1,1) as correlativo from sipa_web.recepciones";
 			$RespCorr = mysqli_query($link, $Consulta);
 			$FilaCorr=mysqli_fetch_array($RespCorr);
-			$Corr = $FilaCorr[correlativo];
+			$Corr = $FilaCorr["correlativo"];
 
 			$Insertar = "insert into sipa_web.recepciones (correlativo,lote,recargo,ult_registro,rut_operador,bascula_entrada,bascula_salida,fecha,";
 			$Insertar.="rut_prv,cod_mina,cod_grupo,cod_producto,cod_subproducto,guia_despacho,patente,cod_clase,conjunto,observacion,tipo) values(";
@@ -388,7 +388,7 @@ if ($Proceso == 'EL')//ELIMINAR LOTE
 			$RespAux = mysqli_query($link, $Consulta);
 			if($FilaAux=mysqli_fetch_array($RespAux))
 			{	
-				$Rec=$FilaAux[recargo_nuevo];
+				$Rec=$FilaAux["recargo_nuevo"];
 			}
 			else
 			{
@@ -397,7 +397,7 @@ if ($Proceso == 'EL')//ELIMINAR LOTE
 			$Consulta = "select ifnull(max(correlativo)+1,1) as correlativo from sipa_web.recepciones";
 			$RespCorr = mysqli_query($link, $Consulta);
 			$FilaCorr=mysqli_fetch_array($RespCorr);
-			$Corr = $FilaCorr[correlativo];
+			$Corr = $FilaCorr["correlativo"];
 
 			$Insertar = "insert into sipa_web.recepciones (correlativo,lote,recargo,ult_registro,rut_operador,bascula_entrada,bascula_salida,fecha,";
 			$Insertar.="rut_prv,cod_mina,cod_grupo,cod_producto,cod_subproducto,guia_despacho,patente,cod_clase,conjunto,observacion,tipo) values(";

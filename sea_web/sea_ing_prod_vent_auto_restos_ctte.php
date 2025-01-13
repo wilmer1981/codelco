@@ -186,34 +186,34 @@
 <input name="Parametros"   type="hidden" value="<?php echo $Parametros; ?>">
 <input name="FechaG" type="hidden" value="<?php echo $FechaHora; ?>">
 <input name="jcontrol" type="hidden" value="<?php echo $jcontrol; ?>">
+<input name="Segundos" type="hidden" value="<?php echo $Segundos; ?>">
 <table width="95%" class="TablaDetalle" cellpadding="2" cellspacing="0">
-
   <tr>
     <td width="18%">Fecha Producci&oacute;n:</td>
     <td colspan="8"><font color="#000000" size="2">
-      <SELECT name="dia" style="width:50px" onChange="Proceso('R')">
+      <select name="dia" style="width:50px" onChange="Proceso('R')">
         <?php			
 			for ($i=1;$i<=31;$i++)
 			{
 				if (isset($dia))
 				{
 					if ($i==$dia)
-						echo "<option SELECTed value= '".$i."'>".$i."</option>";
+						echo "<option selected value= '".$i."'>".$i."</option>";
 					else
 						echo "<option value='".$i."'>".$i."</option>"; 
 				}
 				else
 				{
 					if ($i==date("j"))
-						echo "<option SELECTed value= '".$i."'>".$i."</option>";
+						echo "<option selected value= '".$i."'>".$i."</option>";
 					else
 						echo "<option value='".$i."'>".$i."</option>";    							
 				}				
 			}
 	?>
-      </SELECT>
+      </select>
       </font><font color="#000000" size="2">
-      <SELECT name="mes" style="width:90px" onChange="Proceso('R')">
+      <select name="mes" style="width:90px" onChange="Proceso('R')">
         <?php
         $Meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");					
 		for($i=1;$i<=12;$i++)
@@ -221,44 +221,44 @@
 			if (isset($mes))
 			{
 				if ($i==$mes)
-					echo "<option SELECTed value ='".$i."'>".$Meses[$i-1]." </option>";
+					echo "<option selected value ='".$i."'>".$Meses[$i-1]." </option>";
 				else
 					echo "<option value='$i'>".$Meses[$i-1]."</option>\n";			
 			}
 			else
 			{
 				if ($i==date("n"))
-					echo "<option SELECTed value ='".$i."'>".$Meses[$i-1]." </option>";
+					echo "<option selected value ='".$i."'>".$Meses[$i-1]." </option>";
 				else
 					echo "<option value='$i'>".$Meses[$i-1]."</option>\n";
 			}
 		}  			
      ?>
-      </SELECT>
-      <SELECT name="ano" style="width:60px;" onChange="Proceso('R')">
+      </select>
+      <select name="ano" style="width:60px;" onChange="Proceso('R')">
         <?php	
 		for ($i=date("Y")-1;$i<=date("Y")+1;$i++)	
 		{
 			if (isset($ano))
 			{
 				if ($i==$ano)
-					echo "<option SELECTed value ='$i'>$i</option>";
+					echo "<option selected value ='$i'>$i</option>";
 				else	
 					echo "<option value='".$i."'>".$i."</option>";
 			}
 			else
 			{
 				if ($i==date("Y"))
-					echo "<option SELECTed value ='$i'>$i</option>";
+					echo "<option selected value ='$i'>$i</option>";
 				else	
 					echo "<option value='".$i."'>".$i."</option>";
 			}
 		} 
 ?>
-      </SELECT>
-               </SELECT>
+      </select>
+               </select>
             <font size="1"><font size="2">
-            <SELECT name="Hora">
+            <select name="Hora">
 			<option value="S">S</option>
               <?php
 				for ($i=0;$i<=23;$i++)
@@ -270,21 +270,21 @@
 					if (isset($Hora))
 					{	
 						if ($Hora == $Valor)
-							echo "<option SELECTed value='".$Valor."'>".$Valor."</option>\n";
+							echo "<option selected value='".$Valor."'>".$Valor."</option>\n";
 						else	
 							echo "<option value='".$Valor."'>".$Valor."</option>\n";		
 					}
 					else
 					{	
 						if ($HoraActual == $Valor)
-							echo "<option SELECTed value='".$Valor."'>".$Valor."</option>\n";
+							echo "<option selected value='".$Valor."'>".$Valor."</option>\n";
 						else
 							echo "<option value='".$Valor."'>".$Valor."</option>\n";		
 					}
 				}
 				?>
-            </SELECT><strong>:</strong>
-            <SELECT name="Minutos">
+            </select><strong>:</strong>
+            <select name="Minutos">
 			<option value="S">S</option>
               <?php
 				for ($i=0;$i<=59;$i++)
@@ -296,20 +296,20 @@
 					if (isset($Minutos))
 					{	
 						if ($Minutos == $Valor)
-							echo "<option SELECTed value='".$Valor."'>".$Valor."</option>\n";
+							echo "<option selected value='".$Valor."'>".$Valor."</option>\n";
 						else	
 							echo "<option value='".$Valor."'>".$Valor."</option>\n";		
 					}
 					else
 					{	
 						if ($MinutoActual == $Valor)
-							echo "<option SELECTed value='".$Valor."'>".$Valor."</option>\n";
+							echo "<option selected value='".$Valor."'>".$Valor."</option>\n";
 						else
 							echo "<option value='".$Valor."'>".$Valor."</option>\n";		
 					}
 				}
 				?>
-            </SELECT>
+            </select>
             </font></font></td>
           </tr>
 		  
@@ -397,7 +397,7 @@
   </tr>
 
 <?php
-	$Consulta = "SELECT sum(horno) as cant_cubas, sum(peso_total) as peso_acum ";
+	$Consulta = "select sum(horno) as cant_cubas, sum(peso_total) as peso_acum ";
 	$Consulta.= " from sea_web.detalle_pesaje ";
 	$Consulta.= " where fecha between '".$Fecha." 00:00:00' and '".$Fecha." 23:59:59' ";
 	$Consulta.= " and cod_producto = '".$Grupo."'";
@@ -430,7 +430,7 @@
 	{
 		$FechaProd = $ano."-".$mes."-".$dia;
 		//CONSULTA PARA VER SI FUE FINALIZADO EL GRUPO
-		$Consulta = "SELECT DISTINCT estado as estado, fecha as fecha from sea_web.detalle_pesaje ";
+		$Consulta = "select DISTINCT estado as estado, fecha as fecha from sea_web.detalle_pesaje ";
 		$Consulta.= " where tipo_pesaje = 'RA'";
 		$Consulta.= " and fecha between '".$FechaProd." 00:00:00' and '".$FechaProd." 23:59:59'";
 		$Consulta.= " and cod_producto = '".$Grupo."'";

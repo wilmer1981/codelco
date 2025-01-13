@@ -38,10 +38,34 @@ if(isset($_REQUEST["dia"])) {
 
 function buscar_guia()
 {
-var f = document.frmPoPup;
-   
-    f.action="sea_ing_prod_vent_auto_anodos_det.php?Proceso=B";
-	f.submit();
+	var f = document.frmPoPup;
+	var dia = f.dia.value;
+	var mes = f.mes.value;
+	var semaforo = 0;
+	if(mes==2){
+		if(dia>28){
+			alert("Debe Ingresar fecha correcta(<29) ");
+			f.dia.focus();
+			return;
+		}else{
+			semaforo=1;
+		}
+	}
+	if(mes==4 || mes==6 || mes==9 || mes==11){
+		if(dia>30){
+			alert("Debe Ingresar fecha correcta(<31) ");
+			f.dia.focus();
+			return;
+		}else{
+			semaforo=1;  
+		}
+	}else{
+		semaforo=1; 
+	}
+	if(semaforo==1){		   
+		f.action="sea_ing_prod_vent_auto_anodos_det.php?Proceso=B";
+		f.submit();
+	}
 }
 
 function Proceso(opt)
@@ -88,7 +112,7 @@ body {
       <tr> 
         <td width="108" height="32">Fecha Busqueda</td>
         <td colspan="2"><font color="#000000" size="2"> 
-          <SELECT name="dia">
+          <select name="dia">
             <?php
 			if($Proceso=='B')
 			{
@@ -96,7 +120,7 @@ body {
 				{
  				   if ($i==$dia)
 						{
-						echo "<option SELECTed value= '".$i."'>".$i."</option>";
+						echo "<option selected value= '".$i."'>".$i."</option>";
 						}
 						else
 						{						
@@ -110,7 +134,7 @@ body {
 				{
 	   				   if ($i==date("j"))
 						{
-						echo "<option SELECTed value= '".$i."'>".$i."</option>";
+						echo "<option selected value= '".$i."'>".$i."</option>";
 						}
 						else
 						{						
@@ -119,9 +143,9 @@ body {
  				}
 		   }			
 	?>
-          </SELECT>
+          </select>
           </font> <font color="#000000" size="2"> 
-          <SELECT name="mes">
+          <select name="mes">
             <?php
         $meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");			
 		if ($Proceso=='B')
@@ -130,7 +154,7 @@ body {
 		    {
                 if ($i==$mes)
 				{				
-				echo "<option SELECTed value ='".$i."'>".$meses[$i-1]." </option>";
+				echo "<option selected value ='".$i."'>".$meses[$i-1]." </option>";
 				}			
 				else
 				{
@@ -144,7 +168,7 @@ body {
 		    {
                 if ($i==date("n"))
 				{				
-				echo "<option SELECTed value ='".$i."'>".$meses[$i-1]." </option>";
+				echo "<option selected value ='".$i."'>".$meses[$i-1]." </option>";
 				}			
 				else
 				{
@@ -154,8 +178,8 @@ body {
 	    } 	  
   		  
      ?>
-          </SELECT>
-          <SELECT name="ano">
+          </select>
+          <select name="ano">
             <?php
 	if($Proceso=='B')
 	{
@@ -163,7 +187,7 @@ body {
 	    {
             if ($i==$ano)
 			{
-			echo "<option SELECTed value ='$i'>$i</option>";
+			echo "<option selected value ='$i'>$i</option>";
 			}
 			else	
 			{
@@ -177,7 +201,7 @@ body {
 	    {
             if ($i==date("Y"))
 			{
-			echo "<option SELECTed value ='$i'>$i</option>";
+			echo "<option selected value ='$i'>$i</option>";
 			}
 			else	
 			{
@@ -186,13 +210,13 @@ body {
          }   
     }	
 ?>
-          </SELECT>
+          </select>
           </font></td>
       </tr>
       <tr> 
         <td>Tipo Producto</td>
-        <td width="213"><SELECT name="cmbproductos">
-		<option  value = "-1" SELECTed>VER TODOS</option>
+        <td width="213"><select name="cmbproductos">
+		<option  value = "-1" selected>VER TODOS</option>
 		<?php 		
 			$consulta = "SELECT * FROM proyecto_modernizacion.subproducto WHERE cod_producto = '17' AND cod_subproducto in (4,8,11)";
    	        include("../principal/conectar_principal.php");
@@ -201,14 +225,14 @@ body {
 			while ($row = mysqli_fetch_array($rs))
 			{			
 			if ($row['cod_subproducto'] == $cmbproductos and ($Proceso == 'B'))
-				echo '<option value="'.$row['cod_subproducto'].'" SELECTed>'.$row['descripcion'].'</option>';
+				echo '<option value="'.$row['cod_subproducto'].'" selected>'.$row['descripcion'].'</option>';
 			else 
 				echo '<option value="'.$row['cod_subproducto'].'">'.$row['descripcion'].'</option>';
 			}
 
 			 echo'';
 	   
-	   ?></SELECT></td>
+	   ?></select></td>
 	   </td>
         <td width="159"><input name="BtnBuscar" type="button" id="BtnBuscar" style="width:70" onClick="buscar_guia();" value="Buscar"></td>
       </tr>

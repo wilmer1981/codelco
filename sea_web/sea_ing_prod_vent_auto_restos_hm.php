@@ -1,5 +1,5 @@
 <?php
-	 
+
 	$TotalTara = 0;
 	$PesoBruto = 0;
 	$PesoNeto = 0;
@@ -21,7 +21,7 @@
 		$Grupo = intval($GrupoModif);
 		$Corr = $CorrModif;
 		//CONSULTO LOS DATOS DEL REGISTRO A MODIFICAR
-		$Consulta = "SELECT * from sea_web.detalle_pesaje ";
+		$Consulta = "select * from sea_web.detalle_pesaje ";
 		$Consulta.= " where fecha = '".$FechaHora."'";
 		$Consulta.= " and cod_producto = '".$Grupo."'";
 		$Consulta.= " and cod_subproducto = '".$Corr."'";
@@ -40,7 +40,7 @@
 		$PesoAuto="N";			
 	}	
 	//CONSULTA CUBAS
-	$Consulta = "SELECT distinct cod_producto, cod_subproducto, unidades, peso, fecha_carga, ";
+	$Consulta = "select distinct cod_producto, cod_subproducto, unidades, peso, fecha_carga, ";
 	$Consulta.= " case when length(cod_subproducto)=1 then concat('0',cod_subproducto) else cod_subproducto end as orden ";
 	$Consulta.= " from sea_web.detalle_pesaje ";
 	$Consulta.= " where tipo_pesaje = 'RHM'";
@@ -58,14 +58,14 @@
 	$Cubas = substr($Cubas,0,strlen($Cubas)-1);
 	//CONSULTAS TARAS SI EXISTEN
 	$PesoCarro = 0; // WSO
-	$Consulta = "SELECT * from sea_web.taras where tipo_tara='C' and numero='".$NumCarro."'";
+	$Consulta = "select * from sea_web.taras where tipo_tara='C' and numero='".$NumCarro."'";
 	$Respuesta = mysqli_query($link, $Consulta);
 	if ($Fila = mysqli_fetch_array($Respuesta))
 	{
 		$PesoCarro = $Fila["peso"];
 	}
 	$PesoRack=0;// WSO
-	$Consulta = "SELECT * from sea_web.taras where tipo_tara='R' and numero='".$NumRack."'";
+	$Consulta = "select * from sea_web.taras where tipo_tara='R' and numero='".$NumRack."'";
 	$Respuesta = mysqli_query($link, $Consulta);
 	if ($Fila = mysqli_fetch_array($Respuesta))
 	{
@@ -82,29 +82,29 @@
   <tr>
     <td width="18%">Fecha Producci&oacute;n:</td>
     <td colspan="3"><font color="#000000" size="2">
-      <SELECT name="dia" style="width:50px" onChange="Proceso('R')">
+      <select name="dia" style="width:50px" onChange="Proceso('R')">
         <?php			
 			for ($i=1;$i<=31;$i++)
 			{
 				if (isset($dia))
 				{
 					if ($i==$dia)
-						echo "<option SELECTed value= '".$i."'>".$i."</option>";
+						echo "<option selected value= '".$i."'>".$i."</option>";
 					else
 						echo "<option value='".$i."'>".$i."</option>"; 
 				}
 				else
 				{
 					if ($i==date("j"))
-						echo "<option SELECTed value= '".$i."'>".$i."</option>";
+						echo "<option selected value= '".$i."'>".$i."</option>";
 					else
 						echo "<option value='".$i."'>".$i."</option>";    							
 				}				
 			}
 	?>
-      </SELECT>
+      </select>
       </font> <font color="#000000" size="2">
-      <SELECT name="mes" style="width:90px" onChange="Proceso('R')">
+      <select name="mes" style="width:90px" onChange="Proceso('R')">
         <?php
         $Meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");					
 		for($i=1;$i<=12;$i++)
@@ -112,41 +112,41 @@
 			if (isset($mes))
 			{
 				if ($i==$mes)
-					echo "<option SELECTed value ='".$i."'>".$Meses[$i-1]." </option>";
+					echo "<option selected value ='".$i."'>".$Meses[$i-1]." </option>";
 				else
 					echo "<option value='$i'>".$Meses[$i-1]."</option>\n";			
 			}
 			else
 			{
 				if ($i==date("n"))
-					echo "<option SELECTed value ='".$i."'>".$Meses[$i-1]." </option>";
+					echo "<option selected value ='".$i."'>".$Meses[$i-1]." </option>";
 				else
 					echo "<option value='$i'>".$Meses[$i-1]."</option>\n";
 			}
 		}  			
      ?>
-      </SELECT>
-      <SELECT name="ano" style="width:60px;" onChange="Proceso('R')">
+      </select>
+      <select name="ano" style="width:60px;" onChange="Proceso('R')">
         <?php	
 		for ($i=date("Y")-1;$i<=date("Y")+1;$i++)	
 		{
 			if (isset($ano))
 			{
 				if ($i==$ano)
-					echo "<option SELECTed value ='$i'>$i</option>";
+					echo "<option selected value ='$i'>$i</option>";
 				else	
 					echo "<option value='".$i."'>".$i."</option>";
 			}
 			else
 			{
 				if ($i==date("Y"))
-					echo "<option SELECTed value ='$i'>$i</option>";
+					echo "<option selected value ='$i'>$i</option>";
 				else	
 					echo "<option value='".$i."'>".$i."</option>";
 			}
 		} 
 ?>
-      </SELECT>
+      </select>
 	  <input type="hidden" name="Hora" value="<?php 
 		if (!isset($Hora))	  
 			echo date("H:i:s");
@@ -156,7 +156,7 @@
 	  <?php
 	  	if ($Corr == "" && $Grupo != "")
 		{
-			$Consulta = "SELECT ifnull(max(cod_subproducto*1),0) as max_corr from sea_web.detalle_pesaje ";
+			$Consulta = "select ifnull(max(cod_subproducto*1),0) as max_corr from sea_web.detalle_pesaje ";
 			$Consulta.= " where cod_producto = '".$Grupo."' ";
 			$Consulta.= " and fecha between '".$Fecha." 00:00:00' and '".$Fecha." 23:59:59'";
 			$Consulta.= " and estado<>'C'";			
@@ -246,7 +246,7 @@
   </tr>
 <?php
 	//Cant Cubas Acumulada
-	$Consulta = "SELECT distinct cod_subproducto ";
+	$Consulta = "select distinct cod_subproducto ";
 	$Consulta.= " from sea_web.detalle_pesaje ";
 	$Consulta.= " where tipo_pesaje = 'RHM'";
 	$Consulta.= " and cod_producto = '".$Grupo."'";
@@ -255,7 +255,7 @@
 	$Resp2 = mysqli_query($link, $Consulta);
 	$CantCubas = mysqli_num_rows($Resp2);
 	//Peso Acumulado del Grupo
-	$Consulta = "SELECT cod_producto, sum(unidades) as unidades, sum(peso) as peso_benef, sum(peso_total) as peso_prod";
+	$Consulta = "select cod_producto, sum(unidades) as unidades, sum(peso) as peso_benef, sum(peso_total) as peso_prod";
 	$Consulta.= " from sea_web.detalle_pesaje ";
 	$Consulta.= " where tipo_pesaje = 'RHM'";
 	$Consulta.= " and cod_producto = '".$Grupo."'";
@@ -282,7 +282,7 @@
 	{
 		$FechaProd = $ano."-".$mes."-".$dia;
 		//CONSULTA PARA VER SI FUE FINALIZADO EL GRUPO
-		$Consulta = "SELECT DISTINCT estado as estado from sea_web.detalle_pesaje ";
+		$Consulta = "select DISTINCT estado as estado from sea_web.detalle_pesaje ";
 		$Consulta.= " where tipo_pesaje = 'RHM'";
 		$Consulta.= " and fecha between '".$FechaProd." 00:00:00' and '".$FechaProd." 23:59:59'";
 		$Consulta.= " and cod_producto = '".$Grupo."'";
@@ -326,7 +326,7 @@
         </tr>
         <?php	
 	$Fecha = $ano."-".$mes."-".$dia;
-	$Consulta = "SELECT cod_producto, sum(unidades) as unidades, sum(peso) as peso_benef, sum(peso_total) as peso_prod, hornada";
+	$Consulta = "select cod_producto, sum(unidades) as unidades, sum(peso) as peso_benef, sum(peso_total) as peso_prod, hornada";
 	$Consulta.= " from sea_web.detalle_pesaje ";
 	$Consulta.= " where tipo_pesaje = 'RHM'";
 	$Consulta.= " and fecha between '".$Fecha." 00:00:00' and '".$Fecha." 23:59:59'";
@@ -340,7 +340,7 @@
 	$TotalPesoProd = 0; // WSO
 	while ($Fila = mysqli_fetch_array($Resp))
 	{		
-		$Consulta = "SELECT distinct cod_subproducto ";
+		$Consulta = "select distinct cod_subproducto ";
 		$Consulta.= " from sea_web.detalle_pesaje ";
 		$Consulta.= " where tipo_pesaje = 'RHM'";
 		$Consulta.= " and cod_producto = '".$Fila["cod_producto"]."'";
@@ -354,7 +354,7 @@
 		echo "<td>".number_format($Fila["unidades"],0,",",".")."</td>\n";
 		echo "<td>".number_format($Fila["peso_benef"],0,",",".")."</td>\n";
 		echo "<td>".number_format($Fila["peso_prod"],0,",",".")."</td>\n";
-		$Consulta = "SELECT distinct hornada ";
+		$Consulta = "select distinct hornada ";
 		$Consulta.= " from sea_web.detalle_pesaje ";
 		$Consulta.= " where tipo_pesaje = 'RHM'";
 		$Consulta.= " and fecha between '".$Fecha." 00:00:00' and '".$Fecha." 23:59:59'";
@@ -384,7 +384,7 @@
 </table>
 <?php
 	//SELECCIONA TARAS DE CARROS
-	$Consulta = "SELECT * from sea_web.taras where tipo_tara='C' order by numero";
+	$Consulta = "select * from sea_web.taras where tipo_tara='C' order by numero";
 	$Respuesta = mysqli_query($link, $Consulta);
 	$Cont=0;
 	while ($Fila = mysqli_fetch_array($Respuesta))
@@ -394,7 +394,7 @@
 	}
 	echo "<input type='hidden' name='CantCarros' value='".$Cont."'>\n";
 	//SELECCIONA TARAS DE RACKS
-	$Consulta = "SELECT * from sea_web.taras where tipo_tara='R' order by numero";
+	$Consulta = "select * from sea_web.taras where tipo_tara='R' order by numero";
 	$Respuesta = mysqli_query($link, $Consulta);
 	$Cont=0;
 	while ($Fila = mysqli_fetch_array($Respuesta))

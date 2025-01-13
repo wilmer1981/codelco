@@ -1,73 +1,25 @@
 <?php
 	include("../principal/conectar_principal.php");
 	$CodigoDeSistema = 2;
-	//$CodigoDePantalla = 11;	
 	$CodigoDePantalla = 48;	
-	if(isset($_REQUEST["Proceso"])) {
-		$Proceso = $_REQUEST["Proceso"];
-	}else{
-		$Proceso = '';
-	}
+	
+	$Proceso = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
 
 	/******************Modificar********************************* */
 	//Modif=S&Hornada=202201&Horno=0&FechaHora=2022-01-01%2016:26:11
-	if(isset($_REQUEST["Hornada"])) {
-		$Hornada = $_REQUEST["Hornada"];
-	}else{
-		$Hornada = "";
-	}
-	if(isset($_REQUEST["Horno"])) {
-		$Horno = $_REQUEST["Horno"];
-	}else{
-		$Horno = "";
-	}
-	if(isset($_REQUEST["FechaHora"])) {
-		$FechaHora = $_REQUEST["FechaHora"];
-	}else{
-		$FechaHora = "";
-	}
+	$Hornada   = isset($_REQUEST["Hornada"])?$_REQUEST["Hornada"]:"";
+	$Horno     = isset($_REQUEST["Horno"])?$_REQUEST["Horno"]:"";
+	$FechaHora = isset($_REQUEST["FechaHora"])?$_REQUEST["FechaHora"]:"";
 	/********************************************** */
+    $ano = isset($_REQUEST["ano"])?$_REQUEST["ano"]:date("Y");
+	$mes = isset($_REQUEST["mes"])?$_REQUEST["mes"]:date("m");
+	$dia = isset($_REQUEST["dia"])?$_REQUEST["dia"]:date("d");
 
-	if(isset($_REQUEST["ano"])) {
-		$ano = $_REQUEST["ano"];
-	}else{
-		$ano = date("Y");
-	}
-	if(isset($_REQUEST["mes"])) {
-		$mes = $_REQUEST["mes"];
-	}else{
-		$mes = date("m");
-	}
-	if(isset($_REQUEST["dia"])) {
-		$dia = $_REQUEST["dia"];
-	}else{
-		$dia = date("d");
-	}
-	if(isset($_REQUEST["TipoPesaje"])) {
-		$TipoPesaje = $_REQUEST["TipoPesaje"];
-	}else{
-		$TipoPesaje = "";
-	}
-	if(isset($_REQUEST["PesoAuto"])) {
-		$PesoAuto = $_REQUEST["PesoAuto"];
-	}else{
-		$PesoAuto = "";
-	}
-	if(isset($_REQUEST["Hornos"])) {
-		$Hornos = $_REQUEST["Hornos"];
-	}else{
-		$Hornos = "";
-	}
-	if(isset($_REQUEST["num_hornada"])) {
-		$num_hornada = $_REQUEST["num_hornada"];
-	}else{
-		$num_hornada = "";
-	}
-	if(isset($_REQUEST["Mensaje"])) {
-		$Mensaje = $_REQUEST["Mensaje"];
-	}else{
-		$Mensaje = "";
-	}
+	$TipoPesaje = isset($_REQUEST["TipoPesaje"])?$_REQUEST["TipoPesaje"]:"";
+	$PesoAuto = isset($_REQUEST["PesoAuto"])?$_REQUEST["PesoAuto"]:"";
+	$Hornos = isset($_REQUEST["Hornos"])?$_REQUEST["Hornos"]:"";
+	$num_hornada = isset($_REQUEST["num_hornada"])?$_REQUEST["num_hornada"]:"";
+	$Mensaje = isset($_REQUEST["Mensaje"])?$_REQUEST["Mensaje"]:"";
 
 	if(isset($_REQUEST["UnidCorrientes"])) {
 		$UnidCorrientes = $_REQUEST["UnidCorrientes"];
@@ -221,6 +173,23 @@ if(isset($_REQUEST["Numero"])) {
 }else{
 	$Numero = "";
 }
+	$jcontrol = isset($_REQUEST["jcontrol"])?$_REQUEST["jcontrol"]:"";
+
+$Segundos='00';
+if($Modif=='S'){
+	$separar = explode(" ",$FechaHora);
+	$fecha = $separar[0];
+    $horas = $separar[1];
+	
+    $shora = explode(":",$horas);
+	$hor = $shora[0];
+	$min = $shora[1];
+	$seg = $shora[2];
+	
+	$Hora     = $hor;
+	$Minutos  = $min;
+	$Segundos = $seg;
+}
 
 
 ?>
@@ -249,8 +218,33 @@ if(isset($_REQUEST["Numero"])) {
 
 	End Function 
 </script>
-
 <script language="JavaScript">
+function validar_fecha(f){
+				var dia = f.dia.value;
+			var mes = f.mes.value;
+			var semaforo = 0;
+			if(mes==2){
+				if(dia>28){
+					alert("Debe Ingresar fecha correcta(<29) ");
+					f.dia.focus();
+					return;
+				}else{
+					semaforo=1;
+				}
+			}
+			if(mes==4 || mes==6 || mes==9 || mes==11){
+				if(dia>30){
+					alert("Debe Ingresar fecha correcta(<31) ");
+					f.dia.focus();
+					return;
+				}else{
+					semaforo=1;  
+				}
+			}else{
+				semaforo=1; 
+			}
+	return semaforo;
+}
 function PesoAutomatico()
 {	
 	setTimeout("CapturaPeso()",500);
@@ -282,7 +276,6 @@ function TeclaPulsada(salto)
 function TeclaPulsadaHM(salto) 
 { 
 	var f = document.formulario;
-	//alert(salto);
 	if (salto == "Recarga")
 	{	
 		if (f.Grupo.value != "")
@@ -313,7 +306,7 @@ function TeclaPulsadaHM(salto)
 			{
 				echo "if (".$Condicion.")\n";
 				echo "{\n";
-				echo "alert(\"Losssss Grupos de H.M. son ".$GruposHM."\");\n";
+				echo "alert(\"Los Grupos de H.M. son ".$GruposHM."\");\n";
 				echo "f.Grupo.focus();\n";
 				echo "return;\n";
 				echo "}\n";
@@ -391,16 +384,22 @@ function Proceso(opt)
 //************************ PRODUCCION ANODOS VENTANA ***************************************************
 //******************************************************************************************************	
 		case "V_ProdAnodos":
+		    var semaforo = validar_fecha(f);
+			if(semaforo==1){
 			 //window.open("sea_ing_prod_vent_auto_anodos_det.php", "","menubar=no resizable=no Top=50 Left=200 width=520 height=500 scrollbars=no");
 			 window.open("sea_ing_prod_vent_auto_anodos_det.php?Proceso=B&cmbproductos=-1&dia=" + f.dia.value + "&mes=" + f.mes.value + "&ano=" + f.ano.value, "","menubar=no resizable=yes Top=30 Left=50 width=550 height=500 scrollbars=yes");
+			}
 			 break;
 		case "V_PesadasProdAnodos":
 			 //window.open("sea_ing_prod_vent_auto_anodos_det.php", "","menubar=no resizable=no Top=50 Left=200 width=520 height=500 scrollbars=no");
 			 window.open("sea_ing_prod_vent_auto_anodos_det2.php?Proceso=B&Hornada=-1&Dia=" + f.dia.value + "&Mes=" + f.mes.value + "&Ano=" + f.ano.value, "","menubar=no resizable=yes Top=30 Left=50 width=630 height=500 scrollbars=yes");
 			 break;
 		case "V_InformeProdAnodos":
+		var semaforo = validar_fecha(f);
+			if(semaforo==1){
 			 //window.open("sea_ing_prod_vent_auto_anodos_det.php", "","menubar=no resizable=no Top=50 Left=200 width=520 height=500 scrollbars=no");
 			 window.open("sea_ing_prod_vent_auto_anodos_det3.php?Proceso=B&Hornada=-1&Dia=" + f.dia.value + "&Mes=" + f.mes.value + "&Ano=" + f.ano.value, "","menubar=no resizable=yes Top=30 Left=50 width=550 height=500 scrollbars=yes");
+			}
 			 break;
 		case "G_ProdAnodos":				
 			if (f.Hornos.value == "S")
@@ -559,8 +558,11 @@ function Proceso(opt)
 			f.action = "sea_ing_prod_vent_auto01.php?Proceso=B_RestosAnodos";
 			f.submit();
 			break;
-		case "V_RestosAnodos":
-			 window.open("sea_ing_prod_vent_auto_restos_ctte_det.php?Proceso=B&cmbproductos=-1&dia=" + f.dia.value + "&mes=" + f.mes.value + "&ano=" + f.ano.value, "","menubar=no resizable=yes Top=30 Left=50 width=550 height=500 scrollbars=yes");
+		case "V_RestosAnodos":			
+			var semaforo = validar_fecha(f);
+			if(semaforo==1){
+				window.open("sea_ing_prod_vent_auto_restos_ctte_det.php?Proceso=B&cmbproductos=-1&dia=" + f.dia.value + "&mes=" + f.mes.value + "&ano=" + f.ano.value, "","menubar=no resizable=yes Top=30 Left=50 width=550 height=500 scrollbars=yes");
+			}
 			 break;
 		case "V_PesadasRestosAnodos":			
 			 window.open("sea_ing_prod_vent_auto_restos_ctte_det2.php?Proceso=B&Hornada=-1&Dia=" + f.dia.value + "&Mes=" + f.mes.value + "&Ano=" + f.ano.value, "","menubar=no resizable=yes Top=30 Left=50 width=630 height=500 scrollbars=yes");
@@ -606,7 +608,7 @@ function Proceso(opt)
 					$GruposHM =  substr($GruposHM,0,strlen($GruposHM)-1);
 				if ($Condicion != "")
 					$Condicion = substr($Condicion,0,strlen($Condicion)-4);
-				if ($Entro==true)
+				if ($Entro)
 				{
 					echo "if (".$Condicion.")\n";
 					echo "{\n";
@@ -814,7 +816,7 @@ function Proceso(opt)
 				f.Numero.focus();
 				return;
 			}
-			var msg=confirm("�Seguro que desea Eliminar este " + RC + "?");
+			var msg=confirm("¿Seguro que desea Eliminar este " + RC + "?");
 			if (msg==true)
 			{
 				f.action = "sea_ing_prod_vent_auto01.php?Proceso=" + opt;
@@ -879,7 +881,7 @@ function Proceso(opt)
 					$GruposHM =  substr($GruposHM,0,strlen($GruposHM)-1);
 				if ($Condicion != "")
 					$Condicion = substr($Condicion,0,strlen($Condicion)-4);
-				if ($Entro==true)
+				if ($Entro)
 				{
 					echo "if (".$Condicion.")\n";
 					echo "{\n";
@@ -1343,35 +1345,35 @@ function PesosPromedio()
     <table width="95%" class="TablaDetalle" cellpadding="2" cellspacing="0">
           <tr>
             <td width="11%">Tipo Pesaje: </td>
-            <td width="67%"><SELECT name="TipoPesaje" onChange="Proceso('RN')">
+            <td width="67%"><select name="TipoPesaje" onChange="Proceso('RN')">
 			<option value="S">SELECCIONAR</option>
 			<?php
 			
 				switch ($TipoPesaje)
 				{
 					case 1:
-						echo "<option SELECTed value='1'>Prod. Anodos y Hojas Madres</option>\n";
+						echo "<option selected value='1'>Prod. Anodos y Hojas Madres</option>\n";
 						echo "<option value='2'>Producci&oacute;n Restos de Anodos </option>\n";
 						echo "<option value='3'>Producci&oacute;n Restos Hojas Madres</option>\n";
 						echo "<option value='4'>Tara de Rack y Carros</option>\n";
 						break;
 					case 2:
 						echo "<option value='1'>Prod. Anodos y Hojas Madres</option>\n";
-						echo "<option SELECTed value='2'>Producci&oacute;n Restos de Anodos</option>\n";
+						echo "<option selected value='2'>Producci&oacute;n Restos de Anodos</option>\n";
 						echo "<option value='3'>Producci&oacute;n Restos Hojas Madres</option>\n";
 						echo "<option value='4'>Tara de Rack y Carros</option>\n";
 						break;
 					case 3:
 						echo "<option value='1'>Prod. Anodos y Hojas Madres</option>\n";
 						echo "<option value='2'>Producci&oacute;n Restos de Anodos</option>\n";
-						echo "<option SELECTed value='3'>Producci&oacute;n Restos Hojas Madres</option>\n";
+						echo "<option selected value='3'>Producci&oacute;n Restos Hojas Madres</option>\n";
 						echo "<option value='4'>Tara de Rack y Carros</option>\n";
 						break;
 					case 4:
 						echo "<option value='1'>Prod. Anodos y Hojas Madres</option>\n";
 						echo "<option value='2'>Producci&oacute;n Restos de Anodos</option>\n";
 						echo "<option value='3'>Producci&oacute;n Restos Hojas Madres</option>\n";
-						echo "<option SELECTed value='4'>Tara de Rack y Carros</option>\n";
+						echo "<option selected value='4'>Tara de Rack y Carros</option>\n";
 						break;
 					default:
 						echo "<option value='1'>Prod. Anodos y Hojas Madres</option>\n";
@@ -1381,7 +1383,7 @@ function PesosPromedio()
 						break;
 				}			
 			?>
-            </SELECT>
+            </select>
             <input type="button" name="BtnPromedios" value="Pesos Promedio" onClick="PesosPromedio()">
             <input type="button" name="BtnTaras" value="Ver Taras" onClick="Proceso('V_Tara')">
 			<input type="button" name="BtnSale" value="Salir" onClick="Proceso('S')"></td>
@@ -1390,7 +1392,7 @@ function PesosPromedio()
 		<?php
 			//$IpPc = $REMOTE_ADDR;
 			$IpPc = $IP_USER;	
-			$Consulta = "SELECT * from proyecto_modernizacion.sub_clase ";
+			$Consulta = "select * from proyecto_modernizacion.sub_clase ";
 			$Consulta.= " where cod_clase = '2014' and nombre_subclase = '".$IpPc."'";
 			$Resp = mysqli_query($link, $Consulta);
 			if ($Fila = mysqli_fetch_array($Resp))
