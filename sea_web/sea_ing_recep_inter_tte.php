@@ -1,6 +1,6 @@
 <?php
 $CodigoDeSistema = 2;
-$CodigoDePantalla = 3;
+$CodigoDePantalla = 52;
 
 $Proceso  = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
 $Mostrar  = isset($_REQUEST["Mostrar"])?$_REQUEST["Mostrar"]:"";
@@ -379,9 +379,9 @@ body {
 			   	echo'<option value="A-00001100-2">ANODOS HVL</option>';		 */  
 
                if($proveedor == "A-61704005-0")
-			   	echo'<option value="A-61704005-0" selected>ANODOS TENIENTE</option>';		   
+					echo'<option value="A-61704005-0" selected>ANODOS TENIENTE</option>';		   
                else
-			   	echo'<option value="A-61704005-0">ANODOS TENIENTE</option>';		   
+					echo'<option value="A-61704005-0">ANODOS TENIENTE</option>';		   
 
                /*if($proveedor == "A-90132000-4")
 			   	echo'<option value="A-90132000-4" selected>ANODOS SUR ANDES</option>';		   

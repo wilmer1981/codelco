@@ -1,62 +1,17 @@
 <?php
 include("../principal/conectar_rec_web.php");
 
-if(isset($_REQUEST["Proceso"])) {
-	$Proceso = $_REQUEST["Proceso"];
-}else{
-	$Proceso = '';
-}
-if(isset($_REQUEST["subprod"])) {
-	$subprod = $_REQUEST["subprod"];
-}else{
-	$subprod = '';
-}
-
-if(isset($_REQUEST["ano"])) {
-	$ano = $_REQUEST["ano"];
-}else{
-	$ano = "";
-}
-if(isset($_REQUEST["mes"])) {
-	$mes= $_REQUEST["mes"];
-}else{
-	$mes = "";
-}
-if(isset($_REQUEST["dia"])) {
-	$dia= $_REQUEST["dia"];
-}else{
-	$dia = "";
-}
-if(isset($_REQUEST["proveedor"])) {
-	$proveedor = $_REQUEST["proveedor"];
-}else{
-	$proveedor = "";
-}
-if(isset($_REQUEST["guia"])) {
-	$guia = $_REQUEST["guia"];
-}else{
-	$guia = "";
-}
-if(isset($_REQUEST["patente"])) {
-	$patente = $_REQUEST["patente"];
-}else{
-	$patente = "";
-}
-if(isset($_REQUEST["LoteVentana"])) {
-	$LoteVentana = $_REQUEST["LoteVentana"];
-}else{
-	$LoteVentana = "";
-}
-if(isset($_REQUEST["recargo"])) {
-	$recargo = $_REQUEST["recargo"];
-}else{
-	$recargo = "";
-}
-if(isset($_REQUEST["LoteOrigen"])) {
-	$LoteOrigen = $_REQUEST["LoteOrigen"];
-}else{
-	$LoteOrigen = "";
-}
+$Proceso  = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+$ano   = isset($_REQUEST["ano"])?$_REQUEST["ano"]:date('Y');
+$mes   = isset($_REQUEST["mes"])?$_REQUEST["mes"]:date('m');
+$dia   = isset($_REQUEST["dia"])?$_REQUEST["dia"]:date('d');
+$proveedor = isset($_REQUEST["proveedor"])?$_REQUEST["proveedor"]:"";
+$guia = isset($_REQUEST["guia"])?$_REQUEST["guia"]:"";
+$patente = isset($_REQUEST["patente"])?$_REQUEST["patente"]:"";
+$recargo = isset($_REQUEST["recargo"])?$_REQUEST["recargo"]:"";
+$subprod = isset($_REQUEST["subprod"])?$_REQUEST["subprod"]:"";
+$LoteVentana = isset($_REQUEST["LoteVentana"])?$_REQUEST["LoteVentana"]:"";
+$LoteOrigen  = isset($_REQUEST["LoteOrigen"])?$_REQUEST["LoteOrigen"]:"";
 if(isset($_REQUEST["Marca"])) {
 	$Marca = $_REQUEST["Marca"];
 }else{
@@ -109,7 +64,7 @@ if($Proceso == "G")
 				$Numero = $Row["numero"] + 1;
 		}
 		/* Consultanos si existe Lote en la tabla recepciones */
-		$Consulta ="Select * from sipa_web.recepciones where lote_ventana = '".$LoteVentana."' and recargo = '".$recargo."'";
+		$Consulta ="Select * from sipa_web.recepciones where lote = '".$LoteVentana."' and recargo = '".$recargo."'";
 		$resp = mysqli_query($link, $Consulta);
 		$cont = mysqli_num_rows($resp);
 		if($cont==0){
@@ -176,12 +131,17 @@ if($Proceso == "G")
 		{
 				$Numero = $Row["numero"] + 1;
 		}
-		$Insertar = "INSERT INTO sipa_web.recepciones (correlativo,lote,recargo,ult_registro,rut_operador,fecha,peso_neto,rut_prv,cod_mina,cod_producto,";
-		$Insertar.="cod_subproducto,guia_despacho,patente,cod_clase,activo,estado,cod_grupo, tipo)";
-		$Insertar.=" VALUES('".$Numero."','".$LoteVentana."','".$recargo."','N','9999999-9','".$fecha."','".$peso_recepcion."','61704005-0','06101.0004-2','1','16',";
-		$Insertar.=" '".$guia."','".$patente."','M','S','C',2,'A')";
-		//echo "hola".$Insertar;
-		mysqli_query($link, $Insertar);
+		$Consulta ="SELECT * from sipa_web.recepciones WHERE lote='".$LoteVentana."' AND recargo='".$recargo."' ";
+		$Result = mysqli_query($link,$Consulta);
+		$Cont   = mysqli_num_rows($Result);
+		if($Cont==0){
+			$Insertar = "INSERT INTO sipa_web.recepciones (correlativo,lote,recargo,ult_registro,rut_operador,fecha,peso_neto,rut_prv,cod_mina,cod_producto,";
+			$Insertar.="cod_subproducto,guia_despacho,patente,cod_clase,activo,estado,cod_grupo, tipo)";
+			$Insertar.=" VALUES('".$Numero."','".$LoteVentana."','".$recargo."','N','9999999-9','".$fecha."','".$peso_recepcion."','61704005-0','06101.0004-2','1','16',";
+			$Insertar.=" '".$guia."','".$patente."','M','S','C',2,'A')";
+			//echo "hola".$Insertar;
+			mysqli_query($link, $Insertar);
+		}
 	
 		$Consulta = "SELECT * from sea_web.movimientos where tipo_movimiento = '1' and cod_producto = '16' and ";
 		$Consulta.=" cod_subproducto = '4' and hornada = '".$Hornada."' and fecha_movimiento = '".$fecha."'";

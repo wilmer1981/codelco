@@ -51,22 +51,22 @@
 	}*/
 	if($AnularGuia=='S')
 	{
-		$Actualizar="UPDATE sea_web.recepcion_externa set estado='".$Estado."' where guia='".$GuiaAnulada."'";
+		$Actualizar="update sea_web.recepcion_externa set estado='".$Estado."' where guia='".$GuiaAnulada."'";
 		//echo $Actualizar;
 		mysqli_query($link, $Actualizar);
 	}
 	if($EliminarGuia=='S')
 	{
-		$Consulta="SELECT * from sea_web.recepcion_externa where guia='".$GuiaEliminada."'";
+		$Consulta="select * from sea_web.recepcion_externa where guia='".$GuiaEliminada."'";
 		$Resp=mysqli_query($link, $Consulta);
 		while($Fila=mysqli_fetch_array($Resp))
 		{
 			//echo "GUIA TTE:".$Fila["guia"]."<br>";
 			$LoteOrigen=substr($Fila["lote_origen"],0,1)."-".substr($Fila["lote_origen"],1);
-			$Consulta="SELECT hornada_ventana from sea_web.relaciones where cod_origen='2' and lote_ventana='".$Fila["lote_ventana"]."' and lote_origen='".$LoteOrigen."'";
+			$Consulta="select hornada_ventana from sea_web.relaciones where cod_origen='2' and lote_ventana='".$Fila["lote_ventana"]."' and lote_origen='".$LoteOrigen."'";
 			$RespHornada=mysqli_query($link, $Consulta);
 			$FilaHornada=mysqli_fetch_array($RespHornada);
-			$Hornada=$FilaHornada["hornada_ventana"];
+			$Hornada    = isset($FilaHornada["hornada_ventana"])?$FilaHornada["hornada_ventana"]:"";
 			$Eliminar="delete from sea_web.hornadas where cod_producto='17' and cod_subproducto='2' and hornada_ventana='".$Hornada."'";
 			//echo "TABLA HORNADAS:".$Eliminar."<br>";
 			mysqli_query($link, $Eliminar);
@@ -80,7 +80,7 @@
 			//echo "TABLA RECEPCIONES SIPA:".$Eliminar."<br><br><br>";
 			mysqli_query($link, $Eliminar);
 			$SA='';
-			$Consulta="SELECT solicitud_analisis from cal_web.leyes_externas where lote_ventana='".$Fila["lote_ventana"]."' and lote_origen='".$Fila["lote_origen"]."'";
+			$Consulta="select solicitud_analisis from cal_web.leyes_externas where lote_ventana='".$Fila["lote_ventana"]."' and lote_origen='".$Fila["lote_origen"]."'";
 			$RespSA=mysqli_query($link, $Consulta);
 			if($FilaSA=mysqli_fetch_array($RespSA))
 			{
@@ -166,7 +166,7 @@ function AnularGuiaTTE(Guia,Est,ExisteMov)
 		{
 			alert('Existen Movimientos para Esta Guia, Tambien debe Eliminarlos');
 		}
-		if(confirm('Esta Seguro de Anular Guia N� '+Guia))
+		if(confirm('Esta Seguro de Anular Guia N&deg; '+Guia))
 		{
 			f.action="sea_ing_recep_ext_guias.php?Buscar=S&AnularGuia=S&Estado=X&GuiaAnulada="+Guia;
 			f.submit();
@@ -326,13 +326,13 @@ if($Buscar=='S')
 	echo "<td>Dif Piezas</td>";
 	echo "<td>Marca</td>";
 	echo "</tr>";
-	$Consulta="SELECT distinct t1.lote_origen from sea_web.recepcion_externa t1 inner join sea_web.recepcion_externa_detalle t2 on t1.lote_origen=t2.lote_origen and t1.marca=t2.marca ";
+	$Consulta="select distinct t1.lote_origen from sea_web.recepcion_externa t1 inner join sea_web.recepcion_externa_detalle t2 on t1.lote_origen=t2.lote_origen and t1.marca=t2.marca ";
 	$Consulta.="where t1.fecha_guia='$TxtFecha' and t1.estado='C'";
 	//echo $Consulta."<br>";
 	$Resp=mysqli_query($link, $Consulta);
 	while($FilaDetalle=mysqli_fetch_array($Resp))
 	{
-		$Consulta="SELECT * from sea_web.recepcion_externa where lote_origen='".$FilaDetalle["lote_origen"]."' and estado='C'";
+		$Consulta="select * from sea_web.recepcion_externa where lote_origen='".$FilaDetalle["lote_origen"]."' and estado='C'";
 		//echo $Consulta."<br>";
 		$Resp2=mysqli_query($link, $Consulta);
 		$FilaDetalle2=mysqli_fetch_array($Resp2);
