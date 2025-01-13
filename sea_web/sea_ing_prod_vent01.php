@@ -1,27 +1,27 @@
 <?php
 	include("../principal/conectar_sea_web.php"); 
 
-		$proceso = $_REQUEST["proceso"];
-		$ano  = $_REQUEST["ano"];
-		$mes  = $_REQUEST["mes"];
-		$dia  = $_REQUEST["dia"];
-		$hora   = $_REQUEST["hora"];
-		$minuto = $_REQUEST["minuto"];
+		$proceso = isset($_REQUEST["proceso"])?$_REQUEST["proceso"]:"";
+		$ano     = isset($_REQUEST["ano"])?$_REQUEST["ano"]:"";
+		$mes     = isset($_REQUEST["mes"])?$_REQUEST["mes"]:"";
+		$dia     = isset($_REQUEST["dia"])?$_REQUEST["dia"]:"";
+		$hora    = isset($_REQUEST["hora"])?$_REQUEST["hora"]:"";
+		$minuto  = isset($_REQUEST["minuto"])?$_REQUEST["minuto"]:"";
 
-		$num_hornada = $_REQUEST["num_hornada"];
-		$uni_hojas_madres  	= $_REQUEST["uni_hojas_madres"];
-		$peso_hojas_madres 	= $_REQUEST["peso_hojas_madres"];
-		$uni_rechazo_hm 	= $_REQUEST["uni_rechazo_hm"];
-		$uni_corrientes 	= $_REQUEST["uni_corrientes"];
-		$peso_corrientes 	= $_REQUEST["peso_corrientes"];
-		$uni_rechazo_cte 	= $_REQUEST["uni_rechazo_cte"];
-		$peso_rechazo_cte 	= $_REQUEST["peso_rechazo_cte"];
-		$uni_hornada    	= $_REQUEST["uni_hornada"];
-		$peso_hornada   	= $_REQUEST["peso_hornada"];
+		$num_hornada        = isset($_REQUEST["num_hornada"])?$_REQUEST["num_hornada"]:"";
+		$uni_hojas_madres  	= isset($_REQUEST["uni_hojas_madres"])?$_REQUEST["uni_hojas_madres"]:"";
+		$peso_hojas_madres 	= isset($_REQUEST["peso_hojas_madres"])?$_REQUEST["peso_hojas_madres"]:"";
+		$uni_rechazo_hm 	= isset($_REQUEST["uni_rechazo_hm"])?$_REQUEST["uni_rechazo_hm"]:"";
+		$uni_corrientes 	= isset($_REQUEST["uni_corrientes"])?$_REQUEST["uni_corrientes"]:"";
+		$peso_corrientes 	= isset($_REQUEST["peso_corrientes"])?$_REQUEST["peso_corrientes"]:"";
+		$uni_rechazo_cte 	= isset($_REQUEST["uni_rechazo_cte"])?$_REQUEST["uni_rechazo_cte"]:"";
+		$peso_rechazo_cte 	= isset($_REQUEST["peso_rechazo_cte"])?$_REQUEST["peso_rechazo_cte"]:"";
+		$uni_hornada    	= isset($_REQUEST["uni_hornada"])?$_REQUEST["uni_hornada"]:"";
+		$peso_hornada   	= isset($_REQUEST["peso_hornada"])?$_REQUEST["peso_hornada"]:"";
 
-		$peso_rechazo_hm   	= $_REQUEST["peso_rechazo_hm"];
-		$cmbhornos   		= $_REQUEST["cmbhornos"];
-		//$flujo_hm   		= $_REQUEST["flujo_hm"];
+		$peso_rechazo_hm   	= isset($_REQUEST["peso_rechazo_hm"])?$_REQUEST["peso_rechazo_hm"]:"";
+		$cmbhornos   		= isset($_REQUEST["cmbhornos"])?$_REQUEST["cmbhornos"]:"";
+		//$flujo_hm   		= isset($_REQUEST["flujo_hm"])?$_REQUEST["flujo_hm"]:"";
 			
 //*******************************************************************************//
 	//Valida que no se realicen cambios de movimientos, en la fecha ingresada.
@@ -129,7 +129,7 @@ if ($proceso == 'G')
 			$Insertar_h.= " VALUES (17,8,'".$num_hornada."','".$unidades_total."','".$peso_total."')";
 			mysqli_query($link, $Insertar_h);
 			
-			RegistrarHornada($num_hornada);
+			RegistrarHornada($num_hornada,$link);
 			$RegistroHornada=true;
 		}
 					
@@ -175,7 +175,7 @@ if ($proceso == 'G')
 			mysqli_query($link, $Insertar_h);
 			if($RegistroHornada==false)
 			{
-				RegistrarHornada($num_hornada);
+				RegistrarHornada($num_hornada,$link);
 			
 			}
 		

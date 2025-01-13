@@ -42,14 +42,11 @@ if(isset($_REQUEST["Color"])) {
 	$Color = "";
 }
 
-if(isset($_REQUEST['cmbhornos'])){
-	$num_hornada=$_REQUEST['cmbhornos'];
+if(isset($_REQUEST['num_hornada'])){
+	$num_hornada=$_REQUEST['num_hornada'];
  }else{
 	$num_hornada=0;
  }
-
-
- 
 
 $Hora=date('G');
 $Min=date('i');
@@ -515,7 +512,7 @@ body {
           <tr> 
             <td width="32%">Fecha Producci&oacute;n</td>
             <td colspan="3"><font color="#000000" size="2"> 
-              <SELECT name="dia" size="1" style="font-face:verdana;font-size:10">
+              <select name="dia" size="1" style="font-face:verdana;font-size:10">
                 <?php
 			if($generar_h=='S' || $Color == 'S')
 			{
@@ -523,7 +520,7 @@ body {
 				{
  				   if ($i==$dia)
 						{
-						echo "<option SELECTed value= '".$i."'>".$i."</option>";
+						echo "<option selected value= '".$i."'>".$i."</option>";
 						}
 						else
 						{						
@@ -537,7 +534,7 @@ body {
 				{
 	   				   if ($i==date("j"))
 						{
-						echo "<option SELECTed value= '".$i."'>".$i."</option>";
+						echo "<option selected value= '".$i."'>".$i."</option>";
 						}
 						else
 						{						
@@ -546,9 +543,9 @@ body {
  				}
 		   }			
 	?>
-              </SELECT>
+              </select>
               </font> <font color="#000000" size="2"> 
-              <SELECT name="mes" size="1" id="SELECT7" style="FONT-FACE:verdana;FONT-SIZE:10">
+              <select name="mes" size="1" id="select7" style="FONT-FACE:verdana;FONT-SIZE:10">
                 <?php
         $meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");			
 		if ($generar_h=='S' || $Color == 'S')
@@ -557,7 +554,7 @@ body {
 		    {
                 if ($i==$mes)
 				{				
-				echo "<option SELECTed value ='".$i."'>".$meses[$i-1]." </option>";
+				echo "<option selected value ='".$i."'>".$meses[$i-1]." </option>";
 				}			
 				else
 				{
@@ -571,7 +568,7 @@ body {
 		    {
                 if ($i==date("n"))
 				{				
-				echo "<option SELECTed value ='".$i."'>".$meses[$i-1]." </option>";
+				echo "<option selected value ='".$i."'>".$meses[$i-1]." </option>";
 				}			
 				else
 				{
@@ -581,8 +578,8 @@ body {
 	    } 	  
   		  
      ?>
-              </SELECT>
-              <SELECT name="ano" size="1"  style="FONT-FACE:verdana;FONT-SIZE:10">
+              </select>
+              <select name="ano" size="1"  style="FONT-FACE:verdana;FONT-SIZE:10">
                 <?php
 	if($generar_h=='S' || $Color == 'S')
 	{
@@ -590,7 +587,7 @@ body {
 	    {
             if ($i==$ano)
 			{
-			echo "<option SELECTed value ='$i'>$i</option>";
+			echo "<option selected value ='$i'>$i</option>";
 			}
 			else	
 			{
@@ -604,7 +601,7 @@ body {
 	    {
             if ($i==date("Y"))
 			{
-			echo "<option SELECTed value ='$i'>$i</option>";
+			echo "<option selected value ='$i'>$i</option>";
 			}
 			else	
 			{
@@ -613,7 +610,7 @@ body {
          }   
     }	
 ?>
-              </SELECT>
+              </select>
               <input name='ver' type='button' style="width:80" value='Ver Datos' onClick='ver_datos();'>
 </font></td>
             <td width="22%"> 
@@ -629,7 +626,7 @@ body {
           <tr class="boxcontent"> 
             <td><font color="#000000">Hornos</font></td>
             <td><font color="#000000"> 
-              <SELECT name="cmbhornos" id="cmbhornos" onChange="generar_hornada(this.form)">
+              <select name="cmbhornos" id="cmbhornos" onChange="generar_hornada(this.form)">
                 <?php
             
 				include("../principal/conectar_principal.php");
@@ -641,7 +638,7 @@ body {
 					while ($row = mysqli_fetch_array($rs))
 					{
 						if ($row["cod_subclase"] == $cmbhornos)	
-							echo '<option value="'.$row["cod_subclase"].'" SELECTed>'.$row["nombre_subclase"].'</option>';
+							echo '<option value="'.$row["cod_subclase"].'" selected>'.$row["nombre_subclase"].'</option>';
 							else 
 								echo '<option value="'.$row["cod_subclase"].'">'.$row["nombre_subclase"].'</option>';
 					
@@ -649,7 +646,7 @@ body {
 
            					
 				?>
-              </SELECT>
+              </select>
               </font></td>
             <td colspan="2">&nbsp;</td>
             <td>&nbsp;</td>
