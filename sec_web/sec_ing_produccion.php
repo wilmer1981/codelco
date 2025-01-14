@@ -100,11 +100,11 @@
 	$medida      = isset($_REQUEST["medida"])?$_REQUEST["medida"]:"";
 $codigopaquete = isset($_REQUEST["codigopaquete"])?$_REQUEST["codigopaquete"]:"";
 
-echo "IP: ".$IP; 
+//echo "IP: ".$IP; 
 
 $ROMANA = LeerRomana($IP,$link); 
 
-echo "<br>ROMANA: ".$ROMANA;
+//echo "<br>ROMANA: ".$ROMANA;
 
 ?>
 
@@ -183,10 +183,13 @@ function CapturaPeso()
 			Peso  = LeerArchivo(Carpeta,PesoMatic,VPeso);
 			f.txtpeso.value = Peso;
 		}else{
-			f.txtpeso.value = '';
-		}	
+			f.txtpeso.value = VPeso;
+		}
+		setTimeout("CapturaPeso()",200);	
+	}else{
+		f.txtpeso.value = VPeso;
 	}
-	setTimeout("CapturaPeso()",200);	
+	
 	//setInterval(CapturaPeso,200);
 }
 /****************/

@@ -1151,13 +1151,31 @@ function TeclaPulsada2(ValidaNum,PermiteDecimales,formulario,CampoSgte)
 	}//FIN SI ES ENTER
 }
 
-// FUNCION LEE ARCHIVO txt
-function LeerArchivo(ruta,archivo){
+//funcion escribe el archivo .TXT
+function EscribirArchivo(ruta,archivo,content){
       var dev;
-	  var url     = 'LeerArchivo.php';
+	  var url  = '../sec_web/EscribirArchivo.php';
       $.ajax({
 		    type: 'post',
-		    data:{ruta:ruta, archivo:archivo },
+		    data:{ruta:ruta,archivo:archivo,content:content},
+			dataType: "json",
+            url: url,
+            async: false
+      })
+      .done(function(data){
+		    console.log(data);
+            dev = data.archivo;
+      });
+      return (dev);
+}
+
+// FUNCION LEE ARCHIVO txt
+function LeerArchivo(ruta,archivo,vpeso){
+      var dev;
+	  var url  = '../sec_web/LeerArchivo.php';
+      $.ajax({
+		    type: 'post',
+		    data:{ruta:ruta,archivo:archivo,vpeso:vpeso},
 			dataType: "json",
             url: url,
             async: false
@@ -1168,6 +1186,9 @@ function LeerArchivo(ruta,archivo){
       });
       return (dev);
 }
+
+
+
 function LeerArchivo2(ruta,archivo){
 	var f = document.FrmOtrosPesajes;
 	var url     = 'LeerArchivo.php';
