@@ -2471,14 +2471,15 @@ switch ($Proceso)
 			$Consulta.= " and hornada<>'' and hornada<>'0'";
 			$Resp2 = mysqli_query($link, $Consulta);
 			$Fila2 = mysqli_fetch_array($Resp2);
-			if ($Fila2["hornada"]!="" && !is_null($Fila2["hornada"]) && $Fila2["hornada"]!="0")
+			$hornada = isset($Fila2["hornada"])?$Fila2["hornada"]:"";
+			if ($hornada!="" && !is_null($hornada) && $hornada!="0")
 				$Hornada = $Fila2["hornada"];
 			else
 				$Hornada = 0;									
 			$Insertar = "INSERT INTO sea_web.`detalle_pesaje` (`cod_producto`, `cod_subproducto`, ";
 			$Insertar.= " `fecha`, `tipo_pesaje`, `horno`, `rueda`, `hornada`, `num_carro`, `num_rack`, ";
 			$Insertar.= " `unidades`, `peso`, `peso_total`, `estado`, `promedio`, `fecha_carga`, `bascula`) VALUES (";
-			$Insertar.= " '".$GrupoProd."', '".$Cuba."', '".$FechaHora."', 'RHM', '', '', '".$Hornada."', '', '', '".$Unidades."', '".$Peso."', '', 'C', '', '".$FechaCarga."', '".$IpPc."')";
+			$Insertar.= " '".$GrupoProd."', '".$Cuba."', '".$FechaHora."', 'RHM', '0', '0', '".$Hornada."', '0', '0', '".$Unidades."', '".$Peso."', '0', 'C', '0', '".$FechaCarga."', '".$IpPc."')";
 			mysqli_query($link, $Insertar);
 			//CONSULTA ESTADO DEL GRUPO.
 			$Consulta = "select distinct estado from sea_web.detalle_pesaje ";
