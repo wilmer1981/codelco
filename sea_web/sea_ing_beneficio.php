@@ -1,10 +1,11 @@
-﻿<?php include ("funciones.php");
-
+﻿<?php 
+	include ("funciones.php");
+ 
 	$CodigoDeSistema = 2;
 	$CodigoDePantalla = 4;
 	$HoraAux=date('G');
 	$MinAux=date('i');
-
+	
 	if(isset($_REQUEST["cmbtipo"])) {
 		$cmbtipo = $_REQUEST["cmbtipo"];
 	}else{
@@ -15,7 +16,6 @@
 	}else{
 		$cmbgrupo = "";
 	}
-	
 	if(isset($_REQUEST["cmbproducto"])) {
 		$cmbproducto = $_REQUEST["cmbproducto"];
 	}else{
@@ -26,7 +26,6 @@
 	}else{
 		$mostrar = "";
 	}
-
 	if(isset($_REQUEST["recargapag1"])) {
 		$recargapag1 = $_REQUEST["recargapag1"];
 	}else{
@@ -47,13 +46,11 @@
 	}else{
 		$recargapag4 = "";
 	}
-
 	if(isset($_REQUEST["activa_fecha2"])) {
 		$activa_fecha2 = $_REQUEST["activa_fecha2"];
 	}else{
 		$activa_fecha2 = "";
 	}
-
 	if(isset($_REQUEST["dia"])) {
 		$dia = $_REQUEST["dia"];
 	}else{
@@ -121,7 +118,8 @@
 		$pesopromedio = $_REQUEST["pesopromedio"];
 	}else{
 		$pesopromedio = "";
-	}
+	}	
+	//echo "PESO PROMEDIO:".$pesopromedio;
 	if(isset($_REQUEST["dia2"])) {
 		$dia2 = $_REQUEST["dia2"];
 	}else{
@@ -154,8 +152,6 @@
 		$txtunidsaldo = 0;
 	}
 	
-	
-
 	if($Hora=="")
 	{
 		if(intval($HoraAux)>=0&&intval($HoraAux)<8)
@@ -236,6 +232,7 @@ function Buscar(f)
 {
 	if (f.cmbhornada.value != -1)
 	{
+		//alert ("por aca");
 		f.action = "sea_ing_beneficio01.php?proceso=B";
 		f.submit();
 	}
@@ -484,7 +481,8 @@ function Existe(f, hornada)
 }
 /****************/
 function Posicionar(f)
-{
+{   
+    var f = document.frmBeneficio;
 	hornada = f.txthornada.value;
 	if(hornada=="" || hornada==0)
 	{
@@ -538,14 +536,14 @@ function ModDatoss(f)
 
 </script>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"><style type="text/css">
-
+<!--
 body {
 	margin-left: 3px;
 	margin-top: 3px;
 	margin-right: 0px;
 	margin-bottom: 0px;
 }
-
+-->
 </style></head>
 
 <body>
@@ -559,30 +557,30 @@ body {
     <table width="600" border="0" cellspacing="0" cellpadding="3" class="TablaInterior">
       <tr> 
         <td width="250">Tipo Anodo</td>
-        <td width="250"><SELECT name="cmbtipo" id="cmbtipo" onChange="JavaScript:Recarga1(this.form)">
+        <td width="250"><select name="cmbtipo" id="cmbtipo" onChange="JavaScript:Recarga1(this.form)">
             <?php
 			if ($cmbtipo == "-1")
-				echo '<option value="-1" SELECTed>SELECCIONAR</option>';
+				echo '<option value="-1" selected>SELECCIONAR</option>';
 			else 
 				echo '<option value="-1">SELECCIONAR</option>';
 		  	if ($cmbtipo == "1")
-		  		echo '<option value="1" SELECTed>ANODOS CORRIENTE</option>';
+		  		echo '<option value="1" selected>ANODOS CORRIENTE</option>';
 			else 
 				echo '<option value="1">ANODOS CORRIENTE</option>';
 			if ($cmbtipo == "2")	
-				echo '<option value="2" SELECTed>ANODOS HOJAS MADRES</option>';
+				echo '<option value="2" selected>ANODOS HOJAS MADRES</option>';
 			else 
 				echo '<option value="2">ANODOS HOJAS MADRES</option>';
 			if ($cmbtipo == "3")	
-				echo '<option value="3" SELECTed>ANODOS ESPECIALES</option>';
+				echo '<option value="3" selected>ANODOS ESPECIALES</option>';
 			else 
 				echo '<option value="3">ANODOS ESPECIALES</option>';							
 		?>
-          </SELECT></td>
+          </select></td>
       </tr>
       <tr> 
         <td width="250">Tipo Subproducto</td>
-        <td width="250"><SELECT name="cmbproducto" id="cmbproducto" onChange="JavaScript:Recarga2(this.form)">
+        <td width="250"><select name="cmbproducto" id="cmbproducto" onChange="JavaScript:Recarga2(this.form)">
             <option value="-1">SELECCIONAR</option>
             <?php
 			if (($recargapag1 == "S") and ($cmbtipo != -1))
@@ -604,7 +602,7 @@ body {
 					if ($row1 = mysqli_fetch_array($rs1))
 					{
 						if ($row1["cod_subproducto"] == $cmbproducto)
-							echo '<option value="'.$row1["cod_subproducto"].'" SELECTed>'.$row1["descripcion"].'</option>';
+							echo '<option value="'.$row1["cod_subproducto"].'" selected>'.$row1["descripcion"].'</option>';
 						else
 							echo '<option value="'.$row1["cod_subproducto"].'">'.$row1["descripcion"].'</option>';
 					}
@@ -613,13 +611,12 @@ body {
 				include("../principal/cerrar_sea_web.php");
 			}
 		?>
-          </SELECT></td>
+          </select></td>
       </tr>
     </table><br>
 
 
 <?php 
-$pesopromedio=0; // WSO
 	if (($cmbtipo == 1) or ($cmbtipo == 2) or ($cmbtipo == 3)) //Muestra la Segunda Tabla 
 	{ 
 ?>
@@ -629,48 +626,48 @@ $pesopromedio=0; // WSO
           <tr> 
             <td colspan="2">Fecha Beneficio		    </td>
           <td>
-            <SELECT name="dia" size="1">
+            <select name="dia" size="1">
               <?php
 			$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
 			for ($i=1;$i<=31;$i++)
 			{	
 				if (($recargapag2 == "S") && ($i == $dia))			
-					echo "<option SELECTed value= '".$i."'>".$i."</option>";				
+					echo "<option selected value= '".$i."'>".$i."</option>";				
 				else if (($i == date("j")) and ($recargapag2 != "S")) 
-						echo "<option SELECTed value= '".$i."'>".$i."</option>";											
+						echo "<option selected value= '".$i."'>".$i."</option>";											
 				else					
 					echo "<option value='".$i."'>".$i."</option>";												
 			}		
 		?>
-            </SELECT>
-            <SELECT name="mes" size="1" id="SELECT">
+            </select>
+            <select name="mes" size="1" id="select">
               <?php
 		 	for($i=1;$i<13;$i++)
 		  	{
 				if (($recargapag2 == "S") && ($i == $mes))
-					echo "<option SELECTed value ='".$i."'>".$meses[$i-1]." </option>";
+					echo "<option selected value ='".$i."'>".$meses[$i-1]." </option>";
 				else if (($i == date("n")) && ($recargapag2 != "S"))
-						echo "<option SELECTed value ='".$i."'>".$meses[$i-1]." </option>";
+						echo "<option selected value ='".$i."'>".$meses[$i-1]." </option>";
 				else
 					echo "<option value='$i'>".$meses[$i-1]."</option>\n";			
 			}		  
 		?>
-            </SELECT>
-            <SELECT name="ano" size="1">
+            </select>
+            <select name="ano" size="1">
               <?php
 			for ($i=date("Y")-1;$i<=date("Y")+1;$i++)
 			{
 				if (($recargapag2 == "S") && ($i == $ano))
-					echo "<option SELECTed value ='$i'>$i</option>";
+					echo "<option selected value ='$i'>$i</option>";
 				else if (($i == date("Y")) && ($recargapag2 != "S"))
-					echo "<option SELECTed value ='$i'>$i</option>";
+					echo "<option selected value ='$i'>$i</option>";
 				else	
 					echo "<option value='".$i."'>".$i."</option>";
 			}
 		?>
-            </SELECT>
+            </select>
             <font size="1"><font size="2">
-            <SELECT name="Hora">
+            <select name="Hora">
 			<option value="S">S</option>
               <?php
 				for ($i=0;$i<=23;$i++)
@@ -678,24 +675,24 @@ $pesopromedio=0; // WSO
 					if ($i<10)
 						$Valor = "0".$i;
 					else	$Valor = $i;
-					if (isset($Hora))
+					if ($Hora!="")
 					{	
 						if ($Hora == $Valor)
-							echo "<option SELECTed value='".$Valor."'>".$Valor."</option>\n";
+							echo "<option selected value='".$Valor."'>".$Valor."</option>\n";
 						else	
 							echo "<option value='".$Valor."'>".$Valor."</option>\n";		
 					}
 					else
 					{	
 						if ($HoraActual == $Valor)
-							echo "<option SELECTed value='".$Valor."'>".$Valor."</option>\n";
+							echo "<option selected value='".$Valor."'>".$Valor."</option>\n";
 						else
 							echo "<option value='".$Valor."'>".$Valor."</option>\n";		
 					}
 				}
 				?>
-            </SELECT><strong>:</strong>
-            <SELECT name="Minutos">
+            </select><strong>:</strong>
+            <select name="Minutos">
 			<option value="S">S</option>
               <?php
 				for ($i=0;$i<=59;$i++)
@@ -704,23 +701,23 @@ $pesopromedio=0; // WSO
 					$Valor = "0".$i;
 				else
 					$Valor = $i;
-					if (isset($Minutos))
+					if ($Minutos!="")
 					{	
 						if ($Minutos == $Valor)
-							echo "<option SELECTed value='".$Valor."'>".$Valor."</option>\n";
+							echo "<option selected value='".$Valor."'>".$Valor."</option>\n";
 						else	
 							echo "<option value='".$Valor."'>".$Valor."</option>\n";		
 					}
 					else
 					{	
 						if ($MinutoActual == $Valor)
-							echo "<option SELECTed value='".$Valor."'>".$Valor."</option>\n";
+							echo "<option selected value='".$Valor."'>".$Valor."</option>\n";
 						else
 							echo "<option value='".$Valor."'>".$Valor."</option>\n";		
 					}
 				}
 				?>
-            </SELECT>
+            </select>
             </font></font></td>
           </tr>
 		<?php  
@@ -730,44 +727,44 @@ $pesopromedio=0; // WSO
 	            echo '<td colspan="2">Fecha a Cual Agrupar</td>';
     	        echo '<td>';
 				
-				echo '<SELECT name="dia2" size="1">';
+				echo '<select name="dia2" size="1">';
 				for ($i=1;$i<=31;$i++)
 				{	
 					if ($i == $dia2)
-						echo "<option SELECTed value= '".$i."'>".$i."</option>";				
+						echo "<option selected value= '".$i."'>".$i."</option>";				
 					//else if ($i == date("j"))
-					//		echo "<option SELECTed value= '".$i."'>".$i."</option>";											
+					//		echo "<option selected value= '".$i."'>".$i."</option>";											
 					else					
 						echo "<option value='".$i."'>".$i."</option>";												
 				}		
 
-             	echo '</SELECT>';
-              	echo '<SELECT name="mes2" size="1">';
+             	echo '</select>';
+              	echo '<select name="mes2" size="1">';
 
 		 		for($i=1;$i<13;$i++)
 			  	{
 					if ($i == $mes2)
-						echo "<option SELECTed value ='".$i."'>".$meses[$i-1]." </option>";
+						echo "<option selected value ='".$i."'>".$meses[$i-1]." </option>";
 					//else if ($i == date("n"))
-					//		echo "<option SELECTed value ='".$i."'>".$meses[$i-1]." </option>";
+					//		echo "<option selected value ='".$i."'>".$meses[$i-1]." </option>";
 					else
 						echo "<option value='$i'>".$meses[$i-1]."</option>\n";
 				}		  
 
-    			echo '</SELECT>';
-              	echo '<SELECT name="ano2" size="1">';
+    			echo '</select>';
+              	echo '<select name="ano2" size="1">';
 
 				for ($i=date("Y")-1;$i<=date("Y")+1;$i++)
 				{
 					if  ($i == $ano2)
-						echo "<option SELECTed value ='$i'>$i</option>";
+						echo "<option selected value ='$i'>$i</option>";
 					//else if($i == date("Y"))
-					//	echo "<option SELECTed value ='$i'>$i</option>";
+					//	echo "<option selected value ='$i'>$i</option>";
 					else	
 						echo "<option value='".$i."'>".$i."</option>";
 				}
 
-              	echo '</SELECT>';
+              	echo '</select>';
 				echo '</td>';
         	  	echo '</tr>';
 			}
@@ -781,7 +778,7 @@ $pesopromedio=0; // WSO
             <td width="326"> 
               <?php
 			
-			echo '<SELECT name="cmbhornada" id="SELECT2" onChange="JavaScript:Buscar(this.form)">';
+			echo '<select name="cmbhornada" id="select2" onChange="JavaScript:Buscar(this.form)">';
 			echo '<option value="-1">SELECCIONAR</option>';
                 	  	
 			include("../principal/conectar_sea_web.php");
@@ -795,14 +792,14 @@ $pesopromedio=0; // WSO
 				while ($row = mysqli_fetch_array($rs))
 				{
 					if ($row["hornada_ventana"] == $cmbhornada)
-						echo '<option value="'.$row["hornada_ventana"].'" SELECTed>'.substr($row["hornada_ventana"],6,4).'</option>';				
+						echo '<option value="'.$row["hornada_ventana"].'" selected>'.substr($row["hornada_ventana"],6,4).'</option>';				
 					else
 						echo '<option value="'.$row["hornada_ventana"].'">'.substr($row["hornada_ventana"],6,4).'</option>';				
 				}
 			}
 						
 			include("../principal/cerrar_sea_web.php");
-		?></SELECT>
+		?></select>
               <?php
 				if ($recargapag3 == "S")
 					echo '<input name="fecha_creacion" type="text" size="10" value="'.substr($cmbhornada,4,2).'/'.substr($cmbhornada,0,4).'" readonly>';
@@ -845,24 +842,21 @@ $pesopromedio=0; // WSO
 			 
 			if ($recargapag3 == "S")
 			{
-				$unidN = 0;   	
-				if($unidad_raf=="")	{
-					$unidad_raf=0;
-				}	
+				$unidN = 0;   			
                 
 				if ($unid_rech >= $unidad_raf)
-					$unid_rech = $unid_rech - $unidad_raf;
-				else
+					$unid_rech = (int)$unid_rech - (int)$unidad_raf;
+					else
 					$unid_rech = 0;
 					
 				if ($txtunidstock >= $unid_rech)
 				{
-					$txtunidstock = $txtunidstock - $unid_rech;
+					$txtunidstock = (int)$txtunidstock - (int)$unid_rech;
 				}
 				else
 				{
 					$unidN = $unid_rech - $txtunidstock;
-					$unid_rech = $unid_rech - $unidN;
+					$unid_rech = (int)$unid_rech - (int)$unidN;
 					$txtunidstock = 0;
 				}
 				echo '<input name="txtunidstock" type="text" size="10" value="'.$txtunidstock.'" readonly>';
@@ -878,21 +872,18 @@ $pesopromedio=0; // WSO
 			{
 				//echo '<input name="txtpesostock" type="text" size="10" value="'.round($txtunidstock * $pesopromedio).'" readonly>';
 				$pesoN = 0;  
-				if($peso_raf=="")	{
-					$peso_raf=0;
-				}	
 				if ($peso_rc >= $peso_raf)
-					$peso_rc = $peso_rc - $peso_raf;
-					else
+					$peso_rc = (int)$peso_rc - (int)$peso_raf;
+				else
 					$peso_rc = 0; 
 				if ($peso_faltante >= $peso_rc)
 				{
-					$peso_faltante = $peso_faltante - $peso_rc;
+					$peso_faltante = (int)$peso_faltante - (int)$peso_rc;
 				}
 				else
 				{
-					$pesoN = $peso_rc - $peso_faltante;
-					$peso_rc = $peso_rc - $pesoN;
+					$pesoN = (int)$peso_rc - (int)$peso_faltante;
+					$peso_rc = (int)$peso_rc - (int)$pesoN;
 					$peso_faltante = 0;
 				}
 
@@ -936,9 +927,9 @@ $pesopromedio=0; // WSO
             <td width="131"> 
               <?php	
 	  		if ($cmbtipo == "2")
-				echo '<SELECT name="cmbgrupo" id="cmbgrupo">'; //onChange="JavaScript:Recarga4(this.form)"
+				echo '<select name="cmbgrupo" id="cmbgrupo">'; //onChange="JavaScript:Recarga4(this.form)"
 			else
-				echo '<SELECT name="cmbgrupo" id="cmbgrupo">';
+				echo '<select name="cmbgrupo" id="cmbgrupo">';
 				
           	echo '<option value="-1">SELECCIONAR</option>';
         
@@ -951,11 +942,11 @@ $pesopromedio=0; // WSO
 			while ($row = mysqli_fetch_array($rs))
 			{
 				if (($row["cod_subclase"] == $cmbgrupo) and ($recargapag4 == "S"))
-					echo '<option value="'.$row["cod_subclase"].'" SELECTed>N° '.$row["cod_subclase"].'</option>';
+					echo '<option value="'.$row["cod_subclase"].'" selected>N° '.$row["cod_subclase"].'</option>';
 				else 
 					echo '<option value="'.$row["cod_subclase"].'">N° '.$row["cod_subclase"].'</option>';
 			}			
-		?></SELECT>
+		?></select>
             </td>
             <?php
 		 	if (($cmbtipo == 1) or ($cmbtipo == 3))
@@ -967,29 +958,29 @@ $pesopromedio=0; // WSO
               <?php
 			if (($cmbtipo == 1) or ($cmbtipo == 3)) //Corrientes y Especiales
 			{
-				echo '<SELECT name="campo1" id="campo1">';
+				echo '<select name="campo1" id="campo1">';
 				if (($campo1 == -1) and ($recargapag4 == "S"))
-					echo '<option value="-1" SELECTed>SELECCIONAR</option>';
+					echo '<option value="-1" selected>SELECCIONAR</option>';
 				else
 					echo '<option value="-1">SELECCIONAR</option>';
 					
 				if (($campo1 == "T") and ($recargapag4 == "S"))
-					echo '<option value="T" SELECTed>TIERRA</option>';
+					echo '<option value="T" selected>TIERRA</option>';
 				else 
 					echo '<option value="T">TIERRA</option>';
 				
 				if (($campo1 == "M") and ($recargapag4 == "S"))
-					echo '<option value="M" SELECTed>MAR</option>';
+					echo '<option value="M" selected>MAR</option>';
 				else
 					echo '<option value="M">MAR</option>';
 					//poly
 				if (($campo1 == "N") and ($recargapag4 == "S"))
-					echo '<option value="N" SELECTed>NORTE</option>';
+					echo '<option value="N" selected>NORTE</option>';
 				else 
 					echo '<option value="N">NORTE</option>';
 				
 				if (($campo1 == "S") and ($recargapag4 == "S"))
-					echo '<option value="S" SELECTed>SUR</option>';
+					echo '<option value="S" selected>SUR</option>';
 				else
 					echo '<option value="S">SUR</option>';
 
@@ -998,19 +989,19 @@ $pesopromedio=0; // WSO
 					
 					
 					
-				echo '</SELECT>';
+				echo '</select>';
 			}
 			else if ($cmbtipo == 2) //H. Madres
 				 {
 				 	//echo '<input name="txtcuba" type="text" size="10">';
-					echo '<SELECT name="campo1">';
+					echo '<select name="campo1">';
 					echo '<option value="-1">SELECCIONAR</option>';
 
 
 					for ($i=1; $i<=42; $i++)				
 					{
 						if (($i == $campo1) and ($recargapag4 == "S"))
-							echo '<option value="'.$i.'" SELECTed>N° '.$i.'</option>';
+							echo '<option value="'.$i.'" selected>N° '.$i.'</option>';
 						else 
 							echo '<option value="'.$i.'">N° '.$i.'</option>';
 					}
@@ -1027,7 +1018,7 @@ $pesopromedio=0; // WSO
 						while ($row3 = mysqli_fetch_array($rs3))
 						{
 							$arreglo[] = $row3["cod_subclase"];
-							$nombres[$row3["cod_subclase"]][0] = $row3["nombre_subclase"];
+							$nombres[$row3["cod_subclase"]][0] = $row3[nombre_subclase];
 							$nombres[$row3["cod_subclase"]][1] = 0; //0: Mostrar, 1: No Mostrar.
 						}
 						
@@ -1042,7 +1033,7 @@ $pesopromedio=0; // WSO
 						
 						while ($row4 = mysqli_fetch_array($rs4))
 						{
-							$nombres[$row4["campo1"]][1] = 1;
+							$nombres[$row4[campo1]][1] = 1;
 						}
 						
 						reset($nombres);
@@ -1052,7 +1043,7 @@ $pesopromedio=0; // WSO
 								echo '<option value="'.$c1.'">'.$v1[0].'</option>';
 						}
 */						
-					echo '</SELECT>';					
+					echo '</select>';					
 				 }
 		?>
             </td>
@@ -1069,7 +1060,7 @@ $pesopromedio=0; // WSO
             <td>
 			<?php
 				if ($recargapag4 == "S")
-					echo '<input name="textfield" type="text" style="background:#FFFFCC" size="10" value="'.round($pesopromedio,3).'" readonly></td>';
+					echo '<input name="textfield" type="text" style="background:#FFFFCC" size="10" value="'.round((float)$pesopromedio,3).'" readonly></td>';
 				else 
 					echo '<input name="textfield" type="text" style="background:#FFFFCC" size="10" value="" readonly></td>';
 				
@@ -1132,13 +1123,13 @@ $pesopromedio=0; // WSO
 	} 
 ?>
 <table width="600" border="0" cellspacing="0" cellpadding="3">
-  <tr>
+    <tr>
     <td align="center"><input name="btngrabar" type="button" value="Grabar" style="width:60" onClick="JavaScript:Grabar(this.form)">
-              <input name="btnlimpiar" type="button" value="Limpiar" style="width:60" onClick="JavaScript:Limpiar(this.form)">
-              <input name="ModDatos" type="button" id="ModDatos" style="width:150" onClick="JavaScript:ModDatoss(this.form)" value="Modif. Unid. Aprob.">
+        <input name="btnlimpiar" type="button" value="Limpiar" style="width:60" onClick="JavaScript:Limpiar(this.form)">
+        <input name="ModDatos" type="button" id="ModDatos" style="width:150" onClick="JavaScript:ModDatoss(this.form)" value="Modif. Unid. Aprob.">
               <?php //onClick="ModDatos();"   ?>
-<input name="btnsalir" type="button" id="btnsalir" style="width:60" value="Salir" onClick="JavaScript:Salir()"></td>
-  </tr>
+    <input name="btnsalir" type="button" id="btnsalir" style="width:60" value="Salir" onClick="JavaScript:Salir()"></td>
+    </tr>
 </table>
 
   
@@ -1152,3 +1143,4 @@ $pesopromedio=0; // WSO
 </form>
 </body>
 </html>
+

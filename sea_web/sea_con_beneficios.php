@@ -41,7 +41,7 @@ if(isset($_REQUEST["ano"])) {
 function Buscar(f)
 {
 	fecha = f.ano.value + '-' + f.mes.value + '-' + f.dia.value;
-	f.action = "sea_con_beneficios.php?mostrar=S&fecha=" + fecha + "&subproducto=" + f.subproducto.value;
+	f.action = "sea_con_beneficios.php?mostrar=S&fecha="+fecha+"&subproducto="+f.subproducto.value;
 	f.submit();
 }
 /***************/
