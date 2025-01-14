@@ -1,10 +1,10 @@
 <?php
 	include("../principal/conectar_principal.php");
+	include("../sec_web/funciones_interfaces_codelco.php");
 	$CodigoDeSistema = 2;
 	$CodigoDePantalla = 48;	
 	
 	$Proceso = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
-
 	/******************Modificar********************************* */
 	//Modif=S&Hornada=202201&Horno=0&FechaHora=2022-01-01%2016:26:11
 	$Hornada   = isset($_REQUEST["Hornada"])?$_REQUEST["Hornada"]:"";
@@ -191,36 +191,18 @@ if($Modif=='S'){
 	$Segundos = $seg;
 }
 
-
+	$IP_USER    = getenv("REMOTE_ADDR"); //Obtiene la IP de cada equipo: ::1 
+	$ROMANA     = LeerRomana($IP_USER,$link); 
 ?>
 <html>
 <head>
 <title>Producci&oacute;n de &Aacute;nodos Ventana</title>
 <link href="../principal/estilos/css_sea_web.css" type="text/css" rel="stylesheet">
-<!--<script language="VBScript">-->
-<script type="text/vbscript">
-	Function LeerArchivo(valor)	
-		ubicacion = "c:\PesoMatic.txt"	
-		Set fs = CreateObject("Scripting.FileSystemObject")
-		Set file = fs.OpenTextFile(ubicacion,1,true) //Crea el archivo si no existe.
-		
-		//Validar si el peso del archivo ==  0 no leer. 
-		
-		Set file2 = fs.getFile(ubicacion) 
-		tamano = file2.size	
-
-		If (tamano <> 0)	Then
-			valor = file.ReadLine
-			LeerArchivo = valor
-		Else
-			LeerArchivo = valor
-		End If
-
-	End Function 
-</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="../principal/funciones/funciones_java.js" language="javascript"></script>
 <script language="JavaScript">
 function validar_fecha(f){
-				var dia = f.dia.value;
+			var dia = f.dia.value;
 			var mes = f.mes.value;
 			var semaforo = 0;
 			if(mes==2){
@@ -254,10 +236,29 @@ function PesoAutomatico()
 function CapturaPeso()
 {
 	var f = document.formulario;
-	if (f.checkpeso.checked == true)
-		f.PesoBruto.value = LeerArchivo(f.PesoBruto.value);
-		
-	setTimeout("CapturaPeso()",200);		
+	var Romana    = f.TxtNumRomana.value;  //Romana seleccionada
+	var Carpeta   = 'configuracion_pesaje'; //Carpeta de los PesoMatic
+	var PesoMatic = 'PesoMatic_'+Romana+'.txt'; //creamos el nombre del archivo PesoMatic segun la Romana seleccionada
+	var Peso  =0;
+	var VPeso =0;
+	if(f.PesoAuto.value == 'S') {
+		VPeso = f.PesoBruto.value;
+		//alert("Check:"+f.checkpeso.checked);
+		if (f.checkpeso.checked == true){
+			//f.PesoBruto.value = LeerArchivo(f.PesoBruto.value);
+			console.log("Romana:"+Romana);
+			console.log("Carpeta:"+Carpeta);
+			console.log("PesoMatic:"+PesoMatic);
+			console.log("VPeso:"+VPeso);		
+			Peso  = LeerArchivo(Carpeta,PesoMatic,VPeso);
+			console.log("Peso:"+Peso);
+			f.PesoBruto.value = Peso;
+		}
+		setTimeout("CapturaPeso()",200);
+	}else{
+		f.PesoBruto.value = VPeso;
+	}		
+	//setTimeout("CapturaPeso()",200);		
 }
 /****************/
 function TeclaPulsada(salto) 
@@ -1394,6 +1395,7 @@ function PesosPromedio()
 			$IpPc = $IP_USER;	
 			$Consulta = "select * from proyecto_modernizacion.sub_clase ";
 			$Consulta.= " where cod_clase = '2014' and nombre_subclase = '".$IpPc."'";
+			//echo $Consulta;
 			$Resp = mysqli_query($link, $Consulta);
 			if ($Fila = mysqli_fetch_array($Resp))
 			{

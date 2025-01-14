@@ -1,3 +1,7 @@
+<?php
+$PesoAuto="N";
+
+?>
 <table width="95%" class="TablaDetalle" cellpadding="2" cellspacing="0">
   <tr>
     <td width="15%">Fecha Tara:</td>
@@ -93,6 +97,7 @@
        </font>
     </td>
   </tr>
+  <input type="hidden" name="TxtNumRomana" class="InputCen" value="<?php echo $ROMANA;?>" size="2" readonly >
   <tr class="boxcontent">
     <td>Peso Automatico:</td>
     <td colspan="3"><?php 
@@ -193,4 +198,3 @@
 	}
 	echo "<input type='hidden' name='CantRack' value='".$Cont."'>\n";
 ?>
-

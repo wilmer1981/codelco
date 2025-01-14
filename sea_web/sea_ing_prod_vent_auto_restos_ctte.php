@@ -39,6 +39,7 @@
 	$PesoHM = 0; // WSO
 	$UnidCorr=0; // WSO
 	$PesoCorr=0; // WSO
+	$PesoAuto="N";
 	if ($Modif=="S")
 	{
 		//LIMPIO VARIABLES	
@@ -74,8 +75,7 @@
 			$FechaCarga = $Fila["fecha_carga"];
 			if ($Fila["estado"]=="F")
 				$ChkFin = "S";
-		}
-		$PesoAuto="N";		
+		}		
 		/*$TotalTara = $PesoCarro + $PesoRack;
 		$PesoBruto = $PesoNeto + $TotalTara;
 		$PesoNeto = $PesoBruto - $TotalTara;*/
@@ -187,6 +187,7 @@
 <input name="FechaG" type="hidden" value="<?php echo $FechaHora; ?>">
 <input name="jcontrol" type="hidden" value="<?php echo $jcontrol; ?>">
 <input name="Segundos" type="hidden" value="<?php echo $Segundos; ?>">
+<input type="hidden" name="TxtNumRomana" class="InputCen" value="<?php echo $ROMANA;?>" size="2" readonly >	
 <table width="95%" class="TablaDetalle" cellpadding="2" cellspacing="0">
   <tr>
     <td width="18%">Fecha Producci&oacute;n:</td>
@@ -312,12 +313,6 @@
             </select>
             </font></font></td>
           </tr>
-		  
-
-
-
-
-
   <tr class="boxcontent">
     <td><font color="#000000">Grupo:</font></td>
     <td><font color="#000000">
@@ -330,25 +325,23 @@
     <td colspan="3">&nbsp;</td>
   </tr>
   <tr class="boxcontent">
-    <td>Peso Automatico:</td>
-			
-    	<td> <input name="checkpeso" type="checkbox" id="checkpeso" value="checkbox" <?php echo $PesoAuto; ?>> </td>
 
-			
-			<?php 
-			/*
+        <td>Peso Automatico:</td>			
+    	<td> 
+			<!--<input name="checkpeso" type="checkbox" id="checkpeso" value="checkbox" <?php //echo $PesoAuto; ?>> -->
+		<?php 
 			echo "<input name='PesoAuto' type='hidden' value='".$PesoAuto."'>";
-		
 			if ($PesoAuto=="S" || $PesoAuto=="")
 			{
-				echo "<input name='checkpeso' type='checkbox' value='S' checked onClick='PesoAutomatico()'>";
+				echo "<input name='checkpeso' id='checkpeso' type='checkbox' value='S' checked onClick='FuncPesoAuto()'>";
 			}
 			else
 			{		
 				if ($PesoAuto=="N")
-					echo "<input name='checkpeso' type='checkbox' value='N' onClick='PesoAutomatico()'>";
+					echo "<input name='checkpeso' id='checkpeso' type='checkbox' value='N' onClick='FuncPesoAuto()'>";
 			}
-			</td> */ ?>
+		?>	
+		</td>			
     <td colspan="2">&nbsp;</td>
     <td width="14%">&nbsp;</td>
   </tr>

@@ -4,6 +4,7 @@
 	$PesoBruto = 0;
 	$PesoNeto = 0;
 	$Corr = "";
+	$PesoAuto="N";
 	if ($Modif=="S")
 	{
 		//LIMPIO VARIABLES	
@@ -37,7 +38,7 @@
 			if ($Fila["estado"]=="F")
 				$ChkFin = "S";
 		}
-		$PesoAuto="N";			
+		//$PesoAuto="N";			
 	}	
 	//CONSULTA CUBAS
 	$Consulta = "select distinct cod_producto, cod_subproducto, unidades, peso, fecha_carga, ";
@@ -184,6 +185,7 @@
 	?></td>
   </tr>
   <tr class="boxcontent">
+  <input type="hidden" name="TxtNumRomana" class="InputCen" value="<?php echo $ROMANA;?>" size="2" readonly >	
     <td>Peso Automatico:</td>
     <td colspan="3"><?php 
 			echo "<input name='PesoAuto' type='hidden' value='".$PesoAuto."'>";

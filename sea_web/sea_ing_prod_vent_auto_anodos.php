@@ -67,6 +67,7 @@
 	$TotalTara=0;
 	$PesoCarro=0;
 	$PesoNeto=0;
+	$PesoAuto="N";
 	if ($Modif=="S")
 	{
 		//LIMPIO VARIABLES
@@ -125,7 +126,7 @@
 			if ($Fila["estado"]=="F")
 				$ChkFin = "S";
 		}
-		$PesoAuto="N";		
+		//$PesoAuto="N";		
 	}	
 	//CONSULTAS TARAS SI EXISTEN
 	//$TotalTara=0;
@@ -352,16 +353,18 @@ Fin de la Hornada </font></td>
 			echo "<input name='PesoAuto' type='hidden' value='".$PesoAuto."'>";
 			if ($PesoAuto=="S" || $PesoAuto=="")
 			{
-				echo "<input name='checkpeso' type='checkbox' value='S' checked onClick='FuncPesoAuto()'>";
+				echo "<input name='checkpeso' id='checkpeso' type='checkbox' value='S' checked onClick='FuncPesoAuto()'>";
 			}
 			else
 			{		
 				if ($PesoAuto=="N")
-					echo "<input name='checkpeso' type='checkbox' value='N' onClick='FuncPesoAuto()'>";
+					echo "<input name='checkpeso' id='checkpeso' type='checkbox' value='N' onClick='FuncPesoAuto()'>";
 			}
 			?>
 Peso Automatico<font color="#000000">&nbsp;</font>
-</font></td>
+</font>
+<input type="hidden" name="TxtNumRomana" class="InputCen" value="<?php echo $ROMANA;?>" size="2" readonly >
+</td>
   </tr>
   <tr class="boxcontent">
     <td>Rack:</td>
@@ -377,7 +380,9 @@ Peso Automatico<font color="#000000">&nbsp;</font>
     <td width="18%"><input name="TotalTara" type="text" value="<?php echo $TotalTara; ?>" size="10" readonly>
     </td>
     <td width="17%" align="right">Peso Bruto:</td>
-    <td width="11%"><input name="PesoBruto" type="text" id="PesoBruto" onKeyDown="TeclaPulsada('UnidCorrientes')" value="<?php echo $PesoBruto; ?>" size="10"></td>
+    <td width="11%">
+	<input name="PesoBruto" type="text" id="PesoBruto" onKeyDown="TeclaPulsada('UnidCorrientes')" value="<?php echo $PesoBruto; ?>" size="10">
+	</td>
     <td width="13%" align="right">Peso Neto: </td>
     <td><input name="PesoNeto" type="text" id="PesoNeto" value="<?php echo $PesoNeto; ?>" size="10" readonly></td>
   </tr>
