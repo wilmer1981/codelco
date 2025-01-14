@@ -171,14 +171,12 @@ if(isset($_REQUEST["saldo_p"])) {
 
  					$consulta = "SELECT SUM(unidades) AS unidadesmov FROM movimientos WHERE substring(hornada,7,6) = '".$hornada_m."' ";
    			        $consulta = $consulta." AND tipo_movimiento in(2,4) AND cod_producto = 19 and cod_subproducto in('5','6','7','8','14')";
-					$rs2 = mysqli_query($link, $consulta);
-					
-			        
+					$rs2 = mysqli_query($link, $consulta);		        
 						if($row2 = mysqli_fetch_array($rs2))
 						{	
-						$saldo_unidades = ($row2["unidadesmov"] - $unidades)*-1; 
-						//$saldo_p= (($peso_unidad * $row2["unidadesmov"]) - $peso)*-1;
-						$saldo_p = PesoFaltante(19,$subproducto,$hornada,$link);
+							$saldo_unidades = ($row2["unidadesmov"] - $unidades)*-1; 
+							//$saldo_p= (($peso_unidad * $row2["unidadesmov"]) - $peso)*-1;
+							$saldo_p = PesoFaltante(19,$subproducto,$hornada,$link);
 						   if($saldo_p < 0)
 						      $saldo_p = 0;
 						   if($saldo_unidades < 0)
@@ -199,6 +197,32 @@ if(isset($_REQUEST["saldo_p"])) {
 <title>Sistema de Anodos</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <script language="JavaScript">
+function validar_fecha(f){
+			var dia = f.dia_p.value;
+			var mes = f.mes_p.value;
+			var semaforo = 0;
+			if(mes==2){
+				if(dia>28){
+					alert("Debe Ingresar fecha correcta(<29) ");
+					f.dia_p.focus();
+					return;
+				}else{
+					semaforo=1;
+				}
+			}
+			if(mes==4 || mes==6 || mes==9 || mes==11){
+				if(dia>30){
+					alert("Debe Ingresar fecha correcta(<31) ");
+					f.dia_p.focus();
+					return;
+				}else{
+					semaforo=1;  
+				}
+			}else{
+				semaforo=1; 
+			}
+	return semaforo;
+}
 
 function guardar_datos()
 {
@@ -287,12 +311,14 @@ var f = formulario;
 /***************************/
 function consultar_datos()
 {
-var f = formulario;
-var fecha_p;
-
-	 fecha_p =  f.ano_p.value+"-"+f.mes_p.value+"-"+f.dia_p.value;
-   	 window.open("sea_ing_restoshojas_nave02.php?fecha_p="+fecha_p, "","menubar=no resizable=no Top=50 Left=200 width=540 height=350 scrollbars=no");
-
+	var f = formulario;
+	var fecha_p;
+	var semaforo;
+	semaforo = validar_fecha(f);
+	if(semaforo==1){
+		fecha_p =  f.ano_p.value+"-"+f.mes_p.value+"-"+f.dia_p.value;
+		window.open("sea_ing_restoshojas_nave02.php?fecha_p="+fecha_p, "","menubar=no resizable=no Top=50 Left=200 width=540 height=350 scrollbars=no");
+	}
 }
 
 /**************************/
@@ -356,7 +382,7 @@ function calcula(f)
 */
 	
 	if ((isNaN(parseInt(f.unidad_beneficio.value))) || (parseInt(f.unidad_beneficio.value) < 1) || (parseInt(f.unidad_beneficio.value) > parseInt(f.stock_unidades.value)))	{
-		alert("Unidades a Beneficiar No Son V�lidas");
+		alert("Unidades a Beneficiar No Son V\xE1lidas");
 		return false;
 	}
 
@@ -403,11 +429,8 @@ function Recarga5(f)
 	}
 }
 </script>
-
-
 <link href="../principal/estilos/css_sea_web.css" type="text/css" rel="stylesheet">
 </head>
-
 <body leftmargin="3" topmargin="5" marginwidth="0" marginheight="0">
 <form name="formulario" method="post" action="">
   <?php include("../principal/encabezado.php")?>
@@ -908,11 +931,11 @@ function Recarga5(f)
               <?php
 		if($mostrar=='S')
 		{
-		echo "<input name='stock_unidades' type='hidden' id='stock_unidades' size='10' value='".$saldo_unidades."'>";
-		echo "<input name='saldo_unidades' type='text' id='saldo_unidades' size='10' value='".$saldo_unidades."' Readonly>";
+			echo "<input name='stock_unidades' type='hidden' id='stock_unidades' size='10' value='".$saldo_unidades."'>";
+			echo "<input name='saldo_unidades' type='text' id='saldo_unidades' size='10' value='".$saldo_unidades."' Readonly>";
+		}else{
+			echo "<input name='saldo_unidades' type='text' id='saldo_unidades' size='10' Readonly>";
 		}
-		else
-		echo "<input name='saldo_unidades' type='text' id='saldo_unidades' size='10' Readonly>";
 		?>
               </font></td>
             <td width="18%">Saldo Peso</td>
