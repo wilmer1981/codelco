@@ -14,7 +14,6 @@
 	}else{
 		$ano =  date("Y");
 	}
-
 	if(isset($_REQUEST["mostrar"])) {
 		$mostrar = $_REQUEST["mostrar"];
 	}else{
@@ -49,6 +48,12 @@
 		$DatosE = $_REQUEST["DatosE"];
 	}else{
 		$DatosE = "";
+	}
+	if($mostrar=="S"){
+		$lista = explode("-",$fecha);
+		$ano=$lista[0];
+		$mes=$lista[1];
+		$dia=$lista[2];		
 	}
 	
 
@@ -272,9 +277,9 @@ function Salir()
 		foreach ($vector as $c=>$v)
 		{
 			$Datos = explode(':',$v);
-			$Hornada =   $Datos[0];
-			$Grupo   =   $Datos[1];
-			$Lado    =   $Datos[2];
+			$Hornada =   isset($Datos[0])?$Datos[0]:"";
+			$Grupo   =   isset($Datos[1])?$Datos[1]:"";
+			$Lado    =   isset($Datos[2])?$Datos[2]:"";
 
 			// saco fecha beneficio para modificar
 			$consulta="Select cod_subproducto, sum(unidades) as unidades,sum(peso) as peso from sea_web.movimientos ";
@@ -341,14 +346,16 @@ function Salir()
 			mysqli_query($link, $BorroMov);
 		}
 		$EliminaP="";
+		header("Location:sea_ing_prod_cor.php?mostrar=S&fecha=$fecha");
+		/*
 		echo '<script language="JavaScript">';
 		echo ' var f = documents.frm; ';
-		echo  'f.action="sea_ing_prod_cor.php";';
+		//echo  'f.action="sea_ing_prod_cor.php";';
+		echo  'f.action="sea_ing_prod_cor.php?mostrar=S&fecha=$fecha";';
 		echo 'f.action;';
 		echo '</script>';
+		*/
 	}
-
-
 	include("../principal/cerrar_sea_web.php");
 ?>
 <div style="position:absolute; left: 22px; top: 340px; width: 500px; height: 30px;" id="div4">
