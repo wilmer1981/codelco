@@ -1,6 +1,6 @@
 <?php
 	include("../principal/conectar_cal_web.php");
-	include("../principal/funciones/class.ezpdf.php");
+	include("../principal/funciones/pdf/Cezpdf.php");
 
 	$SA     = isset($_REQUEST["SA"])?$_REQUEST["SA"]:"";
 
@@ -90,6 +90,7 @@
 	$pdf->Output();	
 	//include("../principal/cerrar_cal_web.php");
 	//header("location:etiqueta.pdf");
+	
 	///////////////////////FUNCIONES///////////////////////////////
 	function DatosSA($NumSolicitudAux,$NumRecargoAux,$link) 
 	{
