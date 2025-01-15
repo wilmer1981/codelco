@@ -43,31 +43,6 @@
 <SCRIPT event=onclick() for=document>popCal.style.visibility = "hidden";</SCRIPT>
 
 <script language="javascript">
-	/*
-function LeerRomana(Rom)
-{
-	var ubicacion = "C:\\PesaMatic\\ROMANA.txt";
-	var valor="";
-	var fso, f1, ts, s,retorno; 
-	var ForReading = 1; 
-	fso = new ActiveXObject("Scripting.FileSystemObject"); 
-	if(fso.FileExists(ubicacion))
-	{
-          try{  
-		  	  f = fso.OpenTextFile( ubicacion,  1,true); 
-			  valor=f.Readline();
-		  }catch(err)
-		  {
-			window.status = "LeerRomana : "+err;
-			  
-		  }
-    }
-	else
-	{
-       alert("No Existe archivo en :"+ubicacion);
-	}
-	return(valor); 
-}*/
 var OK;
 var OTS = "";
 ns4 = (document.layers)? true:false

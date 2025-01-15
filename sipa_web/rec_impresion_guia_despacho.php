@@ -2,19 +2,19 @@
 	$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");	
 	include("../principal/conectar_principal.php");
 	include("funciones.php");
-	include("../principal/funciones/class.ezpdf.php");
+	//include("../principal/funciones/class.ezpdf.php");
+	include("../principal/funciones/pdf/Cezpdf.php");
 
-	$FechaHora = date("Y-m-d h:i");
+	$FechaHora  = date("Y-m-d h:i");
 	$FechaHora1 = date("d-m-Y h:i");
 	$CookieRut = $_COOKIE["CookieRut"];
-	$Rut =$CookieRut;
-	$Valores = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
-	$RutProved = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
+	$Rut          = $CookieRut;
+	$Valores      = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
+	$RutProved    = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
 	$NombreProved = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
 
-
 	$pdf = new Cezpdf('a4');
-    $pdf->SELECTFont('../principal/funciones/fonts/Helvetica.afm');
+    $pdf->SelectFont('../principal/funciones/fonts/Helvetica.afm');
 	$Datos=explode('//',$Valores);
 	foreach($Datos as $c => $v)
 	{
@@ -34,10 +34,13 @@
 			//echo $Consulta;
 			$Respuesta=mysqli_query($link, $Consulta);
 			$Fila=mysqli_fetch_array($Respuesta);
-			$RutProved = $Fila["rut_prv"];
+			$RutProved    = $Fila["rut_prv"];
 	        $NombreProved = $Fila["nombre_prv"];
 
-			$NombreProved = ObtenerProveedorDespacho('D',$Fila["rut_prv"],$Fila["correlativo"],$Fila["guia_despacho"],$RutProved,$NombreProved,$link);
+			$Resultado = ObtenerProveedorDespacho('D',$Fila["rut_prv"],$Fila["correlativo"],$Fila["guia_despacho"],$RutProved,$NombreProved,$link);
+			$lista     = explode("**",$Resultado);
+			$RutProved    = $lista[0];
+			$NombreProved = $lista[1];
 			$NomProv = $NombreProved;
 			
 			
@@ -63,7 +66,7 @@
 			$pdf->addTextWrap(230,585,350,13,$Fila["nom_subproducto"],$justification='left',0,0);
 			$pdf->addTextWrap(230,553,150,13,"LOTE: ".$Fila["lote"],$justification='left',0,0);
 			$pdf->addTextWrap(230,523,150,13,"RECARGO: ".$Fila["recargo"],$justification='left',0,0);
-			$pdf->addTextWrap(230,492,150,13,"N� SELLO: ".$Fila["num_sello"],$justification='left',0,0);
+			$pdf->addTextWrap(230,492,150,13,"Nº SELLO: ".$Fila["num_sello"],$justification='left',0,0);
 			$pdf->addTextWrap(230,461,150,13,$Fila["observacion"],$justification='left',0,0);
 			$pdf->addTextWrap(55,170,150,13,$Fila["nombre_chofer"],$justification='left',0,0);
 			$pdf->addTextWrap(60,160,150,13,$Fila["rut_chofer"],$justification='left',0,0);
