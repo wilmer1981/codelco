@@ -23,7 +23,7 @@
 	$txtpesoproduccion = isset($_REQUEST["txtpesoproduccion"])?$_REQUEST["txtpesoproduccion"]:"";
 	$total_prod = isset($_REQUEST["total_prod"])?$_REQUEST["total_prod"]:"";
 	$valores    = isset($_REQUEST["valores"])?$_REQUEST["valores"]:"";
-
+	
 	$HoraAux=date('G');
 	$MinAux=date('i');
 	if($Hora=="")
@@ -60,12 +60,39 @@
 <title>SISTEMA DE ANODOS - SEA-WEB</title>
 <link rel="stylesheet" href="../principal/estilos/css_sea_web.css" type="text/css">
 <script language="JavaScript">
+function validar_fecha(f){
+			var dia = f.dia.value;
+			var mes = f.mes.value;
+			var semaforo = 0;
+			if(mes==2){
+				if(dia>28){
+					alert("Debe Ingresar fecha correcta(<29) ");
+					f.dia.focus();
+					return;
+				}else{
+					semaforo=1;
+				}
+			}
+			if(mes==4 || mes==6 || mes==9 || mes==11){
+				if(dia>30){
+					alert("Debe Ingresar fecha correcta(<31) ");
+					f.dia.focus();
+					return;
+				}else{
+					semaforo=1;  
+				}
+			}else{
+				semaforo=1; 
+			}
+	return semaforo;
+}
 
 function Buscar(f)
 {
 	//alert (FechaB);
+	var semaforo = validar_fecha(f);
 	var param='';
-	if (f.cmbgrupo.value != -1)
+	if (f.cmbgrupo.value != -1 && semaforo==1)
 	{
 		//f.action = "sea_ing_prod_restos_anodos_hm01.php?proceso=B&pdia="+f.dia.value+"&pmes="+f.mes.value+"&pano="+f.ano.value;
 		f.action = "sea_ing_prod_restos_anodos_hm01.php?proceso=B&pdia="+f.dia.value+"&pmes="+f.mes.value+"&pano="+f.ano.value;
@@ -300,45 +327,45 @@ function Salir()
           <table width="740" border="0" cellspacing="0" cellpadding="3" class="TablaInterior">
             <tr> 
               <td width="109">Fecha Produccion</td>
-              <td width="293"> <SELECT name="dia" size="1">
+              <td width="293"> <select name="dia" size="1">
                   <?php
 			$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
 			for ($i=1;$i<=31;$i++)
 			{	
 				if (($mostrar == "S") && ($i == $dia))			
-					echo "<option SELECTed value= '".$i."'>".$i."</option>";				
+					echo "<option selected value= '".$i."'>".$i."</option>";				
 				else if (($i == date("j")) and ($mostrar != "S")) 
-						echo "<option SELECTed value= '".$i."'>".$i."</option>";											
+						echo "<option selected value= '".$i."'>".$i."</option>";											
 				else					
 					echo "<option value='".$i."'>".$i."</option>";												
 			}		
 		?>
-                </SELECT> <SELECT name="mes" size="1" id="SELECT7">
+                </select> <select name="mes" size="1" id="select7">
                   <?php
 		 	for($i=1;$i<13;$i++)
 		  	{
 				if (($mostrar == "S") && ($i == $mes))
-					echo "<option SELECTed value ='".$i."'>".$meses[$i-1]." </option>";
+					echo "<option selected value ='".$i."'>".$meses[$i-1]." </option>";
 				else if (($i == date("n")) && ($mostrar != "S"))
-						echo "<option SELECTed value ='".$i."'>".$meses[$i-1]." </option>";
+						echo "<option selected value ='".$i."'>".$meses[$i-1]." </option>";
 				else
 					echo "<option value='$i'>".$meses[$i-1]."</option>\n";			
 			}		  
 		?>
-                </SELECT> <SELECT name="ano" size="1">
+                </select> <select name="ano" size="1">
                   <?php
 			for ($i=date("Y")-1;$i<=date("Y")+1;$i++)
 			{
 				if (($mostrar == "S") && ($i == $ano))
-					echo "<option SELECTed value ='$i'>$i</option>";
+					echo "<option selected value ='$i'>$i</option>";
 				else if (($i == date("Y")) && ($mostrar != "S"))
-					echo "<option SELECTed value ='$i'>$i</option>";
+					echo "<option selected value ='$i'>$i</option>";
 				else	
 					echo "<option value='".$i."'>".$i."</option>";
 			}
 		?>
-                </SELECT>&nbsp;<font size="1"><font size="2">
-                <SELECT name="Hora">
+                </select>&nbsp;<font size="1"><font size="2">
+                <select name="Hora">
                   <option value="S">S</option>
                   <?php
 				for ($i=0;$i<=23;$i++)
@@ -349,22 +376,22 @@ function Salir()
 					if (isset($Hora))
 					{	
 						if ($Hora == $Valor)
-							echo "<option SELECTed value='".$Valor."'>".$Valor."</option>\n";
+							echo "<option selected value='".$Valor."'>".$Valor."</option>\n";
 						else	
 							echo "<option value='".$Valor."'>".$Valor."</option>\n";		
 					}
 					else
 					{	
 						if ($HoraActual == $Valor)
-							echo "<option SELECTed value='".$Valor."'>".$Valor."</option>\n";
+							echo "<option selected value='".$Valor."'>".$Valor."</option>\n";
 						else
 							echo "<option value='".$Valor."'>".$Valor."</option>\n";		
 					}
 				}
 				?>
-                </SELECT>
+                </select>
                 <strong>:</strong>
-                <SELECT name="Minutos">
+                <select name="Minutos">
                   <option value="S">S</option>
                   <?php
 				for ($i=0;$i<=59;$i++)
@@ -376,24 +403,24 @@ function Salir()
 					if (isset($Minutos))
 					{	
 						if ($Minutos == $Valor)
-							echo "<option SELECTed value='".$Valor."'>".$Valor."</option>\n";
+							echo "<option selected value='".$Valor."'>".$Valor."</option>\n";
 						else	
 							echo "<option value='".$Valor."'>".$Valor."</option>\n";		
 					}
 					else
 					{	
 						if ($MinutoActual == $Valor)
-							echo "<option SELECTed value='".$Valor."'>".$Valor."</option>\n";
+							echo "<option selected value='".$Valor."'>".$Valor."</option>\n";
 						else
 							echo "<option value='".$Valor."'>".$Valor."</option>\n";		
 					}
 				}
 				?>
-                </SELECT>
+                </select>
                 </font></font> </td>
 
               <td width="43">Grupo</td>
-              <td width="138"> <SELECT name="cmbgrupo" id="cmbgrupo" onChange="JavaScript:Buscar(this.form)">
+              <td width="138"> <select name="cmbgrupo" id="cmbgrupo" onChange="JavaScript:Buscar(this.form)">
                 <option value="-1">SELECCIONAR</option>
                 <?php			
 			$consulta = "SELECT DISTINCT t1.campo2 AS grupo, t2.nombre_subclase AS nombre FROM sea_web.movimientos AS t1";
@@ -406,12 +433,12 @@ function Salir()
 			while ($row = mysqli_fetch_array($rs))
 			{
 				if (($mostrar == "S") and ($row["grupo"] == $cmbgrupo))
-					echo '<option value="'.$row["grupo"].'" SELECTed>N° '.$row["grupo"].'</option>';
+					echo '<option value="'.$row["grupo"].'" selected>N° '.$row["grupo"].'</option>';
 				else 
 					echo '<option value="'.$row["grupo"].'">N° '.$row["grupo"].'</option>';
 			}			
 		?>
-              </SELECT> </td>
+              </select> </td>
               <td width="124"><input name="btnbuscar" type="button" value="Buscar" onClick="JavaScript:Buscar2(this.form)"></td>
             </tr>
           </table>

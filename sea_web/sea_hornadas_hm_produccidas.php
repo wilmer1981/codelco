@@ -74,9 +74,9 @@ function Enviar(f)
 	$consulta = $consulta." AND t1.hornada = t2.hornada_ventana";
 	$consulta = $consulta." WHERE tipo_movimiento = 3 AND fecha_movimiento = '".$fecha."' AND campo1 NOT IN ('M','T')";
 	$consulta = $consulta." AND campo2 = '".$cmbgrupo."'";
-	//echo "CC".$consulta;
+//echo "CC".$consulta;
 	$rs = mysqli_query($link, $consulta);	
-	
+		
 	while ($row = mysqli_fetch_array($rs))
 	{
 		echo '<tr>';		
