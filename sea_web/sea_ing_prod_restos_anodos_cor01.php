@@ -1,33 +1,28 @@
 <?php
 	include("../principal/conectar_sea_web.php");
 
-	if(isset($_REQUEST["proceso"])) {
-		$proceso = $_REQUEST["proceso"];
-	}else{
-		$proceso = "";
-	}
-	if(isset($_REQUEST["cmbgrupo"])) {
-		$cmbgrupo = $_REQUEST["cmbgrupo"];
-	}else{
-		$cmbgrupo = "";
-	}
-
+	$proceso  = isset($_REQUEST["proceso"])?$_REQUEST["proceso"]:"";
+	$cmbgrupo = isset($_REQUEST["cmbgrupo"])?$_REQUEST["cmbgrupo"]:"";
+	
 	$dia1 = isset($_REQUEST["dia1"])?$_REQUEST["dia1"]:"";
 	$mes1 = isset($_REQUEST["mes1"])?$_REQUEST["mes1"]:"";
 	$ano1 = isset($_REQUEST["ano1"])?$_REQUEST["ano1"]:"";
 	$dia2 = isset($_REQUEST["dia2"])?$_REQUEST["dia2"]:"";
 	$mes2 = isset($_REQUEST["mes2"])?$_REQUEST["mes2"]:"";
 	$ano2 = isset($_REQUEST["ano2"])?$_REQUEST["ano2"]:"";
-
-	$cmblado = isset($_REQUEST["cmblado"])?$_REQUEST["cmblado"]:"";
+	
 	$Hora    = isset($_REQUEST["Hora"])?$_REQUEST["Hora"]:"";
 	$Minutos = isset($_REQUEST["Minutos"])?$_REQUEST["Minutos"]:"";
 	$Hora2   = isset($_REQUEST["Hora2"])?$_REQUEST["Hora2"]:"";
 	$Minutos2 = isset($_REQUEST["Minutos2"])?$_REQUEST["Minutos2"]:"";
 
+	$txthm1       = isset($_REQUEST["txthm1"])?$_REQUEST["txthm1"]:"";
 	$txttotalunid = isset($_REQUEST["txttotalunid"])?$_REQUEST["txttotalunid"]:"";
+	$cmblado      = isset($_REQUEST["cmblado"])?$_REQUEST["cmblado"]:"";
 	$txtpesohm    = isset($_REQUEST["txtpesohm"])?$_REQUEST["txtpesohm"]:"";
 	$txtpesocor   = isset($_REQUEST["txtpesocor"])?$_REQUEST["txtpesocor"]:"";
+	$fecha_aux    = isset($_REQUEST["fecha_aux"])?$_REQUEST["fecha_aux"]:"";
+
 
 	if ($proceso == "B")
 	{
@@ -132,7 +127,7 @@
 		$FechaInicio=$fecha_mov." 08:00:00";
 		$FechaTermino =date("Y-m-d", mktime(1,0,0,$mes1,($dia1 +1),$ano1))." 07:59:59";
 		$FechaTermino2 =date("Y-m-d", mktime(1,0,0,$mes1,($dia1 +1),$ano1));
-		$fecha_carga = "";
+		$fecha_carga = "0000-00-00";
 		$peso_prod = 0;
 		
 		$consulta = "SELECT SUM(peso) AS peso_prod,	min(fecha_benef) as fecha_benef,hora";
@@ -147,7 +142,7 @@
 		{
 			$fecha_carga = $row6["fecha_benef"];
 			$fecha_carga2 = $row6["fecha_benef"];
-			$peso_prod = $row6[peso_prod];
+			$peso_prod = $row6["peso_prod"];
 		}	
 		$consulta = "SELECT hora,fecha_movimiento FROM sea_web.movimientos WHERE tipo_movimiento = 2 AND cod_producto = 17";
 		$consulta = $consulta." AND campo2 = '".$cmbgrupo."' AND campo1 = '".$cmblado."'";
@@ -252,11 +247,11 @@
 					$peso_hm =  0;
 				}	
 				
-/*		echo "ano: ".substr($fecha_carga,0,4);
-		echo "mes: ".substr($fecha_carga,5,2);
-		echo "ano: ".substr($fecha_carga,8,2);
-*/							
-		$linea = $linea."&parametros=".$parametros."&txttotalunid=".$total_unidades."&txttotalpeso=".$total_peso."&txtfactor=".$row4["valor_subclase1"];
+		/*		echo "ano: ".substr($fecha_carga,0,4);
+				echo "mes: ".substr($fecha_carga,5,2);
+				echo "ano: ".substr($fecha_carga,8,2);
+		*/							
+		$linea = "parametros=".$parametros."&txttotalunid=".$total_unidades."&txttotalpeso=".$total_peso."&txtfactor=".$row4["valor_subclase1"];
 		$linea = $linea."&cmbgrupo=".$cmbgrupo."&cmblado=".$cmblado."&dia1=".$dia1."&mes1=".$mes1."&ano1=".$ano1."&Hora=".$Hora."&Minutos=".$Minutos."&mostrar=S";
 		$linea = $linea."&ano2=".substr($fecha_carga2,0,4)."&mes2=".substr($fecha_carga2,5,2)."&dia2=".substr($fecha_carga2,8,2);
 		$linea = $linea."&Hora2=".$Hora2."&Minutos2=".$Minutos2;
@@ -280,8 +275,8 @@
 	        include("sea_valida_mes.php");
         //*******************************************************************************//		
 	
-		$fecha = $ano1.'-'.$mes1.'-'.$dia1;
-		$fecha_hora = $ano1."-".$mes1."-".$dia1." ".$Hora.":".$Minutos;
+		$fecha       = $ano1.'-'.$mes1.'-'.$dia1;
+		$fecha_hora  = $ano1."-".$mes1."-".$dia1." ".$Hora.":".$Minutos;
 		$fecha_carga = $ano2."-".$mes2."-".$dia2;
 		$fecha_carga_hora = $ano2."-".$mes2."-".$dia2." ".$Hora2.":".$Minutos2;
 		//echo $fecha_carga."<br>";
@@ -427,7 +422,7 @@
 		echo $row8["peso_mov"]."<br>";
 		echo $diferencia."<br>";*/
 		$consulta = "SELECT * FROM sea_web.movimientos";
-		$consulta = $consulta." WHERE tipo_movimiento = 3 AND fecha_movimiento = '".$fecha."' AND fecha_benef = '".$row8["fecha_benef"]."'";
+		$consulta = $consulta." WHERE tipo_movimiento = 3 AND fecha_movimiento = '".$fecha."' AND fecha_benef = '".$fecha_benef."'";
 		$consulta = $consulta." and hora = '".$fecha_hora."'";
 		$consulta = $consulta." AND campo2 = '".$cmbgrupo."' AND campo1 = '".$cmblado."' AND cod_subproducto <> 30";		 
 		$consulta = $consulta." ORDER BY peso DESC";
@@ -498,7 +493,7 @@
 				$hornada2 = $ano_mes.$row5["valor_subclase1"];
 			}
 			else 
-				$hornada2 = (int)($ano_mes.$row4["hornada_max"]) + 1;	
+				$hornada2 = $ano_mes.$row4["hornada_max"] + 1;	
 	
 			//Buscar los codigos de H.M.
 			$valores = "";
@@ -507,7 +502,7 @@
 	
 			while ($row7 = mysqli_fetch_array($rs7)) 
 			{
-				$valores = $valores.$row7[hm].',';
+				$valores = $valores.$row7["hm"].',';
 			}
 			$valores = substr($valores,0,strlen($valores)-1);
 	
@@ -583,8 +578,7 @@
 	if ($proceso == "M")
 	{
         //*******************************************************************************//
-        	//Valida que no se realicen cambios de movimientos, en la fecha ingresada.
-	
+        	//Valida que no se realicen cambios de movimientos, en la fecha ingresada.	
          	$valida_fecha_movimiento = $fecha_aux;
 	        include("sea_valida_mes.php");
         //*******************************************************************************//		
@@ -868,8 +862,9 @@
 		$eliminar = $eliminar." WHERE tipo_movimiento = 3 AND fecha_movimiento = '".$fecha_aux."' and '".$FechaTermino."' AND campo2 =  '".$cmbgrupo."'";
 		$eliminar = $eliminar."	and hora between '".$FechaInicio."' and '".$FechaTermino2."'";
 		$eliminar = $eliminar." AND campo1 = '".$cmblado."' AND fecha_benef between '".$fecha_carga."' and '".$fecha_carga1."'";
+		echo $eliminar."<br>";
 		mysqli_query($link, $eliminar);
-		//echo $eliminar."<br>";
+		
 		
 		//Elimina Movimientos de Traspaso.
 		$eliminar = "DELETE FROM sea_web.movimientos";

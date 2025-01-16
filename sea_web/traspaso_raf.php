@@ -6,7 +6,7 @@
 	include("funciones.php");
 	include("../principal/conectar_sea_web.php");
 	$FechaC = Date("Y-m-d");
-
+	
 	if(isset($_REQUEST["recargapag1"])) {
 		$recargapag1 = $_REQUEST["recargapag1"];
 	}else{
@@ -93,7 +93,6 @@
 	}else{
 		$codigo = 0;
 	}
-
 	
 ?>
 
@@ -102,6 +101,32 @@
 <title>Traspaso RAF</title>
 <link href="../principal/estilos/css_sea_web.css" rel="stylesheet" type="text/css">
 <script language="JavaScript">
+function validar_fecha(f){
+			var dia = f.dia2.value;
+			var mes = f.mes2.value;
+			var semaforo = 0;
+			if(mes==2){
+				if(dia>28){
+					alert("Debe Ingresar fecha correcta(<29) ");
+					f.dia2.focus();
+					return;
+				}else{
+					semaforo=1;
+				}
+			}
+			if(mes==4 || mes==6 || mes==9 || mes==11){
+				if(dia>30){
+					alert("Debe Ingresar fecha correcta(<31) ");
+					f.dia2.focus();
+					return;
+				}else{
+					semaforo=1;  
+				}
+			}else{
+				semaforo=1; 
+			}
+	return semaforo;
+}
 function Recarga1(f)
 {
 	if (f.cmbtipo.value==1 || f.cmbtipo.value==2)
@@ -137,8 +162,8 @@ function Valida1(f,b)
 }
 /**************/
 function Buscar(f,b)
-{
-	if (Valida1(f,b))
+{   var semaforo = validar_fecha(f);
+	if (Valida1(f,b) && semaforo==1)
 	{
 		parametros = "recargapag1=S&recargapag2=S&cmbtipo=" + f.cmbtipo.value + "&cmbproducto=" + f.cmbproducto.value + "&boton=" + b ;
 		parametros = parametros + "&fecha=" + f.ano2.value + "-" + f.mes2.value + "-" + f.dia2.value;
@@ -204,7 +229,7 @@ function Calcula(f,pos)
 		
 		if ((f.elements[pos].value * 1) > (f.elements[pos-5].value * 1))
 		{
-			if (confirm("Esta Considerando Unidades Que No Estan Rechazadas, ï¿½Desea Continuar? "))
+			if (confirm("Esta Considerando Unidades Que No Estan Rechazadas, ¿Desea Continuar? "))
 			{
 					f.elements[pos-5].value = 0;
 					f.elements[pos-4].value = 0;
@@ -262,16 +287,16 @@ function Salir()
 	document.location = "../principal/sistemas_usuario.php?CodSistema=2";
 }
 </script>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-<style type="text/css">
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"><style type="text/css">
+<!--
 body {
 	margin-left: 3px;
 	margin-top: 3px;
 	margin-right: 0px;
 	margin-bottom: 0px;
 }
-</style>
-</head>
+-->
+</style></head>
 
 <body>
 <?php include("../principal/encabezado.php") ?>
@@ -287,47 +312,47 @@ body {
           <tr> 
             <td width="109">Fecha Reproceso</td>
             <td width="228"><font size="2"> 
-              <SELECT name="dia1" size="1" id="dia1">
+              <select name="dia1" size="1" id="dia1">
                 <?php
 			$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
 			for ($i=1;$i<=31;$i++)
 			{	
 				if (($recargapag1 == "S") && ($i == $dia1))
-					echo "<option SELECTed value= '".$i."'>".$i."</option>";				
+					echo "<option selected value= '".$i."'>".$i."</option>";				
 				else if (($i == date("j")) and ($recargapag1 != "S")) 
-						echo "<option SELECTed value= '".$i."'>".$i."</option>";											
+						echo "<option selected value= '".$i."'>".$i."</option>";											
 				else					
 					echo "<option value='".$i."'>".$i."</option>";												
 			}		
 		?>
-              </SELECT>
+              </select>
               </font> <font size="2"> 
-              <SELECT name="mes1" size="1">
+              <select name="mes1" size="1">
                 <?php
 		 	for($i=1;$i<13;$i++)
 		  	{
 				if (($recargapag1 == "S") && ($i == $mes1))
-					echo "<option SELECTed value ='".$i."'>".$meses[$i-1]." </option>";
+					echo "<option selected value ='".$i."'>".$meses[$i-1]." </option>";
 				else if (($i == date("n")) && ($recargapag1 != "S"))
-						echo "<option SELECTed value ='".$i."'>".$meses[$i-1]." </option>";
+						echo "<option selected value ='".$i."'>".$meses[$i-1]." </option>";
 				else
 					echo "<option value='$i'>".$meses[$i-1]."</option>\n";			
 			}		  
 		?>
-              </SELECT>
-              <SELECT name="ano1" size="1" id="ano1">
+              </select>
+              <select name="ano1" size="1" id="ano1">
                 <?php
 			for ($i=date("Y")-1;$i<=date("Y")+1;$i++)
 			{
 				if (($recargapag1 == "S") && ($i == $ano1))
-					echo "<option SELECTed value ='$i'>$i</option>";
+					echo "<option selected value ='$i'>$i</option>";
 				else if (($i == date("Y")) && ($recargapag1 != "S"))
-					echo "<option SELECTed value ='$i'>$i</option>";
+					echo "<option selected value ='$i'>$i</option>";
 				else	
 					echo "<option value='".$i."'>".$i."</option>";
 			}
 		?>
-              </SELECT>
+              </select>
               </font></td>
             <td width="145">Ver Datos Ingresados</td>
             <td width="247"><font color="#000000">
@@ -341,25 +366,25 @@ body {
           <tr> 
             <td width="112">Productos</td>
       <td width="229"> 
-        <SELECT name="cmbtipo" id="cmbtipo" onChange="JavaScript:Recarga1(this.form)">
+        <select name="cmbtipo" id="cmbtipo" onChange="JavaScript:Recarga1(this.form)">
             <?php
 			if ($cmbtipo == "-1")
-				echo '<option value="-1" SELECTed>SELECCIONAR</option>';
+				echo '<option value="-1" selected>SELECCIONAR</option>';
 			else 
 				echo '<option value="-1">SELECCIONAR</option>';
 
 				echo '<option value="0">--------------------</option>';
 
 		  	if ($cmbtipo == "1")
-		  		echo '<option value="1" SELECTed>ANODOS CORRIENTE</option>';
+		  		echo '<option value="1" selected>ANODOS CORRIENTE</option>';
 			else 
 				echo '<option value="1">ANODOS CORRIENTE</option>';
 			if ($cmbtipo == "2")	
-				echo '<option value="2" SELECTed>ANODOS HOJAS MADRES</option>';
+				echo '<option value="2" selected>ANODOS HOJAS MADRES</option>';
 			else 
 				echo '<option value="2">ANODOS HOJAS MADRES</option>';
 			if ($cmbtipo == "3")	
-				echo '<option value="3" SELECTed>ANODOS ESPECIALES</option>';
+				echo '<option value="3" selected>ANODOS ESPECIALES</option>';
 			else 
 				echo '<option value="3">ANODOS ESPECIALES</option>';
 
@@ -371,7 +396,7 @@ body {
 			while ($row = mysqli_fetch_array($rs))
 			{				
 	          	if ('16'.$row["cod_subclase"] == $cmbtipo)	
-					echo '<option value="16'.$row["cod_subclase"].'" SELECTed>'.$row["nombre_subclase"].'</option>';
+					echo '<option value="16'.$row["cod_subclase"].'" selected>'.$row["nombre_subclase"].'</option>';
 				else 
 					echo '<option value="16'.$row["cod_subclase"].'">'.$row["nombre_subclase"].'</option>';
 			}	
@@ -379,32 +404,32 @@ body {
 
 			echo '<option value="0">--------------------</option>';
 			if ($cmbtipo == "181")	
-				echo '<option value="181" SELECTed>CATODOS</option>';
+				echo '<option value="181" selected>CATODOS</option>';
 			else 
 				echo '<option value="181">CATODOS</option>';
 			
 			if ($cmbtipo == "481")	
-				echo '<option value="481" SELECTed>LAMINAS Y DESPUNTE</option>';
+				echo '<option value="481" selected>LAMINAS Y DESPUNTE</option>';
 			else 
 				echo '<option value="481">LAMINAS Y DESPUNTE</option>';
 /*			
 			if ($cmbtipo == "486")	
-				echo '<option value="486" SELECTed>LAMINAS STANDART </option>';
+				echo '<option value="486" selected>LAMINAS STANDART </option>';
 			else 
 				echo '<option value="486">LAMINAS STANDART </option>';
 */
 			if ($cmbtipo == "661")	
-				echo '<option value="661" SELECTed>LAMINAS APROBADAS</option>';
+				echo '<option value="661" selected>LAMINAS APROBADAS</option>';
 			else 
 				echo '<option value="661">LAMINAS APROBADAS</option>';				
 		
 
 											
 		?>
-          </SELECT></td>
+          </select></td>
       <td width="145">Sub-Producto</td>
       <td width="246"> 
-        <SELECT name="cmbproducto" onChange="JavaScript:Recarga1(this.form)">
+        <select name="cmbproducto" onChange="JavaScript:Recarga1(this.form)">
             <option value="-1">SELECCIONAR</option>
             <?php
 			if (($recargapag1 == "S") and ($cmbtipo != -1))
@@ -417,14 +442,13 @@ body {
 						$consulta = "SELECT valor_subclase3 AS valor FROM proyecto_modernizacion.sub_clase WHERE cod_clase = 2002";
 				$rs = mysqli_query($link, $consulta);
 				while ($row = mysqli_fetch_array($rs))
-				{
-					$valor1 = $row["valor"];
-					$consulta = "SELECT * FROM proyecto_modernizacion.subproducto WHERE cod_producto = 17 AND cod_subproducto = '".$valor1."' AND mostrar_sea ='S'";
+				{   $valor = isset($row["valor"])?$row["valor"]:"";
+					$consulta = "SELECT * FROM proyecto_modernizacion.subproducto WHERE cod_producto = 17 AND cod_subproducto = '".$valor."' AND mostrar_sea ='S'";
 					$rs1 = mysqli_query($link, $consulta);					
 					if ($row1 = mysqli_fetch_array($rs1))
 					{
 						if ($row1["cod_subproducto"] == $cmbproducto)
-							echo '<option value="'.$row1["cod_subproducto"].'" SELECTed>'.$row1["descripcion"].'</option>';
+							echo '<option value="'.$row1["cod_subproducto"].'" selected>'.$row1["descripcion"].'</option>';
 						else
 							echo '<option value="'.$row1["cod_subproducto"].'">'.$row1["descripcion"].'</option>';									
 					}
@@ -435,13 +459,13 @@ body {
 		  	if($codigo == 16)
 		  	{
 				$apellido = substr($cmbtipo,2,2);
-				$Consulta="SELECT * from subproducto where cod_producto = 16 and ap_subproducto = '".$apellido."' "; 
+				$Consulta="select * from subproducto where cod_producto = 16 and ap_subproducto = $apellido"; 
 				$rs = mysqli_query($link, $Consulta);
 				while ($Fila=mysqli_fetch_array($rs))
 				{
 					if ($cmbproducto == '16'.$Fila["cod_subproducto"])
 					{
-						echo "<option value = '16".$Fila["cod_subproducto"]."' SELECTed>".ucwords(strtolower($Fila["descripcion"]))."</option>\n";
+						echo "<option value = '16".$Fila["cod_subproducto"]."' selected>".ucwords(strtolower($Fila["descripcion"]))."</option>\n";
 					}
 					else
 					{
@@ -455,14 +479,14 @@ body {
 			$codigo = substr($cmbtipo,0,2);
 		  	if($codigo == 18)
 		  	{
-				$Consulta="SELECT * from subproducto where cod_producto = 18 and ";
+				$Consulta="select * from subproducto where cod_producto = 18 and ";
 				$Consulta.=" (cod_subproducto in(2,4,5,6,7,8,9,10,16,17) or cod_subproducto in(46,49,50,51,52,53,54,55,57,18))"; 
 				$rs = mysqli_query($link, $Consulta);
 				while ($Fila=mysqli_fetch_array($rs))
 				{
 					if ($cmbproducto == '18'.$Fila["cod_subproducto"])
 					{
-						echo "<option value = '18".$Fila["cod_subproducto"]."' SELECTed>".ucwords(strtolower($Fila["descripcion"]))."</option>\n";
+						echo "<option value = '18".$Fila["cod_subproducto"]."' selected>".ucwords(strtolower($Fila["descripcion"]))."</option>\n";
 					}
 					else
 					{
@@ -475,14 +499,14 @@ body {
 			$codigo = substr($cmbtipo,0,2);
 		  	if($codigo == 48)
 		  	{
-				//mf $Consulta="SELECT * from subproducto where cod_producto = 48 and cod_subproducto in(1,2,3,6,7,10,11);
-				$Consulta="SELECT * from subproducto where cod_producto = 48 and cod_subproducto in(1,2,3,6,7,10,11,8,9)";
+				//mf $Consulta="select * from subproducto where cod_producto = 48 and cod_subproducto in(1,2,3,6,7,10,11);
+				$Consulta="select * from subproducto where cod_producto = 48 and cod_subproducto in(1,2,3,6,7,10,11,8,9)";
 				$rs = mysqli_query($link, $Consulta);
 				while ($Fila=mysqli_fetch_array($rs))
 				{
 					if ($cmbproducto == '48'.$Fila["cod_subproducto"])
 					{
-						echo "<option value = '48".$Fila["cod_subproducto"]."' SELECTed>".ucwords(strtolower($Fila["descripcion"]))."</option>\n";
+						echo "<option value = '48".$Fila["cod_subproducto"]."' selected>".ucwords(strtolower($Fila["descripcion"]))."</option>\n";
 					}
 					else
 					{
@@ -496,13 +520,13 @@ body {
 			$codigo = substr($cmbtipo,0,2);
 		  	if($codigo == 66)
 		  	{
-				$Consulta="SELECT * from subproducto where cod_producto = 66 ";
+				$Consulta="select * from subproducto where cod_producto = 66 ";
 				$rs = mysqli_query($link, $Consulta);
 				while ($Fila=mysqli_fetch_array($rs))
 				{
 					if ($cmbproducto == '66'.$Fila["cod_subproducto"])
 					{
-						echo "<option value = '66".$Fila["cod_subproducto"]."' SELECTed>".ucwords(strtolower($Fila["descripcion"]))."</option>\n";
+						echo "<option value = '66".$Fila["cod_subproducto"]."' selected>".ucwords(strtolower($Fila["descripcion"]))."</option>\n";
 					}
 					else
 					{
@@ -513,7 +537,7 @@ body {
 			}			  
 		}
 		?>
-          </SELECT></td>
+          </select></td>
   </tr>
 </table>
   <br>
@@ -521,47 +545,47 @@ body {
 <tr>
       <td width="111">F. Recep-Recha</td>
       <td width="231"><font size="2"> 
-              <SELECT name="dia2" size="1" id="dia2">
+              <select name="dia2" size="1" id="dia2">
                 <?php
 			$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
 			for ($i=1;$i<=31;$i++)
 			{	
 				if (($recargapag1 == "S") && ($i == $dia2))
-					echo "<option SELECTed value= '".$i."'>".$i."</option>";				
+					echo "<option selected value= '".$i."'>".$i."</option>";				
 				else if (($i == date("j")) and ($recargapag1 != "S")) 
-						echo "<option SELECTed value= '".$i."'>".$i."</option>";											
+						echo "<option selected value= '".$i."'>".$i."</option>";											
 				else					
 					echo "<option value='".$i."'>".$i."</option>";												
 			}		
 		?>
-              </SELECT>
+              </select>
               </font> <font size="2"> 
-              <SELECT name="mes2" size="1">
+              <select name="mes2" size="1">
                 <?php
 		 	for($i=1;$i<13;$i++)
 		  	{
 				if (($recargapag1 == "S") && ($i == $mes2))
-					echo "<option SELECTed value ='".$i."'>".$meses[$i-1]." </option>";
+					echo "<option selected value ='".$i."'>".$meses[$i-1]." </option>";
 				else if (($i == date("n")) && ($recargapag1 != "S"))
-						echo "<option SELECTed value ='".$i."'>".$meses[$i-1]." </option>";
+						echo "<option selected value ='".$i."'>".$meses[$i-1]." </option>";
 				else
 					echo "<option value='$i'>".$meses[$i-1]."</option>\n";			
 			}		  
 		?>
-              </SELECT>
-              <SELECT name="ano2" size="1" id="ano2">
+              </select>
+              <select name="ano2" size="1" id="ano2">
                 <?php
 			for ($i=date("Y")-1;$i<=date("Y")+1;$i++)
 			{
 				if (($recargapag1 == "S") && ($i == $ano2))
-					echo "<option SELECTed value ='$i'>$i</option>";
+					echo "<option selected value ='$i'>$i</option>";
 				else if (($i == date("Y")) && ($recargapag1 != "S"))
-					echo "<option SELECTed value ='$i'>$i</option>";
+					echo "<option selected value ='$i'>$i</option>";
 				else	
 					echo "<option value='".$i."'>".$i."</option>";
 			}
 		?>
-              </SELECT>
+              </select>
         </font></td>
       <td width="394"><input name="btnbuscar" type="button" value="Buscar" onClick="Buscar(this.form,1)">
         &nbsp;&nbsp;* Fecha de Rechazo Por Calidad o Recepci&oacute;n de Blister</td>
@@ -601,28 +625,28 @@ body {
 		           //mf *** $subproducto = substr($cmbproducto,2,1);
 				   $subproducto = substr($cmbproducto,2,2);
 
-				   echo'<SELECT name="txthornada" onChange="Buscar(this.form,2)">';
-				   echo'<option value="0" SELECTed>Seleccionar</option>';
+				   echo'<select name="txthornada" onChange="Buscar(this.form,2)">';
+				   echo'<option value="0" selected>Seleccionar</option>';
 				   $Consulta = "SELECT distinct hornada FROM sea_web.movimientos WHERE cod_producto = 16 AND cod_subproducto = '".$subproducto."' AND fecha_movimiento <= '".$FechaC."'";
 				   $Consulta.=" order by hornada ";
 				   $A1 = $Consulta;
 				   $rs = mysqli_query($link, $Consulta);
 				   while($fila = mysqli_fetch_array($rs))
 				   {			   
-						// mf *** $hornada = substr($fila["hornada"],2,8);
+						// mf *** $hornada = substr($fila[hornada],2,8);
 						// mf ***
-						if (strlen($fila["hornada"]) == 3)
+						if (strlen($fila[hornada]) == 3)
 						{
-							$hornada = $fila["hornada"];
+							$hornada = $fila[hornada];
 						}
 						else
 						{
-							$hornada = substr($fila["hornada"],2,8);
+							$hornada = substr($fila[hornada],2,8);
 						}
 						// ***
 						
 						//Recep
-						$Consulta = "SELECT ifnull(SUM(unidades),0) as unid, ifnull(SUM(peso),0) as peso FROM sea_web.movimientos WHERE tipo_movimiento = 1 AND cod_producto  = 16 AND hornada = '".$fila["hornada"]."'";
+						$Consulta = "SELECT ifnull(SUM(unidades),0) as unid, ifnull(SUM(peso),0) as peso FROM sea_web.movimientos WHERE tipo_movimiento = 1 AND cod_producto  = 16 AND hornada = '".$fila[hornada]."'";
 						$Consulta.=" and cod_subproducto = '".$subproducto."' and fecha_movimiento <= '".$FechaC."'";
 						$A2 = $Consulta;
 						$unid_recep = 0;
@@ -631,27 +655,27 @@ body {
 						$rs9 = mysqli_query($link, $Consulta);
 						if($row9 = mysqli_fetch_array($rs9))
 						{
-							$unid_recep = $row9["unid"];
+							$unid_recep = $row9[unid];
 						}												
 						//Trasp-Benef
-						$Consulta = "SELECT ifnull(SUM(unidades),0) as unid, ifnull(SUM(peso),0) as peso FROM sea_web.movimientos WHERE tipo_movimiento = 4 AND cod_producto  = 16 AND hornada = '".$fila["hornada"]."'";
+						$Consulta = "SELECT ifnull(SUM(unidades),0) as unid, ifnull(SUM(peso),0) as peso FROM sea_web.movimientos WHERE tipo_movimiento = 4 AND cod_producto  = 16 AND hornada = '".$fila[hornada]."'";
 						$Consulta.=" and cod_subproducto = '".$subproducto."' and fecha_movimiento <= '".$FechaC."'";
 						 $A3 = $Consulta;
 						$rs8 = mysqli_query($link, $Consulta);
 						if($row8 = mysqli_fetch_array($rs8))
 						{
-							$unid_trasp = $row8["unid"];
+							$unid_trasp = $row8[unid];
 						}												
 						$saldo_unidad = ($unid_recep - $unid_trasp);
 						if($saldo_unidad > 0)
 						{						 
 							if($txthornada == $hornada)
-								echo'<option value="'.$hornada.'" SELECTed>'.$hornada.'</option>';
+								echo'<option value="'.$hornada.'" selected>'.$hornada.'</option>';
 							else
 								echo'<option value="'.$hornada.'">'.$hornada.'</option>';
 						}
 				   }
-				   echo'</SELECT>';
+				   echo'</select>';
 			   }	   
 				
 			   //CATODOS
@@ -659,49 +683,49 @@ body {
 			   {
 				   $fecha = $ano1."-".$mes1."-".$dia1;	
 		           $subproducto = substr($cmbproducto,2,2);
-				   echo'<SELECT name="txthornada" onChange="Buscar(this.form,2)">';
-				   echo'<option value="0" SELECTed>Seleccionar</option>';
-				   $Consulta = "SELECT distinct hornada FROM sec_web.traspaso WHERE cod_producto = 18 AND cod_subproducto = '".$subproducto."' AND fecha_traspaso <= '".$fecha."' and sw = 1";
+				   echo'<select name="txthornada" onChange="Buscar(this.form,2)">';
+				   echo'<option value="0" selected>Seleccionar</option>';
+				   $Consulta = "SELECT distinct hornada FROM sec_web.traspaso WHERE cod_producto = 18 AND cod_subproducto = '$subproducto' AND fecha_traspaso <= '$fecha' and sw = 1";
        				//echo $Consulta;
 				   $rs = mysqli_query($link, $Consulta);
 				   while($fila = mysqli_fetch_array($rs))
 				   {			   
 						//Catodos
 						$unid_cat = 0;
-						$Consulta = "SELECT SUM(unidades) as unid, SUM(peso) as peso FROM sec_web.traspaso WHERE cod_producto  = 18 AND hornada = '".$fila["hornada"]."'";
+						$Consulta = "SELECT SUM(unidades) as unid, SUM(peso) as peso FROM sec_web.traspaso WHERE cod_producto  = 18 AND hornada = $fila[hornada]";
 						$rs9 = mysqli_query($link, $Consulta);
 						if($row9 = mysqli_fetch_array($rs9))
 						{
-							$unid_cat = $row9["unid"];
+							$unid_cat = $row9[unid];
 						}				
 						//echo "unid_cat".$unid_cat;
 						//Trasp-Benef
 						$unid_trasp = 0;
-						$Consulta = "SELECT SUM(unidades) as unid, SUM(peso) as peso FROM sea_web.movimientos WHERE tipo_movimiento = 4 AND cod_producto  = 18 AND hornada = '".$fila["hornada"]."' ";
+						$Consulta = "SELECT SUM(unidades) as unid, SUM(peso) as peso FROM sea_web.movimientos WHERE tipo_movimiento = 4 AND cod_producto  = 18 AND hornada = $fila[hornada]";
 						$rs8 = mysqli_query($link, $Consulta);
 						if($row8 = mysqli_fetch_array($rs8))
 						{
-							$unid_trasp = $row8["unid"];
+							$unid_trasp = $row8[unid];
 						}												
 						
 						if(($unid_cat - $unid_trasp) > 0)
 						{
-							if (strlen($fila["hornada"])==13)
+							if (strlen($fila[hornada])==13)
 							{
-	                           $hornada = substr($fila["hornada"],6,7);
+	                           $hornada = substr($fila[hornada],6,7);
 							}
 							else
 							{
-								$hornada = substr($fila["hornada"],6,6);
+								$hornada = substr($fila[hornada],6,6);
 							}
-							$fechor  = substr($fila["hornada"],0,6);
+							$fechor  = substr($fila[hornada],0,6);
 							if($txthornada == $hornada)
-								echo'<option value="'.$hornada.'" SELECTed>'.$hornada.'</option>';
+								echo'<option value="'.$hornada.'" selected>'.$hornada.'</option>';
 							else
 								echo'<option value="'.$hornada.'">'.$hornada.'</option>';
 						}		
 				   }
-				   echo'</SELECT>';
+				   echo'</select>';
 			   }	   
 
 			   //LAMINAS Y DESP.
@@ -710,35 +734,35 @@ body {
 				   $fecha = $ano1.'-'.$mes1.'-'.$dia1;	
 		           $subproducto = substr($cmbproducto,2,2);
 
-				   echo'<SELECT name="txthornada" onChange="Buscar(this.form,2)">';
-				   echo'<option value="0" SELECTed>Seleccionar</option>';
-				   $Consulta = "SELECT distinct hornada FROM sec_web.traspaso WHERE cod_producto = 48 AND cod_subproducto = '".$subproducto."' AND fecha_traspaso <= '".$fecha."' and sw = 1";
+				   echo'<select name="txthornada" onChange="Buscar(this.form,2)">';
+				   echo'<option value="0" selected>Seleccionar</option>';
+				   $Consulta = "SELECT distinct hornada FROM sec_web.traspaso WHERE cod_producto = 48 AND cod_subproducto = $subproducto AND fecha_traspaso <= '$fecha' and sw = 1";
 				   $rs = mysqli_query($link, $Consulta);
 				   while($fila = mysqli_fetch_array($rs))
 				   {			   
 						//Laminas
-						$Consulta = "SELECT SUM(unidades) as unid, SUM(peso) as peso FROM sec_web.traspaso WHERE cod_producto  = 48 AND hornada = '".$fila["hornada"]."' ";
+						$Consulta = "SELECT SUM(unidades) as unid, SUM(peso) as peso FROM sec_web.traspaso WHERE cod_producto  = 48 AND hornada = $fila[hornada]";
 					
 						$rs9 = mysqli_query($link, $Consulta);
 						if($row9 = mysqli_fetch_array($rs9))
 						{
-							$unid_cat = $row9["unid"];
+							$unid_cat = $row9[unid];
 						}												
 						//Trasp-Benef
-						$Consulta = "SELECT SUM(unidades) as unid, SUM(peso) as peso FROM sea_web.movimientos WHERE tipo_movimiento = 4 AND cod_producto  = 48 AND hornada = '".$fila["hornada"]."' ";
+						$Consulta = "SELECT SUM(unidades) as unid, SUM(peso) as peso FROM sea_web.movimientos WHERE tipo_movimiento = 4 AND cod_producto  = 48 AND hornada = $fila[hornada]";
 						$rs8 = mysqli_query($link, $Consulta);
 						if($row8 = mysqli_fetch_array($rs8))
 						{
-							$unid_trasp = $row8["unid"];
+							$unid_trasp = $row8[unid];
 						}												
 						
 						if(($unid_cat - $unid_trasp) > 0)
 						{
-							//$hornada = substr($fila["hornada"],6,6);
-							$hornada = substr($fila["hornada"],6);
-							$fechor  = substr($fila["hornada"],0,6);
+							//$hornada = substr($fila[hornada],6,6);
+							$hornada = substr($fila[hornada],6);
+							$fechor  = substr($fila[hornada],0,6);
 							if($txthornada == $hornada)
-								echo'<option value="'.$hornada.'" SELECTed>'.$hornada.'</option>';
+								echo'<option value="'.$hornada.'" selected>'.$hornada.'</option>';
 							else
 								echo'<option value="'.$hornada.'">'.$hornada.'</option>';
 						}
@@ -751,34 +775,34 @@ body {
 				   $fecha = $ano1.'-'.$mes1.'-'.$dia1;	
 		           $subproducto = substr($cmbproducto,2,2);
 
-				   echo'<SELECT name="txthornada" onChange="Buscar(this.form,2)">';
-				   echo'<option value="0" SELECTed>Seleccionar</option>';
-				   $Consulta = "SELECT distinct hornada FROM sec_web.traspaso WHERE cod_producto = 66 AND cod_subproducto = '".$subproducto."' AND fecha_traspaso <= '".$fecha."' and sw = 1";
+				   echo'<select name="txthornada" onChange="Buscar(this.form,2)">';
+				   echo'<option value="0" selected>Seleccionar</option>';
+				   $Consulta = "SELECT distinct hornada FROM sec_web.traspaso WHERE cod_producto = 66 AND cod_subproducto = $subproducto AND fecha_traspaso <= '$fecha' and sw = 1";
 				   $rs = mysqli_query($link, $Consulta);
 				   while($fila = mysqli_fetch_array($rs))
 				   {			   
 						//Laminas
-						$Consulta = "SELECT SUM(unidades) as unid, SUM(peso) as peso FROM sec_web.traspaso WHERE cod_producto  = 66 AND hornada = '".$fila["hornada"]."' ";
+						$Consulta = "SELECT SUM(unidades) as unid, SUM(peso) as peso FROM sec_web.traspaso WHERE cod_producto  = 66 AND hornada = $fila[hornada]";
 
 						$rs9 = mysqli_query($link, $Consulta);
 						if($row9 = mysqli_fetch_array($rs9))
 						{
-							$unid_cat = $row9["unid"];
+							$unid_cat = $row9[unid];
 						}												
 						//Trasp-Benef
-						$Consulta = "SELECT SUM(unidades) as unid, SUM(peso) as peso FROM sea_web.movimientos WHERE tipo_movimiento = 4 AND cod_producto  = 66 AND hornada = '".$fila["hornada"]."' ";
+						$Consulta = "SELECT SUM(unidades) as unid, SUM(peso) as peso FROM sea_web.movimientos WHERE tipo_movimiento = 4 AND cod_producto  = 66 AND hornada = $fila[hornada]";
 						$rs8 = mysqli_query($link, $Consulta);
 						if($row8 = mysqli_fetch_array($rs8))
 						{
-							$unid_trasp = $row8["unid"];
+							$unid_trasp = $row8[unid];
 						}												
 						
 						if(($unid_cat - $unid_trasp) > 0)
 						{
-							$hornada = substr($fila["hornada"],6,6);
-							$fechor  = substr($fila["hornada"],0,6);
+							$hornada = substr($fila[hornada],6,6);
+							$fechor  = substr($fila[hornada],0,6);
 							if($txthornada == $hornada)
-								echo'<option value="'.$hornada.'" SELECTed>'.$hornada.'</option>';
+								echo'<option value="'.$hornada.'" selected>'.$hornada.'</option>';
 							else
 								echo'<option value="'.$hornada.'">'.$hornada.'</option>';
 						}
@@ -791,7 +815,6 @@ body {
             <td width="234">
 			<?php
 				if ($recargapag2 == "S")
-					//echo '<input name="peso_prom" type="text" style="background:#FFFFCC" size="10" value="'.round($pesopromedio,2).'" readonly></td>';
 					echo '<input name="peso_prom" type="text" style="background:#FFFFCC" size="10" value="'.round((float)$peso_prom,2).'" readonly></td>';
 				else 
 					echo '<input name="peso_prom" type="text" style="background:#FFFFCC" size="10" value="" readonly></td>';
@@ -882,19 +905,16 @@ body {
 			//BLISTER
 			if($codigo == "16") 			
 			{
-				//echo " ** primera vez, por btn 1 mf , fechaC = " . $FechaC;
-				
+				//echo " ** primera vez, por btn 1 mf , fechaC = " . $FechaC;				
 				$consulta = "SELECT hornada, cod_subproducto, cod_producto FROM sea_web.movimientos"; 
 				$consulta = $consulta." WHERE tipo_movimiento = 1  AND cod_producto = 16"; 
-				$consulta = $consulta." AND cod_subproducto = '".$subproducto."' and fecha_movimiento <= '".$FechaC."'";
-				
+				$consulta = $consulta." AND cod_subproducto = '".$subproducto."' and fecha_movimiento <= '".$FechaC."'";				
 			}
 			else
 			{
 				$consulta = "SELECT distinct hornada, cod_subproducto, cod_producto FROM sea_web.movimientos"; 
 				$consulta = $consulta." WHERE fecha_movimiento = '".$fecha."' AND cod_producto = 17";
-		  		$consulta = $consulta." AND cod_subproducto = '".$cmbproducto."' ";
-
+		  		$consulta = $consulta." AND cod_subproducto = ".$cmbproducto;
 			}
 		}
 		else
@@ -922,12 +942,12 @@ body {
 						if (strlen($txthornada) == 7)
 						{
 							$consulta = "SELECT IFNULL(MAX(hornada_ventana),0) AS hornada FROM sea_web.hornadas";
-							$consulta.=" WHERE cod_producto = 16 AND cod_subproducto = '".$subproducto."' AND right(hornada_ventana,7) = '".$txthornada."'";
+							$consulta.=" WHERE cod_producto = 16 AND cod_subproducto = ".$subproducto." AND right(hornada_ventana,7) = '".$txthornada."'";
 						}
 						else
 						{
 							$consulta = "SELECT IFNULL(MAX(hornada_ventana),0) AS hornada FROM sea_web.hornadas";
-							$consulta.=" WHERE cod_producto = 16 AND cod_subproducto = '".$subproducto."' AND right(hornada_ventana,8) = '".$txthornada."'";
+							$consulta.=" WHERE cod_producto = 16 AND cod_subproducto = ".$subproducto." AND right(hornada_ventana,8) = '".$txthornada."'";
 						}
 						
 						//echo ' mf query = ' .$consulta;
@@ -939,7 +959,7 @@ body {
 						//echo " ** subproducto distincto 4 mf "; 
 					
 						$consulta = "SELECT IFNULL(MAX(hornada_ventana),0) AS hornada FROM sea_web.hornadas";
-						$consulta.=" WHERE cod_producto = 16 AND cod_subproducto = '".$subproducto."' AND right(hornada_ventana,6) = '".$txthornada."'";
+						$consulta.=" WHERE cod_producto = 16 AND cod_subproducto = ".$subproducto." AND right(hornada_ventana,6) = '".$txthornada."'";
 						
 						//mf $consulta.=" and fecha_movimiento <= '".$fecha2."'";
 						
@@ -954,24 +974,24 @@ body {
 			if($codigo != "16" && $codigo != "48" && $codigo != "18" && $codigo != "66")//ANODOS			
 			{
 				$consulta = "SELECT IFNULL(MAX(hornada_ventana),0) AS hornada FROM sea_web.hornadas";
-				$consulta = $consulta." WHERE cod_producto = 17 AND cod_subproducto = '".$cmbproducto."' AND SUBSTRING(hornada_ventana,3,10) = '".$txthornada."' ";
+				$consulta = $consulta." WHERE cod_producto = 17 AND cod_subproducto = ".$cmbproducto." AND SUBSTRING(hornada_ventana,3,10) = ".$txthornada;
 			}			
 			if($codigo == "18")//CATODOS			
 			{
 				$consulta = "SELECT IFNULL(MAX(hornada),0) AS hornada FROM sec_web.traspaso";
-				$consulta = $consulta." WHERE cod_producto = 18 AND cod_subproducto = '".$subproducto."' AND substring(hornada,7) = '".$txthornada."' ";
+				$consulta = $consulta." WHERE cod_producto = 18 AND cod_subproducto = ".$subproducto." AND substring(hornada,7) = '".$txthornada."'";
 				//echo $consulta."<br>";
 			}			
 			if($codigo == "48")//LAMINAS			
 			{
 				$consulta = "SELECT IFNULL(MAX(hornada),0) AS hornada FROM sec_web.traspaso";
-				$consulta = $consulta." WHERE cod_producto = 48 AND cod_subproducto = '".$subproducto."'  AND SUBSTRING(hornada,7) = '".$txthornada."' ";
+				$consulta = $consulta." WHERE cod_producto = 48 AND cod_subproducto = ".$subproducto."  AND SUBSTRING(hornada,7) = ".$txthornada;
 
 			}
 			if($codigo == "66")//LAMINAS APROBADAS.
 			{
 				$consulta = "SELECT IFNULL(MAX(hornada),0) AS hornada FROM sec_web.traspaso";
-				$consulta = $consulta." WHERE cod_producto = 66 AND cod_subproducto = '".$subproducto."' AND SUBSTRING(hornada,7) = '".$txthornada."' ";
+				$consulta = $consulta." WHERE cod_producto = 66 AND cod_subproducto = ".$subproducto."  AND SUBSTRING(hornada,7) = ".$txthornada;
 				
 				
 			}						
@@ -985,15 +1005,15 @@ body {
 			while ($row2 = mysqli_fetch_array($rs2))
 			{
 
-				$anodos_rechazados = 0;// StockRechazo($row2["hornada"],17,$cmbproducto);//llamo a la funcion de rechazos
+				$anodos_rechazados = 0;// StockRechazo($row2[hornada],17,$cmbproducto);//llamo a la funcion de rechazos
 				$peso_rechazado = 0;
 				$anodo_traspasado = 0;
 				$peso_traspasado = 0;
 			    if ($cmbproducto=='4' || $cmbproducto =='8')
 				{
 
-					$consulta ="SELECT ifnull(sum(unidades),0) as unidades, ifnull(sum(peso),0) as peso from sea_web.movimientos where tipo_movimiento = '1'";
-					$consulta.=" and sub_tipo_movim in ('2','4') and cod_producto = '17' and cod_subproducto = '".$cmbproducto."' and  hornada = '".$row2["hornada"]."' ";
+					$consulta ="select ifnull(sum(unidades),0) as unidades, ifnull(sum(peso),0) as peso from sea_web.movimientos where tipo_movimiento = '1'";
+					$consulta.=" and sub_tipo_movim in ('2','4') and cod_producto = '17' and cod_subproducto = '".$cmbproducto."' and  hornada = '".$row2["hornada"]."'";
 					$resC = mysqli_query($link, $consulta);
 					//echo $consulta;
 					if ($Fila = mysqli_fetch_array($resC))
@@ -1001,8 +1021,8 @@ body {
 						$anodos_rechazados = ($Fila["unidades"] * 1);
 						$peso_rechazado = ($Fila["peso"] * 1);
 					}
-					$consultaT ="SELECT ifnull(sum(unidades),0) as unidades, ifnull(sum(peso),0) as peso from sea_web.movimientos where tipo_movimiento = '4' and ";
-					$consultaT.=" cod_producto = '17' and cod_subproducto = '".$cmbproducto."' and  hornada = '".$row2["hornada"]."' ";
+					$consultaT ="select ifnull(sum(unidades),0) as unidades, ifnull(sum(peso),0) as peso from sea_web.movimientos where tipo_movimiento = '4' and ";
+					$consultaT.=" cod_producto = '17' and cod_subproducto = '".$cmbproducto."' and  hornada = '".$row2["hornada"]."'";
 					//echo $consultaT;
 					$resCT = mysqli_query($link, $consultaT);
 					if ($FilaT = mysqli_fetch_array($resCT))
@@ -1021,13 +1041,13 @@ body {
 						$peso_rechazado = $peso_rechazado - $peso_traspasado;
 					}
 				}
-				$anodos_buenos = StockActual($row2["hornada"],17,$cmbproducto, $link);//llamo a la funcion de stock
+				$anodos_buenos = StockActual($row2["hornada"],17,$cmbproducto,$link);//llamo a la funcion de stock
 				if ($anodos_buenos == 0)
 				{
 					$anodos_rechazados = 0;
 					$peso_rechazado = 0;
 				}
-				$peso_faltante = PesoFaltante(17,$cmbproducto,$row2["hornada"], $link);
+				$peso_faltante = PesoFaltante(17,$cmbproducto,$row2["hornada"],$link);
 				if ($anodos_rechazados > $anodos_buenos)
 				{
 					$difer2 = $anodos_rechazados - $anodos_buenos;
@@ -1039,7 +1059,7 @@ body {
 				if ($anodos_buenos > 0)
 				{
 					echo '<tr>';
-					echo '<td align="center"><input name="hornada['.$i.']" type="hidden" value="'.$row2["hornada"].'">'.substr($row2["hornada"],6,4);			
+					echo '<td align="center"><input name="hornada['.$i.']" type="hidden" value="'.$row2[hornada].'">'.substr($row2["hornada"],6,4);			
 					echo '<input name="unid_aux['.$i.']" type="hidden" size="10" value="'.$anodos_rechazados.'">';
 					echo '<input name="peso_aux['.$i.']" type="hidden" size="10" value="'.$peso_rechazado.'"></td>';							
 					echo '<td align="center"><input name="unid_recha['.$i.']" type="text" size="10" value="'.$anodos_rechazados.'" readonly></td>';
@@ -1069,7 +1089,7 @@ body {
 			{
 				$stock_unidades = 0;
 				$stock_peso = 0;
-				$consulta = "SELECT ifnull(SUM(unidades),0) as unidades, ifnull(SUM(peso),0) as peso_unidades FROM sea_web.movimientos WHERE fecha_movimiento <= '$fecha2' AND tipo_movimiento = 1 AND cod_producto = 16 AND hornada = ".$row2["hornada"] ;
+				$consulta = "SELECT ifnull(SUM(unidades),0) as unidades, ifnull(SUM(peso),0) as peso_unidades FROM sea_web.movimientos WHERE fecha_movimiento <= '$fecha2' AND tipo_movimiento = 1 AND cod_producto = 16 AND hornada = '".$row2["hornada"]."'" ;
 				//echo "hola2".$consulta;
 				$rs4 = mysqli_query($link, $consulta);
 				 if($row4 = mysqli_fetch_array($rs4))
@@ -1145,14 +1165,14 @@ body {
 				$stock_peso = 0;
 				$fecha2 = $ano1.'-'.$mes1.'-'.$dia1;
 				$txthorno = substr($row2["hornada"],6);
-				$consulta = "SELECT SUM(unidades) as unidades, SUM(peso) as peso_unidades FROM sec_web.traspaso WHERE fecha_traspaso <= '".$fecha2."' AND cod_producto = 18 AND cod_subproducto = '".$subproducto."' ";
+				$consulta = "SELECT SUM(unidades) as unidades, SUM(peso) as peso_unidades FROM sec_web.traspaso WHERE fecha_traspaso <= '$fecha2' AND cod_producto = 18 AND cod_subproducto = '".$subproducto."'";
 				$consulta.= " and hornada = '".$row2["hornada"]."'";
 				$rs4 = mysqli_query($link, $consulta);
 				//echo $consulta."--".$txthorno;
 	
 				 if($row4 = mysqli_fetch_array($rs4))
 				 {			
-					$consulta = "SELECT SUM(unidades) as unidades, SUM(peso) as peso FROM sea_web.movimientos WHERE fecha_movimiento <= '".$fecha2."' AND cod_producto = 18 AND cod_subproducto = '".$subproducto."' AND tipo_movimiento = 4 AND hornada = '".$row2["hornada"]."' ";
+					$consulta = "SELECT SUM(unidades) as unidades, SUM(peso) as peso FROM sea_web.movimientos WHERE fecha_movimiento <= '$fecha2' AND cod_producto = 18 AND cod_subproducto = '".$subproducto."' AND tipo_movimiento = 4 AND hornada = ".$row2["hornada"];
 					$rs3 = mysqli_query($link, $consulta);
 					if($row3 = mysqli_fetch_array($rs3))
 					{
@@ -1205,14 +1225,14 @@ body {
 				$stock_unidades = 0;
 				$stock_peso = 0;
 				$fecha2 = $ano1.'-'.$mes1.'-'.$dia1;
-				$consulta = "SELECT SUM(unidades) as unidades, SUM(peso) as peso_unidades FROM sec_web.traspaso WHERE fecha_traspaso <= '".$fecha2."' AND cod_producto = 48 AND cod_subproducto = '".$subproducto."' AND hornada = '".$row2["hornada"]."' " ;
+				$consulta = "SELECT SUM(unidades) as unidades, SUM(peso) as peso_unidades FROM sec_web.traspaso WHERE fecha_traspaso <= '$fecha2' AND cod_producto = 48 AND cod_subproducto = '".$subproducto."' AND hornada = '".$row2["hornada"]."'" ;
 				$rs4 = mysqli_query($link, $consulta);
 
 	
 				 if($row4 = mysqli_fetch_array($rs4))
 				 {			
 
-					$consulta = "SELECT SUM(unidades) as unidades, SUM(peso) as peso FROM sea_web.movimientos WHERE fecha_movimiento <= '".$fecha2."' AND cod_producto = 48 AND cod_subproducto = '".$subproducto."' AND tipo_movimiento = 4 AND hornada = '".$row2["hornada"]."' ";
+					$consulta = "SELECT SUM(unidades) as unidades, SUM(peso) as peso FROM sea_web.movimientos WHERE fecha_movimiento <= '$fecha2' AND cod_producto = 48 AND cod_subproducto = '".$subproducto."' AND tipo_movimiento = 4 AND hornada = '".$row2["hornada"]."'";
 					$rs3 = mysqli_query($link, $consulta);
 					if($row3 = mysqli_fetch_array($rs3))
 					{
@@ -1260,18 +1280,18 @@ body {
 				$stock_unidades = 0;
 				$stock_peso = 0;
 				$fecha2 = $ano1.'-'.$mes1.'-'.$dia1;
-				$consulta = "SELECT SUM(unidades) as unidades, SUM(peso) as peso_unidades FROM sec_web.traspaso WHERE fecha_traspaso <= '".$fecha2."' AND cod_producto = 66 AND cod_subproducto = '".$subproducto."' AND hornada = ".$row2["hornada"]."' " ;
+				$consulta = "SELECT SUM(unidades) as unidades, SUM(peso) as peso_unidades FROM sec_web.traspaso WHERE fecha_traspaso <= '$fecha2' AND cod_producto = 66 AND cod_subproducto = '".$subproducto."' AND hornada = '".$row2["hornada"]."'" ;
 				//echo $consulta."<br>";
 				$rs4 = mysqli_query($link, $consulta);
 				 if($row4 = mysqli_fetch_array($rs4))
 				 {			
 
-					$consulta = "SELECT SUM(unidades) as unidades, SUM(peso) as peso FROM sea_web.movimientos WHERE fecha_movimiento <= '".$fecha2."' AND cod_producto = 66 AND cod_subproducto = '".$subproducto."' AND tipo_movimiento = 4 AND hornada = '".$row2["hornada"]."' ";
+					$consulta = "SELECT SUM(unidades) as unidades, SUM(peso) as peso FROM sea_web.movimientos WHERE fecha_movimiento <= '$fecha2' AND cod_producto = 66 AND cod_subproducto = '".$subproducto."' AND tipo_movimiento = 4 AND hornada = '".$row2["hornada"]."'";
 					$rs3 = mysqli_query($link, $consulta);
 					if($row3 = mysqli_fetch_array($rs3))
 					{
 						$stock_unidades = $row4["unidades"] - $row3["unidades"];
-						$stock_peso = $row4["peso_unidades"] - $row3["peso"];
+						$stock_peso = $row4["peso_unidades"] - $row3[peso];
 					}	
 					echo '<tr>';
 						echo '<td align="center"><input name="hornada['.$i.']" type="hidden" value="'.$row2["hornada"].'">'.substr($row2["hornada"],6,6);			

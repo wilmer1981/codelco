@@ -1,34 +1,13 @@
 <?php
  include("../principal/conectar_sea_web.php");
-
-if(isset($_REQUEST["Proceso"])) {
-	$Proceso = $_REQUEST["Proceso"];
-}else{
-	$Proceso = "";
-}
-if(isset($_REQUEST["dia"])) {
-	$dia = $_REQUEST["dia"];
-}else{
-	$dia = date("d");
-}
-if(isset($_REQUEST["mes"])) {
-	$mes = $_REQUEST["mes"];
-}else{
-	$mes =  date("m");
-}
-if(isset($_REQUEST["ano"])) {
-	$ano = $_REQUEST["ano"];
-}else{
-	$ano =  date("Y");
-}
-
-if(isset($_REQUEST["cmbproductos"])) {
-	$cmbproductos = $_REQUEST["cmbproductos"];
-}else{
-	$cmbproductos = "";
-}
-$hornada_aux = isset($_REQUEST["hornada_aux"])?$_REQUEST["hornada_aux"]:"";
-
+ 
+  $Proceso = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+  $dia = isset($_REQUEST["dia"])?$_REQUEST["dia"]:date("d");
+  $mes = isset($_REQUEST["mes"])?$_REQUEST["mes"]:date("m");
+  $ano = isset($_REQUEST["ano"])?$_REQUEST["ano"]:date("Y"); 
+ $cmbproductos = isset($_REQUEST["cmbproductos"])?$_REQUEST["cmbproductos"]:"";
+ $hornada_aux = isset($_REQUEST["hornada_aux"])?$_REQUEST["hornada_aux"]:"";
+ 
  $fecha = $ano.'-'.$mes.'-'.$dia;	
  $FechaInicio=$ano.'-'.$mes.'-'.$dia." 08:00:00";
  $FechaTermino =date("Y-m-d", mktime(1,0,0,$mes,($dia +1),$ano))." 07:59:59";
@@ -38,7 +17,7 @@ $hornada_aux = isset($_REQUEST["hornada_aux"])?$_REQUEST["hornada_aux"]:"";
  {
 	 $Eliminar ="DELETE FROM sea_web.movimientos WHERE tipo_movimiento = 4 AND cod_producto = 16 ";
 	 $Eliminar.="AND fecha_movimiento between '".$fecha."' and '".$fecha2."' and hora between '".$FechaInicio."' and '".$FechaTermino."'";	 
-	 $Eliminar.="AND hornada = $hornada_aux";
+	 $Eliminar.="AND hornada = '".$hornada_aux."'";
   	 mysqli_query($link, $Eliminar); 			
  }
 
@@ -46,7 +25,7 @@ $hornada_aux = isset($_REQUEST["hornada_aux"])?$_REQUEST["hornada_aux"]:"";
  {
 	 $Eliminar ="DELETE FROM sea_web.movimientos WHERE tipo_movimiento = 4 AND cod_producto = 18 ";
 	 $Eliminar.="AND fecha_movimiento between '".$fecha."' and '".$fecha2."' and hora between '".$FechaInicio."' and '".$FechaTermino."' ";	 
-	 $Eliminar.="AND hornada = $hornada_aux";
+	 $Eliminar.="AND hornada = '".$hornada_aux."'";
   	 mysqli_query($link, $Eliminar); 			
  }
 
@@ -54,7 +33,7 @@ $hornada_aux = isset($_REQUEST["hornada_aux"])?$_REQUEST["hornada_aux"]:"";
  {
 	 $Eliminar ="DELETE FROM sea_web.movimientos WHERE tipo_movimiento = 4 AND cod_producto = 48 ";
 	 $Eliminar.="AND fecha_movimiento between '".$fecha."' and '".$fecha2."' and hora between '".$FechaInicio."' and '".$FechaTermino."' ";	 
-	 $Eliminar.="AND hornada = $hornada_aux";
+	 $Eliminar.="AND hornada = '".$hornada_aux."'";
   	 mysqli_query($link, $Eliminar); 			
  }
 
@@ -153,10 +132,38 @@ function Eliminar2()
 
 function buscar_datos()
 {
-var f = frmPoPup;
-
-    f.action="sea_ing_anodos_trasp_raf02.php?Proceso=B";
-	f.submit();
+	var f = frmPoPup;
+    var semaforo = validar_fecha(f);
+	if(semaforo==1){
+		f.action="sea_ing_anodos_trasp_raf02.php?Proceso=B";
+		f.submit();
+	}
+}
+function validar_fecha(f){
+			var dia = f.dia.value;
+			var mes = f.mes.value;
+			var semaforo = 0;
+			if(mes==2){
+				if(dia>28){
+					alert("Debe Ingresar fecha correcta(<29) ");
+					f.dia.focus();
+					return;
+				}else{
+					semaforo=1;
+				}
+			}
+			if(mes==4 || mes==6 || mes==9 || mes==11){
+				if(dia>30){
+					alert("Debe Ingresar fecha correcta(<31) ");
+					f.dia.focus();
+					return;
+				}else{
+					semaforo=1;  
+				}
+			}else{
+				semaforo=1; 
+			}
+	return semaforo;
 }
 
 
@@ -400,7 +407,7 @@ if (($Proceso == 'B' && $codigo != 16 && $codigo != 18 && $codigo != 48) || $cmb
 	// Saca todos los movimientos de recepcion afectados.
 	reset($arreglo);
 	//while (list($clave, $valor) = each($arreglo)) // (0: flujo, 1: cod_producto, 2: cod_subproducto, 3: horno_inicial)
-	foreach ($arreglo as $clave =>$valor) 
+	foreach($arreglo as $clave => $valor)
 	{
 		$ContReg=0;$TotAS=0;$TotSB=0;$TotBI=0;$ContRegAS=0;$ContRegSB=0;$ContRegBI=0;
 		$consulta = "SELECT distinct hornada FROM sea_web.movimientos";
@@ -435,7 +442,7 @@ if (($Proceso == 'B' && $codigo != 16 && $codigo != 18 && $codigo != 48) || $cmb
 			echo '<td width="130" align="center">';
 			$consulta = "SELECT SUM(unidades) as unidades FROM sea_web.movimientos";
 			$consulta = $consulta." WHERE tipo_movimiento = 4 AND cod_producto = '".$valor[1]."' AND cod_subproducto = '".$valor[2]."'";
-			$consulta = $consulta." AND hornada = '".$row2["hornada"]."' AND fecha_movimiento between '".$fecha."' and '".$fecha2."' and hora between '".$FechaInicio."' and '".$FechaTermino."' ";
+			$consulta = $consulta." AND hornada = '".$row2["hornada"]."' AND fecha_movimiento between '".$fecha."' and '".$fecha2."' and hora between '$FechaInicio' and '$FechaTermino'";
 			$rs_u = mysqli_query($link, $consulta);
 			if($row_u = mysqli_fetch_array($rs_u))
 			{ 
@@ -444,7 +451,7 @@ if (($Proceso == 'B' && $codigo != 16 && $codigo != 18 && $codigo != 48) || $cmb
 			echo '<td width="130" align="center">';
 			$consulta = "SELECT SUM(peso) as peso FROM sea_web.movimientos";
 			$consulta = $consulta." WHERE tipo_movimiento = 4 AND cod_producto = '".$valor[1]."' AND cod_subproducto = '".$valor[2]."'";
-			$consulta = $consulta." AND hornada = '".$row2["hornada"]."' AND fecha_movimiento between '".$fecha."' and '".$fecha2."' and hora between '".$FechaInicio."' and '".$FechaTermino."' ";
+			$consulta = $consulta." AND hornada = '".$row2["hornada"]."' AND fecha_movimiento between '".$fecha."' and '".$fecha2."' and hora between '$FechaInicio' and '$FechaTermino'";
 			$rs_p = mysqli_query($link, $consulta);
 			if($row_p = mysqli_fetch_array($rs_p))
 			{ 

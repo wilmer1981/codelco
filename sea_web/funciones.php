@@ -160,7 +160,7 @@
 		mysqli_query($link, $actualiza);		
 	}
 	
-	function PesoFaltante ($cod_producto, $cod_subproducto, $hornada, $link)
+	function PesoFaltante($cod_producto, $cod_subproducto, $hornada, $link)
 	{
 		$consulta = "SELECT peso_unidades FROM sea_web.hornadas";
 		$consulta = $consulta." WHERE cod_producto = '".$cod_producto."' AND cod_subproducto = '".$cod_subproducto."' ";
@@ -172,8 +172,7 @@
 			$StockPeso = $row["peso_unidades"];
 		}else{
 			$StockPeso = 0;	
-		}
-		
+		}	
 	
 		$consulta = "SELECT IFNULL(SUM(peso),0) AS peso FROM sea_web.movimientos";
 		$consulta = $consulta." WHERE tipo_movimiento IN (2,4,9) and cod_producto = '".$cod_producto."' ";
