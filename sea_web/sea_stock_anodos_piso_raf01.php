@@ -2,6 +2,14 @@
 
 include("../principal/conectar_sea_web.php");
 
+  $dia = isset($_REQUEST["dia"])?$_REQUEST["dia"]:date("d");
+  $mes = isset($_REQUEST["mes"])?$_REQUEST["mes"]:date("m");
+  $ano = isset($_REQUEST["ano"])?$_REQUEST["ano"]:date("Y"); 
+   $cmbproductos = isset($_REQUEST["cmbproductos"])?$_REQUEST["cmbproductos"]:"";
+  $cmbsubproducto = isset($_REQUEST["cmbsubproducto"])?$_REQUEST["cmbsubproducto"]:"";
+ $shornada = isset($_REQUEST["shornada"])?$_REQUEST["shornada"]:"";
+  $unidades = isset($_REQUEST["unidades"])?$_REQUEST["unidades"]:"";
+   $peso = isset($_REQUEST["peso"])?$_REQUEST["peso"]:"";
 //*******************************************************************************//
 	//Valida que no se realicen cambios de movimientos, en la fecha ingresada.
 	
@@ -19,7 +27,7 @@ if ($Proceso == 'G' AND substr($cmbproductos,0,2) != 16 AND substr($cmbproductos
 	    $consulta = "SELECT flujo FROM relacion_prod_flujo_nodo WHERE cod_proceso = 4 AND cod_producto = 17";
 	    $consulta = $consulta." AND cod_subproducto = ".$cmbproductos;
 	    include("../principal/conectar_principal.php");
-	    $rs1 = mysqli_query($link, $consulta);
+	    $rs1 = mysqli_query($link,$consulta);
 
 	    if ($row1 = mysqli_fetch_array($rs1))
 		   $flujo = $row1["flujo"];
@@ -27,11 +35,10 @@ if ($Proceso == 'G' AND substr($cmbproductos,0,2) != 16 AND substr($cmbproductos
 		   $flujo = 0;
 
 	  //inserto en stock piso raf
-		$Insertar = "INSERT INTO stock_piso_raf";
-		$Insertar = "$Insertar (fecha,cod_producto,cod_subproducto,flujo,hornada,unidades,peso)";
-		$Insertar = "$Insertar VALUES('$fecha',17,$cmbproductos,$flujo,$cmbhornada,$unidades,$peso)";
+		$Insertar = "INSERT INTO stock_piso_raf (fecha,cod_producto,cod_subproducto,flujo,hornada,unidades,peso)";
+		$Insertar.= " VALUES('$fecha',17,$cmbproductos,$flujo,$cmbhornada,$unidades,$peso)";
 		include("../principal/conectar_sea_web.php");
-		mysqli_query($link, $Insertar);
+		mysqli_query($Insertar);
 
     $valores = "Mensaje=1"."&Proceso=R"."&cmbproductos=".$cmbproductos."&cmbhornada=".$cmbhornada."&dia=".$dia."&mes=".$mes."&ano=".$ano;  
 
@@ -49,7 +56,7 @@ if ($Proceso == 'G' AND substr($cmbproductos,0,2) == 16)
 	    $consulta = $consulta." AND cod_subproducto = ".$apellido;
 		
 	    include("../principal/conectar_principal.php");
-	    $rs1 = mysqli_query($link, $consulta);
+	    $rs1 = mysqli_query($link,$consulta);
 
 	    if ($row1 = mysqli_fetch_array($rs1))
 		   $flujo = $row1["flujo"];
@@ -61,7 +68,7 @@ if ($Proceso == 'G' AND substr($cmbproductos,0,2) == 16)
 		$Insertar = "$Insertar (fecha,cod_producto,cod_subproducto,flujo,hornada,unidades,peso)";
 		$Insertar = "$Insertar VALUES('$fecha',16,$apellido,$flujo,$cmbhornada,$unidades,$peso)";
 		include("../principal/conectar_sea_web.php");
-		mysqli_query($link, $Insertar);
+		mysqli_query($Insertar);
 
     $valores = "Mensaje=1"."&Proceso=R"."&cmbproductos=".$cmbproductos."&cmbsubproducto=".$cmbsubproducto."&cmbhornada=".$cmbhornada."&dia=".$dia."&mes=".$mes."&ano=".$ano;  
 
@@ -78,7 +85,7 @@ if ($Proceso == 'G' AND substr($cmbproductos,0,2) == 18)
 		
 	    include("../principal/conectar_principal.php");
 		
-	    $rs1 = mysqli_query($link, $consulta);
+	    $rs1 = mysqli_query($link,$consulta);
 
 	    if ($row1 = mysqli_fetch_array($rs1))
 		   $flujo = $row1["flujo"];
@@ -91,7 +98,7 @@ if ($Proceso == 'G' AND substr($cmbproductos,0,2) == 18)
 		$Insertar = " $Insertar VALUES('$fecha',18,$apellido,$flujo,$cmbhornada,$unidades,$peso)";
 		
 		include("../principal/conectar_sea_web.php");
-		mysqli_query($link, $Insertar);
+		mysqli_query($link,$Insertar);
 
     $valores = "Mensaje=1"."&Proceso=R"."&cmbproductos=".$cmbproductos."&cmbsubproducto=".$cmbsubproducto."&cmbhornada=".$cmbhornada."&dia=".$dia."&mes=".$mes."&ano=".$ano;  
 
@@ -106,7 +113,7 @@ if ($Proceso == 'G' AND substr($cmbproductos,0,2) == 48)
 	    $consulta = "SELECT flujo FROM relacion_prod_flujo_nodo WHERE cod_proceso = 4 AND cod_producto = 48";
 	    $consulta = $consulta." AND cod_subproducto = ".$apellido;
 	    include("../principal/conectar_principal.php");
-	    $rs1 = mysqli_query($link, $consulta);
+	    $rs1 = mysqli_query($link,$consulta);
 
 	    if ($row1 = mysqli_fetch_array($rs1))
 		   $flujo = $row1["flujo"];
@@ -118,7 +125,7 @@ if ($Proceso == 'G' AND substr($cmbproductos,0,2) == 48)
 		$Insertar = "$Insertar (fecha,cod_producto,cod_subproducto,flujo,hornada,unidades,peso)";
 		$Insertar = "$Insertar VALUES('$fecha',48,$apellido,$flujo,$cmbhornada,$unidades,$peso)";
 		include("../principal/conectar_sea_web.php");
-		mysqli_query($link, $Insertar);
+		mysqli_query($link,$Insertar);
 
     $valores = "Mensaje=1"."&Proceso=R"."&cmbproductos=".$cmbproductos."&cmbsubproducto=".$cmbsubproducto."&cmbhornada=".$cmbhornada."&dia=".$dia."&mes=".$mes."&ano=".$ano;  
 
@@ -130,7 +137,7 @@ if ($Proceso == 'G' AND substr($cmbproductos,0,2) == 48)
 if ($Proceso == 'E' AND substr($cmbproductos,0,2) != 16 AND substr($cmbproductos,0,2) != 18 AND substr($cmbproductos,0,2) != 48)
 {
 	$Eliminar = "DELETE FROM stock_piso_raf  WHERE fecha = '$fecha' AND cod_producto = 17 AND cod_subproducto = $cmbproductos AND hornada= $cmbhornada";
-	mysqli_query($link, $Eliminar);
+	mysqli_query($Eliminar);
 						
 
     $valores = "Proceso=R"."&cmbproductos=".$cmbproductos."&cmbhornada=".$cmbhornada."&dia=".$dia."&mes=".$mes."&ano=".$ano;  
@@ -143,7 +150,7 @@ if ($Proceso == 'E' AND substr($cmbproductos,0,2) == 16)
 {	
 	$apellido = substr($cmbsubproducto,2,2);
     $Eliminar = "DELETE FROM stock_piso_raf  WHERE fecha = '$fecha' AND cod_producto = 16 AND cod_subproducto = $apellido AND hornada= $cmbhornada";
-	mysqli_query($link, $Eliminar);
+	mysqli_query($link,$Eliminar);
 					
 
     $valores = "Proceso=R"."&cmbproductos=".$cmbproductos."&cmbsubproducto=".$cmbsubproducto."&cmbhornada=".$cmbhornada."&dia=".$dia."&mes=".$mes."&ano=".$ano;  
@@ -156,7 +163,7 @@ if ($Proceso == 'E' AND substr($cmbproductos,0,2) == 18)
 {	
 	$apellido = substr($cmbsubproducto,2,2);
     $Eliminar = "DELETE FROM stock_piso_raf  WHERE fecha = '$fecha' AND cod_producto = 18 AND cod_subproducto = $apellido AND hornada= $cmbhornada";
-	mysqli_query($link, $Eliminar);
+	mysqli_query($link,$Eliminar);
 					
 
     $valores = "Proceso=R"."&cmbproductos=".$cmbproductos."&cmbsubproducto=".$cmbsubproducto."&cmbhornada=".$cmbhornada."&dia=".$dia."&mes=".$mes."&ano=".$ano;  
@@ -169,7 +176,7 @@ if ($Proceso == 'E' AND substr($cmbproductos,0,2) == 48)
 {	
 	$apellido = substr($cmbsubproducto,2,2);
     $Eliminar = "DELETE FROM stock_piso_raf  WHERE fecha = '$fecha' AND cod_producto = 48 AND cod_subproducto = $apellido AND hornada= $cmbhornada";
-	mysqli_query($link, $Eliminar);
+	mysqli_query($link,$Eliminar);
 					
 
     $valores = "Proceso=R"."&cmbproductos=".$cmbproductos."&cmbsubproducto=".$cmbsubproducto."&cmbhornada=".$cmbhornada."&dia=".$dia."&mes=".$mes."&ano=".$ano;  

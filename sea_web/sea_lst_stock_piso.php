@@ -58,7 +58,8 @@ if(isset($_REQUEST["ano2"])) {
 	$ano2 =  date("Y");
 }
 
-?>
+
+ ?>
 
 <html>
 <head>
@@ -126,7 +127,7 @@ $largo = 400; //Largo de la Tabla.
 
 echo '<table width="'.$largo.'"  border="0" cellspacing="0" cellpadding="0" align="center">';
 echo '<tr class="ColorTabla02">';
-echo '<td colspan="3" align="center">�NODOS EN PISO DE RAF</td>';
+echo '<td colspan="3" align="center">&Aacute;NODOS EN PISO DE RAF</td>';
 echo '</tr>';
 echo '<tr class="ColorTabla01">';
 echo '<td width="180" align="center">TIPO ANODO</td>';
@@ -276,7 +277,9 @@ while($row8 = mysqli_fetch_array($rs8))
 	{
 			//Crea el detalle.					
 			echo '<tr class="ColorTabla02"><td width="180"><center>'.$row3['abreviatura'].'</center></td>';
+
 			echo '<td width="100" align="center">';
+
 			$consulta = "SELECT SUM(unidades) as unidades FROM sea_web.stock_piso_raf";
 			$consulta = $consulta." WHERE cod_producto = 16";
 			$consulta = $consulta." AND cod_subproducto = '".$row8["cod_subproducto"]."' AND fecha BETWEEN '".$fecha_ini."' AND '".$fecha_ter."'";
@@ -287,6 +290,7 @@ while($row8 = mysqli_fetch_array($rs8))
 			}
 
 			echo '<td width="100" align="center">';
+
 			$consulta = "SELECT SUM(peso) as peso FROM sea_web.stock_piso_raf";
 			$consulta = $consulta." WHERE cod_producto = 16";
 			$consulta = $consulta." AND cod_subproducto = '".$row8["cod_subproducto"]."' AND fecha BETWEEN '".$fecha_ini."' AND '".$fecha_ter."'";
@@ -326,7 +330,7 @@ echo '<table width="'.$largo.'" border="0" cellspacing="0" cellpadding="0" align
 
 while($row8 = mysqli_fetch_array($rs8))
 {
-	$consulta = "SELECT * FROM subproducto WHERE cod_producto = '18' and cod_subproducto = '".$row8["cod_subproducto"]."' ";
+	$consulta = "SELECT * FROM subproducto WHERE cod_producto = '18' and cod_subproducto = '".$row8["cod_subproducto"]."'";
 	include("../principal/conectar_principal.php");
 	$rs3 = mysqli_query($link, $consulta);
 	if($row3 = mysqli_fetch_array($rs3))
@@ -398,7 +402,9 @@ while($row8 = mysqli_fetch_array($rs8))
 	{
 			//Crea el detalle.
 			echo '<tr class="ColorTabla02"><td width="180"><center>'.$row3['abreviatura'].'</center></td>';
+
 			echo '<td width="100" align="center">';
+
 			$consulta = "SELECT SUM(unidades) as unidades FROM sea_web.stock_piso_raf";
 			$consulta = $consulta." WHERE cod_producto = 48";
 			$consulta = $consulta." AND cod_subproducto = '".$row8["cod_subproducto"]."' AND fecha BETWEEN '".$fecha_ini."' AND '".$fecha_ter."'";
@@ -410,10 +416,12 @@ while($row8 = mysqli_fetch_array($rs8))
 			}
 
 			echo '<td width="100" align="center">';
+
 			$consulta = "SELECT SUM(peso) as peso FROM sea_web.stock_piso_raf";
 			$consulta = $consulta." WHERE cod_producto = 48";
 			$consulta = $consulta." AND cod_subproducto = '".$row8["cod_subproducto"]."' AND fecha BETWEEN '".$fecha_ini."' AND '".$fecha_ter."'";
 			$rs_p = mysqli_query($link, $consulta);
+
 			if($row_p = mysqli_fetch_array($rs_p))
 			{
 				echo $row_p["peso"].'</td>';
