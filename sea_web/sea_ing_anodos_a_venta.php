@@ -63,6 +63,7 @@ if(isset($_REQUEST["ano_r"])) {
 	$ano_r =  date("Y");
 }
 $recargapag1 = isset($_REQUEST["recargapag1"])?$_REQUEST["recargapag1"]:"";
+
   /*if($Mensaje == 1)
   {
   	echo "<Script>
@@ -77,12 +78,14 @@ $recargapag1 = isset($_REQUEST["recargapag1"])?$_REQUEST["recargapag1"]:"";
 <title>&Aacute;nodos A Venta</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <style type="text/css">
+<!--
 body {
 	margin-left: 3px;
 	margin-top: 3px;
 	margin-right: 0px;
 	margin-bottom: 0px;
 }
+-->
 </style></head>
 <script language="JavaScript">
 
@@ -187,7 +190,7 @@ var fecha_t;
 	 
 	if(f.radio[0].checked == false && f.radio[1].checked == false)
 	{
-		alert("Debe escoger si �nodo es rechazado o Producci�n");
+		alert("Debe escoger si \xC1nodo es rechazado o Producci\xF3n");
 		return	
 	}
 
@@ -198,10 +201,38 @@ var fecha_t;
 	   f.cmbproducto.focus();
 	 }
 
-
+	var semaforo = validar_fecha(f);
+	if(semaforo==1){
 	 f.action="sea_ing_anodos_a_venta.php?Proceso=V&fecha_t="+fecha_t;
      f.submit();
-}	 
+	}
+}	
+function validar_fecha(f){
+			var dia = f.dia_t.value;
+			var mes = f.mes_t.value;
+			var semaforo = 0;
+			if(mes==2){
+				if(dia>28){
+					alert("Debe Ingresar fecha correcta(<29) ");
+					f.dia_t.focus();
+					return;
+				}else{
+					semaforo=1;
+				}
+			}
+			if(mes==4 || mes==6 || mes==9 || mes==11){
+				if(dia>30){
+					alert("Debe Ingresar fecha correcta(<31) ");
+					f.dia_t.focus();
+					return;
+				}else{
+					semaforo=1;  
+				}
+			}else{
+				semaforo=1; 
+			}
+	return semaforo;
+} 
 
 
 function mostrar_datos2()
@@ -405,7 +436,7 @@ var f=formulario;
 				else
 			    echo'<input type="radio" name="radio" value="R" onClick="mostrar_datos2();">';
               ?>
-              �nodos Rechazados</td>
+              &Aacute;nodos Rechazados</td>
             <td width="203"> 
               <?php  
 			    if($radio == 'P')
@@ -548,7 +579,7 @@ var f=formulario;
                 <?php
 				if($cmbtipo!=""){
 					include("../principal/conectar_principal.php");
-					
+					$consulta = "SELECT valor_subclase5 AS valor FROM sub_clase WHERE cod_clase = 2002";
 					if ($cmbtipo == 1) //Corrientes
 						$consulta = "SELECT valor_subclase1 AS valor FROM sub_clase WHERE cod_clase = 2002";
 					else if ($cmbtipo == 2) //H. Madres
@@ -600,7 +631,7 @@ var f=formulario;
   <table width="750" cellpadding="3" cellspacing="0" border="0" bordercolor="#b26c4a" class="TablaPrincipal">
     <tr class="ColorTabla01">
       <td width="105" rowspan="2"><div align="center">Hornada</div></td>
-      <td colspan="2"><div align="center">�nodos Para Venta</div></td>
+      <td colspan="2"><div align="center">&Aacute;nodos Para Venta</div></td>
       <td width="83" rowspan="2"><div align="center">Todas</div></td>
       <td colspan="2"><div align="center">Traspaso a Venta</div></td>
       <td colspan="2"><div align="center">Stock Final</div></td>
@@ -624,33 +655,32 @@ var f=formulario;
 	   $fecha = $ano_t.'-'.$mes_t.'-'.$dia_t;
 
 
-     if($radio == 'R')
-	 {
+    if($radio == 'R')
+	{
  	 $consulta8 = "SELECT distinct t1.hornada, t1.cod_subproducto, t1.cod_producto FROM movimientos as t1 inner join hornadas as t2 
 	               ON t1.hornada = t2.hornada_ventana AND t1.cod_producto = t2.cod_producto AND t1.cod_subproducto = t2.cod_subproducto   
-	               WHERE t1.tipo_movimiento = 6 AND t1.fecha_movimiento =  '".$fecha."' AND t1.cod_producto = 17 AND 
+	               WHERE t1.tipo_movimiento = 6 AND t1.fecha_movimiento =  '$fecha' AND t1.cod_producto = 17 AND 
 				         t1.cod_subproducto = '".$cmbproducto."' AND t2.estado = 0"; 
-    // $rs8 = mysqli_query($link, $consulta8);
-
-     }else{
-		$consulta8 = "SELECT distinct t1.hornada, t1.cod_subproducto, t1.cod_producto FROM movimientos as t1 inner join hornadas as t2 
-						ON t1.hornada = t2.hornada_ventana AND t1.cod_producto = t2.cod_producto AND t1.cod_subproducto = t2.cod_subproducto   
-						WHERE t1.tipo_movimiento = 1 AND t1.fecha_movimiento = '".$fecha."' AND t1.cod_producto = 17 AND 
-							t1.cod_subproducto = '".$cmbproducto."' AND t2.estado = 0"; 
-	 }
-/*
-     elseif($radio == 'P') 	 
-	 {
+     //$rs8 = mysqli_query($link, $consulta8);
+    }else{
 	 $consulta8 = "SELECT distinct t1.hornada, t1.cod_subproducto, t1.cod_producto FROM movimientos as t1 inner join hornadas as t2 
 	               ON t1.hornada = t2.hornada_ventana AND t1.cod_producto = t2.cod_producto AND t1.cod_subproducto = t2.cod_subproducto   
-	               WHERE t1.tipo_movimiento = 1 AND t1.fecha_movimiento = '".$fecha."' AND t1.cod_producto = 17 AND 
+	               WHERE t1.tipo_movimiento = 1 AND t1.fecha_movimiento = '$fecha' AND t1.cod_producto = 17 AND 
 				         t1.cod_subproducto = '".$cmbproducto."' AND t2.estado = 0"; 
+		
+	}
+    /*
+    if($radio == 'P') 	 
+	{
+	 $consulta8 = "SELECT distinct t1.hornada, t1.cod_subproducto, t1.cod_producto FROM movimientos as t1 inner join hornadas as t2 
+	               ON t1.hornada = t2.hornada_ventana AND t1.cod_producto = t2.cod_producto AND t1.cod_subproducto = t2.cod_subproducto   
+	               WHERE t1.tipo_movimiento = 1 AND t1.fecha_movimiento = '$fecha' AND t1.cod_producto = 17 AND 
+				         t1.cod_subproducto = '".$cmbproducto."' AND t2.estado = 0"; 
+    // $rs8 = mysqli_query($link, $consulta8);
+	}*/
+    $rs8 = mysqli_query($link, $consulta8);
 
-     $rs8 = mysqli_query($link, $consulta8);
-	 }*/
-
-	 $rs8 = mysqli_query($link, $consulta8);
-     while ($row8 = mysqli_fetch_array($rs8))
+    while ($row8 = mysqli_fetch_array($rs8))
 	{	
    		$hornada=$row8["hornada"];
   		$producto=$row8["cod_producto"];
@@ -668,7 +698,7 @@ var f=formulario;
 					if ($row7 = mysqli_fetch_array($rs7))
 					{
 					$peso_unidad = $row7["peso_unidades"] / $row7["unidades"];
-   				    $unidades = StockRechazo($hornada,$producto,$subproducto, $link);//llamo a la funcion de rechazos
+   				    $unidades = StockRechazo($hornada,$producto,$subproducto);//llamo a la funcion de rechazos
 					$peso = $unidades * $peso_unidad; 
 					$peso = number_format($peso,1,"",""); 
 					} 
@@ -679,14 +709,14 @@ var f=formulario;
 				
 				 elseif($radio == 'P') 	 
 				 {
-				 	$consulta7 = "SELECT * FROM hornadas WHERE hornada_ventana = '".$hornada."' ";
-					$consulta7 = $consulta7." and cod_producto = 17 and cod_subproducto = '".$cmbproducto."' ";
+				 	$consulta7 = "SELECT * FROM hornadas WHERE hornada_ventana = ".$hornada;
+					$consulta7 = $consulta7." and cod_producto = 17 and cod_subproducto = '".$cmbproducto."'";
 					$rs7 = mysqli_query($link, $consulta7);
 
 					if ($row7 = mysqli_fetch_array($rs7))
 					{
 					$peso_unidad = $row7["peso_unidades"] / $row7["unidades"];
-					$unidades = StockActual($hornada,$producto,$subproducto, $link);//llamo a la funcion de stock actual
+					$unidades = StockActual($hornada,$producto,$subproducto);//llamo a la funcion de stock actual
 					$peso = $unidades * $peso_unidad; 
 					$peso = number_format($peso,1,"",""); 
 					} 
