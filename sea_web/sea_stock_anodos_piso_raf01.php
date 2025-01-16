@@ -2,14 +2,15 @@
 
 include("../principal/conectar_sea_web.php");
 
+  $Proceso = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
   $dia = isset($_REQUEST["dia"])?$_REQUEST["dia"]:date("d");
   $mes = isset($_REQUEST["mes"])?$_REQUEST["mes"]:date("m");
   $ano = isset($_REQUEST["ano"])?$_REQUEST["ano"]:date("Y"); 
-   $cmbproductos = isset($_REQUEST["cmbproductos"])?$_REQUEST["cmbproductos"]:"";
+  $cmbproductos = isset($_REQUEST["cmbproductos"])?$_REQUEST["cmbproductos"]:"";
   $cmbsubproducto = isset($_REQUEST["cmbsubproducto"])?$_REQUEST["cmbsubproducto"]:"";
- $shornada = isset($_REQUEST["shornada"])?$_REQUEST["shornada"]:"";
+  $shornada = isset($_REQUEST["shornada"])?$_REQUEST["shornada"]:"";
   $unidades = isset($_REQUEST["unidades"])?$_REQUEST["unidades"]:"";
-   $peso = isset($_REQUEST["peso"])?$_REQUEST["peso"]:"";
+  $peso = isset($_REQUEST["peso"])?$_REQUEST["peso"]:"";
 //*******************************************************************************//
 	//Valida que no se realicen cambios de movimientos, en la fecha ingresada.
 	
@@ -38,7 +39,7 @@ if ($Proceso == 'G' AND substr($cmbproductos,0,2) != 16 AND substr($cmbproductos
 		$Insertar = "INSERT INTO stock_piso_raf (fecha,cod_producto,cod_subproducto,flujo,hornada,unidades,peso)";
 		$Insertar.= " VALUES('$fecha',17,$cmbproductos,$flujo,$cmbhornada,$unidades,$peso)";
 		include("../principal/conectar_sea_web.php");
-		mysqli_query($Insertar);
+		mysqli_query($link,$Insertar);
 
     $valores = "Mensaje=1"."&Proceso=R"."&cmbproductos=".$cmbproductos."&cmbhornada=".$cmbhornada."&dia=".$dia."&mes=".$mes."&ano=".$ano;  
 
@@ -68,7 +69,7 @@ if ($Proceso == 'G' AND substr($cmbproductos,0,2) == 16)
 		$Insertar = "$Insertar (fecha,cod_producto,cod_subproducto,flujo,hornada,unidades,peso)";
 		$Insertar = "$Insertar VALUES('$fecha',16,$apellido,$flujo,$cmbhornada,$unidades,$peso)";
 		include("../principal/conectar_sea_web.php");
-		mysqli_query($Insertar);
+		mysqli_query($link,$Insertar);
 
     $valores = "Mensaje=1"."&Proceso=R"."&cmbproductos=".$cmbproductos."&cmbsubproducto=".$cmbsubproducto."&cmbhornada=".$cmbhornada."&dia=".$dia."&mes=".$mes."&ano=".$ano;  
 
@@ -121,9 +122,8 @@ if ($Proceso == 'G' AND substr($cmbproductos,0,2) == 48)
 		   $flujo = 0;
 
 	  //inserto en stock piso raf
-		$Insertar = "INSERT INTO stock_piso_raf";
-		$Insertar = "$Insertar (fecha,cod_producto,cod_subproducto,flujo,hornada,unidades,peso)";
-		$Insertar = "$Insertar VALUES('$fecha',48,$apellido,$flujo,$cmbhornada,$unidades,$peso)";
+		$Insertar = "INSERT INTO stock_piso_raf (fecha,cod_producto,cod_subproducto,flujo,hornada,unidades,peso)";
+		$Insertar.= " VALUES('$fecha',48,$apellido,$flujo,$cmbhornada,$unidades,$peso)";
 		include("../principal/conectar_sea_web.php");
 		mysqli_query($link,$Insertar);
 
@@ -137,7 +137,7 @@ if ($Proceso == 'G' AND substr($cmbproductos,0,2) == 48)
 if ($Proceso == 'E' AND substr($cmbproductos,0,2) != 16 AND substr($cmbproductos,0,2) != 18 AND substr($cmbproductos,0,2) != 48)
 {
 	$Eliminar = "DELETE FROM stock_piso_raf  WHERE fecha = '$fecha' AND cod_producto = 17 AND cod_subproducto = $cmbproductos AND hornada= $cmbhornada";
-	mysqli_query($Eliminar);
+	mysqli_query($link,$Eliminar);
 						
 
     $valores = "Proceso=R"."&cmbproductos=".$cmbproductos."&cmbhornada=".$cmbhornada."&dia=".$dia."&mes=".$mes."&ano=".$ano;  

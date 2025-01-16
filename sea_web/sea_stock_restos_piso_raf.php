@@ -67,7 +67,7 @@ if(isset($_REQUEST["Encontrado2"])) {
 }else{
 	$Encontrado2 =  "";
 }
-
+$fecha_traspaso = isset($_REQUEST["fecha_traspaso"])?$_REQUEST["fecha_traspaso"]:"0000-00-00";
 
  /* if($Mensaje == 1)
   {
@@ -90,6 +90,32 @@ if(isset($_REQUEST["Encontrado2"])) {
 <title>Stock Anodos en piso de Raf</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <script language="JavaScript">
+function validar_fecha(f){
+			var dia = f.dia.value;
+			var mes = f.mes.value;
+			var semaforo = 0;
+			if(mes==2){
+				if(dia>28){
+					alert("Debe Ingresar fecha correcta(<29) ");
+					f.dia.focus();
+					return;
+				}else{
+					semaforo=1;
+				}
+			}
+			if(mes==4 || mes==6 || mes==9 || mes==11){
+				if(dia>30){
+					alert("Debe Ingresar fecha correcta(<31) ");
+					f.dia.focus();
+					return;
+				}else{
+					semaforo=1;  
+				}
+			}else{
+				semaforo=1; 
+			}
+	return semaforo;
+}
 
 function valida_valores()
 {
@@ -201,13 +227,15 @@ var valores = valida_valores();
 /**********/
 function buscar_grupos()
 {
-var f = formulario;   
-var fecha;
+	var f = formulario;   
+	var fecha;
 
 	fecha =  f.ano.value+"-"+f.mes.value+"-"+f.dia.value;
-	
-	f.action="sea_stock_restos_piso_raf.php?tipo=T&Proceso=B&fecha="+fecha;
-	f.submit();
+	var semaforo = validar_fecha(f);
+	if(semaforo==1){
+		f.action="sea_stock_restos_piso_raf.php?tipo=T&Proceso=B&fecha="+fecha;
+		f.submit();
+	}
   		
 }
 /*******************/
@@ -258,7 +286,7 @@ var porcentaje_unidades;
    
    f.unidades.value = Math.round(porcentaje_unidades * 1)/1;
 
- //f.peso.value = Math.round((f.unidades.value * f.peso_promedio.value)*1)/1;
+ f.peso.value = Math.round((f.unidades.value * f.peso_promedio.value)*1)/1;
 
 }
 
@@ -275,14 +303,15 @@ var f=formulario;
 
 <link href="../principal/estilos/css_sea_web.css" type="text/css" rel="stylesheet">
 <style type="text/css">
+<!--
 body {
 	margin-left: 3px;
 	margin-top: 3px;
 	margin-right: 0px;
 	margin-bottom: 0px;
 }
-</style>
-</head>
+-->
+</style></head>
 
 <body>
 <form name="formulario" method="post" action="">
@@ -303,7 +332,7 @@ body {
 				echo '<input name="dia2" type="hidden" value="1">';
 			?>
 			
-              <SELECT name="mes2">
+              <select name="mes2">
        <?php
        $meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");			
 		if ($Proceso=='B' || $Proceso =='R')
@@ -312,7 +341,7 @@ body {
 		    {
                 if ($i==$mes2)
 				{				
-				echo "<option SELECTed value ='".$i."'>".$meses[$i-1]." </option>";
+				echo "<option selected value ='".$i."'>".$meses[$i-1]." </option>";
 				}			
 				else
 				{
@@ -326,7 +355,7 @@ body {
 		    {
                 if ($i==date("n"))
 				{				
-				echo "<option SELECTed value ='".$i."'>".$meses[$i-1]." </option>";
+				echo "<option selected value ='".$i."'>".$meses[$i-1]." </option>";
 				}			
 				else
 				{
@@ -336,9 +365,9 @@ body {
 	    } 	  
   		  
      ?>
-              </SELECT>
+              </select>
               </font><font color="#000000"> 
-              <SELECT name="ano2">
+              <select name="ano2">
                 <?php
 	if($Proceso=='B' || $Proceso =='R')
 	{
@@ -346,7 +375,7 @@ body {
 	    {
             if ($i==$ano2)
 			{
-			echo "<option SELECTed value ='$i'>$i</option>";
+			echo "<option selected value ='$i'>$i</option>";
 			}
 			else	
 			{
@@ -360,7 +389,7 @@ body {
 	    {
             if ($i==date("Y"))
 			{
-			echo "<option SELECTed value ='$i'>$i</option>";
+			echo "<option selected value ='$i'>$i</option>";
 			}
 			else	
 			{
@@ -369,7 +398,7 @@ body {
          }   
     }	
 ?>
-              </SELECT>
+              </select>
               </font></td>
             <td><font color="#000000">
               <input name="buscar3" type="button" style="width:70" value="Buscar" onClick="BuscarGrupos2(this.form);">
@@ -381,7 +410,7 @@ body {
           <tr> 
             <td height="30">Fecha<font color="#000000" size="2">&nbsp; Traspaso</font></td>
             <td><font color="#000000" size="2"> 
-              <SELECT name="dia" size="1" style="font-face:verdana;font-size:10">
+              <select name="dia" size="1" style="font-face:verdana;font-size:10">
                 <?php
 		if ($Proceso=='B' || $Proceso =='R')
 			{
@@ -389,7 +418,7 @@ body {
 				{
  				   if ($i==$dia)
 						{
-						echo "<option SELECTed value= '".$i."'>".$i."</option>";
+						echo "<option selected value= '".$i."'>".$i."</option>";
 						}
 						else
 						{						
@@ -403,7 +432,7 @@ body {
 				{
 	   				   if ($i==date("j"))
 						{
-						echo "<option SELECTed value= '".$i."'>".$i."</option>";
+						echo "<option selected value= '".$i."'>".$i."</option>";
 						}
 						else
 						{						
@@ -412,9 +441,9 @@ body {
  				}
 		   }			
 	?>
-              </SELECT>
+              </select>
               </font><font color="#000000" size="2"> 
-              <SELECT name="mes" size="1" id="SELECT" style="FONT-FACE:verdana;FONT-SIZE:10">
+              <select name="mes" size="1" id="select" style="FONT-FACE:verdana;FONT-SIZE:10">
                 <?php
         $meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");			
 		if ($Proceso=='B' || $Proceso =='R')
@@ -423,7 +452,7 @@ body {
 		    {
                 if ($i==$mes)
 				{				
-				echo "<option SELECTed value ='".$i."'>".$meses[$i-1]." </option>";
+				echo "<option selected value ='".$i."'>".$meses[$i-1]." </option>";
 				}			
 				else
 				{
@@ -437,7 +466,7 @@ body {
 		    {
                 if ($i==date("n"))
 				{				
-				echo "<option SELECTed value ='".$i."'>".$meses[$i-1]." </option>";
+				echo "<option selected value ='".$i."'>".$meses[$i-1]." </option>";
 				}			
 				else
 				{
@@ -447,9 +476,9 @@ body {
 	    } 	  
   		  
      ?>
-              </SELECT>
+              </select>
               </font><font color="#000000"> 
-              <SELECT name="ano" size="1"  style="FONT-FACE:verdana;FONT-SIZE:10">
+              <select name="ano" size="1"  style="FONT-FACE:verdana;FONT-SIZE:10">
                 <?php
 	if($Proceso=='B' || $Proceso =='R')
 	{
@@ -457,7 +486,7 @@ body {
 	    {
             if ($i==$ano)
 			{
-			echo "<option SELECTed value ='$i'>$i</option>";
+			echo "<option selected value ='$i'>$i</option>";
 			}
 			else	
 			{
@@ -471,7 +500,7 @@ body {
 	    {
             if ($i==date("Y"))
 			{
-			echo "<option SELECTed value ='$i'>$i</option>";
+			echo "<option selected value ='$i'>$i</option>";
 			}
 			else	
 			{
@@ -480,7 +509,7 @@ body {
          }   
     }	
 ?>
-              </SELECT>
+              </select>
               </font><font color="#000000" size="2">&nbsp;</font></td>
             <td><font color="#000000"> 
               <input name="buscar" type="button" style="width:70" value="Buscar" onClick="buscar_grupos();">
@@ -490,14 +519,13 @@ body {
           <tr> 
             <td width="116" height="30"><font color="#000000">Grupo</font></td>
             <td width="204"><font color="#000000" size="2"> 
-              <?php
+              <?php		
 			
-			
-			//$fecha = $ano.'-'.$mes.'-'.$dia;
-			echo'<SELECT name="cmbgrupo" onChange="recargar_datos(this.form);">';
+			$fecha = $ano.'-'.$mes.'-'.$dia;
+			echo'<select name="cmbgrupo" onChange="recargar_datos(this.form);">';
 			echo '<option value="-1">Grupo</option>';
 	
-			//$consulta = "SELECT distinct campo2 FROM movimientos where fecha_movimiento = '$fecha' AND tipo_movimiento = 4 AND campo2 != ''";
+			$consulta = "SELECT distinct campo2 FROM sea_web.movimientos where fecha_movimiento = '$fecha' AND tipo_movimiento = 4 AND campo2 != ''";
 			if ($tipo == "T")
 			{
 				$consulta = "SELECT '0000-00-00' as fecha_trasp ,campo2, SUM(peso) AS peso, CASE WHEN LENGTH(campo2)=1 THEN CONCAT('0',campo2) ELSE campo2 END AS orden";
@@ -507,26 +535,26 @@ body {
 				$consulta = $consulta." ORDER BY orden";
 			
 			}
-			else if ($tipo == "P")
-				{
+			if ($tipo == "P")
+			{
 					$consulta = "SELECT grupo AS campo2, SUM(peso) AS peso,fecha_trasp FROM sea_web.stock_piso_raf";
 					$consulta = $consulta." WHERE fecha = '".$fecha."' AND grupo <> 0";
 					$consulta = $consulta." GROUP BY grupo,fecha_trasp";
-				}			
+			}			
 			//echo '<option>'.$consulta.'</option>';
 			
 			$rs = mysqli_query($link, $consulta);
 			while ($row = mysqli_fetch_array($rs))
-			{
-				$valor = $row["fecha_trasp"].'/'.$row["campo2"];			
+			{   $fecha_trasp = isset($row["fecha_trasp"])?$row["fecha_trasp"]:"";
+				$valor = $fecha_trasp.'/'.$row["campo2"];			
 				if (($valor == $cmbgrupo) and ($Proceso == 'R'))
-					echo '<option value="'.$row["fecha_trasp"].'/'.$row["campo2"].'" SELECTed>N� '.$row["campo2"].' - '.$r["peso"].'</option>';
+					echo '<option value="'.$row["fecha_trasp"].'/'.$row["campo2"].'" selected>N&deg; '.$row["campo2"].' - '.$row["peso"].'</option>';
 				else
-					echo '<option value="'.$row["fecha_trasp"].'/'.$row["campo2"].'">N� '.$row["campo2"].' - '.$r["peso"].'</option>';
+					echo '<option value="'.$row["fecha_trasp"].'/'.$row["campo2"].'">N&deg; '.$row["campo2"].' - '.$row["peso"].'</option>';
 					
 				//echo '<option>'.substr($cmbgrupo,11,2).'</option>';
 			}
-            echo '</SELECT>';
+            echo '</select>';
 			//echo $consulta;
 			?>
               </font></td>
@@ -578,7 +606,7 @@ if($Proceso == 'R')
 			$peso_grupo = 0;
 					
 	}
-
+	$peso_prom = $peso_grupo / $unidades_grupo; //agregado WSO
 
 	echo'<input type="text" name="unidades_t" size="10" value="'.$unidades_grupo.'" Readonly>';
 	echo'</td><td>Peso Traspasado</td><td width="15%">';
@@ -694,7 +722,7 @@ if($Encontrado == 'S')
 			
 						echo '<tr><td><center>'.$fecha.'</center></td>';
 						echo '<td><center>'.substr($cmbgrupo,11,2).'</center></td>';
-//						echo '<td><center>'.$row4["unid_piso"].'</center></td>';
+//						echo '<td><center>'.$row4[unid_piso].'</center></td>';
 						echo '<td><center>'.number_format($row4["peso_piso"],0,"","").'</center></td></tr>';
 					
 				echo '</table>';
