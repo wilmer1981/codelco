@@ -63,14 +63,14 @@
 	//$Producto = $Datos[0];
 	//$SubProducto = $Datos[1];
 	//PRODUCTO
-	$Consulta = "SELECT * from proyecto_modernizacion.productos where cod_producto='".$Producto."'";
+	$Consulta = "select * from proyecto_modernizacion.productos where cod_producto='".$Producto."'";
 	$Respuesta = mysqli_query($link, $Consulta);
 	if ($Fila = mysqli_fetch_array($Respuesta))
 	{
 		$NomProducto = $Fila["descripcion"];
 	}
 	//SUB-PRODUCTO
-	$Consulta = "SELECT * from proyecto_modernizacion.subproducto where cod_producto='".$Producto."' and cod_subproducto='".$SubProducto."'";
+	$Consulta = "select * from proyecto_modernizacion.subproducto where cod_producto='".$Producto."' and cod_subproducto='".$SubProducto."'";
 	$Respuesta = mysqli_query($link, $Consulta);
 	$NomSubProducto="";
 	if ($Fila = mysqli_fetch_array($Respuesta))
@@ -111,11 +111,11 @@
 	$Datos = explode("//",$Valores);
 	$i=1;
 	$LimitesCons = "";
-	//foreach($Datos as $k => $v)
+	//while (list($k,$v)=each($Datos))
 	foreach ($Datos as $k=>$v)
 	{
 		$Datos2 = explode("~~",$v);
-		$Consulta = "SELECT * from proyecto_modernizacion.leyes where cod_leyes = '".$Datos2[0]."'";
+		$Consulta = "select * from proyecto_modernizacion.leyes where cod_leyes = '".$Datos2[0]."'";
 		$Respuesta = mysqli_query($link, $Consulta);
 		if ($Fila = mysqli_fetch_array($Respuesta))
 		{
@@ -234,7 +234,7 @@ function Proceso(o)
     <td width="35">CANT.</td>
     <td width="35">PESO</td>
     <?php	
-	//foreach($ArrLeyes as $k => $v)
+	//while (list($k,$v)=each($ArrLeyes))
 	foreach ($ArrLeyes as $k=>$v)
 	{
 		if ($v[1]!="")
@@ -247,9 +247,9 @@ function Proceso(o)
 <?php  	
 	if ($TipoMovimiento == "S")//STOCK
 	{
-		$Consulta = "SELECT distinct t1.ano, t1.mes, t1.hornada, t1.unid_fin as unidades, t1.peso_fin as peso ";
-		$Consulta.= " from sea_web.stock t1 inner join sea_web.leyes_por_hornada t2 on t1.hornada=t2.hornada ";
-		$Consulta.= " where t1.ano = '".$AnoFin."' and t1.mes = '".$MesFin."' ";	
+		$Consulta = "select distinct t1.ano, t1.mes, t1.hornada, t1.unid_fin as unidades, t1.peso_fin as peso";
+		$Consulta.= " from sea_web.stock t1 inner join sea_web.leyes_por_hornada t2 on t1.hornada=t2.hornada";
+		$Consulta.= " where t1.ano = '".$AnoFin."' and t1.mes = '".$MesFin."'";	
 		$i=1;
 		//while (list($k,$v)=each($ArrLimites))
 		foreach ($ArrLimites as $k=>$v)
@@ -264,18 +264,18 @@ function Proceso(o)
 			$Consulta.= ")";
 		if ($Producto != 0)
 		{
-			$Consulta.= " and t1.cod_producto = '".$Producto."' ";
+			$Consulta.= " and t1.cod_producto = '".$Producto."'";
 			if ($SubProducto != 0)
-				$Consulta.= " and t1.cod_subproducto = '".$SubProducto."' ";
+				$Consulta.= " and t1.cod_subproducto = '".$SubProducto."'";
 		}
 		$Consulta.= " order by t1.ano, t1.mes , t1.hornada ";
 	}
 	else
-	{	
-		$Consulta = "SELECT distinct t1.fecha_movimiento, t1.hornada, t1.campo1, t1.campo2, t1.unidades, t1.peso";
+	{
+		$Consulta = "select distinct t1.fecha_movimiento, t1.hornada, t1.campo1, t1.campo2, t1.unidades, t1.peso";
 		$Consulta.= " from sea_web.movimientos t1 inner join sea_web.leyes_por_hornada t2 on t1.hornada=t2.hornada";
 		$Consulta.= " where t1.tipo_movimiento = '".$TipoMovimiento."' ";
-		$Consulta.= " and t1.fecha_movimiento between '$FechaIni' and '$FechaFin' ";	
+		$Consulta.= " and t1.fecha_movimiento between '".$FechaIni."' and '".$FechaFin."'";	
 		$i=1;
 		//while (list($k,$v)=each($ArrLimites))
 		foreach ($ArrLimites as $k=>$v)
@@ -296,7 +296,7 @@ function Proceso(o)
 		}
 		$Consulta.= " order by t1.fecha_movimiento, t1.hornada ";
 	}
-	//echo $Consulta;
+	echo $Consulta;
 	$Respuesta = mysqli_query($link, $Consulta);
 	while ($Fila = mysqli_fetch_array($Respuesta))
 	
@@ -307,7 +307,7 @@ function Proceso(o)
 		else
 			echo "<td align='center'>".substr($Fila["fecha_movimiento"],8,2)."/".substr($Fila["fecha_movimiento"],5,2)."/".substr($Fila["fecha_movimiento"],0,4)."</td>\n";		
 		echo "<td align='center'>".substr($Fila["hornada"],-4)."</td>\n";
-		$Consulta = "SELECT * from sea_web.relaciones where hornada_ventana = '".$Fila["hornada"]."'";
+		$Consulta = "select * from sea_web.relaciones where hornada_ventana = '".$Fila["hornada"]."'";
 		$Resp2 = mysqli_query($link, $Consulta);
 		while ($Fila2 = mysqli_fetch_array($Resp2))
 		{
@@ -338,19 +338,19 @@ function Proceso(o)
 		}			
 		echo "<td align='right'>".$Fila["unidades"]."</td>\n";
 		echo "<td align='right'>".number_format($Fila["peso"],0,",",".")."</td>\n";				
-		$Consulta = "SELECT * from sea_web.leyes_por_hornada ";
+		$Consulta = "select * from sea_web.leyes_por_hornada ";
 		$Consulta.= " where cod_producto = '".$Producto."'";
 		$Consulta.= " and cod_subproducto = '".$SubProducto."'";
 		$Consulta.= " and hornada = '".$Fila["hornada"]."'";
 		$Consulta.= " order by cod_leyes";
 		$Resp2 = mysqli_query($link, $Consulta);
 		while ($Fila2 = mysqli_fetch_array($Resp2))
-		{
-			if( $ArrLeyes[$Fila2["cod_leyes"]][0]!="")
+		{   $cod_leyes = isset($ArrLeyes[$Fila2["cod_leyes"]][0])?$ArrLeyes[$Fila2["cod_leyes"]][0]:"";
+			if( $cod_leyes!="")
 				$ArrLeyes[$Fila2["cod_leyes"]][4] = $Fila2["valor"];
 		}
 		reset($ArrLeyes);
-		//foreach($ArrLeyes as $k => $v)
+		//while (list($k,$v)=each($ArrLeyes))
 		foreach ($ArrLeyes as $k=>$v)
 		{
 			$Color = "";

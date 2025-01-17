@@ -138,7 +138,7 @@ function Proceso(opt)
 			}
 			var Largo = Valores.length;
 			Valores = Valores.substring(0,Largo-2);
-			var msg = confirm("�Confirma que desea Guardas esta Plantilla\nSe reemplazaran las anteriores?");
+			var msg = confirm("\xBFConfirma que desea Guardas esta Plantilla\nSe reemplazaran las anteriores?");
 			if (msg==true)
 			{
 				f.action = "sea_con_limites01.php?Proceso=GP&Valores=" + Valores;
@@ -151,7 +151,7 @@ function Proceso(opt)
 			break;
 		case "EP": //ELIMINA PLANTILLA
 		
-			var msg = confirm("�Confirma que desea eliminar esta Plantilla?");
+			var msg = confirm("\xBFConfirma que desea eliminar esta Plantilla?");
 			if (msg==true)
 			{
 				f.action = "sea_con_limites01.php?Proceso=EP";
@@ -205,7 +205,7 @@ function Marca(J)
           <tr> 
             <td width="106">Tipo Movimiento:</td>
             <td width="243"><font color="#FFFFFF">
-              <SELECT name="TipoMovimiento">
+              <select name="TipoMovimiento">
 			  <option value="S">STOCK</option>
                 <?php			
 			$Consulta = "SELECT * FROM sub_clase WHERE cod_clase = 2001";
@@ -213,16 +213,16 @@ function Marca(J)
 			while ($Fila = mysqli_fetch_array($Respuesta))
 			{			
 	          	if ($Fila["cod_subclase"] == $TipoMovimiento)	
-					echo "<option value='".$Fila["cod_subclase"]."' SELECTed>".strtoupper($Fila["nombre_subclase"])."</option>";
+					echo "<option value='".$Fila["cod_subclase"]."' selected>".strtoupper($Fila["nombre_subclase"])."</option>";
 				else 
 					echo "<option value='".$Fila["cod_subclase"]."'>".strtoupper($Fila["nombre_subclase"])."</option>";
 			}    			 					
 		?>
-              </SELECT>
+              </select>
             </font></td>
             <td width="104" align="right">Producto:</td>
             <td width="235"><font color="#FFFFFF">
-				<SELECT name="TipoProducto" style="width:220px" onChange="Proceso('R');">
+				<select name="TipoProducto" style="width:220px" onChange="Proceso('R');">
                 <option value="0-0">TODOS</option>
                 <?php					
 
@@ -234,128 +234,128 @@ function Marca(J)
 						$prod = $row3["cod_producto"].'-'.$row3["cod_subproducto"];
 						
 						if ($prod == $TipoProducto)
-							echo '<option value="'.$row3["cod_producto"].'-'.$row3["cod_subproducto"].'" SELECTed>'.$row3["descripcion"].'</option>';
+							echo '<option value="'.$row3["cod_producto"].'-'.$row3["cod_subproducto"].'" selected>'.$row3["descripcion"].'</option>';
 						else 
 							echo '<option value="'.$row3["cod_producto"].'-'.$row3["cod_subproducto"].'">'.$row3["descripcion"].'</option>';
 					}
 
 				?>
-              </SELECT>
+              </select>
 </font></td>
           </tr>
           <tr> 
             <td>Fecha Inicio:</td>
-            <td><SELECT name="DiaIni" style="width:50px;">
+            <td><select name="DiaIni" style="width:50px;">
                 <?php
 	  	for ($i = 1;$i <= 31; $i++)
 		{
 			if (isset($DiaIni))
 			{
 				if ($DiaIni == $i)
-					echo "<option SELECTed value='".$i."'>".$i."</option>\n";
+					echo "<option selected value='".$i."'>".$i."</option>\n";
 				else	echo "<option value='".$i."'>".$i."</option>\n";
 			}
 			else
 			{
 				if ($i == date("j"))
-					echo "<option SELECTed value='".$i."'>".$i."</option>\n";
+					echo "<option selected value='".$i."'>".$i."</option>\n";
 				else	echo "<option value='".$i."'>".$i."</option>\n";
 			}
 		}
 	  ?>
-              </SELECT> <SELECT name="MesIni" style="width:90px;">
+              </select> <select name="MesIni" style="width:90px;">
                 <?php
 		for ($i = 1;$i <= 12; $i++)
 		{
 			if (isset($MesIni))
 			{
 				if ($MesIni == $i)
-					echo "<option SELECTed value='".$i."'>".ucwords(strtolower($Meses[$i - 1]))."</option>\n";
+					echo "<option selected value='".$i."'>".ucwords(strtolower($Meses[$i - 1]))."</option>\n";
 				else	echo "<option value='".$i."'>".ucwords(strtolower($Meses[$i - 1]))."</option>\n";
 			}
 			else
 			{
 				if ($i == date("n"))
-					echo "<option SELECTed value='".$i."'>".ucwords(strtolower($Meses[$i - 1]))."</option>\n";
+					echo "<option selected value='".$i."'>".ucwords(strtolower($Meses[$i - 1]))."</option>\n";
 				else	echo "<option value='".$i."'>".ucwords(strtolower($Meses[$i - 1]))."</option>\n";
 			}
 		}
 		?>
-              </SELECT> <SELECT name="AnoIni" style="width:60px;">
+              </select> <select name="AnoIni" style="width:60px;">
                 <?php
 		for ($i = (date("Y") - 1);$i <= (date("Y") + 1); $i++)
 		{
 			if (isset($AnoIni))
 			{
 				if ($AnoIni == $i)
-					echo "<option SELECTed value='".$i."'>".$i."</option>\n";
+					echo "<option selected value='".$i."'>".$i."</option>\n";
 				else	echo "<option value='".$i."'>".$i."</option>\n";
 			}
 			else
 			{
 				if ($i == date("Y"))
-					echo "<option SELECTed value='".$i."'>".$i."</option>\n";
+					echo "<option selected value='".$i."'>".$i."</option>\n";
 				else	echo "<option value='".$i."'>".$i."</option>\n";
 			}
 		}
 		?>
-              </SELECT></td>
+              </select></td>
             <td align="right">Fecha Termino:</td>
-            <td><SELECT name="DiaFin" style="width:50px;">
+            <td><select name="DiaFin" style="width:50px;">
                 <?php
 	  	for ($i = 1;$i <= 31; $i++)
 		{
 			if (isset($DiaFin))
 			{
 				if ($DiaFin == $i)
-					echo "<option SELECTed value='".$i."'>".$i."</option>\n";
+					echo "<option selected value='".$i."'>".$i."</option>\n";
 				else	echo "<option value='".$i."'>".$i."</option>\n";
 			}
 			else
 			{
 				if ($i == date("j"))
-					echo "<option SELECTed value='".$i."'>".$i."</option>\n";
+					echo "<option selected value='".$i."'>".$i."</option>\n";
 				else	echo "<option value='".$i."'>".$i."</option>\n";
 			}
 		}
 	  ?>
-              </SELECT> <SELECT name="MesFin" style="width:90px;">
+              </select> <select name="MesFin" style="width:90px;">
                 <?php
 		for ($i = 1;$i <= 12; $i++)
 		{
 			if (isset($MesFin))
 			{
 				if ($MesFin == $i)
-					echo "<option SELECTed value='".$i."'>".ucwords(strtolower($Meses[$i - 1]))."</option>\n";
+					echo "<option selected value='".$i."'>".ucwords(strtolower($Meses[$i - 1]))."</option>\n";
 				else	echo "<option value='".$i."'>".ucwords(strtolower($Meses[$i - 1]))."</option>\n";
 			}
 			else
 			{
 				if ($i == date("n"))
-					echo "<option SELECTed value='".$i."'>".ucwords(strtolower($Meses[$i - 1]))."</option>\n";
+					echo "<option selected value='".$i."'>".ucwords(strtolower($Meses[$i - 1]))."</option>\n";
 				else	echo "<option value='".$i."'>".ucwords(strtolower($Meses[$i - 1]))."</option>\n";
 			}
 		}
 		?>
-              </SELECT> <SELECT name="AnoFin" style="width:60px;">
+              </select> <select name="AnoFin" style="width:60px;">
                 <?php
 		for ($i = (date("Y") - 1);$i <= (date("Y") + 1); $i++)
 		{
 			if (isset($AnoFin))
 			{
 				if ($AnoFin == $i)
-					echo "<option SELECTed value='".$i."'>".$i."</option>\n";
+					echo "<option selected value='".$i."'>".$i."</option>\n";
 				else	echo "<option value='".$i."'>".$i."</option>\n";
 			}
 			else
 			{
 				if ($i == date("Y"))
-					echo "<option SELECTed value='".$i."'>".$i."</option>\n";
+					echo "<option selected value='".$i."'>".$i."</option>\n";
 				else	echo "<option value='".$i."'>".$i."</option>\n";
 			}
 		}
 		?>
-              </SELECT></td>
+              </select></td>
           </tr>
           <tr valign="middle"> 
             <td height="18" colspan="3" align="center">              <input type="button" name="btnWeb" value="Consulta Web" onClick="Proceso('W');" style="width:90px">
@@ -391,7 +391,7 @@ function Marca(J)
 	}
 
 	
-	$Consulta = "SELECT distinct t1.cod_leyes, t2.abreviatura ";
+	$Consulta = "select distinct t1.cod_leyes, t2.abreviatura ";
 	$Consulta.= " from sea_web.leyes_por_hornada t1 inner join proyecto_modernizacion.leyes t2";
 	$Consulta.= " on t1.cod_leyes = t2.cod_leyes ";
 	if ($Producto != 0)
@@ -407,7 +407,7 @@ function Marca(J)
 	{
 		$ValorA = "";
 		$Signo = "";
-		$Consulta = "SELECT * from sea_web.limites ";
+		$Consulta = "select * from sea_web.limites ";
 		$Consulta.= " where cod_producto = '".$Producto."'";
 		$Consulta.= " and cod_subproducto = '".$SubProducto."'";
 		$Consulta.= " and cod_leyes = '".$Fila["cod_leyes"]."'";
@@ -428,23 +428,23 @@ function Marca(J)
 		echo "</th>\n";
 		echo "<td align='center'>".$Fila["abreviatura"]."</td>\n";
 		echo "<td align='center'>";
-		echo "<SELECT name='Signo[".$i."]'>";
+		echo "<select name='Signo[".$i."]'>";
 		switch ($Signo)
 		{
 			case ">":
-				echo "<option SELECTed value='>'>></option>";
+				echo "<option selected value='>'>></option>";
 				echo "<option value='<'><</option>";
 				echo "<option value='='>=</option>";	
 				break;
 			case "<":
 				echo "<option value='>'>></option>";
-				echo "<option SELECTed value='<'><</option>";
+				echo "<option selected value='<'><</option>";
 				echo "<option value='='>=</option>";	
 				break;
 			case "=":
 				echo "<option value='>'>></option>";
 				echo "<option value='<'><</option>";
-				echo "<option SELECTed value='='>=</option>";	
+				echo "<option selected value='='>=</option>";	
 				break;
 			default:
 				echo "<option value='>'>></option>";
@@ -452,7 +452,7 @@ function Marca(J)
 				echo "<option value='='>=</option>";	
 				break;						
 		}
-		echo "</SELECT>";
+		echo "</select>";
 		echo "</td>\n";
 		echo "<td align='center'><input name='Valor[".$i."]' type='text' size='15' maxlength='10' value='".$ValorA."' onFocus='Marca(".($i+2).");' onBlur='Marca(".($i+2).");'></td>\n";
 		echo "</tr>\n";

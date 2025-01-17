@@ -93,7 +93,7 @@
 	$Datos = explode("//",$Valores);
 	$i=1;
 	$LimitesCons = "";
-	//foreach($Datos as $k => $v)
+	//while (list($k,$v)=each($Datos))
 	foreach ($Datos as $k=>$v)
 	{
 		$Datos2 = explode("~~",$v);
@@ -205,7 +205,7 @@ function Proceso(o)
     <td width="35">CANT.</td>
     <td width="35">PESO</td>
     <?php	
-	//foreach($ArrLeyes as $k => $v)
+	//while (list($k,$v)=each($ArrLeyes))
 	foreach ($ArrLeyes as $k=>$v)
 	{
 		if ($v[1]!="")
@@ -314,12 +314,12 @@ function Proceso(o)
 		$Consulta.= " order by cod_leyes";
 		$Resp2 = mysqli_query($link, $Consulta);
 		while ($Fila2 = mysqli_fetch_array($Resp2))
-		{
-			if( $ArrLeyes[$Fila2["cod_leyes"]][0]!="")
+		{   $cod_leyes0 = isset($ArrLeyes[$Fila2["cod_leyes"]][0])?$ArrLeyes[$Fila2["cod_leyes"]][0]:"";
+			if( $cod_leyes0!="")
 				$ArrLeyes[$Fila2["cod_leyes"]][4] = $Fila2["valor"];
 		}
 		reset($ArrLeyes);
-		//foreach($ArrLeyes as $k => $v)
+		//while (list($k,$v)=each($ArrLeyes))
 		foreach ($ArrLeyes as $k=>$v)
 		{
 			$Color = "";
