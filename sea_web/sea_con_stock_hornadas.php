@@ -1533,6 +1533,7 @@ function StockInicialPorGrupo($cod_producto,$hornadas,$fecha,$link)
 			$i = 1;
             //aca parto con modificacion jcf 21-04-2004
             $produ_c = 16;
+			$tp=0;
 			while ($row = mysqli_fetch_array($rs))
 			{
             	$produ_t = $row["cod_producto"];
@@ -2106,7 +2107,7 @@ function StockInicialPorGrupo($cod_producto,$hornadas,$fecha,$link)
                 $i++;
 			}
 		    echo "<tr align='right' bgcolor='#CCCCCC'>\n";
-			if (($RadioTipoCons == "H") || (!isset($RadioTipoCons)))
+			if (($RadioTipoCons == "H") || ($RadioTipoCons==""))
 				echo "<td align='center' colspan='4'><strong>SUB-TOTAL</strong></td>";
             else 
 				echo "<td align='center'><strong>SUB-TOTAL</strong></td>";

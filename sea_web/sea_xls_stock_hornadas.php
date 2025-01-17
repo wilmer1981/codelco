@@ -415,7 +415,27 @@ function StockInicialPorGrupo($cod_producto,$hornadas,$fecha,$link)
 	$FechaConsulta2 =date("Y-m-d", mktime(1,0,0,$Mes,($Dia +1),$Ano));
 
 	if (($RadioTipoCons == "H") || ($RadioTipoCons==""))
-	{		  
+	{	
+		$TotalStockIniUnid = 0;
+		$TotalStockIniPeso = 0;
+		$TotalRecepUnid = 0;
+		$TotalRecepPeso = 0;
+		$TotalBenefUnid = 0;
+		$TotalBenefPeso = 0;
+		$TotalProdUnid = 0;
+		$TotalProdPeso = 0;
+		$TotalRecUnid = 0;
+		$TotalRecPeso = 0;
+		$TotalRecUnidM = 0;
+		$TotalRecPesoM = 0;
+		$TotalTrasUnid = 0;
+		$TotalTrasPeso = 0;
+		$TotalOtrosUnid = 0;
+		$TotalOtrosPeso = 0;
+		$TotalStockFinUnid = 0;
+		$TotalStockFinPeso = 0;
+		$TotalPisoUnid = 0;
+		$TotalPisoPeso = 0;	
 		if (($activar == "S") and (($RadioTipoFecha == "A") or ($RadioTipoFecha == "D")) and ($RadioTipoCons == "H")) // Restos por Grupo.
 		{
 			$FechaConsulta = $Ano."-".$Mes."-".$Dia;
@@ -428,7 +448,8 @@ function StockInicialPorGrupo($cod_producto,$hornadas,$fecha,$link)
 			{	
 				$FechaInicio = $Ano."-".$Mes."-01";			
 				$FechaInicio2 =$Ano."-".$Mes."-01 08:00:00";			
-			}	
+			}
+/*			
 			$TotalStockIniUnid = 0;
 			$TotalStockIniPeso = 0;
 			$TotalRecepUnid = 0;
@@ -448,7 +469,7 @@ function StockInicialPorGrupo($cod_producto,$hornadas,$fecha,$link)
 			$TotalStockFinUnid = 0;
 			$TotalStockFinPeso = 0;
 			$TotalPisoUnid = 0;
-			$TotalPisoPeso = 0;		
+			$TotalPisoPeso = 0;		*/
 			if ($recargapag == "S")
 			{
 				$arreglo = explode("-", $cmbproducto); //0: Producto, 1: SubProducto.
@@ -779,7 +800,8 @@ function StockInicialPorGrupo($cod_producto,$hornadas,$fecha,$link)
 			{	
 				$FechaInicio = $Ano."-".$Mes."-01";
 				$FechaInicio2 = $Ano."-".$Mes."-01 08:00:00";
-			}	
+			}
+/*			
 			$TotalStockIniUnid = 0;
 			$TotalStockIniPeso = 0;
 			$TotalRecepUnid = 0;
@@ -799,7 +821,8 @@ function StockInicialPorGrupo($cod_producto,$hornadas,$fecha,$link)
 			$TotalStockFinUnid = 0;
 			$TotalStockFinPeso = 0;
 			$TotalPisoUnid = 0;
-			$TotalPisoPeso = 0;			
+			$TotalPisoPeso = 0;
+*/			
 			if ($recargapag == "S")
 			{
 				$arreglo = explode("-", $cmbproducto); //0: Producto, 1: SubProducto.					
@@ -1365,7 +1388,9 @@ function StockInicialPorGrupo($cod_producto,$hornadas,$fecha,$link)
 		$SubTotalPisoUnid = 0;
         $SubTotalPisoPeso = 0;		
         $SubTotalStockFinUnid = 0;
-        $SubTotalStockFinPeso = 0;			
+        $SubTotalStockFinPeso = 0;	
+		$TotalPisoUnid = 0; // wso
+		$TotalPisoPeso = 0; //wso		
 		if ($recargapag == "S")
 		{
 			$arreglo = explode("-", $cmbproducto); //0: Producto, 1: SubProducto.
@@ -1382,6 +1407,7 @@ function StockInicialPorGrupo($cod_producto,$hornadas,$fecha,$link)
 			$i = 1;
    //aca parto con modificacion jcf 21-04-2004
             $produ_c = 16;
+			$tp=0;
 			while ($row = mysqli_fetch_array($rs))
 			{
               $produ_t = $row["cod_producto"];
@@ -1630,8 +1656,6 @@ function StockInicialPorGrupo($cod_producto,$hornadas,$fecha,$link)
 				$TotalStockFinPeso = $TotalStockFinPeso + $peso_aux;
 				//-----------------
 				//STOCK PISO.
-				$TotalPisoUnid = 0; //wso
-				$TotalPisoPeso = 0; //wso
 				$consulta = "SELECT ifnull(sum(unidades),0) as unidades, ifnull(sum(peso),0) as peso FROM sea_web.stock_piso_raf ";
 				$consulta.= " WHERE cod_producto = '".$row["cod_producto"]."'" ;
 				$consulta.= " AND cod_subproducto = '".$row["cod_subproducto"]."'";
