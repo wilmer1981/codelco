@@ -1170,9 +1170,16 @@ function EscribirArchivo(ruta,archivo,content){
 }
 
 // FUNCION LEE ARCHIVO txt
-function LeerArchivo(ruta,archivo,vpeso){
+function LeerArchivo(ruta,archivo,vpeso,modulo){
       var dev;
-	  var url  = '../sec_web/LeerArchivo.php';
+	  var url;
+	  //var url  = '../sec_web/LeerArchivo.php';
+	  //modulo=S --- SIPA
+	  if(modulo=='S'){
+		url  = 'LeerArchivo.php';
+	  }else{
+		url  = '../sec_web/LeerArchivo.php';
+	  }
       $.ajax({
 		    type: 'post',
 		    data:{ruta:ruta,archivo:archivo,vpeso:vpeso},
