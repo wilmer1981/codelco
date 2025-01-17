@@ -30,13 +30,19 @@
 	if ($Proc=="M")
 	{
 		$Datos = explode("~~",$Valores);	
+		$Datos0 = isset($Datos[0])?$Datos[0]:"";
+		$Datos1 = isset($Datos[1])?$Datos[1]:"";
+		$Datos2 = isset($Datos[2])?$Datos[2]:"";
+		$Datos3 = isset($Datos[3])?$Datos[3]:"";
+		$Datos4 = isset($Datos[4])?$Datos[4]:"";
+		$Datos5 = isset($Datos[5])?$Datos[5]:"";
 		$Consulta = "select * from age_web.mermas ";
-		$Consulta.= " where cod_producto='".$Datos[0]."'";
-		$Consulta.= " and cod_subproducto='".$Datos[1]."'";
-		$Consulta.= " and rut_proveedor='".$Datos[2]."'";
-		$Consulta.= " and cod_contrato='".$Datos[3]."'";
-		$Consulta.= " and tipo_aplicacion='".$Datos[4]."'";
-		$Consulta.= " and referencia='".$Datos[5]."'";
+		$Consulta.= " where cod_producto='".$Datos0."'";
+		$Consulta.= " and cod_subproducto='".$Datos1."'";
+		$Consulta.= " and rut_proveedor='".$Datos2."'";
+		$Consulta.= " and cod_contrato='".$Datos3."'";
+		$Consulta.= " and tipo_aplicacion='".$Datos4."'";
+		$Consulta.= " and referencia='".$Datos5."'";
 		$Resp = mysqli_query($link, $Consulta);			
 		if ($Fila = mysqli_fetch_array($Resp))
 		{
