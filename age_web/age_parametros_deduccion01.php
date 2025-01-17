@@ -34,7 +34,7 @@
 			break;
 		case "N"://NUEVO
 			$Insertar = "insert into age_web.deduc_metalurgicas (cod_recepcion,cod_producto,cod_subproducto,rut_proveedor,cod_leyes,cant_param,valor1,valor2,valor3,valor4,tipo_formula,formula) values (";
-			$Insertar.= "'$CmbRecepcion','1','$CmbSubProducto','$CmbProveedor','$CmbLey','$CmbCantP','$TxtValor1','$TxtValor2','$TxtValor3','$TxtValor4','$CmbTipoF','$Formula')";
+			$Insertar.= "'$CmbRecepcion','1','$CmbSubProducto','$CmbProveedor','$CmbLey','$CmbCantP','".str_replace(',','.',$TxtValor1)."','".str_replace(',','.',$TxtValor2)."','".str_replace(',','.',$TxtValor3)."','".str_replace(',','.',$TxtValor4)."','$CmbTipoF','$Formula')";
 			mysqli_query($link, $Insertar);
 			echo "<script languaje='JavaScript'>";
 			echo "window.opener.document.frmPrincipal.action='age_parametros_deduccion.php';";
