@@ -179,7 +179,7 @@
 			$EstBtnGrabar='';
 			$PatenteOk='';
 			$PatenteOk=PatenteValida($TxtPatente,$PatenteOk,$EstPatente);
-			echo "<br>PatenteOk:".$PatenteOk;
+			//echo "<br>PatenteOk:".$PatenteOk;
 			if($PatenteOk==true)
 			{ 
 				//echo "<br>PPPPatenteOk:".$PatenteOk;
@@ -1389,7 +1389,7 @@ body {
 	<?php	
 	if($AbastMinero=='S')
 	{
-					echo "CmbMinaPlanta:".$CmbMinaPlanta."<br><br>";
+					//echo "CmbMinaPlanta:".$CmbMinaPlanta."<br><br>";
     ?>
   <tr>
     <td align="center" class="ColorTabla02">Mina/Planta:</td>
