@@ -146,7 +146,7 @@ function Salir()
 					echo "<td width='120' rowspan='2' align='center'>Fecha Produccion</td>\n";
 					echo "<td width='50' rowspan='2' align='center'>Grupo</td>\n";
 				}
-				else if (($RadioTipoCons == "H") || (!isset($RadioTipoCons)))
+				else if (($RadioTipoCons == "H") || ($RadioTipoCons==""))
 				{
             		echo "<td width='78' rowspan='2' align='center'>Hornadas</td>\n";
 					echo "<td width='78' rowspan='2' align='center'>As</td>\n";
@@ -217,21 +217,21 @@ function Salir()
             <td width="55" align="center">Peso</td>
           </tr>
 <?php
-function StockInicial($cod_producto,$cod_subproducto,$hornada,$fecha)
+function StockInicial($cod_producto,$cod_subproducto,$hornada,$fecha,$link)
 {
 
 	$mes_act = substr($fecha,5,2);
 	$ano_act = substr($fecha,0,4);
 	$dia_act = substr($fecha,8,2);
 	
-	$mes_ant = $mes_act - 1;
+	$mes_ant = (int)$mes_act - 1;
 	$ano_ant = $ano_act;
-	$dia_ant = $dia_act - 1;
+	$dia_ant = (int)$dia_act - 1;
 	
 	if ($mes_ant == 0)
 	{
 		$mes_ant = 12;
-		$ano_ant = $ano -1;
+		$ano_ant = $ano_ant -1;
 	}	
 	
 	if ($dia_ant == 0)
@@ -323,20 +323,20 @@ function StockInicial($cod_producto,$cod_subproducto,$hornada,$fecha)
 }
 
 /**********************/
-function StockInicialPorGrupo($cod_producto,$hornadas,$fecha)
+function StockInicialPorGrupo($cod_producto,$hornadas,$fecha,$link)
 {
 	$mes_act = substr($fecha,5,2);
 	$ano_act = substr($fecha,0,4);
 	$dia_act = substr($fecha,8,2);
 	
-	$mes_ant = $mes_act - 1;
+	$mes_ant = (int)$mes_act - 1;
 	$ano_ant = $ano_act;
 	$dia_ant = $dia_act - 1;
 	
 	if ($mes_ant == 0)
 	{
 		$mes_ant = 12;
-		$ano_ant = $ano -1;
+		$ano_ant = $ano_ant -1;
 	}	
 	
 	if ($dia_ant == 0)
@@ -414,7 +414,7 @@ function StockInicialPorGrupo($cod_producto,$hornadas,$fecha)
 	$FechaTermino =date("Y-m-d", mktime(1,0,0,$Mes,($Dia +1),$Ano))." 07:59:59";
 	$FechaConsulta2 =date("Y-m-d", mktime(1,0,0,$Mes,($Dia +1),$Ano));
 
-	if (($RadioTipoCons == "H") || (!isset($RadioTipoCons)))
+	if (($RadioTipoCons == "H") || ($RadioTipoCons==""))
 	{		  
 		if (($activar == "S") and (($RadioTipoFecha == "A") or ($RadioTipoFecha == "D")) and ($RadioTipoCons == "H")) // Restos por Grupo.
 		{
@@ -1048,7 +1048,7 @@ function StockInicialPorGrupo($cod_producto,$hornadas,$fecha)
 					//Por Dia.
 					if ($RadioTipoFecha == "D")
 					{
-						$datos = StockInicial($valor[1],$valor[2],$valor[0],$FechaConsulta);
+						$datos = StockInicial($valor[1],$valor[2],$valor[0],$FechaConsulta,$link);
 						$vector = explode("/",$datos); //0: unidades, 1: peso.
 					}
 					else 
@@ -1176,7 +1176,6 @@ function StockInicialPorGrupo($cod_producto,$hornadas,$fecha)
 							echo '<td align="right">&nbsp;</td>';
 							echo '<td align="right">&nbsp;</td>';
 						}
-
 						//
 					}
 					//BENEFICIO
@@ -1658,12 +1657,12 @@ function StockInicialPorGrupo($cod_producto,$hornadas,$fecha)
              else
              {
                echo "<tr align='right' bgcolor='#CCCCCC'>\n";
-               if (($RadioTipoCons == "H") || (!isset($RadioTipoCons)))
+               if (($RadioTipoCons == "H") || ($RadioTipoCons==""))
                   echo "<td aling='center' colspan='4'><strong>SUB-TOTAL</strong></td>";
                   else echo "<td align='center'><strong>SUB-TOTAL</strong></td>";
                echo "<td>".$SubTotalStockIniUnid."</td>\n";
                echo "<td>".$SubTotalStockIniPeso."</td>\n";
-//agrego catodos, despuntes
+				//agrego catodos, despuntes
                if ((($tp==16) or ($tp==17) or ($tp==18) or ($tp==48)) or ($RadioTipoCons=="P"))
                {
                  echo "<td>".$SubTotalRecepUnid."</td>\n";
@@ -1980,7 +1979,7 @@ function StockInicialPorGrupo($cod_producto,$hornadas,$fecha)
                $i++;
 			}
 		    echo "<tr align='right' bgcolor='#CCCCCC'>\n";
-			if (($RadioTipoCons == "H") || (!isset($RadioTipoCons)))
+			if (($RadioTipoCons == "H") || ($RadioTipoCons==""))
 			  echo "<td align='center' colspan='4'><strong>SUB-TOTAL</strong></td>";
                else echo "<td align='center'><strong>SUB-TOTAL</strong></td>";
 			echo "<td>".$SubTotalStockIniUnid."</td>\n";
@@ -2021,7 +2020,7 @@ function StockInicialPorGrupo($cod_producto,$hornadas,$fecha)
 			{
 				echo '<td align="center" colspan="2"><strong>TOTALES</strong></td>';
 			}
-			else if (($RadioTipoCons == "H") || (!isset($RadioTipoCons)))
+			else if (($RadioTipoCons == "H") || ($RadioTipoCons==""))
 				echo '<td align="center" colspan="4"><strong>TOTALES</strong></td>';
 			else echo '<td align="center"><strong>TOTALES</strong></td>';
 		?>

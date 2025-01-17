@@ -171,7 +171,7 @@ function Salir()
               </SELECT> </td>
             <td> 
               <?php 
-					if (($RadioTipoFecha == "D") || (!isset($RadioTipoFecha)))
+					if (($RadioTipoFecha == "D") || ($RadioTipoFecha==""))
 					{
 						echo '<input name="RadioTipoFecha" type="radio" value="D" checked>';
 					}
@@ -219,7 +219,7 @@ function Salir()
               </SELECT> </td>
             <td width="139"> 
               <?php 
-					if (($RadioTipoCons == "H") || (!isset($RadioTipoCons)))
+					if (($RadioTipoCons == "H") || ($RadioTipoCons==""))
 					{
 						echo '<input name="RadioTipoCons" type="radio" value="H" checked>';
 					}
@@ -278,7 +278,7 @@ function Salir()
 					echo "<td width='120' rowspan='2' align='center'>Fecha Produccion</td>\n";
 					echo "<td width='50' rowspan='2' align='center'>Grupo</td>\n";
 				}
-				else if (($RadioTipoCons == "H") || (!isset($RadioTipoCons)))
+				else if (($RadioTipoCons == "H") || ($RadioTipoCons==""))
 				{
             		echo "<td width='78' rowspan='2' align='center'>Hornadas</td>\n";
 					echo "<td width='78' rowspan='2' align='center'>As</td>\n";
@@ -349,21 +349,21 @@ function Salir()
             <td width="55" align="center">Peso</td>
           </tr>
 <?php
-function StockInicial($cod_producto,$cod_subproducto,$hornada,$fecha)
+function StockInicial($cod_producto,$cod_subproducto,$hornada,$fecha,$link)
 {
 
 	$mes_act = substr($fecha,5,2);
 	$ano_act = substr($fecha,0,4);
 	$dia_act = substr($fecha,8,2);
 	
-	$mes_ant = $mes_act - 1;
+	$mes_ant = (int)$mes_act - 1;
 	$ano_ant = $ano_act;
 	$dia_ant = $dia_act - 1;
 	
 	if ($mes_ant == 0)
 	{
 		$mes_ant = 12;
-		$ano_ant = $ano -1;
+		$ano_ant = $ano_ant -1;
 	}	
 	
 	if ($dia_ant == 0)
@@ -456,7 +456,7 @@ function StockInicial($cod_producto,$cod_subproducto,$hornada,$fecha)
 }
 
 /**********************/
-function StockInicialPorGrupo($cod_producto,$hornadas,$fecha)
+function StockInicialPorGrupo($cod_producto,$hornadas,$fecha,$link)
 {
 	$mes_act = substr($fecha,5,2);
 	$ano_act = substr($fecha,0,4);
@@ -547,7 +547,7 @@ function StockInicialPorGrupo($cod_producto,$hornadas,$fecha)
 	$FechaTermino =date("Y-m-d", mktime(1,0,0,$Mes,($Dia +1),$Ano))." 07:59:59";
 	$FechaConsulta2 =date("Y-m-d", mktime(1,0,0,$Mes,($Dia +1),$Ano));
 	$arreglo = array();
-	if (($RadioTipoCons == "H") || (!isset($RadioTipoCons)))
+	if (($RadioTipoCons == "H") || ($RadioTipoCons==""))
 	{	
 		$TotalStockIniUnid = 0;
 		$TotalStockIniPeso = 0;
@@ -1053,6 +1053,7 @@ function StockInicialPorGrupo($cod_producto,$hornadas,$fecha)
 				$PSubproducto = substr($cmbproducto,3,1);
      			//ksort($array_hornadas); //Orderna por la clave.
 				reset($array_hornadas);
+				//while (list($clave,$valor) = each($array_hornadas))
 				foreach ($array_hornadas as $clave=>$valor)
 				{
 					//LEYES DE LA HORNADA
@@ -1204,7 +1205,7 @@ function StockInicialPorGrupo($cod_producto,$hornadas,$fecha)
 					//Por Dia.
 					if ($RadioTipoFecha == "D")
 					{
-						$datos = StockInicial($valor[1],$valor[2],$valor[0],$FechaConsulta);
+						$datos = StockInicial($valor[1],$valor[2],$valor[0],$FechaConsulta,$link);
 						$vector = explode("/",$datos); //0: unidades, 1: peso.
 					}
 					else 
@@ -1795,7 +1796,7 @@ function StockInicialPorGrupo($cod_producto,$hornadas,$fecha)
              	else
              	{
                		echo "<tr align='right' bgcolor='#CCCCCC'>\n";
-               		if (($RadioTipoCons == "H") || (!isset($RadioTipoCons)))
+               		if (($RadioTipoCons == "H") || ($RadioTipoCons==""))
                   		echo "<td aling='center' colspan='4'><strong>SUB-TOTAL</strong></td>";
                   	else echo "<td align='center'><strong>SUB-TOTAL</strong></td>";
                			echo "<td>".$SubTotalStockIniUnid."</td>\n";
@@ -2147,7 +2148,7 @@ function StockInicialPorGrupo($cod_producto,$hornadas,$fecha)
 			{
 				echo '<td align="center" colspan="2"><strong>TOTALES</strong></td>';
 			}
-			else if (($RadioTipoCons == "H") || (!isset($RadioTipoCons)))
+			else if (($RadioTipoCons == "H") || ($RadioTipoCons==""))
 				echo '<td align="center" colspan="4"><strong>TOTALES</strong></td>';
 			else 
 				echo '<td align="center"><strong>TOTALES</strong></td>';
