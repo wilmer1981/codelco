@@ -288,7 +288,7 @@ function Imprimir()
 						$consulta = $consulta." FROM sea_web.movimientos";
 						$consulta = $consulta." WHERE tipo_movimiento = 2 AND cod_producto = ".$valor[1]." AND cod_subproducto = ".$valor[2]." AND flujo = ".$valor[0];
 						$consulta = $consulta." AND hornada='".$row2["hornada"]."' AND ";
-						if ($row2[tipo_reg] == "N")
+						if ($row2["tipo_reg"] == "N")
 					 		$consulta = $consulta." fecha_movimiento = '".$fecha_aux."'";
 						else 
 							$consulta = $consulta." fecha_benef = '".$fecha_aux."'";
