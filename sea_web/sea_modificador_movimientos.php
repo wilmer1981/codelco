@@ -5,76 +5,21 @@
 	$CodigoDeSistema = 2;
 	$CodigoDePantalla = 9;
 
-	if(isset($_REQUEST["recargapag1"])) {
-		$recargapag1 = $_REQUEST["recargapag1"];
-	}else{
-		$recargapag1 =  "";
-	}
-	if(isset($_REQUEST["recargapag2"])) {
-		$recargapag2 = $_REQUEST["recargapag2"];
-	}else{
-		$recargapag2 =  "";
-	}
-	if(isset($_REQUEST["recargapag3"])) {
-		$recargapag3 = $_REQUEST["recargapag3"];
-	}else{
-		$recargapag3 =  "";
-	}
-	if(isset($_REQUEST["cmbproducto"])) {
-		$cmbproducto = $_REQUEST["cmbproducto"];
-	}else{
-		$cmbproducto =  "";
-	}
-	if(isset($_REQUEST["cmbsubprod"])) {
-		$cmbsubprod = $_REQUEST["cmbsubprod"];
-	}else{
-		$cmbsubprod =  "";
-	}
-	if(isset($_REQUEST["peso_prom"])) {
-		$peso_prom = $_REQUEST["peso_prom"];
-	}else{
-		$peso_prom =  "";
-	}
-	if(isset($_REQUEST["cmbhornada"])) {
-		$cmbhornada = $_REQUEST["cmbhornada"];
-	}else{
-		$cmbhornada =  "";
-	}
-	if(isset($_REQUEST["txtbuscar"])) {
-		$txtbuscar = $_REQUEST["txtbuscar"];
-	}else{
-		$txtbuscar =  "";
-	}
-	if(isset($_REQUEST["mostrar"])) {
-		$mostrar = $_REQUEST["mostrar"];
-	}else{
-		$mostrar =  "";
-	}
-	if(isset($_REQUEST["tipo_prod"])) {
-		$tipo_prod = $_REQUEST["tipo_prod"];
-	}else{
-		$tipo_prod =  "";
-	}
-	if(isset($_REQUEST["activar"])) {
-		$activar = $_REQUEST["activar"];
-	}else{
-		$activar =  "";
-	}
-	if(isset($_REQUEST["radio"])) {
-		$radio = $_REQUEST["radio"];
-	}else{
-		$radio =  "";
-	}
-	if(isset($_REQUEST["radio1"])) {
-		$radio1 = $_REQUEST["radio1"];
-	}else{
-		$radio1 =  "";
-	}
-	if(isset($_REQUEST["radio2"])) {
-		$radio2 = $_REQUEST["radio2"];
-	}else{
-		$radio2 =  "";
-	}
+	$cmbproducto = isset($_REQUEST["cmbproducto"])?$_REQUEST["cmbproducto"]:"";
+	$cmbsubprod  = isset($_REQUEST["cmbsubprod"])?$_REQUEST["cmbsubprod"]:"";
+	$peso_prom   = isset($_REQUEST["peso_prom"])?$_REQUEST["peso_prom"]:"";
+	$cmbhornada  = isset($_REQUEST["cmbhornada"])?$_REQUEST["cmbhornada"]:"";
+	$txtbuscar   = isset($_REQUEST["txtbuscar"])?$_REQUEST["txtbuscar"]:"";
+	$tipo_prod   = isset($_REQUEST["tipo_prod"])?$_REQUEST["tipo_prod"]:"";	
+	$recargapag1 = isset($_REQUEST["recargapag1"])?$_REQUEST["recargapag1"]:"";
+	$recargapag2 = isset($_REQUEST["recargapag2"])?$_REQUEST["recargapag2"]:"";
+	$recargapag3 = isset($_REQUEST["recargapag3"])?$_REQUEST["recargapag3"]:"";
+	$activar  = isset($_REQUEST["activar"])?$_REQUEST["activar"]:"";
+    $mostrar  = isset($_REQUEST["mostrar"])?$_REQUEST["mostrar"]:"";
+	$radio    = isset($_REQUEST["radio"])?$_REQUEST["radio"]:"";
+	$radio1   = isset($_REQUEST["radio1"])?$_REQUEST["radio1"]:"";
+	$radio2   = isset($_REQUEST["radio2"])?$_REQUEST["radio2"]:"";
+	$posicion = isset($_REQUEST["posicion"])?$_REQUEST["posicion"]:"";
 	
 	$tipos = array(1=> "Recepcion", 2=> "Beneficio", 3=> "Produccion", 4=> "Traspaso", 44=> "Rechazo");
 ?>
@@ -808,9 +753,12 @@ body {
 		echo '<input type="hidden" name="radio" value="">'; //Radio por defecto para poder generar un arreglo de radio.
 		$fila = 16; //Fila de partida.
 		$pos_aux = 1;
+		$UNIDADES_MOV = array();
 		while ($row2 = mysqli_fetch_array($rs2))
-		{
-			$UNIDADES_MOV[$row2["tipo_movimiento"]]=	$UNIDADES_MOV[$row2["tipo_movimiento"]]+$row2["unidades"];	
+		{   //$tipo_movimiento = isset($row2["tipo_movimiento"])?$row2["tipo_movimiento"]:0;
+			$tipo_movimiento = isset($UNIDADES_MOV[$row2["tipo_movimiento"]])?$UNIDADES_MOV[$row2["tipo_movimiento"]]:0;
+			$unidades        = isset($row2["unidades"])?$row2["unidades"]:0;
+			$UNIDADES_MOV[$row2["tipo_movimiento"]] = $tipo_movimiento + $unidades;	
 			
 			echo '<tr>';
 			echo '<td width="170" height="20">';
