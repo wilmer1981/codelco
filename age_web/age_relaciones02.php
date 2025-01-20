@@ -2,6 +2,7 @@
 	include("../principal/conectar_principal.php");
 	
 	$Proceso = isset($_REQUEST['Proceso']) ? $_REQUEST['Proceso'] : '';
+	$ProcesoActual = isset($_REQUEST['ProcesoActual']) ? $_REQUEST['ProcesoActual'] : '';
 	$Valores = isset($_REQUEST['Valores']) ? $_REQUEST['Valores'] : '';
 	$ChkTipoFlujo = isset($_REQUEST['ChkTipoFlujo']) ? $_REQUEST['ChkTipoFlujo'] : '';
 	$TipoBusq = isset($_REQUEST['TipoBusq']) ? $_REQUEST['TipoBusq'] : '';
@@ -9,7 +10,7 @@
 	$TxtFiltroPrv = isset($_REQUEST['TxtFiltroPrv']) ? $_REQUEST['TxtFiltroPrv'] : '';
 	$Busq = isset($_REQUEST['Busq']) ? $_REQUEST['Busq'] : '';
 	$ChkGrupo = isset($_REQUEST['ChkGrupo']) ? $_REQUEST['ChkGrupo'] : '';
-	$Flujos = isset($_REQUEST['Flujos']) ? $_REQUEST['Flujos'] : '';
+	$Flujos = isset($_REQUEST['Flujos'])?$_REQUEST['Flujos']:"";
 	$SubProducto = isset($_REQUEST['SubProducto']) ? $_REQUEST['SubProducto'] : '';
 	$Valores = isset($_REQUEST['Valores']) ? $_REQUEST['Valores'] : '';
 	$ChkTipoFlujo = isset($_REQUEST['ChkTipoFlujo']) ? $_REQUEST['ChkTipoFlujo'] : 'RAM';

@@ -23,13 +23,17 @@
 			$Consulta.= " and cod_subproducto='".$SubProducto."'";
 			$Consulta.= " and rut_proveedor='".$Rut."'";
 			$Consulta.= " and flujo='".$Flujos."'";
+			echo $Consulta."<br>"; 
 			$Resp = mysqli_query($link, $Consulta);
-			if (!$Fila = mysqli_fetch_array($Resp))
-			{				
+			$cont = mysqli_num_rows($Resp);
+			//if (!$Fila = mysqli_fetch_array($Resp))
+			//echo "Cont:".$cont;
+			if($cont==0){
 				//INSERTA
 				$Insertar = "INSERT INTO age_web.relaciones (cod_producto, cod_subproducto, rut_proveedor, flujo, grupo,leyes,impurezas)";
 				$Insertar.= " values('1','".$SubProducto."','".$Rut."','".$Flujos."','".$ChkGrupo."','$TxtCodLeyes','$TxtCodImpurezas')";
 				//echo $Insertar;
+				//exit();
 				mysqli_query($link, $Insertar);
 				//INSERTAR EN IMPUREZAS
 				$Consulta="select nombre_prv from sipa_web.proveedores where rut_prv='".$Rut."' ";
@@ -49,8 +53,7 @@
 						//echo $Insertar."<br>";
 						mysqli_query($link, $Insertar);
 					}
-				}
-				
+				}	
 				
 			}
 			//exit();

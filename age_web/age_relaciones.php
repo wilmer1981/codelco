@@ -17,7 +17,6 @@
 
 	$ChkTipoFlujo = isset($_REQUEST['ChkTipoFlujo']) ? $_REQUEST['ChkTipoFlujo'] : 'RAM';
 	$TipoFlujo    = isset($_REQUEST['ChkTipoFlujo']) ? $_REQUEST['ChkTipoFlujo'] : 'RAM';
-
 ?>
 <html>
 <head>
@@ -86,7 +85,7 @@ function Excel()
 function Nuevo()
 {
 	var f = document.frmPrincipal;		
-	window.open("age_relaciones02.php?Orden=<?php echo $Orden; ?>&TipoBusq="+ f.TipoBusqueda.value + "&Proceso=N&ChkTipoFlujo="+f.TipoFlujo.value+"&SubProducto="+f.SubProducto.value+"&Rut="+f.Proveedor+"&Flujos="+f.Flujos.value,"","top=50,left=10,width=650,height=300,scrollbars=yes,resizable = yes");					
+	window.open("age_relaciones02.php?Orden=<?php echo $Orden; ?>&TipoBusq="+ f.TipoBusqueda.value + "&Proceso=N&ChkTipoFlujo="+f.TipoFlujo.value+"&SubProducto="+f.SubProducto.value+"&Rut="+f.Proveedor.value+"&Flujos="+f.Flujos.value,"","top=50,left=10,width=650,height=300,scrollbars=yes,resizable = yes");					
 }
 
 function Recarga(obj)
