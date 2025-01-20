@@ -1,9 +1,11 @@
 <?php
 	include("../principal/conectar_principal.php");
 	include("age_funciones.php");
-	include("../principal/funciones/class.ezpdf.php");
-	$pdf =& new Cezpdf('a4');
+	include("../principal/funciones/pdf/Cezpdf.php");
+	$pdf = new Cezpdf('a4');
     $pdf->selectFont('../principal/funciones/fonts/Helvetica.afm');
+	
+	$Valores = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
 	$Datos=explode('//',$Valores);
 	foreach($Datos as $c => $v)
 	{
@@ -57,7 +59,7 @@
 			$pdf->selectFont('../principal/funciones/fonts/Helvetica-Bold.afm');
 			$pdf->ezText("BOLETA DE PESAJE\n",16,array('justification'=>'center'));
 			$pdf->addText(0,770,26,"CODELCO",0,0);
-			$pdf->addText(480,770,26,"N�",0,0);
+			$pdf->addText(480,770,26,"Nº",0,0);
 			$pdf->selectFont('../principal/funciones/fonts/Helvetica.afm');
 			
 			$pdf->rectangle(0,700, 35,30);
@@ -82,7 +84,7 @@
 			
 			$pdf->rectangle(0,665, 70,30);
 			$pdf->line(0,680,70,680);
-			$pdf->addTextWrap(0,685,70,8,"N� LOTE",$justification='center',0,0);			
+			$pdf->addTextWrap(0,685,70,8,"Nº LOTE",$justification='center',0,0);			
 			
 			$pdf->rectangle(80,665, 100,30);
 			$pdf->line(80,680,180,680);
@@ -293,54 +295,80 @@
 			$pdf->addTextWrap(455,495,55,9,$Fila["cancha"],$justification='center',0,0);
 			$pdf->addTextWrap(510,495,80,9,$Fila["nom_descarga"],$justification='center',0,0);
 			//ELEMENTOS
-			if ($ArrPastas["03"][1]=="S")
+			$ArrPastas031 = isset($ArrPastas["03"][1])?$ArrPastas["03"][1]:"";
+			$ArrPastas071 = isset($ArrPastas["07"][1])?$ArrPastas["07"][1]:"";
+			$ArrPastas411 = isset($ArrPastas["41"][1])?$ArrPastas["41"][1]:"";
+			$ArrPastas281 = isset($ArrPastas["28"][1])?$ArrPastas["28"][1]:"";
+			$ArrPastas021 = isset($ArrPastas["02"][1])?$ArrPastas["02"][1]:"";
+			$ArrPastas041 = isset($ArrPastas["04"][1])?$ArrPastas["04"][1]:"";
+			$ArrPastas051 = isset($ArrPastas["05"][1])?$ArrPastas["05"][1]:"";
+			
+			if ($ArrPastas031=="S")
 				$pdf->addTextWrap(0,440,20,9,"X",$justification='center',0,0);
-			if ($ArrPastas["07"][1]=="S")
+			if ($ArrPastas071=="S")
 				$pdf->addTextWrap(20,440,20,9,"X",$justification='center',0,0);
-			if ($ArrPastas["02"][1]=="S")
+			if ($ArrPastas021=="S")
 				$pdf->addTextWrap(40,440,20,9,"X",$justification='center',0,0);
-			if ($ArrPastas["04"][1]=="S")
+			if ($ArrPastas041=="S")
 				$pdf->addTextWrap(60,440,20,9,"X",$justification='center',0,0);
-			if ($ArrPastas["05"][1]=="S")
+			if ($ArrPastas051=="S")
 				$pdf->addTextWrap(80,440,20,9,"X",$justification='center',0,0);
-			if ($ArrPastas["41"][1]=="S")
+			if ($ArrPastas411=="S")
 				$pdf->addTextWrap(100,440,20,9,"X",$justification='center',0,0);
-			if ($ArrPastas["28"][1]=="S")
+			if ($ArrPastas281=="S")
 				$pdf->addTextWrap(120,440,20,9,"X",$justification='center',0,0);
-			//IMPUREZAS	
-			if ($ArrImpurezas["06"][1]=="S")
+			//IMPUREZAS
+			$ArrImpurezas061 = isset($ArrImpurezas["06"][1])?$ArrImpurezas["06"][1]:"";
+			$ArrImpurezas101 = isset($ArrImpurezas["10"][1])?$ArrImpurezas["10"][1]:"";
+			$ArrImpurezas111 = isset($ArrImpurezas["11"][1])?$ArrImpurezas["11"][1]:"";
+			$ArrImpurezas121 = isset($ArrImpurezas["12"][1])?$ArrImpurezas["12"][1]:"";
+			$ArrImpurezas131 = isset($ArrImpurezas["13"][1])?$ArrImpurezas["13"][1]:"";
+			$ArrImpurezas311 = isset($ArrImpurezas["31"][1])?$ArrImpurezas["31"][1]:"";
+			$ArrImpurezas341 = isset($ArrImpurezas["34"][1])?$ArrImpurezas["34"][1]:"";
+			$ArrImpurezas391 = isset($ArrImpurezas["39"][1])?$ArrImpurezas["39"][1]:"";
+			$ArrImpurezas011 = isset($ArrImpurezas["01"][1])?$ArrImpurezas["01"][1]:"";
+			$ArrImpurezas081 = isset($ArrImpurezas["08"][1])?$ArrImpurezas["08"][1]:"";
+			$ArrImpurezas091 = isset($ArrImpurezas["09"][1])?$ArrImpurezas["09"][1]:"";
+			$ArrImpurezas101 = isset($ArrImpurezas["10"][1])?$ArrImpurezas["10"][1]:"";
+			$ArrImpurezas281 = isset($ArrImpurezas["28"][1])?$ArrImpurezas["28"][1]:"";
+			$ArrImpurezas251 = isset($ArrImpurezas["25"][1])?$ArrImpurezas["25"][1]:"";
+			$ArrImpurezas261 = isset($ArrImpurezas["26"][1])?$ArrImpurezas["26"][1]:"";
+			$ArrImpurezas411 = isset($ArrImpurezas["41"][1])?$ArrImpurezas["41"][1]:"";
+			$ArrImpurezas441 = isset($ArrImpurezas["44"][1])?$ArrImpurezas["44"][1]:"";
+			$ArrImpurezas581 = isset($ArrImpurezas["58"][1])?$ArrImpurezas["58"][1]:"";
+			if ($ArrImpurezas061=="S")
 				$pdf->addTextWrap(150,440,25,9,"X",$justification='center',0,0);
-			if ($ArrImpurezas["01"][1]=="S")
+			if ($ArrImpurezas011=="S")
 				$pdf->addTextWrap(175,440,25,9,"X",$justification='center',0,0);
-			if ($ArrImpurezas["08"][1]=="S")
+			if ($ArrImpurezas081=="S")
 ;				$pdf->addTextWrap(200,440,25,9,"X",$justification='center',0,0);
-			if ($ArrImpurezas["09"][1]=="S")
+			if ($ArrImpurezas091=="S")
 				$pdf->addTextWrap(225,440,25,9,"X",$justification='center',0,0);
-			if ($ArrImpurezas["10"][1]=="S")
+			if ($ArrImpurezas101=="S")
 				$pdf->addTextWrap(250,440,25,9,"X",$justification='center',0,0);
-			if ($ArrImpurezas["39"][1]=="S")
+			if ($ArrImpurezas391=="S")
 				$pdf->addTextWrap(275,440,25,9,"X",$justification='center',0,0);
-			if ($ArrImpurezas["11"][1]=="S")
+			if ($ArrImpurezas111=="S")
 				$pdf->addTextWrap(300,440,25,9,"X",$justification='center',0,0);
-			if ($ArrImpurezas["12"][1]=="S")
+			if ($ArrImpurezas121=="S")
 				$pdf->addTextWrap(325,440,25,9,"X",$justification='center',0,0);
-			if ($ArrImpurezas["13"][1]=="S")
+			if ($ArrImpurezas131=="S")
 				$pdf->addTextWrap(350,440,25,9,"X",$justification='center',0,0);
-			if ($ArrImpurezas["31"][1]=="S")
+			if ($ArrImpurezas311=="S")
 				$pdf->addTextWrap(375,440,25,9,"X",$justification='center',0,0);
-			if ($ArrImpurezas["28"][1]=="S")
+			if ($ArrImpurezas281=="S")
 				$pdf->addTextWrap(400,440,25,9,"X",$justification='center',0,0);
-			if ($ArrImpurezas["25"][1]=="S")
+			if ($ArrImpurezas251=="S")
 				$pdf->addTextWrap(425,440,25,9,"X",$justification='center',0,0);
-			if ($ArrImpurezas["41"][1]=="S")
+			if ($ArrImpurezas411=="S")
 				$pdf->addTextWrap(450,440,25,9,"X",$justification='center',0,0);
-			if ($ArrImpurezas["58"][1]=="S")
+			if ($ArrImpurezas581=="S")
 				$pdf->addTextWrap(475,440,25,9,"X",$justification='center',0,0);
-			if ($ArrImpurezas["34"][1]=="S")
+			if ($ArrImpurezas341=="S")
 				$pdf->addTextWrap(500,440,25,9,"X",$justification='center',0,0);
-			if ($ArrImpurezas["26"][1]=="S")
+			if ($ArrImpurezas261=="S")
 				$pdf->addTextWrap(525,440,32,9,"X",$justification='center',0,0);		
-			if ($ArrImpurezas["44"][1]=="S")
+			if ($ArrImpurezas441=="S")
 				$pdf->addTextWrap(557,440,33,9,"X",$justification='center',0,0);	
 			$pdf->addTextWrap(0,400,320,9,$Fila["observacion"],$justification='center',0,0);
 			$pdf->addTextWrap(330,400,80,9,$Fila["patente"],$justification='center',0,0);
@@ -348,6 +376,7 @@
 			$pdf->addTextWrap(510,400,80,9,$Fila["contrato"],$justification='center',0,0);
 		}
 	}
-	$pdf->ezStream();
-	$pdf->Output();			
+	//echo "aqui llegue";
+	$pdf->ezStream(['compress'=>0]);
+	$pdf->Output();				
 ?>

@@ -434,7 +434,7 @@
 				$pdf->addTextWrap(120,440,20,9,"X",$justification='center',0,0);
 			*/
 			//IMPUREZAS	
-						$ArrImpurezas061 = isset($ArrImpurezas["06"][1])?$ArrImpurezas["06"][1]:"";
+			$ArrImpurezas061 = isset($ArrImpurezas["06"][1])?$ArrImpurezas["06"][1]:"";
 			$ArrImpurezas101 = isset($ArrImpurezas["10"][1])?$ArrImpurezas["10"][1]:"";
 			$ArrImpurezas111 = isset($ArrImpurezas["11"][1])?$ArrImpurezas["11"][1]:"";
 			$ArrImpurezas121 = isset($ArrImpurezas["12"][1])?$ArrImpurezas["12"][1]:"";

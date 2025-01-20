@@ -469,7 +469,7 @@ body {
 										echo "<td align=\"right\">".number_format($v[2],4,',','.')."</td>\n";
 								}
 								$Dif=$ValorPorc-$ArrLeyesAux[$v[0]][3];
-								/*if($FilaLote["lote"]=="14010144")
+								/*if($FilaLote["lote"]=="24020206")
 								{
 									echo $ValorPorc."<br>";
 									echo $Dif."<br>";

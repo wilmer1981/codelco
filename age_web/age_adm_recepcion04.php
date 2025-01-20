@@ -1,11 +1,30 @@
 <?php
 	include("../principal/conectar_principal.php");
 	require_once 'reader.php';
-	if(!isset($TxtConjunto))
+	
+	$Opcion =  isset($_REQUEST['Opcion'])?$_REQUEST['Opcion']:'';
+	$TipoConsulta = isset($_REQUEST['TipoConsulta'])?$_REQUEST['TipoConsulta']:'';
+	$NewRec =  isset($_REQUEST['NewRec'])?$_REQUEST['NewRec']:'';
+	$TipoBusq = isset($_REQUEST['TipoBusq'])?$_REQUEST['TipoBusq']:'';
+	$Proc =  isset($_REQUEST['Proc'])?$_REQUEST['Proc']:'';
+	$EstOpe =  isset($_REQUEST['EstOpe'])?$_REQUEST['EstOpe']:'';
+	$CmbSubProducto =  isset($_REQUEST['CmbSubProducto'])?$_REQUEST['CmbSubProducto']:'';
+	$TxtConjunto    =  isset($_REQUEST['TxtConjunto'])?$_REQUEST['TxtConjunto']:'';
+	$CmbEstadoLote =  isset($_REQUEST['CmbEstadoLote'])?$_REQUEST['CmbEstadoLote']:'';
+	$CmbProveedor =  isset($_REQUEST['CmbProveedor'])?$_REQUEST['CmbProveedor']:'';
+	$CmbCodFaena =  isset($_REQUEST['CmbCodFaena'])?$_REQUEST['CmbCodFaena']:'';
+	$CmbClaseProducto   =  isset($_REQUEST['CmbClaseProducto'])?$_REQUEST['CmbClaseProducto']:'';
+	$CmbCodRecepcion    =  isset($_REQUEST['CmbCodRecepcion'])?$_REQUEST['CmbCodRecepcion']:'';
+	$CmbCodRecepcionENM =  isset($_REQUEST['CmbCodRecepcionENM'])?$_REQUEST['CmbCodRecepcionENM']:'';
+	$TxtCancha          =  isset($_REQUEST['TxtCancha'])?$_REQUEST['TxtCancha']:'';
+	$Lotes              =  isset($_REQUEST['Lotes'])?$_REQUEST['Lotes']:'';
+	$TxtLote            =  isset($_REQUEST['TxtLote'])?$_REQUEST['TxtLote']:'';
+	$TxtRecargo         =  isset($_REQUEST['TxtRecargo'])?$_REQUEST['TxtRecargo']:'';
+	$ProcesaExcelOk     = isset($_REQUEST['ProcesaExcelOk'])?$_REQUEST['ProcesaExcelOk']:'';
+	if($TxtConjunto=="")
 		$TxtConjunto=0;
 	if($Opcion=='N')
 	{
-		$CmbSubProducto='S';
 		$TxtConjunto='0';
 		$CmbSubProducto='S';
 		$CmbEstadoLote='S';		
@@ -30,11 +49,11 @@
 				$TxtConjunto=$Fila["num_conjunto"];
 				$CmbEstadoLote=$Fila["estado_lote"];
 				$CmbProveedor=$Fila["rut_proveedor"];
-				$CmbCodFaena=$Fila[cod_faena];
-				$CmbClaseProducto=$Fila[clase_producto];
+				$CmbCodFaena=$Fila["cod_faena"];
+				$CmbClaseProducto=$Fila["clase_producto"];
 				$CmbCodRecepcion=$Fila["cod_recepcion"];
-				$CmbCodRecepcionENM=$Fila[cod_recepcion_enm];
-				$TxtCancha=$Fila[cancha];
+				$CmbCodRecepcionENM=$Fila["cod_recepcion_enm"];
+				$TxtCancha=$Fila["cancha"];
 			}		
 		}
 	}
@@ -328,7 +347,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 			while ($Fila = mysqli_fetch_array($Resp))
 			{
 				$Datos = explode("-",$Fila["rut_prv"]);
-				$RutAux = ($Datos[0]*1)."-".$Datos[1];
+				$RutAux = ((int)$Datos[0]*1)."-".$Datos[1];
 				if ($CmbProveedor == $RutAux)
 					echo  "<option selected value='".$RutAux."'>".str_pad($Fila["rut_prv"],10,"0",STR_PAD_LEFT)." - ".$Fila["nombre_prv"]."</option>\n";
 				else

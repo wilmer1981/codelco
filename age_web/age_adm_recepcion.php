@@ -177,7 +177,7 @@ function Proceso(opt,valor)
 			}
 			else
 			{
-				var msg = confirm("�Esta Seguro de Eliminar estos Registros Permanentemente?");
+				var msg = confirm("\xBFEsta Seguro de Eliminar estos Registros Permanentemente?");
 				if (msg==true)
 				{
 					TxtLotes = TxtLotes.substring(0,(TxtLotes.length-2));

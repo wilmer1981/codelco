@@ -3,7 +3,7 @@
 	set_time_limit(1000);
 	include("age_funciones.php");
 	require_once 'reader.php';
-
+    $Proceso =  isset($_REQUEST['Proceso'])?$_REQUEST['Proceso']:'';
 	$TxtCorrelativo = isset($_REQUEST['TxtCorrelativo'])?$_REQUEST['TxtCorrelativo']:'';
 	$TxtLoteRemuestreo = isset($_REQUEST['TxtLoteRemuestreo'])?$_REQUEST['TxtLoteRemuestreo']:'';
 	$TxtLote = isset($_REQUEST['TxtLote'])?$_REQUEST['TxtLote']:'';
@@ -16,9 +16,15 @@
 	$CmbClaseProducto = isset($_REQUEST['CmbClaseProducto'])?$_REQUEST['CmbClaseProducto']:'';
 	$TxtConjunto = isset($_REQUEST['TxtConjunto'])?$_REQUEST['TxtConjunto']:'';
 	$TxtMuestraParalela = isset($_REQUEST['TxtMuestraParalela'])?$_REQUEST['TxtMuestraParalela']:'';
-	$TxtLoteRemuestreo = isset($_REQUEST['TxtLoteRemuestreo'])?$_REQUEST['TxtLoteRemuestreo']:'';
 	$CmbEstadoLote = isset($_REQUEST['CmbEstadoLote'])?$_REQUEST['CmbEstadoLote']:'';	
 	$CmbCodRecepcionENM = isset($_REQUEST['CmbCodRecepcionENM'])?$_REQUEST['CmbCodRecepcionENM']:'';
+	$TxtValores = isset($_REQUEST['TxtValores'])?$_REQUEST['TxtValores']:'';
+	$TipoBusqueda = isset($_REQUEST['TipoBusqueda'])?$_REQUEST['TipoBusqueda']:'';
+	$TxtFechaIni = isset($_REQUEST['TxtFechaIni'])?$_REQUEST['TxtFechaIni']:'';
+	$TxtFechaFin = isset($_REQUEST['TxtFechaFin'])?$_REQUEST['TxtFechaFin']:'';
+	$TxtLoteIni = isset($_REQUEST['TxtLoteIni'])?$_REQUEST['TxtLoteIni']:'';
+	$TxtLoteFin = isset($_REQUEST['TxtLoteFin'])?$_REQUEST['TxtLoteFin']:'';
+	$LimitFin = isset($_REQUEST['LimitFin'])?$_REQUEST['LimitFin']:'';
 	
 	if($TxtCorrelativo=='')
 		$TxtCorrelativo=0;
@@ -416,7 +422,7 @@
 			$Consulta ="Select max(correlativo) as correl from sipa_web.recepciones";
                   $Resp = mysqli_query($link, $Consulta);
                   if ($Row = mysqli_fetch_array($Resp))
-				$correl = $Row[correl];
+				$correl = $Row["correl"];
 			$correl = $correl + 1;
 			$Insertar = "INSERT INTO sipa_web.recepciones (correlativo,lote,recargo,ult_registro,rut_operador,bascula_entrada,";
 			$Insertar.= "bascula_salida,fecha,hora_entrada,hora_salida,peso_bruto,peso_tara,peso_neto,rut_prv,cod_mina,cod_producto,";
