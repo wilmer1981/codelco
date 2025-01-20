@@ -4,15 +4,15 @@
 	include("../principal/conectar_principal.php");
 	$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
 
-	$ChkOrden     = isset($_REQUEST['ChkOrden']) ? $_REQUEST['ChkOrden'] : 'R';
+	$ChkOrden = isset($_REQUEST['ChkOrden']) ? $_REQUEST['ChkOrden'] : 'R';
 	$TxtFiltroPrv = isset($_REQUEST['TxtFiltroPrv']) ? $_REQUEST['TxtFiltroPrv'] : ''; 
 	$CmbProveedor = isset($_REQUEST['CmbProveedor']) ? $_REQUEST['CmbProveedor'] : '';
-	$BtnMina      = isset($_REQUEST['BtnMina']) ? $_REQUEST['BtnMina'] : '';
-	$BtnPropiet   = isset($_REQUEST['BtnPropiet']) ? $_REQUEST['BtnPropiet'] : '';
-	$CmbMina      = isset($_REQUEST['CmbMina']) ? $_REQUEST['CmbMina'] : '';
-	$TipoBusq     = isset($_REQUEST['TipoBusq']) ? $_REQUEST['TipoBusq'] : '0';
-	$Recarga      = isset($_REQUEST['Recarga']) ? $_REQUEST['Recarga'] : '';
-	$Mostrar      = isset($_REQUEST['Mostrar']) ? $_REQUEST['Mostrar'] : '';
+	$BtnMina = isset($_REQUEST['BtnMina']) ? $_REQUEST['BtnMina'] : '';
+	$BtnPropiet = isset($_REQUEST['BtnPropiet']) ? $_REQUEST['BtnPropiet'] : '';
+	$CmbMina = isset($_REQUEST['CmbMina'])?$_REQUEST['CmbMina']:'';
+	$TipoBusq = isset($_REQUEST['TipoBusq']) ? $_REQUEST['TipoBusq'] : '0';
+	$Recarga = isset($_REQUEST['Recarga']) ? $_REQUEST['Recarga'] : '';
+	$Mostrar = isset($_REQUEST['Mostrar']) ? $_REQUEST['Mostrar'] : '';
 	$EncontroRelacion = isset($_REQUEST['EncontroRelacion']) ? $_REQUEST['EncontroRelacion'] : '';
 
 ?>
@@ -266,7 +266,7 @@ function borrar_buffer(){
             <td bgcolor="#FFFFFF">Ordenar Por </td>
             <td align="left">
 			<?php
-			switch (isset($ChkOrden))
+			switch ($ChkOrden)
 			{
 				case "R":
 					echo '<input checked name="ChkOrden" type="radio" value="R" onClick="Recarga2()">Rut&nbsp;&nbsp;';
@@ -291,7 +291,7 @@ function borrar_buffer(){
 				$Consulta = "select * from sipa_web.proveedores ";
 				if($TipoBusq=='3'&&$TxtFiltroPrv!='')
 				   $Consulta.= " where nombre_prv like '%".$TxtFiltroPrv."%'";       
-				switch (isset($ChkOrden))
+				switch ($ChkOrden)
 				{
 					case "R":
 						$Consulta.= "order by lpad(rut_prv,10,'0')";
@@ -325,7 +325,7 @@ function borrar_buffer(){
                 <option value="-1">SELECCIONAR</option>
                 <?php
 				$Consulta = "select distinct cod_mina,nombre_mina from sipa_web.minaprv ";
-				switch (isset($ChkOrden))
+				switch ($ChkOrden)
 				{
 					case "R":
 						$Consulta.= "order by trim(cod_mina)";

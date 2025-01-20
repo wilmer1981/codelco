@@ -17,10 +17,15 @@
 	switch ($Proceso)
 	{
 		case "N"://INGRESAR MINA/PLANTA
-			$Insertar="insert into sipa_web.minaprv (rut_prv,cod_mina,nombre_mina,ind_faena,sierra,comuna,fecha_padron) values (";
-			$Insertar.="'$CmbProveedor','$TxtCodMina','$TxtDescripcion','$CmbTipoFaena','$TxtSierra','$TxtComuna','".substr($TxtFechaPadron,0,8)."')";
-			echo $Insertar;
-			mysqli_query($link, $Insertar);
+			$consulta = "select * from sipa_web.minaprv where rut_prv= '".$CmbProveedor."' and cod_mina = '".$TxtCodMina."'  ";
+			$result = mysqli_query($link,$consulta);
+			$cont = mysqli_num_rows($result);
+			if($cont==0){
+				$Insertar="insert into sipa_web.minaprv (rut_prv,cod_mina,nombre_mina,ind_faena,sierra,comuna,fecha_padron) values (";
+				$Insertar.="'$CmbProveedor','$TxtCodMina','$TxtDescripcion','$CmbTipoFaena','$TxtSierra','$TxtComuna','".substr($TxtFechaPadron,0,8)."')";
+				echo $Insertar;
+				mysqli_query($link, $Insertar);
+			}
 			break;
 		case "M"://MODIFICAR MINA/PLANTA
 			$Modificar="UPDATE sipa_web.minaprv set nombre_mina='$TxtDescripcion',sierra='$TxtSierra', ";

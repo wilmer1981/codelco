@@ -21,28 +21,34 @@
 function Recarga(TipoBusq)
 {
 	var Frm=document.FrmConsultaMultMant;
-	switch(TipoBusq)
-	{
-		case "1"://TIPO DE OPCION
-			Frm.action="age_consulta_multiple_mant.php?Recarga=S&TipoBusq="+Frm.CmbOpcion.value;
-			break;
-		case "2"://POR CODIGO
-			Frm.TxtDescripcion.value='';	
-			Frm.action="age_consulta_multiple_mant.php?Recarga=S&Mostrar=S&Opcion=C";//OPCION SI BUSCA POR CODIGO(CODIGO,RUT)
-			break;
-		case "3"://POR DESCRIPCION
-			Frm.TxtCodigo.value='';	
-			Frm.action="age_consulta_multiple_mant.php?Recarga=S&Mostrar=S&Opcion=D";//OPCION SI BUSCA POR DESCRIPCION(DESCRIP,NOMBRE)
-			break;
-		case "4"://POR TIPO RECEPCION
-			Frm.TxtCodigo.value='';	
-			Frm.TxtDescripcion.value='';
-			Frm.action="age_consulta_multiple_mant.php?Recarga=S&Mostrar=S&Opcion=TR";//OPCION SI BUSCA POR TIPO DE RECEPCION(MAQUILA,REPRESENTACION,COMPRA DIRECTA)
-			break;
-		default:
-			Frm.action="age_consulta_multiple_mant.php?Recarga=S&TipoBusq=0";		
+	if(Frm.CmbOpcion.value=="-1"){
+		alert("Debe Seleccionar Tipo Consulta");
+		Frm.CmbOpcion.focus();
+		return;
+	}else{
+		switch(TipoBusq)
+		{
+			case "1"://TIPO DE OPCION
+				Frm.action="age_consulta_multiple_mant.php?Recarga=S&TipoBusq="+Frm.CmbOpcion.value;
+				break;
+			case "2"://POR CODIGO
+				Frm.TxtDescripcion.value='';	
+				Frm.action="age_consulta_multiple_mant.php?Recarga=S&Mostrar=S&Opcion=C";//OPCION SI BUSCA POR CODIGO(CODIGO,RUT)
+				break;
+			case "3"://POR DESCRIPCION
+				Frm.TxtCodigo.value='';	
+				Frm.action="age_consulta_multiple_mant.php?Recarga=S&Mostrar=S&Opcion=D";//OPCION SI BUSCA POR DESCRIPCION(DESCRIP,NOMBRE)
+				break;
+			case "4"://POR TIPO RECEPCION
+				Frm.TxtCodigo.value='';	
+				Frm.TxtDescripcion.value='';
+				Frm.action="age_consulta_multiple_mant.php?Recarga=S&Mostrar=S&Opcion=TR";//OPCION SI BUSCA POR TIPO DE RECEPCION(MAQUILA,REPRESENTACION,COMPRA DIRECTA)
+				break;
+			default:
+				Frm.action="age_consulta_multiple_mant.php?Recarga=S&TipoBusq=0";		
+		}
+		Frm.submit();
 	}
-	Frm.submit();
 }
 function Salir()
 {
@@ -55,9 +61,14 @@ function Imprimir()
 function Excel(Opcion)
 {
 	var Frm=document.FrmConsultaMultMant;
-	
-	Frm.action="age_consulta_multiple_mant_excel.php?Mostrar=S&Opcion="+Opcion;		
-	Frm.submit();
+	if(Frm.CmbOpcion.value=="-1"){
+		alert("Debe Seleccionar Tipo Consulta");
+		Frm.CmbOpcion.focus();
+		return;
+	}else{	
+		Frm.action="age_consulta_multiple_mant_excel.php?Mostrar=S&Opcion="+Opcion;		
+		Frm.submit();
+	}
 }
 
 </script>
