@@ -1,7 +1,7 @@
 <?php
 	include("../principal/conectar_principal.php");
 	include("age_funciones.php");
-	include("../principal/funciones/class.ezpdf.php");
+	include("../principal/funciones/pdf/Cezpdf.php");
 	$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");	
 	$CmbMes  = isset($_REQUEST["CmbMes"])?$_REQUEST["CmbMes"]:date('n');
 	$CmbAno  = isset($_REQUEST["CmbAno"])?$_REQUEST["CmbAno"]:date('Y');
@@ -55,7 +55,8 @@
 			$DatosLote= array();
 			$ArrLeyes=array();
 			$DatosLote["lote"]=$Lote;
-			LeyesLote($DatosLote,$ArrLeyes,"N","S","S","","","",$link);
+			$DatosLote = LeyesLote($DatosLote,$ArrLeyes,"N","S","S","","","","",$link);
+			$ArrLeyes  = LeyesLote($DatosLote,$ArrLeyes,"N","S","S","","","","L",$link);
 			$CantDec=0;
 			$recepcion  = isset($DatosLote["recepcion"])?$DatosLote["recepcion"]:"";
 			$peso_seco  = isset($DatosLote["peso_seco"])?$DatosLote["peso_seco"]:0;
@@ -138,10 +139,10 @@
 			$pdf->addText(345,690,10,"FECHA DE CIERRE",0,0);
 			$pdf->addText(470,690,10,":",0,0);
 			$pdf->addText(475,690,10,$FechaCierre,0,0);
-			$pdf->addText(345,670,10,"N� DE MUESTRA",0,0);
+			$pdf->addText(345,670,10,"N° DE MUESTRA",0,0);
 			$pdf->addText(470,670,10,":",0,0);	
 			$pdf->addText(475,670,10,$Lote,0,0);
-			$pdf->addText(345,650,10,"N� DE LOTE",0,0);
+			$pdf->addText(345,650,10,"N° DE LOTE",0,0);
 			$pdf->addText(470,650,10,":",0,0);	
 			$pdf->addText(475,650,10,$Lote,0,0);
 			$pdf->addText(345,630,10,"PESO HUMEDO",0,0);
@@ -198,7 +199,7 @@
 			$pdf->rectangle(340,485, 255,115);
 			$pdf->addText(430,590,10,"DATOS REMUESTREO",0,0);
 			$pdf->line(340,585,595,585);
-			$pdf->addText(345,550,10,"EX-LOTE N�",0,0);
+			$pdf->addText(345,550,10,"EX-LOTE N°",0,0);
 			$pdf->addText(470,550,10,":",0,0);	
 			$pdf->addText(475,550,10,$LoteRemuestreo,0,0);
 			$pdf->addText(345,530,10,"SOLICITADO POR",0,0);
@@ -218,7 +219,8 @@
 			$DatosLote= array();
 			$ArrLeyes=array();
 			$DatosLote["lote"]=$Lote;
-			LeyesLote($DatosLote,$ArrLeyes,"N","S","N","","","",$link);
+			$DatosLote = LeyesLote($DatosLote,$ArrLeyes,"N","S","N","","","","",$link);
+			$ArrLeyes  = LeyesLote($DatosLote,$ArrLeyes,"N","S","N","","","","L",$link);
 			//$Pos=430;
 			$Pos=420;
 			$PosAux=$Pos;
@@ -258,7 +260,7 @@
 				$ArrLeyes["01"][0]="01";
 				$ArrLeyes012 = isset($ArrLeyes["01"][2])?$ArrLeyes["01"][2]:0;
 				$ArrLeyes014 = isset($ArrLeyes["01"][4])?$ArrLeyes["01"][4]:0;
-				LeyesLoteRecargo($DatosLote,$ArrLeyes,"N","S","N","","",$link);
+				$ArrLeyes = LeyesLoteRecargo($DatosLote,$ArrLeyes,"N","S","N","","","L",$link);
 				$pdf->addTextWrap($PosCol,$PosAux,60,10,"R ".$FilaRec["rec"],$justification='left',0,0);
 				reset($ArrLeyes);
 				$pdf->addTextWrap($PosCol+30,$PosAux,60,10,number_format($ArrLeyes012,4,',','.'),$justification='left',0,0);

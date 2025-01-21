@@ -1,7 +1,7 @@
 <?php
 	include("../principal/conectar_principal.php");
 	include("age_funciones.php");
-	include("../principal/funciones/class.ezpdf.php");
+	include("../principal/funciones/pdf/Cezpdf.php");
 	$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");	
 	$CmbMes  = isset($_REQUEST["CmbMes"])?$_REQUEST["CmbMes"]:date('n');
 	$CmbAno  = isset($_REQUEST["CmbAno"])?$_REQUEST["CmbAno"]:date('Y');
@@ -55,7 +55,8 @@
 			$DatosLote= array();
 			$ArrLeyes=array();
 			$DatosLote["lote"]=$Lote;
-			LeyesLote($DatosLote,$ArrLeyes,"N","S","S","","","",$link);
+			$DatosLote = LeyesLote($DatosLote,$ArrLeyes,"N","S","S","","","","",$link);
+			$ArrLeyes  = LeyesLote($DatosLote,$ArrLeyes,"N","S","S","","","","L",$link);
 			$CantDec=0;
 			$recepcion  = isset($DatosLote["recepcion"])?$DatosLote["recepcion"]:"";
 			$peso_seco  = isset($DatosLote["peso_seco"])?$DatosLote["peso_seco"]:0;
@@ -139,10 +140,10 @@
 			$pdf->addText(345,690,10,"FECHA DE CIERRE",0,0);
 			$pdf->addText(470,690,10,":",0,0);
 			$pdf->addText(475,690,10,$FechaCierre,0,0);
-			$pdf->addText(345,670,10,"N� DE MUESTRA",0,0);
+			$pdf->addText(345,670,10,"N° DE MUESTRA",0,0);
 			$pdf->addText(470,670,10,":",0,0);	
 			$pdf->addText(475,670,10,$Lote,0,0);
-			$pdf->addText(345,650,10,"N� DE LOTE",0,0);
+			$pdf->addText(345,650,10,"N° DE LOTE",0,0);
 			$pdf->addText(470,650,10,":",0,0);	
 			$pdf->addText(475,650,10,$Lote,0,0);
 			$pdf->addText(345,630,10,"PESO HUMEDO",0,0);
@@ -199,7 +200,7 @@
 			$pdf->rectangle(340,485, 255,115);
 			$pdf->addText(430,590,10,"DATOS REMUESTREO",0,0);
 			$pdf->line(340,585,595,585);
-			$pdf->addText(345,550,10,"EX-LOTE N�",0,0);
+			$pdf->addText(345,550,10,"EX-LOTE N°",0,0);
 			$pdf->addText(470,550,10,":",0,0);	
 			$pdf->addText(475,550,10,$LoteRemuestreo,0,0);
 			$pdf->addText(345,530,10,"SOLICITADO POR",0,0);
@@ -285,9 +286,9 @@
 			$Pqte3Canje=substr($Pqte3Canje,0,strlen($Pqte3Canje)-2);
 			$Pqte4Canje=substr($Pqte4Canje,0,strlen($Pqte4Canje)-2);
 			if($Pqte3Canje!='')
-				$pdf->addText(80,100,14,"3�:                                                            ".$Pqte3Canje,0,0);
+				$pdf->addText(80,100,14,"3°:                                                            ".$Pqte3Canje,0,0);
 			if($Pqte4Canje!='')	
-				$pdf->addText(80,80,14,"4�:                                                            ".$Pqte4Canje,0,0);
+				$pdf->addText(80,80,14,"4°:                                                            ".$Pqte4Canje,0,0);
 			$pdf->line(80,40,235,40);
 			$pdf->addText(110,25,10,"FIRMA Y TIMBRE",0,0);
 			$pdf->addText(130,13,10,"ENAMI",0,0);				

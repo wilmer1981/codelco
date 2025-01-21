@@ -257,7 +257,8 @@ function DetalleLeyes(Lote)
 					$DatosLote= array();
 					$ArrLeyes=array();
 					$DatosLote["lote"]=$Fila["lote"];
-					LeyesLote($DatosLote,$ArrLeyes,"N","S","N","","","",$link);
+					$DatosLote = LeyesLote($DatosLote,$ArrLeyes,"N","S","N","","","","",$link);
+					$ArrLeyes = LeyesLote($DatosLote,$ArrLeyes,"N","S","N","","","","L",$link);
 					echo "<tr>";
 					echo "<td><a href=\"JavaScript:DetalleLote('".$Fila["lote"]."')\">".$Fila["lote"]."</a></td>";
 					echo "<td>".$Fila["nom_subproducto"]."</td>";
