@@ -27,10 +27,10 @@
 	$CmbRecepcion     = isset($_REQUEST["CmbRecepcion"])?$_REQUEST["CmbRecepcion"]:"";
 	$CmbSubProducto   = isset($_REQUEST["CmbSubProducto"])?$_REQUEST["CmbSubProducto"]:"";
 	$CmbProveedor     = isset($_REQUEST["CmbProveedor"])?$_REQUEST["CmbProveedor"]:"";
-
+	
 	$OptFinos  = isset($_REQUEST["OptFinos"])?$_REQUEST["OptFinos"]:"";
 	$OptLeyes  = isset($_REQUEST["OptLeyes"])?$_REQUEST["OptLeyes"]:"";
-	$TxtFechaCon = isset($_REQUEST["TxtFechaCon"])?$_REQUEST["TxtFechaCon"]:"";
+	$TxtFechaCon = isset($_REQUEST["TxtFechaCon"])?$_REQUEST["TxtFechaCon"]:"";	
 
 	$CmbMes = str_pad($CmbMes,2,"0",STR_PAD_LEFT);
 	$TxtFechaIni = $CmbAno."-".$CmbMes."-01";
@@ -396,19 +396,19 @@ function Proceso(opt)
 								case "02":
 									$IncRetalla=0;
 									if($FilaLote["peso_retalla"]>0&&$FilaLote["peso_muestra"]>0)
-										CalcIncRetalla($FilaLote["lote"],"02",$FilaLeyes["valor"],$FilaLote["peso_retalla"],$FilaLote["peso_muestra"],$IncRetalla,$link);
+										$IncRetalla = CalcIncRetalla($FilaLote["lote"],"02",$FilaLeyes["valor"],$FilaLote["peso_retalla"],$FilaLote["peso_muestra"],$IncRetalla,$link);
 									$LeyCu = $FilaLeyes["valor"]+$IncRetalla;
 									break;
 								case "04":
 									$IncRetalla=0;
 									if($FilaLote["peso_retalla"]>0&&$FilaLote["peso_muestra"]>0)
-										CalcIncRetalla($FilaLote["lote"],"04",$FilaLeyes["valor"],$FilaLote["peso_retalla"],$FilaLote["peso_muestra"],$IncRetalla,$link);
+										$IncRetalla = CalcIncRetalla($FilaLote["lote"],"04",$FilaLeyes["valor"],$FilaLote["peso_retalla"],$FilaLote["peso_muestra"],$IncRetalla,$link);
 									$LeyAg = $FilaLeyes["valor"]+$IncRetalla;
 									break;
 								case "05":
 									$IncRetalla=0;
 									if($FilaLote["peso_retalla"]>0&&$FilaLote["peso_muestra"]>0)
-										CalcIncRetalla($FilaLote["lote"],"05",$FilaLeyes["valor"],$FilaLote["peso_retalla"],$FilaLote["peso_muestra"],$IncRetalla,$link);
+										$IncRetalla = CalcIncRetalla($FilaLote["lote"],"05",$FilaLeyes["valor"],$FilaLote["peso_retalla"],$FilaLote["peso_muestra"],$IncRetalla,$link);
 									$LeyAu = $FilaLeyes["valor"]+$IncRetalla;
 									break;
 								default:
@@ -437,8 +437,9 @@ function Proceso(opt)
 						$i = 1;
 						$LeyJcf = "";
 						while($i <= $LargoImp)
-						{
-							if ($LImp[$i] !='01' && $LImp[$i] !='02' && $LImp[$i] !='04' && $LImp[$i] !='05') 
+						{    $LImpi = isset($LImp[$i])?$LImp[$i]:"";
+							if ($LImpi !='01' && $LImpi !='02' && $LImpi !='04' && $LImpi !='05' && $LImpi!="" ) 
+							//if ($LImp[$i] !='01' && $LImp[$i] !='02' && $LImp[$i] !='04' && $LImp[$i] !='05') 
 							{
 								$LeyJcf = $LImp[$i];
 							}
@@ -772,12 +773,18 @@ function Proceso(opt)
     }	
 	//TOTAL
 	$DecPHum=0;$DecPSeco=0;$DecLeyes=3;$DecFinos=0;
+	$PorcHumTot=0;
 	if ($TotalPesoHumTot <> 0)
 		$PorcHumTot=100-($TotalPesoSecTot*100)/$TotalPesoHumTot;
-
+   if($TotalPesoSecTot>0){
 	$LeyCuTot=($TotalFinoCuTot*100)/$TotalPesoSecTot;
 	$LeyAgTot=($TotalFinoAgTot*1000)/$TotalPesoSecTot;
 	$LeyAuTot=($TotalFinoAuTot*1000)/$TotalPesoSecTot;
+   }else{
+	$LeyCuTot=0;
+	$LeyAgTot=0;
+	$LeyAuTot=0;
+   }
 	reset($ArrLeyesTot);
 	foreach($ArrLeyesTot as $c=>$v)
 	{
@@ -809,24 +816,7 @@ function Proceso(opt)
 	}	
 	echo "</tr>\n";
 echo "</table>\n";
-//FUNCIONES
-function CalcIncRetalla($Lote,$CodLey,$Valor,$PesoRetalla,$PesoMuestra,$IncRetalla,$link)
-{	
-	$Consulta = "select distinct t1.cod_leyes, t1.valor, t2.abreviatura as nom_unidad, t2.conversion";
-	$Consulta.= " from age_web.leyes_por_lote t1 left join proyecto_modernizacion.unidades t2 on ";
-	$Consulta.= " t1.cod_unidad=t2.cod_unidad ";
-	$Consulta.= " where t1.lote='".$Lote."' ";
-	$Consulta.= " and t1.recargo='R' and t1.cod_leyes='".$CodLey."'";	
-	//echo $Consulta."<br>";
-	$RespLeyes = mysqli_query($link, $Consulta);
-	$IncRetalla=0;
-	if($FilaLeyes = mysqli_fetch_array($RespLeyes))
-	{
-		if($FilaLeyes["valor"]>0)
-			$IncRetalla=($FilaLeyes["valor"] - $Valor) * ($PesoRetalla/$PesoMuestra);  //VALOR
-		
-	}	
-}
+
 ?>  
 </form>
 </body>

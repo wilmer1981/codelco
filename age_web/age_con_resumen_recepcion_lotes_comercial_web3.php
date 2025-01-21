@@ -35,7 +35,6 @@
 	$ContLeyes=0;
 	$LeyesImp="(01,";
 	//echo "DATOS:".$TxtCodLeyes."<BR>";
-	//WSO
 	$HayImpurezas=false;
 	foreach($Datos as $c => $v)
 	{
@@ -288,12 +287,11 @@ body {
 				echo "<td align=\"left\" colspan=\"".$ColSpan."\">".$FilaAux["rut_proveedor"]."&nbsp;&nbsp;".substr(strtoupper($NomProveedor),0,30)."</td>\n";
 				echo "</tr>\n";				
 				$Consulta = "select STRAIGHT_JOIN distinct t1.lote, t2.recargo, t1.rut_proveedor, t2.peso_neto as peso_hum,  ";
-				$Consulta.= " lpad(t2.recargo,2,'0') as orden, t2.fecha_recepcion, tipo_remuestreo,canjeable,cod_producto,cod_subproducto,peso_retalla,peso_muestra ";		
+				$Consulta.= " lpad(t2.recargo,2,'0') as orden, t2.fecha_recepcion, tipo_remuestreo,canjeable,t1.cod_producto,t1.cod_subproducto,peso_retalla,peso_muestra ";		
 				$Consulta.= " from age_web.lotes t1 inner join age_web.detalle_lotes  t2 ";
 				$Consulta.= " on t1.lote = t2.lote ";			
 				$Consulta.= " where t1.cod_producto = '".$Fila01["cod_producto"]."' ";
 				$Consulta.= " and t1.cod_subproducto = '".$Fila01["cod_subproducto"]."' ";
-				//$Consulta.= " and t2.fecha_recepcion between '".$TxtFechaIni."' and '".$TxtFechaFin."' ";
 				$Consulta.= " and ((t2.fecha_recepcion between '".$TxtFechaIni."' and '".$TxtFechaFin."' ";
 				if($CmbAno=='2005')
 				{	
@@ -325,6 +323,7 @@ body {
 					$Consulta.= " and cod_subproducto='".$FilaLote["cod_subproducto"]."' ";
 					$Consulta.=" and ((year(fecha) < '".$CmbAno."') or (year(fecha) = '".$CmbMes."' and month(fecha) <= '".$CmbMes."'))";
 					$Consulta.=" order by cod_producto,cod_subproducto,rut_proveedor";
+					//echo $Consulta;
 					$RespMerma=mysqli_query($link, $Consulta);
 					while($FilaMerma=mysqli_fetch_array($RespMerma))
 					{
@@ -381,19 +380,19 @@ body {
 								case "02":
 									$IncRetalla=0;
 									if($FilaLote["peso_retalla"]>0&&$FilaLote["peso_muestra"]>0)
-										CalcIncRetalla($FilaLote["lote"],"02",$FilaLeyes["valor"],$FilaLote["peso_retalla"],$FilaLote["peso_muestra"],$IncRetalla,$link);
+										$IncRetalla = CalcIncRetalla($FilaLote["lote"],"02",$FilaLeyes["valor"],$FilaLote["peso_retalla"],$FilaLote["peso_muestra"],$IncRetalla,$link);
 									$LeyCu = $FilaLeyes["valor"]+$IncRetalla;
 									break;
 								case "04":
 									$IncRetalla=0;
 									if($FilaLote["peso_retalla"]>0&&$FilaLote["peso_muestra"]>0)
-										CalcIncRetalla($FilaLote["lote"],"04",$FilaLeyes["valor"],$FilaLote["peso_retalla"],$FilaLote["peso_muestra"],$IncRetalla,$link);
+										$IncRetalla = CalcIncRetalla($FilaLote["lote"],"04",$FilaLeyes["valor"],$FilaLote["peso_retalla"],$FilaLote["peso_muestra"],$IncRetalla,$link);
 									$LeyAg = $FilaLeyes["valor"]+$IncRetalla;
 									break;
 								case "05":
 									$IncRetalla=0;
 									if($FilaLote["peso_retalla"]>0&&$FilaLote["peso_muestra"]>0)
-										CalcIncRetalla($FilaLote["lote"],"05",$FilaLeyes["valor"],$FilaLote["peso_retalla"],$FilaLote["peso_muestra"],$IncRetalla,$link);
+										$IncRetalla = CalcIncRetalla($FilaLote["lote"],"05",$FilaLeyes["valor"],$FilaLote["peso_retalla"],$FilaLote["peso_muestra"],$IncRetalla,$link);
 									$LeyAu = $FilaLeyes["valor"]+$IncRetalla;
 									break;
 								default:
@@ -678,7 +677,6 @@ body {
 			$LeyAgProd=0;
 			$LeyAuProd=0;
 		}
-
 		reset($ArrLeyesProd);
 		foreach($ArrLeyesProd as $c=>$v)
 		{
@@ -719,7 +717,7 @@ body {
 		$TotalFinoCuTot=$TotalFinoCuTot+round($TotalFinoCuProd);
 		$TotalFinoAgTot=$TotalFinoAgTot+round($TotalFinoAgProd);
 		$TotalFinoAuTot=$TotalFinoAuTot+round($TotalFinoAuProd);
-		$TotalPesoHumProd=0;$TotalPesoSecProd=0;$TotalFinoCuProd=0;$TotalFinoAgProd=0;$TotalFinoAuProd=0;
+		//$TotalPesoHumProd=0;$TotalPesoSecProd=0;$TotalFinoCuProd=0;$TotalFinoAgProd=0;$TotalFinoAuProd=0;
     }	
 	//TOTAL
 	$DecPHum=0;$DecPSeco=0;$DecLeyes=3;$DecFinos=0;
@@ -772,23 +770,6 @@ body {
 	echo "</tr>\n";
 echo "</table>\n";
 
-//FUNCIONES
-function CalcIncRetalla($Lote,$CodLey,$Valor,$PesoRetalla,$PesoMuestra,$IncRetalla,$link)
-{	
-	$Consulta = "select STRAIGHT_JOIN  distinct t1.cod_leyes, t1.valor, t2.abreviatura as nom_unidad, t2.conversion";
-	$Consulta.= " from age_web.leyes_por_lote t1 left join proyecto_modernizacion.unidades t2 on ";
-	$Consulta.= " t1.cod_unidad=t2.cod_unidad ";
-	$Consulta.= " where t1.lote='".$Lote."' ";
-	$Consulta.= " and t1.recargo='R' and t1.cod_leyes='".$CodLey."'";	
-	//echo $Consulta."<br>";
-	$RespLeyes = mysqli_query($link, $Consulta);
-	$IncRetalla=0;
-	if($FilaLeyes = mysqli_fetch_array($RespLeyes))
-	{
-		if($FilaLeyes["valor"]>0)
-			$IncRetalla=($FilaLeyes["valor"] - $Valor) * ($PesoRetalla/$PesoMuestra);  //VALOR
-	}	
-}
 ?>  
 </form>
 </body>
