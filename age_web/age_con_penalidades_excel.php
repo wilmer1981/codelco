@@ -343,7 +343,8 @@
 					}
 					//echo $TxtFechaIniAux." / ".$TxtFechaFinAux."<br>";
 					$DatosLote["lote"]=$FilaLote["lote"];					
-					LeyesLote($DatosLote,$ArrLeyes,"N","S","S",$TxtFechaIniAux,$TxtFechaFinAux,"",$link);
+					$DatosLote = LeyesLote($DatosLote,$ArrLeyes,"N","S","S",$TxtFechaIniAux,$TxtFechaFinAux,"","",$link);
+					$ArrLeyes  = LeyesLote($DatosLote,$ArrLeyes,"N","S","S",$TxtFechaIniAux,$TxtFechaFinAux,"","L",$link);
 					$PesoLoteS=$DatosLote["peso_seco"];
 					$PesoLoteS2=$DatosLote["peso_seco2"];
 					$PesoLoteH=$DatosLote["peso_humedo"];
@@ -367,7 +368,8 @@
 					}
 					reset($ArrLeyes);
 					foreach($ArrLeyes as $c=>$v)
-					{				
+					{	$v20 = isset($v[20])?$v[20]:0;
+						$v2 = isset($v[2])?$v[2]:0;			
 						if($c!=''&&$v[1]!=''&&$PesoLoteS>0)
 						{							
 							$Mostrar=true;
@@ -377,7 +379,7 @@
 							{	
 								if ($c=="01")
 								{
-									$FinoAux=$v[20]*$PesoLoteS/100;
+									$FinoAux=$v20*$PesoLoteS/100;
 									$ValorPorc=($FinoAux*$ArrLeyesAux[$v[0]][6])/$PesoLoteS;
 									$ValorPorcAux=($FinoAux*$ArrLeyesAux[$v[0]][6])/$PesoLoteS2;
 								}
@@ -389,11 +391,12 @@
 								if ($ChkDetalle=="L")
 								{
 									if ($c=="01")
-										echo "<td align=\"right\">".number_format($v[20],4,',','.')."</td>\n";
+										echo "<td align=\"right\">".number_format((float)$v20,4,',','.')."</td>\n";
 									else
-										echo "<td align=\"right\">".number_format($v[2],4,',','.')."</td>\n";
+										echo "<td align=\"right\">".number_format((float)$v2,4,',','.')."</td>\n";
 								}
 								$Dif=$ValorPorc-$ArrLeyesAux[$v[0]][3];
+								$Cont=0;
 								if($ValorPorc>$ArrLeyesAux[$v[0]][3]&&$Dif>0)
 								{
 									if ($c=="01")

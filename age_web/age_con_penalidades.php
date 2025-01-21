@@ -20,7 +20,7 @@
 	$TxtCodLeyes      = isset($_REQUEST["TxtCodLeyes"])?$_REQUEST["TxtCodLeyes"]:""; 
 	$ChkDetalle       = isset($_REQUEST["ChkDetalle"])?$_REQUEST["ChkDetalle"]:"L";
 	$EncontroRelacion = isset($_REQUEST["EncontroRelacion"])?$_REQUEST["EncontroRelacion"]:"";
-
+	
 	$Busq  = isset($_REQUEST["Busq"])?$_REQUEST["Busq"]:""; 
 
 

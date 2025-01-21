@@ -10,7 +10,7 @@
 	$ChkDetalle     = isset($_REQUEST["ChkDetalle"])?$_REQUEST["ChkDetalle"]:"";
 	$TxtCodLeyes    = isset($_REQUEST["TxtCodLeyes"])?$_REQUEST["TxtCodLeyes"]:""; 
 
-	if(strlen($CmbMes)==1){
+    if(strlen($CmbMes)==1){
 		$CmbMes = str_pad($CmbMes,2,"0",STR_PAD_LEFT);
 	}
 	
@@ -236,26 +236,27 @@ body {
 			$Consulta.= " and t1.rut_proveedor = '".$CmbProveedor."' ";
 		$Consulta.= " order by t1.cod_producto, orden ";
 		//echo $Consulta."<br>";
-		$Resp01 = mysqli_query($link, $Consulta);  
+		$Resp01 = mysqli_query($link, $Consulta); 
+  
 		while ($Fila01 = mysqli_fetch_array($Resp01))	
 		{			
-			$ResultadoH2O =0;
-			$TotalHumedo = 0;
-			$ResultadoAs = 0;
-			$TotalSeco1  = 0;
-			$TotalSeco = 0;
-			$ResultadoSb = 0;
-			$TotalSeco2  = 0;
-			$ResultadoZn =  0;
-			$TotalSeco3  =  0;
-			$ResultadoPb =  0;
-			$TotalSeco4  =  0;
-			$ResultadoCd =  0;
-			$TotalSeco6  =  0;
-			$ResultadoHg =  0;
-			$TotalSeco5  =  0;
-			$a=0;
-			$B=0;
+		   $ResultadoH2O =0;
+		   $TotalHumedo = 0;
+		   $ResultadoAs = 0;
+		   $TotalSeco1  = 0;
+		   $TotalSeco = 0;
+		   $ResultadoSb = 0;
+		   $TotalSeco2  = 0;
+		   $ResultadoZn =  0;
+		   $TotalSeco3  =  0;
+		   $ResultadoPb =  0;
+		   $TotalSeco4  =  0;
+		   $ResultadoCd =  0;
+		   $TotalSeco6  =  0;
+		   $ResultadoHg =  0;
+		   $TotalSeco5  =  0;
+		   $a=0;
+		   $B=0;
 
 			echo "<tr bgcolor=\"#CCCCCC\">\n";			
 			$Consulta = "select * from proyecto_modernizacion.subproducto ";
@@ -385,7 +386,8 @@ body {
                // echo "lote original ".$DatosLote["lote"]."  ";	
          		    // print_r($ArrLeyes);
 					// print_r($DatosLote);
-					LeyesLote($DatosLote,$ArrLeyes,"N","S","S",$TxtFechaIniAux,$TxtFechaFinAux,"",$link);
+					$DatosLote = LeyesLote($DatosLote,$ArrLeyes,"N","S","S",$TxtFechaIniAux,$TxtFechaFinAux,"","",$link);
+					$ArrLeyes = LeyesLote($DatosLote,$ArrLeyes,"N","S","S",$TxtFechaIniAux,$TxtFechaFinAux,"","L",$link);
 					//print_r($ArrLeyes);
 					//print_r($DatosLote);
 					//echo "--".$ArrLeyes[08][2];
@@ -460,7 +462,8 @@ body {
 								$Dif=$ValorPorc-$ArrLeyesAux[$v[0]][3];
 								//echo "valorPOrc".$ValorPorc."<br>";
 								//echo "Diferencia".$Dif."<br>";
-								//echo "dato x".$ArrLeyesAux[$v[0]][3]."<br><br>";							
+								//echo "dato x".$ArrLeyesAux[$v[0]][3]."<br><br>";	
+								$Cont=0;
 								if($ValorPorc>$ArrLeyesAux[$v[0]][3]&&$Dif>0)
 								{
 									if ($c=="01")
@@ -554,6 +557,7 @@ body {
                                          }
                                                        
 									$Cont++;
+									$ArrTotalesAsig03 = isset($ArrTotalesAsig[$v[0]][3])?$ArrTotalesAsig[$v[0]][3]:0;
 									$ArrTotalesPrv[$v[0]][1]=$ArrTotalesPrv[$v[0]][1]+($ValorDolar);//SUMA DE DOLARES
 									$ArrTotalesAsig[$v[0]][1]=$ArrTotalesAsig[$v[0]][1]+($ValorDolar);//SUMA DE DOLARES
 									$ArrTotalesProd[$v[0]][1]=$ArrTotalesProd[$v[0]][1]+($ValorDolar);//SUMA DE DOLARES
@@ -562,7 +566,7 @@ body {
 									$ArrTotalesProd[$v[0]][3]=$ArrTotalesProd[$v[0]][3]+($PesoLoteH);//SUMA PESO HUMEDO
 									//yo
 									$ArrTotalesAsig[$v[0]][2]=$ArrTotalesAsig[$v[0]][2]+($PesoLoteS);//SUMA PESO SECO
-									$ArrTotalesAsig[$v[0]][3]=$ArrTotalesAsig[$v[0]][3]+($PesoLoteH);//SUMA PESO HUMEDO
+									$ArrTotalesAsig[$v[0]][3]=$ArrTotalesAsig03+($PesoLoteH);//SUMA PESO HUMEDO
 									if ($c=="01")
 										$ArrTotalesProd[$v[0]][3]=$ArrTotalesProd[$v[0]][3]+(round($PesoLoteS)*round($v[20],4));//SUMA DE DOLARES
 									else
@@ -661,45 +665,47 @@ body {
                        	echo "<td align=\"right\">&nbsp;</td>\n";
 
                       }                      
-                  echo "<td align=\"center\"><strong>  Dolar ".number_format($v[1],2,",",".")."</td>\n";   //dolar
+                    echo "<td align=\"center\"><strong>  Dolar ".number_format($v[1],2,",",".")."</td>\n";   //dolar
 				}
 			}
-			echo "</tr>\n";
+			echo "</tr>\n";	
+
             echo "<tr bgcolor=\"#CCCCCC\"><td align=\"left\" colspan=\"3\">PESO SECO </td>\n";
-			echo "<td align=\"center\"><strong>".number_format($TotalSeco,0,",",".")."</strong></td>\n";  //peso  seco
-			if ($TotalSeco1 > 0)
-			{
-				echo "<td align=\"right\">&nbsp;</td>\n";
-				echo "<td align=\"center\"><strong>".number_format($TotalSeco1,0,",",".")."</strong></td>\n";  //peso  seco
-			}
-			if ($TotalSeco2 > 0)
-			{
-				echo "<td align=\"right\">&nbsp;</td>\n";
-				echo "<td align=\"center\"><strong>".number_format($TotalSeco2,0,",",".")."</strong></td>\n";  //peso  seco
-			}
-			if ($TotalSeco3 > 0)
-			{
-				echo "<td align=\"right\">&nbsp;</td>\n";
-				echo "<td align=\"center\"><strong>".number_format($TotalSeco3,0,",",".")."</strong></td>\n";  //peso  seco
-			}
-			if ($TotalSeco5 > 0)
-			{
-				echo "<td align=\"right\">&nbsp;</td>\n";
-				echo "<td align=\"center\"><strong>".number_format($TotalSeco5,0,",",".")."</strong></td>\n";  //peso  seco
-			}
-			if ($TotalSeco4 > 0)
-			{
-				echo "<td align=\"right\">&nbsp;</td>\n";
-				echo "<td align=\"center\"><strong>".number_format($TotalSeco4,0,",",".")."</strong></td>\n";  //peso  seco
-			}
-			if ($TotalSeco6 > 0)
-			{
-				echo "<td align=\"right\">&nbsp;</td>\n";
-				echo "<td align=\"center\"><strong>".number_format($TotalSeco6,0,",",".")."</strong></td>\n";  //peso  seco
-			}
-			echo "<td align=\"right\">&nbsp;</td>\n";
-            echo "</tr>\n";
-		}
+                    echo "<td align=\"center\"><strong>".number_format($TotalSeco,0,",",".")."</strong></td>\n";  //peso  seco
+                 	if ($TotalSeco1 > 0)
+					{
+				    	echo "<td align=\"right\">&nbsp;</td>\n";
+                    	echo "<td align=\"center\"><strong>".number_format($TotalSeco1,0,",",".")."</strong></td>\n";  //peso  seco
+					}
+					if ($TotalSeco2 > 0)
+					{
+                    	echo "<td align=\"right\">&nbsp;</td>\n";
+                    	echo "<td align=\"center\"><strong>".number_format($TotalSeco2,0,",",".")."</strong></td>\n";  //peso  seco
+					}
+					if ($TotalSeco3 > 0)
+					{
+                    	echo "<td align=\"right\">&nbsp;</td>\n";
+                    	echo "<td align=\"center\"><strong>".number_format($TotalSeco3,0,",",".")."</strong></td>\n";  //peso  seco
+					}
+					if ($TotalSeco5 > 0)
+					{
+	                    echo "<td align=\"right\">&nbsp;</td>\n";
+                    	echo "<td align=\"center\"><strong>".number_format($TotalSeco5,0,",",".")."</strong></td>\n";  //peso  seco
+					}
+					if ($TotalSeco4 > 0)
+					{
+                    	echo "<td align=\"right\">&nbsp;</td>\n";
+                    	echo "<td align=\"center\"><strong>".number_format($TotalSeco4,0,",",".")."</strong></td>\n";  //peso  seco
+					}
+					if ($TotalSeco6 > 0)
+					{
+	                    echo "<td align=\"right\">&nbsp;</td>\n";
+                    	echo "<td align=\"center\"><strong>".number_format($TotalSeco6,0,",",".")."</strong></td>\n";  //peso  seco
+					}
+	                 echo "<td align=\"right\">&nbsp;</td>\n";
+           echo "</tr>\n";
+
+    }
 		//FIN PRODUCTOS
 
 		echo "<tr class=\"ColorTabla01\"><td align=\"left\" colspan=\"3\">TOTAL PESO VS VALOR US$ :".strtoupper($FilaTipoRecep["desc_a"])."</td>\n";

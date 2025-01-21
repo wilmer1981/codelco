@@ -9,6 +9,7 @@
 	$CmbProveedor   = isset($_REQUEST["CmbProveedor"])?$_REQUEST["CmbProveedor"]:"";
 	$ChkDetalle     = isset($_REQUEST["ChkDetalle"])?$_REQUEST["ChkDetalle"]:"";
 	$TxtCodLeyes    = isset($_REQUEST["TxtCodLeyes"])?$_REQUEST["TxtCodLeyes"]:""; 
+	$ValMerma       =  isset($_REQUEST["ValMerma"])?$_REQUEST["ValMerma"]:""; 
 
 	$CmbMes      = str_pad($CmbMes,2,"0",STR_PAD_LEFT);
 	$TxtFechaIni = $CmbAno."-".$CmbMes."-01";
@@ -31,7 +32,7 @@
 		$Datos2=explode('~',$v);
 		if($Datos2[0]!='')
 		{
-			//echo $Datos2[0]." / ".$Datos2[2]." / ".$Datos2[3]." / ".$Datos2[4]."<br>";			
+			//echo $Datos2[0]." / ".$Datos2[2]." / ".$Datos2[3]." / ".$Datos2[4]." / ".$Datos2[5]." / ".$Datos2[6]."<br>";			
 			$ArrLeyesAux[$Datos2[0]][0]=$Datos2[0];//CODIGO LEY
 			$ArrLeyesAux[$Datos2[0]][1]=$Datos2[1];//NOMBRE LEY
 			$ArrLeyesAux[$Datos2[0]][2]=$Datos2[2];//LIMITE MINIMO
@@ -60,6 +61,7 @@
 		$ArrLeyes["01"][0]="01";//CODIGO LEY
 		$ArrLeyes["01"][1]="H2O";//NOMBRE LEY
 	}
+	//print_r($ArrLeyesAux);
 ?>
 <html>
 <head>
@@ -201,6 +203,7 @@ body {
 			echo "<td align=\"center\" rowspan=\"2\">Merma</td>\n";
 			echo "<td align=\"center\" rowspan=\"2\">F.Merma</td>\n";
 		}
+		//echo $ContLeyes;
 		echo "<td align=\"center\" colspan=\"".($ContLeyes*2)."\">Penalidades</td>\n";
 		//echo "<td align=\"center\" colspan=\"".($ContLeyes*2)."\">Peso Seco</td>\n";
 		
@@ -244,7 +247,7 @@ body {
 			echo "<tr bgcolor=\"#CCCCCC\">\n";			
 			$Consulta = "select * from proyecto_modernizacion.subproducto ";
 			$Consulta.= "where cod_producto = '".$Fila01["cod_producto"]."' and cod_subproducto='".$Fila01["cod_subproducto"]."'";		
-			//echo "tre".$Consulta."<br>";
+			//echo "tres: ".$Consulta."<br>";
 			$RespAux2 = mysqli_query($link, $Consulta);
 			if ($FilaAux2 = mysqli_fetch_array($RespAux2))
 				$NomSubProd = $FilaAux2["descripcion"];
@@ -272,7 +275,7 @@ body {
 				$Consulta.= " and t1.rut_proveedor = '".$CmbProveedor."' ";
 			$Consulta.= " and t1.cod_recepcion = '".$FilaTipoRecep["cod_recepcion"]."' ";
 			$Consulta.= " order by t1.cod_recepcion, t1.rut_proveedor ";
-			//echo "cin".$Consulta."<br>";
+			//echo "cin:".$Consulta."<br>";
 			$RutPrv='';
 			$RespAux = mysqli_query($link, $Consulta);
 			while ($FilaAux = mysqli_fetch_array($RespAux))
@@ -284,7 +287,7 @@ body {
 				$Consulta.= " from sipa_web.proveedores ";
 				$Consulta.= " where rut_prv = '".$RutAux."'";
 				$RespProv = mysqli_query($link, $Consulta);	
-				//echo "sei".$Consulta."<br>";
+				//echo "sei:".$Consulta."<br>";
 				while ($FilaProv = mysqli_fetch_array($RespProv))
 				{
 					$NomProveedor = $FilaProv["NOMPRV_A"];
@@ -331,19 +334,19 @@ body {
 				$Consulta.= " and t2.fecha_recepcion between '".$TxtFechaIni."' and '".$TxtFechaFin."' ";
 				//$Consulta.= " and t1.lote='07040376'";
 				$Consulta.= " group by t1.lote order by t1.lote, orden";
-				//echo "sie".$Consulta."<br>";
+				//echo "sie:".$Consulta."<br>";
 				$RespLote = mysqli_query($link, $Consulta);
 				//aqui incluyo mermas;
-				$PorcMerma=0;$SiMerma=0;$VarMerma=0;$PrvMerma=0;
+				$PorcMerma=0;$SiMerma=0;$VarMerma=0;$PrvMerma=0;$FechaM="";
 				//$Anito = substr($TxtFechaIni,0,4);
 				//$Mesi = substr($TxtFechaIni,5,2);
 				$Consulta = "select ifnull(porc,0) as merma,rut_proveedor,fecha   from age_web.mermas ";
 				$Consulta.= " where cod_producto='".$Fila01["cod_producto"]."' ";
 				$Consulta.= " and cod_subproducto='".$Fila01["cod_subproducto"]."' ";
 				$Consulta.=" and ((year(fecha) < '".$CmbAno."') or (year(fecha) = '".$CmbAno."' and month(fecha) <= '".$CmbMes."'))";
-				$RespMerma=mysqli_query($link, $Consulta);
+				$RespMerma=mysqli_query($link, $Consulta);				
 				while ($FilaMerma=mysqli_fetch_array($RespMerma))
-				{
+				{	
 					if($FilaMerma["rut_proveedor"]=="")
 					{
 						$VarMerma = $FilaMerma["merma"];
@@ -403,7 +406,8 @@ body {
 					}
 					//echo $TxtFechaIniAux." / ".$TxtFechaFinAux."<br>";
 					$DatosLote["lote"]=$FilaLote["lote"];					
-					LeyesLote($DatosLote,$ArrLeyes,"N","S","S",$TxtFechaIniAux,$TxtFechaFinAux,"",$link);
+					$DatosLote = LeyesLote($DatosLote,$ArrLeyes,"N","S","S",$TxtFechaIniAux,$TxtFechaFinAux,"","",$link);
+					$ArrLeyes  = LeyesLote($DatosLote,$ArrLeyes,"N","S","S",$TxtFechaIniAux,$TxtFechaFinAux,"","L",$link);
 					//echo $ArrLeyes[08][2]." / ".$ArrLeyes[09][2];
 					$PesoLoteS=$DatosLote["peso_seco"];
 					//echo $PesoLoteS."<br>";
@@ -419,7 +423,7 @@ body {
 						echo "<td align=\"right\">".number_format($PesoLoteS,0,',','.')."</td>";
 						if($PorcMerma!=0)
 						{
-							echo "<td align=\"center\">".number_format($PorcMerma,2,',','.')."</td>"; 
+							echo "<td align=\"center\">".number_format((float)$PorcMerma,2,',','.')."</td>"; 
 							echo "<td align=\"center\">".$FMerma."</td>"; 
 						}
 						else
@@ -433,6 +437,8 @@ body {
 					foreach($ArrLeyes as $c=>$v)
 					{				
 						//echo "if(".$c."!=''&&".$v[1]."!=''&&".$PesoLoteS.">0)<br>";
+						$v20 = isset($v[20])?$v[20]:0;
+						$v2 = isset($v[2])?$v[2]:0;
 						if($c!=''&&$v[1]!=''&&$PesoLoteS>0)
 						{							
 							$Mostrar=true;
@@ -442,7 +448,7 @@ body {
 							{	
 								if ($c=="01")
 								{
-									$FinoAux=$v[20]*$PesoLoteS/100;
+									$FinoAux=(float)$v20*(float)$PesoLoteS/100;
 								//	$ValorPorc=round(($FinoAux*$ArrLeyesAux[$v[0]][6])/$PesoLoteS,4);
 									// SE  SACA EL ROUND POR INTELLEGO 30-07-2015 Linea superior reemplasada por siguiente 
 									$ValorPorc=($FinoAux*$ArrLeyesAux[$v[0]][6])/$PesoLoteS;
@@ -450,32 +456,40 @@ body {
 								}
 								else
 								{
-									//echo $FilaLote["lote"]."<br>";
-									//echo $v[23]."<br>";
-									//echo $ArrLeyesAux[$v[0]][6]."<br>";
-									//echo $PesoLoteS."<br>";
+									/*echo "CODIGO LEY: ".$v[0]."<br>";
+									echo $FilaLote["lote"]."<br>";
+									echo "v 23:".$v[23]."<br>";
+									echo "QQQ:".$ArrLeyesAux[$v[0]][6]."<br>";
+									echo "PESO LOTE S:".$PesoLoteS."<br>";*/
 								//	$ValorPorc=round(($v[23]*$ArrLeyesAux[$v[0]][6])/$PesoLoteS,4);
 									// SE  SACA EL ROUND POR INTELLEGO 30-07-2015 Linea superior reemplasada por siguiente 
-									$ValorPorc=($v[23]*$ArrLeyesAux[$v[0]][6])/$PesoLoteS;
+									$ValorPorc=((float)$v[23]*(float)$ArrLeyesAux[$v[0]][6])/$PesoLoteS;
 								
 									//echo $ValorPorc."<br>";
-									$ValorPorcAux=($v[23]*$ArrLeyesAux[$v[0]][6])/$PesoLoteS2;
+									$ValorPorcAux=((float)$v[23]*(float)$ArrLeyesAux[$v[0]][6])/$PesoLoteS2;
 								}
+								//Penalidades
 								if ($ChkDetalle=="L")
 								{
 									if ($c=="01")
-										echo "<td align=\"right\">".number_format($v[20],4,',','.')."</td>\n";
+										echo "<td align=\"right\">".number_format((float)$v20,4,',','.')."</td>\n";
 									else
-										echo "<td align=\"right\">".number_format($v[2],4,',','.')."</td>\n";
+										echo "<td align=\"right\">".number_format((float)$v2,4,',','.')."</td>\n";
 								}
 								$Dif=$ValorPorc-$ArrLeyesAux[$v[0]][3];
+								
 								/*if($FilaLote["lote"]=="24020206")
 								{
-									echo $ValorPorc."<br>";
-									echo $Dif."<br>";
-									echo $ArrLeyesAux[$v[0]][3]."<br><br>";
-									echo "if(".$ValorPorc.">".$ArrLeyesAux[$v[0]][3]."&&".($Dif>0).")<br>";							
+									echo "CODIGO LEY: ".$v[0]."<br>";
+									echo "VALOR DE LA LEY[23] :".$v[23]."<br>";
+									echo "VALOR PORC: ".$ValorPorc."<br>";
+									echo "DIF: ".$Dif."<br>";
+									echo "VALOR LIMTE INICIAL: ".$ArrLeyesAux[$v[0]][3]."<br><br>";
+									echo "VALOR LIMTE MEDIO: ".$ArrLeyesAux[$v[0]][4]."<br><br>";
+									echo "VALOR USD PENALI:".$ArrLeyesAux[$v[0]][5]."<br><br>";
+									//echo "if(".$ValorPorc.">".$ArrLeyesAux[$v[0]][3]."&&".($Dif>0).")<br><br>";							
 								}*/
+								$Cont=0;
 								if($ValorPorc>$ArrLeyesAux[$v[0]][3] && $Dif>0)
 								{
 									//echo "if(".$ValorPorc.">".$ArrLeyesAux[$v[0]][3]."&&".($Dif>0).")<br>";
@@ -504,13 +518,13 @@ body {
 										}else
 										{
 											echo "<td align=\"right\" bgcolor='FFFF00' onMouseOver=\"JavaScript:muestra('".$Cont."');\" onMouseOut=\"JavaScript:oculta('".$Cont."');\">";
-										echo "<div id='Txt".$Cont."' style= 'position:Absolute; background-color:#fff4cf; visibility:hidden; border:solid 1px Black;width:140px'>\n";
-										echo "<table width='240' border='1' cellpadding='2' cellspacing='0' class='TablaInterior'>";
-										echo "<tr class='ColorTabla01'><td colspan=\"3\" align='center'><strong>".$v[1]."</strong></td></tr>";
-										echo "<tr align='center'><td width='70'>Por Cada(".$ArrLeyesAux[$v[0]][7].")</td><td width='70'>Sobre(".$ArrLeyesAux[$v[0]][7].")</td><td width='70'>Penalidad(US$)</td></tr>";
-										echo "<tr align='center' class='Detalle01'><td>".$ArrLeyesAux[$v[0]][2]."</td><td>".$ArrLeyesAux[$v[0]][3]."</td><td>".$ArrLeyesAux[$v[0]][4]."</td></tr>";
-										echo "<tr align='center' class='Detalle01'><td>Cant:".$Cant."</td><td>PSeco(Ton):</td><td>".$PesoSecoTon."</td></tr>";
-										echo "</table></div>".number_format($ValorDolar,2,",",".")."</td>\n";
+											echo "<div id='Txt".$Cont."' style= 'position:Absolute; background-color:#fff4cf; visibility:hidden; border:solid 1px Black;width:140px'>\n";
+											echo "<table width='240' border='1' cellpadding='2' cellspacing='0' class='TablaInterior'>";
+											echo "<tr class='ColorTabla01'><td colspan=\"3\" align='center'><strong>".$v[1]."</strong></td></tr>";
+											echo "<tr align='center'><td width='70'>Por Cada(".$ArrLeyesAux[$v[0]][7].")</td><td width='70'>Sobre(".$ArrLeyesAux[$v[0]][7].")</td><td width='70'>Penalidad(US$)</td></tr>";
+											echo "<tr align='center' class='Detalle01'><td>".$ArrLeyesAux[$v[0]][2]."</td><td>".$ArrLeyesAux[$v[0]][3]."</td><td>".$ArrLeyesAux[$v[0]][4]."</td></tr>";
+											echo "<tr align='center' class='Detalle01'><td>Cant:".$Cant."</td><td>PSeco(Ton):</td><td>".$PesoSecoTon."</td></tr>";
+											echo "</table></div>".number_format($ValorDolar,2,",",".")."</td>\n";
 										}
 									}
 									$Cont++;

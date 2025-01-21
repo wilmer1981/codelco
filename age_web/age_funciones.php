@@ -1163,7 +1163,7 @@ function LeyesLote($Lote,$LeyesPond,$EntreFechas,$IncMerma,$IncRetalla,$FechaIni
 		else
 			if ($key=="04" || $key=="05")
 				$LeyesPond[$key][5]=1000;
-		/*if($Lote["lote"]=='06010130')
+		/*if($Lote["lote"]=='24020206')
 		{
 			echo "cant_rec:".$ContRecargos."<br>";
 			echo "Ley:".$key."<br>";
@@ -1198,8 +1198,16 @@ function LeyesLote($Lote,$LeyesPond,$EntreFechas,$IncMerma,$IncRetalla,$FechaIni
 				        $LeyesPond5 = isset($LeyesPond[$key][5])?$LeyesPond[$key][5]:0;
 						$LeyesPond8 = isset($LeyesPond[$key][8])?$LeyesPond[$key][8]:0;
 						$peso_seco2 = isset($Lote["peso_seco2"])?$Lote["peso_seco2"]:0;
+						/*if($Lote["lote"]=='24020206')
+						{
 
+							echo "peso_seco2:".(float)$peso_seco2."<br>";
+							echo "LeyesPond2:".(float)$LeyesPond2."<br>";
+							echo "LeyesPond5:".(float)$LeyesPond5."<br><br>";
+						}*/
+							
 						$LeyesPond[$key][23] = ((float)$peso_seco2 * (float)$LeyesPond2)/$LeyesPond5;
+						//echo "LeyesPond[key][23]:".$LeyesPond[$key][23]."<br><br>";
 						$LeyesPond[$key][9] = ((float)$peso_seco2 * (float)$LeyesPond8)/$LeyesPond5;//FINO CANJE
 					//}
 					break;

@@ -344,7 +344,8 @@
 					}
 					//echo $TxtFechaIniAux." / ".$TxtFechaFinAux."<br>";
 					$DatosLote["lote"]=$FilaLote["lote"];					
-					LeyesLote($DatosLote,$ArrLeyes,"N","S","S",$TxtFechaIniAux,$TxtFechaFinAux,"",$link);
+					$DatosLote = LeyesLote($DatosLote,$ArrLeyes,"N","S","S",$TxtFechaIniAux,$TxtFechaFinAux,"","",$link);
+					$ArrLeyes  = LeyesLote($DatosLote,$ArrLeyes,"N","S","S",$TxtFechaIniAux,$TxtFechaFinAux,"","L",$link);
 					//echo $ArrLeyes[08][2]." / ".$ArrLeyes[09][2];
 					$PesoLoteS=$DatosLote["peso_seco"];
 					//echo $DatosLote["lote"]."-".$DatosLote["peso_seco"];
@@ -361,7 +362,8 @@
 					}
 					reset($ArrLeyes);
 					foreach($ArrLeyes as $c=>$v)
-					{				
+					{	$v20 = isset($v[20])?$v[20]:0;
+						$v2 = isset($v[2])?$v[2]:0;				
 						if($c!=''&&$v[1]!=''&&$PesoLoteS>0)
 						{							
 							$Mostrar=true;
@@ -371,7 +373,7 @@
 							{	
 								if ($c=="01")
 								{
-									$FinoAux=$v[20]*$PesoLoteS/100;
+									$FinoAux=$v20*$PesoLoteS/100;
 									//$ValorPorc=round(($FinoAux*$ArrLeyesAux[$v[0]][6])/$PesoLoteS,4);
 									$ValorPorc=($FinoAux*$ArrLeyesAux[$v[0]][6])/$PesoLoteS;
 									$ValorPorcAux=($FinoAux*$ArrLeyesAux[$v[0]][6])/$PesoLoteS2;
@@ -390,14 +392,15 @@
 								if ($ChkDetalle=="L")
 								{
 									if ($c=="01")
-										echo "<td align=\"right\">".number_format($v[20],4,',','.')."</td>\n";
+										echo "<td align=\"right\">".number_format((float)$v20,4,',','.')."</td>\n";
 									else
-										echo "<td align=\"right\">".number_format($v[2],4,',','.')."</td>\n";
+										echo "<td align=\"right\">".number_format((float)$v2,4,',','.')."</td>\n";
 								}
 								$Dif=$ValorPorc-$ArrLeyesAux[$v[0]][3];
 								//echo $ValorPorc."<br>";
 								//echo $Dif."<br>";
-								//echo $ArrLeyesAux[$v[0]][3]."<br><br>";							
+								//echo $ArrLeyesAux[$v[0]][3]."<br><br>";	
+								$Cont=0;
 								if($ValorPorc>$ArrLeyesAux[$v[0]][3]&&$Dif>0)
 								{
 									
@@ -435,9 +438,7 @@
 										//echo "<td>" .number_format($ValorDolar,2,",",".")."</td>";
 									}
 
-
-
-         //aqui
+								//aqui
                                   if ($ValorDolar > 0 && $v[1]=="H2O")
                                          {
                                             //echo  "FF".$suma=$suma + $PesoLoteH."---------".$ResultadoH2O = $ResultadoH2O + (($PesoLoteH * $v[20])/100);"</br>";
@@ -486,6 +487,7 @@
                                     }
          //aqui
 									$Cont++;
+									$ArrTotalesAsig03 = isset($ArrTotalesAsig[$v[0]][3])?$ArrTotalesAsig[$v[0]][3]:0;
 									$ArrTotalesPrv[$v[0]][1]=$ArrTotalesPrv[$v[0]][1]+($ValorDolar);//SUMA DE DOLARES
 									$ArrTotalesAsig[$v[0]][1]=$ArrTotalesAsig[$v[0]][1]+($ValorDolar);//SUMA DE DOLARES
 									$ArrTotalesProd[$v[0]][1]=$ArrTotalesProd[$v[0]][1]+($ValorDolar);//SUMA DE DOLARES
@@ -495,7 +497,7 @@
 									
 									//yo
 									$ArrTotalesAsig[$v[0]][2]=$ArrTotalesAsig[$v[0]][2]+($PesoLoteS);//SUMA PESO SECO
-									$ArrTotalesAsig[$v[0]][3]=$ArrTotalesAsig[$v[0]][3]+($PesoLoteH);//SUMA PESO HUMEDO
+									$ArrTotalesAsig[$v[0]][3]=$ArrTotalesAsig03+($PesoLoteH);//SUMA PESO HUMEDO
 									if ($c=="01")
 										$ArrTotalesProd[$v[0]][3]=$ArrTotalesProd[$v[0]][3]+(round($PesoLoteS)*round($v[20],4));//SUMA DE DOLARES
 									else
