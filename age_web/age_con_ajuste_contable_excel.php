@@ -118,7 +118,8 @@
 						$DatosLote= array();
 						$ArrLeyes=array();
 						$DatosLote["lote"]=$FilaLote["lote"];
-						LeyesLote($DatosLote,$ArrLeyes,"N","S","N","","","",$link);
+						$DatosLote = LeyesLote($DatosLote,$ArrLeyes,"N","S","N","","","","",$link);
+						$ArrLeyes  = LeyesLote($DatosLote,$ArrLeyes,"N","S","N","","","","L",$link);
 						echo "<td>".number_format($ArrLeyes["02"][2],2,',','')."</td>\n";
 						echo "<td>".number_format($ArrLeyes["04"][2],2,',','')."</td>\n";
 						echo "<td>".number_format($ArrLeyes["05"][2],2,',','')."</td>\n";
