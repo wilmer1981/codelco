@@ -6,7 +6,7 @@
 	$CmbAno        = isset($_REQUEST["CmbAno"])?$_REQUEST["CmbAno"]:date("Y");
 	$CmbRecepcion  = isset($_REQUEST["CmbRecepcion"])?$_REQUEST["CmbRecepcion"]:"";
 	$TxtFechaConsulta  = isset($_REQUEST["TxtFechaConsulta"])?$_REQUEST["TxtFechaConsulta"]:"";
-	$CmbClaseProd  = isset($_REQUEST["CmbClaseProd"])?$_REQUEST["CmbClaseProd"]:"";
+	$CmbClaseProd      = isset($_REQUEST["CmbClaseProd"])?$_REQUEST["CmbClaseProd"]:"";
 
 	$CmbMes = str_pad($CmbMes,2,"0",STR_PAD_LEFT);
 	$FechaC = $CmbAno.str_pad($CmbMes,2,"0",STR_PAD_LEFT);
@@ -154,7 +154,7 @@ body {
 					echo "<td align='center'>Au(Gr)</td>\n";
 					echo "</tr>\n";
 					//CONSULTA LOS PROVEEDOR DE UNA ASINACION Y UNA CLASE PRODUCTO Y UN PRODUCTO
-					$Consulta = "select STRAIGHT_JOIN distinct t1.rut_proveedor, t1.cod_recepcion,t2.nombre_prv as nom_prv  ";
+					$Consulta = "SELECT STRAIGHT_JOIN distinct t1.rut_proveedor, t1.cod_recepcion,t2.nombre_prv as nom_prv  ";
 					$Consulta.= " from age_web.lotes t1 inner join sipa_web.proveedores t2 on t1.rut_proveedor=t2.rut_prv";
 					$Consulta.= " where t1.lote<>'' and t1.estado_lote <> '6' ";
 					$Consulta.= " and t1.lote between '".$LoteIni."' and '".$LoteFin."'";
@@ -172,14 +172,14 @@ body {
 					//WSO
 					$TotalPesoHumPrv=0;$TotalPesoSecPrv=0;$TotalFinoCuPrv=0;$TotalFinoAgPrv=0;$TotalFinoAuPrv=0;$TotalFinoCuPrvAj=0;$TotalFinoAgPrvAj=0;$TotalFinoAuPrvAj=0;
 					$TotalPesoHumProd=0;$TotalPesoSecProd=0;$TotalFinoCuProd=0;$TotalFinoAgProd=0;$TotalFinoAuProd=0;
-				    while ($FilaPrv = mysqli_fetch_array($RespPrv))
+					while ($FilaPrv = mysqli_fetch_array($RespPrv))
 					{						
 						echo "<tr>\n";
 						echo "<td align='right'>".$FilaPrv["rut_proveedor"]."</td>";
 						echo "<td align='left'>".substr(strtoupper($FilaPrv["nom_prv"]),0,30)."</td>\n";
-						$Consulta = "select STRAIGHT_JOIN distinct t1.lote, t2.recargo, t1.rut_proveedor, t2.peso_neto as peso_hum,  ";
+						$Consulta = "SELECT STRAIGHT_JOIN distinct t1.lote, t2.recargo, t1.rut_proveedor, t2.peso_neto as peso_hum,  ";
 						$Consulta.= " lpad(t2.recargo,2,'0') as orden, t2.fecha_recepcion, tipo_remuestreo,canjeable,cod_producto,cod_subproducto,peso_retalla,peso_muestra ";		
-						$Consulta.= " from age_web.lotes t1 inner join age_web.detalle_lotes  t2 ";
+						$Consulta.= " FROM age_web.lotes t1 inner join age_web.detalle_lotes  t2 ";
 						$Consulta.= " on t1.lote = t2.lote ";			
 						$Consulta.= " where t1.cod_producto = '".$FilaProd["cod_producto"]."' ";
 						$Consulta.= " and t1.cod_subproducto = '".$FilaProd["cod_subproducto"]."' ";
@@ -269,21 +269,21 @@ body {
 										case "02":
 											$IncRetalla=0;
 											if($FilaLote["peso_retalla"]>0&&$FilaLote["peso_muestra"]>0)
-												CalcIncRetalla($FilaLote["lote"],"02",$FilaLeyes["valor"],$FilaLote["peso_retalla"],$FilaLote["peso_muestra"],$IncRetalla,$link);
+												$IncRetalla = CalcIncRetalla($FilaLote["lote"],"02",$FilaLeyes["valor"],$FilaLote["peso_retalla"],$FilaLote["peso_muestra"],$IncRetalla,$link);
 											$LeyCu = $FilaLeyes["valor"]+$IncRetalla;
 											$LeyCuOri = $FilaLeyes["valor"]+$IncRetalla;
 											break;
 										case "04":
 											$IncRetalla=0;
 											if($FilaLote["peso_retalla"]>0&&$FilaLote["peso_muestra"]>0)
-												CalcIncRetalla($FilaLote["lote"],"04",$FilaLeyes["valor"],$FilaLote["peso_retalla"],$FilaLote["peso_muestra"],$IncRetalla,$link);
+												$IncRetalla = CalcIncRetalla($FilaLote["lote"],"04",$FilaLeyes["valor"],$FilaLote["peso_retalla"],$FilaLote["peso_muestra"],$IncRetalla,$link);
 											$LeyAg = $FilaLeyes["valor"]+$IncRetalla;
 											$LeyAgOri = $FilaLeyes["valor"]+$IncRetalla;
 											break;
 										case "05":
 											$IncRetalla=0;
 											if($FilaLote["peso_retalla"]>0&&$FilaLote["peso_muestra"]>0)
-												CalcIncRetalla($FilaLote["lote"],"05",$FilaLeyes["valor"],$FilaLote["peso_retalla"],$FilaLote["peso_muestra"],$IncRetalla,$link);
+												$IncRetalla = CalcIncRetalla($FilaLote["lote"],"05",$FilaLeyes["valor"],$FilaLote["peso_retalla"],$FilaLote["peso_muestra"],$IncRetalla,$link);
 											$LeyAu = $FilaLeyes["valor"]+$IncRetalla;
 											$LeyAuOri = $FilaLeyes["valor"]+$IncRetalla;
 											break;
@@ -426,22 +426,10 @@ body {
 					{
 						$DecPHum=4;$DecPSeco=4;$DecLeyes=4;$DecFinos=4;
 					}
-
-					if($TotalPesoHumProd>0){
-						$PorcHumProd=100-($TotalPesoSecProd*100)/$TotalPesoHumProd;
-					}else{
-						$PorcHumProd=0;
-					}
-					if($TotalPesoSecProd>0){
-						$LeyCuProd=($TotalFinoCuProd*100)/$TotalPesoSecProd;
-						$LeyAgProd=($TotalFinoAgProd*1000)/$TotalPesoSecProd;
-						$LeyAuProd=($TotalFinoAuProd*1000)/$TotalPesoSecProd;
-					}else{
-						$LeyCuProd=0;
-						$LeyAgProd=0;
-						$LeyAuProd=0;
-					}
-					
+					$PorcHumProd=100-($TotalPesoSecProd*100)/$TotalPesoHumProd;
+					$LeyCuProd=($TotalFinoCuProd*100)/$TotalPesoSecProd;
+					$LeyAgProd=($TotalFinoAgProd*1000)/$TotalPesoSecProd;
+					$LeyAuProd=($TotalFinoAuProd*1000)/$TotalPesoSecProd;
 					echo "<tr class='Detalle01'>\n";
 					echo "<td align='left' colspan='2'>TOTAL ".$FilaProd["descripcion"]."</td>";
 					echo "<td align='right'>".number_format($TotalPesoHumProd,0,',','.')."</td>";
@@ -466,20 +454,10 @@ body {
 				{
 					$DecPHum=4;$DecPSeco=4;$DecLeyes=4;$DecFinos=4;
 				}
-				if($TotalPesoHumClasProd>0){
-					$PorcHumClasProd=100-($TotalPesoSecClasProd*100)/$TotalPesoHumClasProd;	
-				}else{
-					$PorcHumClasProd=0;
-				}
-				if($TotalPesoSecClasProd>0){
-					$LeyCuClasProd=($TotalFinoCuClasProd*100)/$TotalPesoSecClasProd;
-					$LeyAgClasProd=($TotalFinoAgClasProd*1000)/$TotalPesoSecClasProd;
-					$LeyAuClasProd=($TotalFinoAuClasProd*1000)/$TotalPesoSecClasProd;
-				}else{
-					$LeyCuClasProd=0;
-					$LeyAgClasProd=0;
-					$LeyAuClasProd=0;
-				}
+				$PorcHumClasProd=100-($TotalPesoSecClasProd*100)/$TotalPesoHumClasProd;
+				$LeyCuClasProd=($TotalFinoCuClasProd*100)/$TotalPesoSecClasProd;
+				$LeyAgClasProd=($TotalFinoAgClasProd*1000)/$TotalPesoSecClasProd;
+				$LeyAuClasProd=($TotalFinoAuClasProd*1000)/$TotalPesoSecClasProd;
 				echo "<tr bgcolor='#CCCCCC'>\n";
 				if($FilaClaseProd["valor_subclase2"]=='METALICO')	
 					echo "<td align='left' colspan='2'>TOTAL ".$FilaClaseProd["valor_subclase1"]."</td>";
@@ -508,20 +486,10 @@ body {
 			{
 				$DecPHum=4;$DecPSeco=4;$DecLeyes=4;$DecFinos=4;
 			}
-			if($TotalPesoHumAsig>0){
 			$PorcHumAsig=100-($TotalPesoSecAsig*100)/$TotalPesoHumAsig;
-			}else{
-				$PorcHumAsig=0;
-			}
-			if($TotalPesoSecAsig>0){
-				$LeyCuAsig=($TotalFinoCuAsig*100)/$TotalPesoSecAsig;
-				$LeyAgAsig=($TotalFinoAgAsig*1000)/$TotalPesoSecAsig;
-				$LeyAuAsig=($TotalFinoAuAsig*1000)/$TotalPesoSecAsig;
-			}else{
-				$LeyCuAsig=0;
-				$LeyAgAsig=0;
-				$LeyAuAsig=0;	
-			}
+			$LeyCuAsig=($TotalFinoCuAsig*100)/$TotalPesoSecAsig;
+			$LeyAgAsig=($TotalFinoAgAsig*1000)/$TotalPesoSecAsig;
+			$LeyAuAsig=($TotalFinoAuAsig*1000)/$TotalPesoSecAsig;
 			echo "<tr class='ColorTabla01'>\n";
 			echo "<td align='left' colspan='2'>TOTAL ".$FilaAsig["cod_recepcion"]."</td>";
 			echo "<td align='right'>".number_format($TotalPesoHumAsig,0,',','.')."</td>";
@@ -539,7 +507,7 @@ body {
 			$TotalFinoCuTot=$TotalFinoCuTot+round($TotalFinoCuAsig);
 			$TotalFinoAgTot=$TotalFinoAgTot+round($TotalFinoAgAsig);
 			$TotalFinoAuTot=$TotalFinoAuTot+round($TotalFinoAuAsig);
-			//$TotalPesoHumAsig=0;$TotalPesoSecAsig=0;$TotalFinoCuAsig=0;$TotalFinoAgAsig=0;$TotalFinoAuAsig=0;
+			$TotalPesoHumAsig=0;$TotalPesoSecAsig=0;$TotalFinoCuAsig=0;$TotalFinoAgAsig=0;$TotalFinoAuAsig=0;
 			echo "</tr>\n";
 		}
 		$DecPHum=0;$DecPSeco=0;$DecLeyes=2;$DecFinos=0;
@@ -547,20 +515,10 @@ body {
 		{
 			$DecPHum=4;$DecPSeco=4;$DecLeyes=4;$DecFinos=4;
 		}
-		if($TotalPesoHumTot>0){
-			$PorcHumTot=100-($TotalPesoSecTot*100)/$TotalPesoHumTot;
-		}else{
-			$PorcHumTot=0;
-		}
-		if($TotalPesoSecTot>0){
-			$LeyCuTot=($TotalFinoCuTot*100)/$TotalPesoSecTot;
-			$LeyAgTot=($TotalFinoAgTot*1000)/$TotalPesoSecTot;
-			$LeyAuTot=($TotalFinoAuTot*1000)/$TotalPesoSecTot;
-		}else{
-			$LeyCuTot=0;
-			$LeyAgTot=0;
-			$LeyAuTot=0;
-		}
+		$PorcHumTot=100-($TotalPesoSecTot*100)/$TotalPesoHumTot;
+		$LeyCuTot=($TotalFinoCuTot*100)/$TotalPesoSecTot;
+		$LeyAgTot=($TotalFinoAgTot*1000)/$TotalPesoSecTot;
+		$LeyAuTot=($TotalFinoAuTot*1000)/$TotalPesoSecTot;
 		echo "<tr class='Detalle03'>\n";
 		echo "<td align='left' colspan='2'>TOTAL</td>";
 		echo "<td align='right'>".number_format($TotalPesoHumTot,0,',','.')."</td>";
@@ -576,22 +534,7 @@ body {
 		echo "</table>\n";
 		
 //FUNCIONES
-function CalcIncRetalla($Lote,$CodLey,$Valor,$PesoRetalla,$PesoMuestra,$IncRetalla,$link)
-{	
-	$Consulta = "select STRAIGHT_JOIN distinct t1.cod_leyes, t1.valor, t2.abreviatura as nom_unidad, t2.conversion";
-	$Consulta.= " from age_web.leyes_por_lote t1 left join proyecto_modernizacion.unidades t2 on ";
-	$Consulta.= " t1.cod_unidad=t2.cod_unidad ";
-	$Consulta.= " where t1.lote='".$Lote."' ";
-	$Consulta.= " and t1.recargo='R' and t1.cod_leyes='".$CodLey."'";	
-	//echo $Consulta."<br>";
-	$RespLeyes = mysqli_query($link, $Consulta);
-	$IncRetalla=0;
-	if($FilaLeyes = mysqli_fetch_array($RespLeyes))
-	{
-		if($FilaLeyes["valor"]>0)
-			$IncRetalla=($FilaLeyes["valor"] - $Valor) * ($PesoRetalla/$PesoMuestra);  //VALOR
-	}	
-}
+
  ?>  
 </form>
 </body>
