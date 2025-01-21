@@ -1,4 +1,4 @@
-<?php	
+<?php 	
 	ob_end_clean();
 	$file_name=basename($_SERVER['PHP_SELF']).".xls";
 	$userBrowser = $_SERVER['HTTP_USER_AGENT'];
@@ -20,7 +20,7 @@
  	header("Expires: 0");
   	header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
 	include("../principal/conectar_principal.php");
-
+	
 	$EstOpe      = isset($_REQUEST['EstOpe']) ? $_REQUEST['EstOpe'] : '';
 	$TxtLoteRemuestreo = isset($_REQUEST['TxtLoteRemuestreo']) ? $_REQUEST['TxtLoteRemuestreo'] : '';
 	$TxtLote = isset($_REQUEST['TxtLote']) ? $_REQUEST['TxtLote'] : '';
@@ -50,9 +50,10 @@
 	$CmbHoraEnt   = isset($_REQUEST['CmbHoraEnt']) ? $_REQUEST['CmbHoraEnt'] : '';
 	$CmbHoraSal   = isset($_REQUEST['CmbHoraSal']) ? $_REQUEST['CmbHoraSal'] : '';
 	$CmbMinEnt    = isset($_REQUEST['CmbMinEnt']) ? $_REQUEST['CmbMinEnt'] : '';
-	$CmbMinSal    = isset($_REQUEST['CmbMinSal']) ? $_REQUEST['CmbMinSal'] : '';
+	$CmbMinSal    = isset($_REQUEST['CmbMinSal']) ? $_REQUEST['CmbMinSal'] : '';	
 	$Orden        = isset($_REQUEST['Orden']) ? $_REQUEST['Orden'] : '';
-
+	
+	$TotalPesoNeto=0;
 	if ($TxtLote!="")
 	{
 		$EstadoInput = "";
@@ -60,8 +61,9 @@
 		$Consulta.= " from age_web.lotes t1 inner join age_web.detalle_lotes t2 ";
 		$Consulta.= " on t1.lote = t2.lote";
 		$Consulta.= " where t1.lote = '".$TxtLote."'";
-		$Resp = mysqli_query($link, $Consulta);
+		$Resp = mysqli_query($link,$Consulta);
 		$CantRecargos=0;
+		$ChkRemuestreo="";
 		while ($Fila = mysqli_fetch_array($Resp))
 		{
 			//DATOS DEL LOTE
@@ -92,14 +94,14 @@
 <title>Sistema de Agencia</title>
 <body>
 <form name="frmPopUp" action="" method="post">
-<input type="hidden" name="Proc" value="<?php echo $Proc; ?>">
-<input type="hidden" name="NewRec" value="<?php echo $NewRec; ?>">
-<input type="hidden" name="TipoConsulta" value="<?php echo $TipoConsulta; ?>">
+<input type="hidden" name="Proc" value="<?php  echo $Proc; ?>">
+<input type="hidden" name="NewRec" value="<?php  echo $NewRec; ?>">
+<input type="hidden" name="TipoConsulta" value="<?php  echo $TipoConsulta; ?>">
 <table width="650"  border="1" align="center" cellpadding="2" cellspacing="0" class="TablaInterior">
   <tr class="ColorTabla02">
     <td colspan="14"><strong>DATOS DEL LOTE </strong></td>
   </tr>
-  <?php
+  <?php 
 	if ($EstOpe != "")
 	{  
 		switch ($EstOpe)
@@ -118,18 +120,18 @@
 ?>
   <tr class="Colum01">
     <td width="89" class="Colum01" colspan="3">Lote:</td>
-    <td width="337" class="Colum01" colspan="6"><?php echo $TxtLote; ?> </td>
+    <td width="337" class="Colum01" colspan="6"><?php  echo $TxtLote; ?> </td>
     <td width="104" align="right" class="Colum01" colspan="3">Num.Conjunto:</td>
-    <td width="143" class="Colum01" colspan="2"><?php echo $TxtConjunto; ?>&nbsp;</td>
+    <td width="143" class="Colum01" colspan="2"><?php  echo $TxtConjunto; ?>&nbsp;</td>
   </tr>
   <tr class="Colum01">
     <td class="Colum01" colspan="3">SubProducto:</td>
     <td class="Colum01" colspan="6">
-      <?php
+      <?php 
 	$Consulta = "select cod_subproducto, descripcion, abreviatura, LPAD(cod_subproducto,2,'0') as orden ";
 	$Consulta.= " from proyecto_modernizacion.subproducto ";
 	$Consulta.= " where cod_producto='1' and cod_subproducto='".$CmbSubProducto."' order by orden";
-	$Resp = mysqli_query($link, $Consulta);
+	$Resp = mysqli_query($link,$Consulta);
 	if ($Fila = mysqli_fetch_array($Resp))
 	{		
 		echo  $Fila["orden"]." - ".$Fila["abreviatura"]."\n";
@@ -138,10 +140,10 @@
     </td>
     <td align="right" class="Colum01" colspan="3">Clase Producto:</td>
     <td class="Colum01" colspan="2">
-      <?php
+      <?php 
 	$Consulta = "select * from proyecto_modernizacion.sub_clase ";
 	$Consulta.= " where cod_clase='15001' and nombre_subclase='".$CmbClaseProducto."' order by nombre_subclase";
-	$Resp = mysqli_query($link, $Consulta);
+	$Resp = mysqli_query($link,$Consulta);
 	if ($Fila = mysqli_fetch_array($Resp))
 	{
 		echo $Fila["valor_subclase1"]."\n";
@@ -152,14 +154,16 @@
   <tr class="Colum01">
     <td class="Colum01" colspan="3">Proveedor: </td>
     <td class="Colum01" colspan="6">
-      <?php
+      <?php 
 	$Datos = explode("-",$CmbProveedor);
-	$RutAux = ($Datos[0]*1)."-".$Datos[1];
+	$Datos0 = isset($Datos[0])?$Datos[0]:"";
+	$Datos1 = isset($Datos[1])?$Datos[1]:"";
+	$RutAux = $Datos0."-".$Datos1;
 	$Consulta = "select * ";
 	$Consulta.= " from rec_web.proved ";
 	$Consulta.= " where RUTPRV_A='".$RutAux."'";
 	$Consulta.= " order by TRIM(nomprv_a) ";
-	$Resp = mysqli_query($link, $Consulta);
+	$Resp = mysqli_query($link,$Consulta);
 	while ($Fila = mysqli_fetch_array($Resp))
 	{
 		$Datos = explode("-",$Fila["RUTPRV_A"]);
@@ -170,10 +174,10 @@
     </td>
     <td align="right" class="Colum01" colspan="3">Cod.Recepcion:</td>
     <td class="Colum01" colspan="2">
-      <?php
+      <?php 
 	$Consulta = "select * from proyecto_modernizacion.sub_clase ";
 	$Consulta.= " where cod_clase='15002' and nombre_subclase='".$CmbCodRecepcion."' order by nombre_subclase";
-	$Resp = mysqli_query($link, $Consulta);
+	$Resp = mysqli_query($link,$Consulta);
 	if ($Fila = mysqli_fetch_array($Resp))
 	{
 			echo $Fila["valor_subclase1"]."\n";
@@ -184,9 +188,9 @@
   <tr class="Colum01">
     <td class="Colum01" colspan="3">Cod Faena: </td>
     <td class="Colum01" colspan="6">
-      <?php
+      <?php 
 	$Consulta = "select * from age_web.mina where cod_faena='".$CmbCodFaena."' order by descripcion ";
-	$Resp = mysqli_query($link, $Consulta);
+	$Resp = mysqli_query($link,$Consulta);
 	if ($Fila = mysqli_fetch_array($Resp))
 	{
 		echo $Fila["cod_faena"]." - ".$Fila["descripcion"]."\n";
@@ -194,7 +198,7 @@
 ?>
     </td>
     <td align="right" class="Colum01" colspan="3">Remuestreo:</td>
-    <td class="Colum01" colspan="2"><?php
+    <td class="Colum01" colspan="2"><?php 
 	switch ($ChkRemuestreo)
 	{
 		case "S":
@@ -209,10 +213,10 @@
   <tr class="Colum01">
     <td class="Colum01" colspan="3">Estado Lote:</td>
     <td class="Colum01" colspan="6">
-      <?php
+      <?php 
 	$Consulta = "select * from proyecto_modernizacion.sub_clase ";
 	$Consulta.= " where cod_clase='15003' and cod_subclase='".$CmbEstadoLote."' order by cod_subclase";
-	$Resp = mysqli_query($link, $Consulta);
+	$Resp = mysqli_query($link,$Consulta);
 	if ($Fila = mysqli_fetch_array($Resp))
 	{
 		echo $Fila["nombre_subclase"]."\n";
@@ -220,13 +224,13 @@
 ?>
     </td>
     <td align="right" class="Colum01" colspan="3">Lote Remues.:</td>
-    <td class="Colum01" colspan="2"><?php echo $TxtLoteRemuestreo; ?>&nbsp;</td>
+    <td class="Colum01" colspan="2"><?php  echo $TxtLoteRemuestreo; ?>&nbsp;</td>
   </tr>
   <tr class="Colum01">
     <td class="Colum01" colspan="3">Cant. Rec.</td>
-    <td class="Colum01" colspan="6"><?php echo $CantRecargos; ?></td>
+    <td class="Colum01" colspan="6"><?php  echo $CantRecargos; ?></td>
     <td align="right" class="Colum01" colspan="3">Peso Lote:</td>
-    <td class="Colum01" colspan="2"><?php echo number_format($TotalPesoNeto,0,",","."); ?></td>
+    <td class="Colum01" colspan="2"><?php  echo number_format($TotalPesoNeto,0,",","."); ?></td>
   </tr>
 </table>
 <br>
@@ -247,7 +251,7 @@
     <td width="4%">Est.</td>
     <td width="4%">Aut.</td>
   </tr>
-  <?php	
+  <?php 	
 if (isset($TxtLote) && $TxtLote!="")	
 {
 	$Consulta = "select t1.fecha_recepcion, t2.hora_entrada, t2.hora_salida, t2.folio, t2.corr, t2.lote, t2.recargo, t2.fin_lote, ";
@@ -280,7 +284,7 @@ if (isset($TxtLote) && $TxtLote!="")
 			$Consulta.= " order by t2.lote, orden ";
 			break;
 	}		
-	$Resp = mysqli_query($link, $Consulta);	
+	$Resp = mysqli_query($link,$Consulta);	
 	$TotPesoBr = 0;
 	$TotPesoTr = 0;
 	$TotPesoNt = 0;
@@ -321,10 +325,10 @@ if (isset($TxtLote) && $TxtLote!="")
 ?>
   <tr class="ColorTabla02">
     <td colspan="4"><strong>Total Lote: </strong></td>
-    <td colspan="3"><strong><?php echo number_format($ContReg,0,",",".");?> Rec.</strong></td>
-    <td align="right"><?php echo number_format($TotPesoBr,0,",",".");?></td>
-    <td align="right"><?php echo number_format($TotPesoTr,0,",",".");?></td>
-    <td align="right"><?php echo number_format($TotPesoNt,0,",",".");?></td>
+    <td colspan="3"><strong><?php  echo number_format($ContReg,0,",",".");?> Rec.</strong></td>
+    <td align="right"><?php  echo number_format($TotPesoBr,0,",",".");?></td>
+    <td align="right"><?php  echo number_format($TotPesoTr,0,",",".");?></td>
+    <td align="right"><?php  echo number_format($TotPesoNt,0,",",".");?></td>
     <td colspan="4">&nbsp;</td>
   </tr>
 </table>

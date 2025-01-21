@@ -30,7 +30,8 @@
 	$CmbHoraSal   = isset($_REQUEST['CmbHoraSal']) ? $_REQUEST['CmbHoraSal'] : '';
 	$CmbMinEnt    = isset($_REQUEST['CmbMinEnt']) ? $_REQUEST['CmbMinEnt'] : '';
 	$CmbMinSal    = isset($_REQUEST['CmbMinSal']) ? $_REQUEST['CmbMinSal'] : '';
-
+	$TxtValores   = isset($_REQUEST['TxtValores']) ? $_REQUEST['TxtValores'] : '';
+	
 	switch ($Proceso)
 	{		
 		case "ML": //MODIFICA LOTE
@@ -127,23 +128,31 @@
 			$HoraEntrada = str_pad($CmbHoraEnt,2,"0",STR_PAD_LEFT).":".str_pad($CmbMinEnt,2,"0",STR_PAD_LEFT);
 			$HoraSalida = str_pad($CmbHoraSal,2,"0",STR_PAD_LEFT).":".str_pad($CmbMinSal,2,"0",STR_PAD_LEFT);				
 			//INSERTA EN LA TABLA DETALLE_LOTE EL NUEVO RECARGO
-			$Insertar = "insert into age_web.detalle_lotes (lote, recargo, folio, corr, fecha_recepcion, hora_entrada, hora_salida, ";
-			$Insertar.= "fin_lote, peso_bruto, peso_tara, peso_neto, guia_despacho, patente, autorizado, estado_recargo,modificado) ";
-			$Insertar.= " values('".$TxtLote."','".intval($TxtRecargo)."', '".$TxtFolio."','".$TxtCorrelativo."', '".$TxtFechaRecep."', '".$HoraEntrada."', ";
-			$Insertar.= " '".$HoraSalida."', '".$ChkFinLote."', '".$TxtPesoBruto."', '".$TxtPesoTara."', '".$TxtPesoNeto."', '".$TxtGuia."', ";
-			$Insertar.= " '".$TxtPatente."', '".$ChkAutorizado."', '".$CmbEstadoRecargo."','S')";
-			mysqli_query ($link, $Insertar);	
-			if (mysqli_errno($link)==0)
-			{
-				$EstOpe = "S";
-				$Mensaje = "Operacion Realizada";
-			}
-			else
-			{
+			$consulta = "select * from age_web.detalle_lotes where lote='".$TxtLote."' and recargo='".$TxtRecargo."' ";
+			$result = mysqli_query($link,$consulta);
+			$cont = mysqli_num_rows($result);
+			if($cont==0){
+				$Insertar = "insert into age_web.detalle_lotes (lote, recargo, folio, corr, fecha_recepcion, hora_entrada, hora_salida, ";
+				$Insertar.= "fin_lote, peso_bruto, peso_tara, peso_neto, guia_despacho, patente, autorizado, estado_recargo,modificado) ";
+				$Insertar.= " values('".$TxtLote."','".intval($TxtRecargo)."', '".$TxtFolio."','".$TxtCorrelativo."', '".$TxtFechaRecep."', '".$HoraEntrada."', ";
+				$Insertar.= " '".$HoraSalida."', '".$ChkFinLote."', '".$TxtPesoBruto."', '".$TxtPesoTara."', '".$TxtPesoNeto."', '".$TxtGuia."', ";
+				$Insertar.= " '".$TxtPatente."', '".$ChkAutorizado."', '".$CmbEstadoRecargo."','S')";
+				mysqli_query ($link, $Insertar);	
+				if (mysqli_errno($link)==0)
+				{
+					$EstOpe = "S";
+					$Mensaje = "Operacion Realizada";
+				}
+				else
+				{
+					$EstOpe = "N";
+					$Mensaje = "Error ".mysqli_errno($link);
+					$Mensaje.= ", ".mysqli_error($link)."<br>";
+				}	
+			}else{
 				$EstOpe = "N";
-				$Mensaje = "Error ".mysqli_errno($link);
-				$Mensaje.= ", ".mysqli_error($link)."<br>";
-			}	
+				$Mensaje = "Registro Existente";
+			}
 			//INSERTA EN  SIPA_WEB.RECEPCIONES
 			$control=0;
 			$Consulta="Select * from sipa_web.recepciones where lote = '".$TxtLote."' and recargo != 0 order by recargo";
@@ -160,12 +169,12 @@
 					$Insertar.="cod_clase,conjunto,observacion,activo,estado,humedad,cod_grupo,sa_asignada,romana_entrada,";
 					$Insertar.="romana_salida,tipo) VALUES ";
 					$Insertar.="('".$TxtCorrelativo."','".$TxtLote."','".$TxtRecargo."','".$ChkFinLote."',";
-					$Insertar.="'".$Fil[rut_operador]."', '1','1','".$TxtFechaRecep."','".$HoraEntrada."','".$HoraSalida."',";
-					$Insertar.="'".$TxtPesoBruto."','".$TxtPesoTara."','".$TxtPesoNeto."','".$Fil[rut_prv]."','".$Fil[cod_mina]."',";
-			        $Insertar.="'1','".$Fil["cod_subproducto"]."','".$Fil[cod_pta_maq]."','".$Fil["leyes"]."','".$Fil["impurezas"]."',";
-					$Insertar.="'".$TxtGuia."','".$TxtPatente."','".$Fil[cod_clase]."','".$Fil[conjunto]."','','".$Fil["activo"]."',";
-					$Insertar.="'".$Fil[estado]."','".$Fil[humedad]."','".$Fil["cod_grupo"]."','".$Fil[sa_asignada]."','1','1',";
-					$Insertar.="'".$Fil[tipo]."')";
+					$Insertar.="'".$Fil["rut_operador"]."', '1','1','".$TxtFechaRecep."','".$HoraEntrada."','".$HoraSalida."',";
+					$Insertar.="'".$TxtPesoBruto."','".$TxtPesoTara."','".$TxtPesoNeto."','".$Fil["rut_prv"]."','".$Fil["cod_mina"]."',";
+			        $Insertar.="'1','".$Fil["cod_subproducto"]."','".$Fil["cod_pta_maq"]."','".$Fil["leyes"]."','".$Fil["impurezas"]."',";
+					$Insertar.="'".$TxtGuia."','".$TxtPatente."','".$Fil["cod_clase"]."','".$Fil["conjunto"]."','','".$Fil["activo"]."',";
+					$Insertar.="'".$Fil["estado"]."','".$Fil["humedad"]."','".$Fil["cod_grupo"]."','".$Fil["sa_asignada"]."','1','1',";
+					$Insertar.="'".$Fil["tipo"]."')";
 					//echo $Insertar;
 					mysqli_query($link, $Insertar);
 					
@@ -217,6 +226,8 @@
 				$Actualizar1.=" hora_salida='".$HoraSalida."',ult_registro='".$ChkFinLote."', guia_despacho='".$TxtGuia."',";
 				$Actualizar1.=" patente ='".$TxtPatente."' "; 
 				$Actualizar1.= " where lote='".$TxtLote."' and recargo='".$TxtRecargo."'";
+				//echo $Actualizar1;
+			    //exit();
 				mysqli_query($link, $Actualizar1);
 				if (mysqli_errno($link)==0)
 				{

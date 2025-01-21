@@ -6,7 +6,7 @@
 	$EstadoInput = isset($_REQUEST['EstadoInput']) ? $_REQUEST['EstadoInput'] : '';
 	$TxtLote = isset($_REQUEST['TxtLote']) ? $_REQUEST['TxtLote'] : '';
 	$TxtConjunto = isset($_REQUEST['TxtConjunto']) ? $_REQUEST['TxtConjunto'] : '';
-
+	$Mensaje  = isset($_REQUEST['Mensaje']) ? $_REQUEST['Mensaje'] : '';
 	$ContReg = isset($_REQUEST['ContReg']) ? $_REQUEST['ContReg'] : 0;
 	$TotPesoBr = isset($_REQUEST['TotPesoBr']) ? $_REQUEST['TotPesoBr'] : 0;
 	$TotPesoTr = isset($_REQUEST['TotPesoTr']) ? $_REQUEST['TotPesoTr'] : 0;
@@ -121,7 +121,7 @@ function Proceso(opt)
 				f.CmbClaseProducto.focus();
 				return;}
 			if (f.CmbCodRecepcion.value=="S"){
-				alert("Debe Tipo de Recepcion");
+				alert("Debe Seleccinar Tipo de Recepcion");
 				f.CmbCodRecepcion.focus();
 				return;}															
 			f.action = "age_adm_lotes01.php?Proceso=ML";
@@ -228,7 +228,7 @@ function Proceso(opt)
 			}
 			else
 			{
-				var msg=confirm("�Seguro que desea Eliminar estos Recargos?");
+				var msg=confirm("¿Seguro que desea Eliminar estos Recargos?");
 				if (msg==true)
 				{
 					TxtLotes = TxtLotes.substring(0,(TxtLotes.length-2));

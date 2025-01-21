@@ -1,14 +1,35 @@
-<?php	
+<?php 	
 	include("../principal/conectar_principal.php");
-	if (isset($TxtLote))
+	$Proc = isset($_REQUEST['Proc']) ? $_REQUEST['Proc'] : '';
+
+	$NewRec = isset($_REQUEST['NewRec']) ? $_REQUEST['NewRec'] : '';
+	$TipoConsulta = isset($_REQUEST['TipoConsulta']) ? $_REQUEST['TipoConsulta'] : '';
+	$EstOpe = isset($_REQUEST['EstOpe']) ? $_REQUEST['EstOpe'] : '';
+	$TxtLote = isset($_REQUEST['TxtLote']) ? $_REQUEST['TxtLote'] : '';
+	$TxtConjunto = isset($_REQUEST['TxtConjunto']) ? $_REQUEST['TxtConjunto'] : '';
+	$CmbSubProducto = isset($_REQUEST['CmbSubProducto']) ? $_REQUEST['CmbSubProducto'] : '';
+	$CmbProveedor = isset($_REQUEST['CmbProveedor']) ? $_REQUEST['CmbProveedor'] : '';
+	$CmbClaseProducto = isset($_REQUEST['CmbClaseProducto']) ? $_REQUEST['CmbClaseProducto'] : '';
+	$CmbEstadoLote = isset($_REQUEST['CmbEstadoLote']) ? $_REQUEST['CmbEstadoLote'] : '';
+	$CmbCodFaena = isset($_REQUEST['CmbCodFaena']) ? $_REQUEST['CmbCodFaena'] : '';
+	$CmbCodRecepcion = isset($_REQUEST['CmbCodRecepcion']) ? $_REQUEST['CmbCodRecepcion'] : '';
+	$TxtLoteRemuestreo = isset($_REQUEST['TxtLoteRemuestreo']) ? $_REQUEST['TxtLoteRemuestreo'] : '';
+	$TotalPesoBruto = isset($_REQUEST['TotalPesoBruto']) ? $_REQUEST['TotalPesoBruto'] : 0;
+	$TotalPesoTara = isset($_REQUEST['TotalPesoTara']) ? $_REQUEST['TotalPesoTara'] : 0;
+	$TotalPesoNeto = isset($_REQUEST['TotalPesoNeto']) ? $_REQUEST['TotalPesoNeto'] : 0;
+	$Datos = isset($_REQUEST['Datos']) ? $_REQUEST['Datos'] : '';
+	$Orden = isset($_REQUEST['Orden']) ? $_REQUEST['Orden'] : '';
+
+	if ($TxtLote!="")
 	{
 		$EstadoInput = "";
 		$Consulta = "select * ";
 		$Consulta.= " from age_web.lotes t1 inner join age_web.detalle_lotes t2 ";
 		$Consulta.= " on t1.lote = t2.lote";
 		$Consulta.= " where t1.lote = '".$TxtLote."'";
-		$Resp = mysqli_query($link, $Consulta);
+		$Resp = mysqli_query($link,$Consulta);
 		$CantRecargos=0;
+		$ChkRemuestreo="";
 		while ($Fila = mysqli_fetch_array($Resp))
 		{
 			//DATOS DEL LOTE
@@ -84,14 +105,14 @@ a:active {
 
 <body>
 <form name="frmPopUp" action="" method="post">
-<input type="hidden" name="Proc" value="<?php echo $Proc; ?>">
-<input type="hidden" name="NewRec" value="<?php echo $NewRec; ?>">
-<input type="hidden" name="TipoConsulta" value="<?php echo $TipoConsulta; ?>">
+<input type="hidden" name="Proc" value="<?php  echo $Proc; ?>">
+<input type="hidden" name="NewRec" value="<?php  echo $NewRec; ?>">
+<input type="hidden" name="TipoConsulta" value="<?php  echo $TipoConsulta; ?>">
 <table width="650"  border="1" align="center" cellpadding="2" cellspacing="0" class="TablaInterior">
   <tr class="ColorTabla02">
     <td colspan="4"><strong>DATOS DEL LOTE </strong></td>
   </tr>
-<?php
+<?php 
 	if ($EstOpe != "")
 	{  
 		switch ($EstOpe)
@@ -110,19 +131,19 @@ a:active {
 ?>
   <tr class="Colum01">
     <td width="89" class="Colum01">Lote:</td>
-    <td width="337" class="Colum01"><?php echo $TxtLote; ?>
+    <td width="337" class="Colum01"><?php  echo $TxtLote; ?>
       </td>
     <td width="104" align="right" class="Colum01">Num.Conjunto:</td>
-    <td width="143" class="Colum01"><?php echo $TxtConjunto; ?>&nbsp;</td>
+    <td width="143" class="Colum01"><?php  echo $TxtConjunto; ?>&nbsp;</td>
   </tr>
   <tr class="Colum01">
     <td class="Colum01">SubProducto:</td>
     <td class="Colum01">
-<?php
+<?php 
 	$Consulta = "select cod_subproducto, descripcion, abreviatura, LPAD(cod_subproducto,2,'0') as orden ";
 	$Consulta.= " from proyecto_modernizacion.subproducto ";
 	$Consulta.= " where cod_producto='1' and cod_subproducto='".$CmbSubProducto."' order by orden";
-	$Resp = mysqli_query($link, $Consulta);
+	$Resp = mysqli_query($link,$Consulta);
 	if ($Fila = mysqli_fetch_array($Resp))
 	{		
 		echo  $Fila["orden"]." - ".$Fila["abreviatura"]."\n";
@@ -131,10 +152,10 @@ a:active {
 	</td>
     <td align="right" class="Colum01">Clase Producto:</td>
     <td class="Colum01">
-      <?php
+      <?php 
 	$Consulta = "select * from proyecto_modernizacion.sub_clase ";
 	$Consulta.= " where cod_clase='15001' and nombre_subclase='".$CmbClaseProducto."' order by nombre_subclase";
-	$Resp = mysqli_query($link, $Consulta);
+	$Resp = mysqli_query($link,$Consulta);
 	if ($Fila = mysqli_fetch_array($Resp))
 	{
 		echo $Fila["valor_subclase1"]."\n";
@@ -145,28 +166,31 @@ a:active {
   <tr class="Colum01">
     <td class="Colum01">Proveedor: </td>
     <td class="Colum01">
-<?php
+<?php 
 	$Datos = explode("-",$CmbProveedor);
-	$RutAux = ($Datos[0]*1)."-".$Datos[1];
+	$Datos0 = isset($Datos[0])?$Datos[0]:"";
+	$Datos1 = isset($Datos[1])?$Datos[1]:"";
+	$RutAux = $Datos0."-".$Datos1;
 	$Consulta = "select * ";
 	$Consulta.= " from rec_web.proved ";
 	$Consulta.= " where RUTPRV_A='".$RutAux."'";
 	$Consulta.= " order by TRIM(nomprv_a) ";
-	$Resp = mysqli_query($link, $Consulta);
+	$Resp = mysqli_query($link,$Consulta);
 	while ($Fila = mysqli_fetch_array($Resp))
 	{
 		$Datos = explode("-",$Fila["RUTPRV_A"]);
-		$RutAux = ($Datos[0]*1)."-".$Datos[1];
+		$RutAux = ((int)$Datos[0]*1)."-".$Datos[1];
 		echo  $Fila["RUTPRV_A"]." - ".$Fila["NOMPRV_A"]."\n";
 	}
 ?>	
     </td>
     <td align="right" class="Colum01">Cod.Recepcion:</td>
     <td class="Colum01">
-      <?php
+      <?php 
 	$Consulta = "select * from proyecto_modernizacion.sub_clase ";
 	$Consulta.= " where cod_clase='15002' and nombre_subclase='".$CmbCodRecepcion."' order by nombre_subclase";
-	$Resp = mysqli_query($link, $Consulta);
+
+	$Resp = mysqli_query($link,$Consulta);
 	if ($Fila = mysqli_fetch_array($Resp))
 	{
 			echo $Fila["valor_subclase1"]."\n";
@@ -177,9 +201,9 @@ a:active {
   <tr class="Colum01">
     <td class="Colum01">Cod Faena: </td>
     <td class="Colum01">
-<?php
+<?php 
 	$Consulta = "select * from age_web.mina where cod_faena='".$CmbCodFaena."' order by descripcion ";
-	$Resp = mysqli_query($link, $Consulta);
+	$Resp = mysqli_query($link,$Consulta);
 	if ($Fila = mysqli_fetch_array($Resp))
 	{
 		echo $Fila["cod_faena"]." - ".$Fila["descripcion"]."\n";
@@ -187,7 +211,7 @@ a:active {
 ?>	
     </td>
     <td align="right" class="Colum01">Remuestreo:</td>
-    <td class="Colum01"><?php
+    <td class="Colum01"><?php 
 	switch ($ChkRemuestreo)
 	{
 		case "S":
@@ -202,10 +226,10 @@ a:active {
   <tr class="Colum01">
     <td class="Colum01">Estado Lote:</td>
     <td class="Colum01">
-      <?php
+      <?php 
 	$Consulta = "select * from proyecto_modernizacion.sub_clase ";
 	$Consulta.= " where cod_clase='15003' and cod_subclase='".$CmbEstadoLote."' order by cod_subclase";
-	$Resp = mysqli_query($link, $Consulta);
+	$Resp = mysqli_query($link,$Consulta);
 	if ($Fila = mysqli_fetch_array($Resp))
 	{
 		echo $Fila["nombre_subclase"]."\n";
@@ -213,13 +237,13 @@ a:active {
 ?>
     </td>
     <td align="right" class="Colum01">Lote Remues.:</td>
-    <td class="Colum01"><?php echo $TxtLoteRemuestreo; ?>&nbsp;</td>
+    <td class="Colum01"><?php  echo $TxtLoteRemuestreo; ?>&nbsp;</td>
   </tr>
   <tr class="Colum01">
     <td class="Colum01">Cant. Rec.</td>
-    <td class="Colum01"><?php echo $CantRecargos; ?></td>
+    <td class="Colum01"><?php  echo $CantRecargos; ?></td>
     <td align="right" class="Colum01">Peso Lote:</td>
-    <td class="Colum01"><?php echo number_format($TotalPesoNeto,0,",","."); ?></td>
+    <td class="Colum01"><?php  echo number_format($TotalPesoNeto,0,",","."); ?></td>
   </tr>
   <tr align="center" class="Colum01">
     <td height="30" colspan="4" class="Colum01"><input name="BtnImprimir" type="button" id="BtnImprimir3" value="Imprimir" style="width:70px " onClick="Proceso('I')">
@@ -244,7 +268,7 @@ a:active {
     <td width="4%">Est.</td>
     <td width="4%">Aut.</td>
   </tr>
-  <?php	
+  <?php 	
 if (isset($TxtLote) && $TxtLote!="")	
 {
 	$Consulta = "select t1.fecha_recepcion, t2.hora_entrada, t2.hora_salida, t2.folio, t2.corr, t2.lote, t2.recargo, t2.fin_lote, ";
@@ -277,7 +301,7 @@ if (isset($TxtLote) && $TxtLote!="")
 			$Consulta.= " order by t2.lote, orden ";
 			break;
 	}		
-	$Resp = mysqli_query($link, $Consulta);	
+	$Resp = mysqli_query($link,$Consulta);	
 	$TotPesoBr = 0;
 	$TotPesoTr = 0;
 	$TotPesoNt = 0;
@@ -318,10 +342,10 @@ if (isset($TxtLote) && $TxtLote!="")
 ?>
   <tr class="ColorTabla02">
     <td colspan="4"><strong>Total Lote: </strong></td>
-    <td colspan="3"><strong><?php echo number_format($ContReg,0,",",".");?> Rec.</strong></td>
-    <td align="right"><?php echo number_format($TotPesoBr,0,",",".");?></td>
-    <td align="right"><?php echo number_format($TotPesoTr,0,",",".");?></td>
-    <td align="right"><?php echo number_format($TotPesoNt,0,",",".");?></td>
+    <td colspan="3"><strong><?php  echo number_format($ContReg,0,",",".");?> Rec.</strong></td>
+    <td align="right"><?php  echo number_format($TotPesoBr,0,",",".");?></td>
+    <td align="right"><?php  echo number_format($TotPesoTr,0,",",".");?></td>
+    <td align="right"><?php  echo number_format($TotPesoNt,0,",",".");?></td>
     <td colspan="4">&nbsp;</td>
   </tr>
 </table>
