@@ -1,22 +1,21 @@
-﻿<?php 
+﻿<?php  
 	include("../principal/conectar_principal.php");
 	
 	$PopUp         = isset($_REQUEST["PopUp"])?$_REQUEST["PopUp"]:"";
 	$CmbAno        = isset($_REQUEST["CmbAno"])?$_REQUEST["CmbAno"]:date("Y");
 	$CmbMes        = isset($_REQUEST["CmbMes"])?$_REQUEST["CmbMes"]:date("m");
-	$CmbAnoFin        = isset($_REQUEST["CmbAnoFin"])?$_REQUEST["CmbAnoFin"]:date("Y");
-	$CmbAnoIni        = isset($_REQUEST["CmbAnoIni"])?$_REQUEST["CmbAnoIni"]:data("Y");
-	$CmbProductoAux      = isset($_REQUEST["CmbProductoAux"])?$_REQUEST["CmbProductoAux"]:"";
-	$CmbSubProductoAux   = isset($_REQUEST["CmbSubProductoAux"])?$_REQUEST["CmbSubProductoAux"]:"";
-	$CmbProveedorAux     = isset($_REQUEST["CmbProveedorAux"])?$_REQUEST["CmbProveedorAux"]:"";
-	$CmbProveedor        = isset($_REQUEST["CmbProveedor"])?$_REQUEST["CmbProveedor"]:"";
-	$CmbSubProducto   = isset($_REQUEST["CmbSubProducto"])?$_REQUEST["CmbSubProducto"]:"";
-	$Plantilla     = isset($_REQUEST["Plantilla"])?$_REQUEST["Plantilla"]:"";
-
-
+	$CmbAnoFin     = isset($_REQUEST["CmbAnoFin"])?$_REQUEST["CmbAnoFin"]:date("Y");
+	$CmbAnoIni     = isset($_REQUEST["CmbAnoIni"])?$_REQUEST["CmbAnoIni"]:date("Y");
+	$CmbProductoAux    = isset($_REQUEST["CmbProductoAux"])?$_REQUEST["CmbProductoAux"]:"";
+	$CmbSubProductoAux = isset($_REQUEST["CmbSubProductoAux"])?$_REQUEST["CmbSubProductoAux"]:"";
+	$CmbProveedorAux   = isset($_REQUEST["CmbProveedorAux"])?$_REQUEST["CmbProveedorAux"]:"";
+	$CmbProveedor      = isset($_REQUEST["CmbProveedor"])?$_REQUEST["CmbProveedor"]:"";
+	$CmbSubProducto    = isset($_REQUEST["CmbSubProducto"])?$_REQUEST["CmbSubProducto"]:"";
+	$Plantilla         = isset($_REQUEST["Plantilla"])?$_REQUEST["Plantilla"]:"";
+	
 	//COLORES DE LIMITES
 	$Consulta = "select * from proyecto_modernizacion.sub_clase where cod_clase='15007'";
-	$Resp=mysqli_query($link, $Consulta);
+	$Resp=mysqli_query($link,$Consulta);
 	while ($Fila=mysqli_fetch_array($Resp))
 	{
 		switch ($Fila["cod_subclase"])
@@ -34,7 +33,7 @@
 	if (isset($Plantilla) && $Plantilla!="S")
 	{		
 		$Consulta = "select * from age_web.limites where cod_plantilla='".$Plantilla."'";
-		$Resp = mysqli_query($link, $Consulta);
+		$Resp = mysqli_query($link,$Consulta);
 		while ($Fila = mysqli_fetch_array($Resp))
 		{
 			$ArrLimites[$Fila["cod_leyes"]]["min"]=$Fila["limite_minimo"];
@@ -56,7 +55,7 @@
 	$Consulta.= " and cod_producto='1' and cod_subproducto='".$CmbSubProductoAux."'";
 	$Consulta.= " and rut_proveedor='".$CmbProveedorAux."'";
 	$Consulta.= " group by cod_producto ";
-	$Resp = mysqli_query($link, $Consulta);
+	$Resp = mysqli_query($link,$Consulta);
 	while ($Fila = mysqli_fetch_array($Resp))
 	{
 		for ($i=1;$i<=60;$i++)
@@ -76,7 +75,7 @@
 	$Consulta.= " and cod_producto='1' and cod_subproducto='0'";
 	$Consulta.= " and rut_proveedor='99999999-9'";
 	$Consulta.= " order by cod_leyes";
-	$Resp = mysqli_query($link, $Consulta);
+	$Resp = mysqli_query($link,$Consulta);
 	while ($Fila = mysqli_fetch_array($Resp))
 	{
 		$ArrLeyes[$Fila["cod_leyes"]]["cod_leyes"]=$Fila["cod_leyes"];
@@ -95,7 +94,7 @@
 	$Consulta.= " and cod_producto='1' and cod_subproducto='".$CmbSubProductoAux."'";
 	$Consulta.= " and rut_proveedor='99999999-9'";
 	$Consulta.= " order by cod_leyes";
-	$Resp = mysqli_query($link, $Consulta);
+	$Resp = mysqli_query($link,$Consulta);
 	while ($Fila = mysqli_fetch_array($Resp))
 	{
 		$ArrLeyes[$Fila["cod_leyes"]]["cod_leyes"]=$Fila["cod_leyes"];
@@ -116,7 +115,7 @@
 		$Consulta.= " and cod_producto='1' and cod_subproducto='".$CmbSubProductoAux."'";
 		$Consulta.= " and rut_proveedor='".$CmbProveedorAux."'";
 		$Consulta.= " order by cod_leyes";
-		$Resp = mysqli_query($link, $Consulta);
+		$Resp = mysqli_query($link,$Consulta);
 		while ($Fila = mysqli_fetch_array($Resp))
 		{
 			$ArrLeyes[$Fila["cod_leyes"]]["cod_leyes"]=$Fila["cod_leyes"];
@@ -170,7 +169,7 @@ function Proceso(opcion)
 	switch (opcion)
 	{
 		case "S":
-			f.action = "age_con_leyes_historicas_mensual.php?CmbAnoIni=<?php echo $CmbAnoIni; ?>&CmbAnoFin=<?php echo $CmbAnoFin; ?>&CmbSubProducto=<?php echo $CmbSubProducto; ?>&CmbProveedor=<?php echo $CmbProveedor; ?>&Plantilla=<?php echo $Plantilla; ?>";			
+			f.action = "age_con_leyes_historicas_mensual.php?CmbAnoIni=<?php  echo $CmbAnoIni; ?>&CmbAnoFin=<?php  echo $CmbAnoFin; ?>&CmbSubProducto=<?php  echo $CmbSubProducto; ?>&CmbProveedor=<?php  echo $CmbProveedor; ?>&Plantilla=<?php  echo $Plantilla; ?>";			
 			f.submit();
 			break;	
 		case "E":
@@ -192,16 +191,19 @@ function Proceso(opcion)
 //-->
 </script>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"><style type="text/css">
+<!--
 body {
 	background-image: url(../principal/imagenes/fondo3.gif);
 }
+-->
 </style></head>
+
 <body>
 <form name="frmPrincipal" action="" method="post">
-<input type="hidden" name="CmbAno" value="<?php echo $CmbAno; ?>">
-<input type="hidden" name="CmbMes" value="<?php echo $CmbMes; ?>">
-<input type="hidden" name="CmbSubProductoAux" value="<?php echo $CmbSubProductoAux; ?>">
-<input type="hidden" name="CmbProveedorAux" value="<?php echo $CmbProveedorAux; ?>">
+<input type="hidden" name="CmbAno" value="<?php  echo $CmbAno; ?>">
+<input type="hidden" name="CmbMes" value="<?php  echo $CmbMes; ?>">
+<input type="hidden" name="CmbSubProductoAux" value="<?php  echo $CmbSubProductoAux; ?>">
+<input type="hidden" name="CmbProveedorAux" value="<?php  echo $CmbProveedorAux; ?>">
   <table width="500" border="1" align="center" cellpadding="2" cellspacing="0" class="TablaDetalle">
     <tr align="center" class="ColorTabla01"> 
       <td height="20" colspan="2"><strong><font>CONSULTA LEYES HISTORICAS POR LOTE </font></strong></td>
@@ -212,10 +214,10 @@ body {
     <tr> 
       <td width="94">SubProducto:</td>
       <td width="391"> 
-        <?php
+        <?php 
 	$Consulta = "select * from proyecto_modernizacion.subproducto ";
 	$Consulta.= " where cod_producto='1' and cod_subproducto='".$CmbSubProductoAux."'";	
-	$Resp = mysqli_query($link, $Consulta);
+	$Resp = mysqli_query($link,$Consulta);
 	if ($Fila = mysqli_fetch_array($Resp))
 		echo $Fila["cod_subproducto"]." - ".strtoupper($Fila["descripcion"]);
 	else
@@ -226,7 +228,7 @@ body {
     <tr> 
       <td>Proveedor:</td>
       <td> 
-        <?php
+        <?php 
 if ($CmbProveedor=="S")
 {
 	echo "TODOS";
@@ -234,7 +236,7 @@ if ($CmbProveedor=="S")
 else
 {		
 	$Consulta = "select rutprv_a, nomprv_a from rec_web.proved where rutprv_a='".$CmbProveedorAux."'";	
-	$Resp = mysqli_query($link, $Consulta);
+	$Resp = mysqli_query($link,$Consulta);
 	if ($Fila = mysqli_fetch_array($Resp))
 		echo str_pad($Fila["rutprv_a"],10,'0')." - ".strtoupper($Fila["nomprv_a"]);
 	else
@@ -245,9 +247,9 @@ else
     </tr>
     <tr>
       <td>Periodo:</td>
-    <td><?php echo strtoupper($Meses[$CmbMes-1])."/".$CmbAno; ?></td>
+    <td><?php  echo strtoupper($Meses[$CmbMes-1])."/".$CmbAno; ?></td>
     </tr>
-<?php	
+<?php 	
 if ($Plantilla!="S")
 {
 	echo "<tr>\n";
@@ -258,7 +260,7 @@ if ($Plantilla!="S")
 	$Consulta.= " from age_web.limites ";
 	$Consulta.= " where cod_plantilla='".$Plantilla."'";
 	$Consulta.= " order by descripcion ";
-	$Resp = mysqli_query($link, $Consulta);
+	$Resp = mysqli_query($link,$Consulta);
 	$Encontro=false;
 	if ($Fila = mysqli_fetch_array($Resp))
 	{
@@ -283,17 +285,17 @@ if ($Plantilla!="S")
     <tr align="center"> 
       <td height="30" colspan="2"><input name="BtnImprimir" type="button" id="BtnImprimir" style="width:70" onClick="JavaScript:Proceso('I');" value="Imprimir">
       <input type="button" name="BtnExcel" value="Excel" style="width:70" onClick="JavaScript:Proceso('E');">
-	  <?php
+	  <?php 
 	  	if ($PopUp=="S")
 		{
 		?>
 		<input name="BtnCerrar" type="button" style="width:70" onClick="JavaScript:window.close()" value="Cerrar"></td>
-		<?php
+		<?php 
 		}
 		else{
 	  ?>
         <input name="BtnSalir" type="button" id="BtnSalir" style="width:70" onClick="JavaScript:Proceso('S');" value="Salir"></td>
-	  <?php
+	  <?php 
 	  	}
 	  ?>
 	  
@@ -303,7 +305,7 @@ if ($Plantilla!="S")
   <br>
   <br>  
 			
-<?php		
+<?php 		
 		$ArrTotal = array();
 		$TotalPesoHum = 0;
 		$CantLotes = 0;
@@ -325,7 +327,7 @@ if ($Plantilla!="S")
 		}    
 		reset($ArrLeyes);
 		$ColSpan=0;
-		foreach($ArrLeyes as $k => $v)   
+		foreach($ArrLeyes as $k => $v)  			
 		{   $usada = isset($v["usada"])?$v["usada"]:"";
 			if ($usada=="S")
 			{   $ArrLimites_usada = isset($ArrLimites[$k]["usada"])?$ArrLimites[$k]["usada"]:"";
@@ -363,7 +365,7 @@ if ($Plantilla!="S")
 		$Consulta.= " group by ano, mes, lote ";
 		$Consulta.= " order by ano, lpad(mes,2,'0'), lote ";
 		//echo $Consulta."<br>";		
-		$Resp = mysqli_query($link, $Consulta);
+		$Resp = mysqli_query($link,$Consulta);
 		$Clase = "ColorTabla02";
 		$ProvAnt="";
 		while ($Fila = mysqli_fetch_array($Resp))
@@ -391,13 +393,13 @@ if ($Plantilla!="S")
 				$ArrLeyes[$CodLey]["valor"] = $Fila["c_".str_pad($i,2,'0',STR_PAD_LEFT).""];				
 			}		
 			reset($ArrLeyes);
-			foreach($ArrLeyes as $k => $v)	
-			{   $usada = isset($v["usada"])?$v["usada"]:"";
+			foreach($ArrLeyes as $k => $v)  
+			{    $usada = isset($v["usada"])?$v["usada"]:"";
 				if ($usada=="S")
 				{
 					$Color="";
 					$ArrTotalcod_leyes = isset($ArrTotal[$v["cod_leyes"]]["valor"])?$ArrTotal[$v["cod_leyes"]]["valor"]:0;
-					AsignaColor("", $v["cod_leyes"], $v["valor"], $ArrLimites, $Color, $BajoMin, $SobreMax);
+					$Color = AsignaColor("", $v["cod_leyes"], $v["valor"], $ArrLimites, $Color, $BajoMin, $SobreMax);
 					echo "<td align='right' bgcolor='".$Color."'>".number_format($v["valor"],$v["decimales"],",",".")."</td>\n";
 					$ArrTotal[$v["cod_leyes"]]["valor"] = $ArrTotalcod_leyes + (($v["valor"]*$Fila["peso_humedo"])/$v["conversion"]);
 					$ArrTotal[$v["cod_leyes"]]["usada"] = "S";
@@ -427,7 +429,7 @@ if ($Plantilla!="S")
 			$Consulta.= " and rut_proveedor='".$CmbProveedorAux."'";
 		$Consulta.= " group by ano, mes, rut_proveedor ";
 		$Consulta.= " order by rut_proveedor, ano, lpad(mes,2,'0') ";		
-		$Resp = mysqli_query($link, $Consulta);
+		$Resp = mysqli_query($link,$Consulta);
 		while ($Fila = mysqli_fetch_array($Resp))
 		{			
 			for ($i=1; $i<=60; $i++)
@@ -436,12 +438,12 @@ if ($Plantilla!="S")
 				$ArrLeyes[$CodLey]["valor"] = $Fila["c_".str_pad($i,2,'0',STR_PAD_LEFT).""];
 			}		
 			reset($ArrLeyes);
-			foreach($ArrLeyes as $k => $v)	
+			foreach($ArrLeyes as $k => $v)  
 			{   $usada = isset($v["usada"])?$v["usada"]:"";
 				if ($usada=="S")
 				{
 					$Color="";
-					AsignaColor("PROM", $v["cod_leyes"], $v["valor"], $ArrLimites, $Color, $BajoMin, $SobreMax);
+					$Color = AsignaColor("PROM", $v["cod_leyes"], $v["valor"], $ArrLimites, $Color, $BajoMin, $SobreMax);
 					echo "<td align='right' bgcolor='".$Color."'>".number_format($v["valor"],$v["decimales"],",",".")."</td>\n";					
 				}
 			}
@@ -487,6 +489,7 @@ function AsignaColor($Tipo, $CodLey, $Valor, $Limites, $BgColor, $BajoMin, $Sobr
 				break;
 		}	
 	}//FIN USADA
+	return $BgColor;
 }
 ?>
               

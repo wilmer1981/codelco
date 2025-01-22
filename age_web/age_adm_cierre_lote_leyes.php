@@ -24,8 +24,7 @@
 	$ArrLeyes=array();
 	$DatosLote["lote"]=$TxtLote;
 	//LeyesLote($DatosLote,$ArrLeyes,"N","S","N","","","",$link);
-	$ArrLeyes = LeyesLote($DatosLote,$ArrLeyes,"N","S","N","","","",$Petalo,$link);  
-	//var_dump($ArrLeyes);	
+	$ArrLeyes        = LeyesLote($DatosLote,$ArrLeyes,"N","S","N","","","",$Petalo,$link);  
 	$DatosLote       = LeyesLote($DatosLote,$ArrLeyes,"N","S","N","","","","",$link);
 	$PesoLote        = isset($DatosLote["peso_seco"])?$DatosLote["peso_seco"]:0;
 	$tipo_remuestreo = isset($DatosLote["tipo_remuestreo"])?$DatosLote["tipo_remuestreo"]:"";
@@ -63,17 +62,21 @@
 				$Fino = ($DatosLote["peso_humedo"]*($ValorLey+$v22))/$v[5];
 				$Ley = ($Fino/$DatosLote["peso_humedo"])*$v[34];
 			}
-			$EntreMin="";$EntreMax="";			
+			$EntreMin="";$EntreMax=""; $ArrLimites=array();	
+			$BajoMin ="";$SobreMax="";
 			$Color = AsignaColor("", $v[0], $Ley, $ArrLimites, $Color, $BajoMin, $EntreMin, $EntreMax, $SobreMax);
+			$ArrLimitesmin = isset($ArrLimites[$v[0]]["min"])?$ArrLimites[$v[0]]["min"]:"";
+			$ArrLimitesmax = isset($ArrLimites[$v[0]]["max"])?$ArrLimites[$v[0]]["max"]:"";
+			$ArrLimitesmed = isset($ArrLimites[$v[0]]["med"])?$ArrLimites[$v[0]]["med"]:"";
 			echo "<td align='right' bgcolor='".$Color."' onMouseOver=\"JavaScript:muestra('".$Cont."');\" onMouseOut=\"JavaScript:oculta('".$Cont."');\">";
 			echo "<div id='Txt".$Cont."' style= 'position:Absolute; background-color:#fff4cf; visibility:hidden; border:solid 1px Black;width:140px'>\n";
 			echo "<table width='140' border='1' cellpadding='2' cellspacing='0' class='TablaInterior'>";
 			echo "<tr class='ColorTabla01'><td colspan=\"3\" align='center'><strong>".$v[1]."</strong></td></tr>";
 			echo "<tr align='center'><td width='70'>Min.</td><td width='70'>Max.</td></tr>";
-			echo "<tr align='center' class='Detalle01'><td>".$ArrLimites[$v[0]]["min"]."</td><td>".$ArrLimites[$v[0]]["max"]."</td></tr>";
+			echo "<tr align='center' class='Detalle01'><td>".$ArrLimitesmin."</td><td>".$ArrLimitesmax."</td></tr>";
 			echo "<tr align='center'><td colspan='2'>Prom.Mes</td></tr>";
-			echo "<tr align='center' class='Detalle01'><td colspan='2'>".$ArrLimites[$v[0]]["med"]."</td></tr>";
-			echo "</table></div>".number_format($ValorLey+$v[22],4,',','.')."&nbsp;</td>\n";
+			echo "<tr align='center' class='Detalle01'><td colspan='2'>".$ArrLimitesmed."</td></tr>";
+			echo "</table></div>".number_format($ValorLey+$v22,4,',','.')."&nbsp;</td>\n";
 			$Cont++;
 			//echo "<td align='right' bgcolor='".$Color."'>".number_format($v[2]+$v[22],3,',','.')."&nbsp;</td>\n";
 			if($v[5]>0)				
@@ -178,7 +181,7 @@
 				{									
 					$LeyRetallaParalela=$FilaAux["valor"];
 					//CALCULA LA LEY INCLUYENDO INCIDENCIA DE LA RETALLA
-					if ($LeyParRetalla>0 && $PesoRetalla>0 && $PesoMuestra>0)
+					if ($LeyParRetalla>0 && $PesoRetalla>0 && $PesoMuestraR>0)
 					{
 						$IncRetalla = ($FilaAux["valor"] - $LeyParRetalla) * ($PesoRetallaR/$PesoMuestraR);  //VALOR					
 						//$IncRetalla = ((($FilaAux["valor"] - $LeyParRetalla)) / $PesoMuestra)*$PesoRetalla;  //VALOR

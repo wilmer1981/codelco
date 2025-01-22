@@ -11,7 +11,8 @@
 	$TxtConjIni = isset($_REQUEST["TxtConjIni"])?$_REQUEST["TxtConjIni"]:"";
 	$TxtConjFin = isset($_REQUEST["TxtConjFin"])?$_REQUEST["TxtConjFin"]:"";
 	$OpcConsulta = isset($_REQUEST["OpcConsulta"])?$_REQUEST["OpcConsulta"]:"";
-
+    $CmbMes = isset($_REQUEST["CmbMes"])?$_REQUEST["CmbMes"]:date("m");
+	$CmbAno = isset($_REQUEST["CmbAno"])?$_REQUEST["CmbAno"]:date("Y");
 	$Mes = isset($_REQUEST["Mes"])?$_REQUEST["Mes"]:date("m");
 	$Ano = isset($_REQUEST["Ano"])?$_REQUEST["Ano"]:date("Y");
 	$CmbSubProducto = isset($_REQUEST["CmbSubProducto"])?$_REQUEST["CmbSubProducto"]:"";

@@ -660,7 +660,8 @@ while ($Fila01 = mysqli_fetch_array($Resp01))
 						$DatosLoteRec = array();
 						$DatosLoteRec["lote"]=$Lote;
 						$DatosLoteRec["recargo"]=$Recargo;
-						LeyesLoteRecargo($DatosLoteRec,$ArrLeyes,"N","S","S","","",$link);
+						$DatosLoteRec = LeyesLoteRecargo($DatosLoteRec,$ArrLeyes,"N","S","S","","","",$link);
+						$ArrLeyes     = LeyesLoteRecargo($DatosLoteRec,$ArrLeyes,"N","S","S","","","L",$link);
 						$PesoSeco=$DatosLoteRec["peso_seco2"];
 						//----------------------------------------------------
 						echo "<tr>\n";
@@ -756,7 +757,8 @@ while ($Fila01 = mysqli_fetch_array($Resp01))
 						$DatosLote = array();
 						$DatosLote["lote"]=$Lote;
 						$DatosLote["recargo"]="";
-						LeyesLote($DatosLote,$ArrLoteLeyes,"N","S","S","","","",$link);
+						$DatosLote    = LeyesLote($DatosLote,$ArrLoteLeyes,"N","S","S","","","","",$link);
+						$ArrLoteLeyes = LeyesLote($DatosLote,$ArrLoteLeyes,"N","S","S","","","","L",$link);
 						$TotalLotePesoHum  = isset($DatosLote["peso_humedo"])?$DatosLote["peso_humedo"]:0;
 						$TotalLotePesoSeco = isset($DatosLote["peso_seco2"])?$DatosLote["peso_seco2"]:0;
 						//----------------------------------------------------
@@ -790,7 +792,8 @@ while ($Fila01 = mysqli_fetch_array($Resp01))
 						foreach($ArrLoteLeyes as $k => $v)
 						{
 							$Color = "";
-							if ($k!="01"&&$k!=""&&$v[1]!='')
+							$v1 = isset($v[1])?$v[1]:1;
+							if ($k!="01"&&$k!=""&&$v1!='')
 							{
 								if ($OpcHLF!="P")
 								{
@@ -844,15 +847,24 @@ while ($Fila01 = mysqli_fetch_array($Resp01))
 								}
 							}
 							//SUB-TOTAL
-							if ($TotalLotePesoSeco>0 && $v[2]>0 && $v[5]>0) 
-								$ArrSubTotalLeyes[$v[0]][2] = $ArrSubTotalLeyes[$v[0]][2] + (($TotalLotePesoSeco * $v[2])/$v[5]);//VALOR
+							$v0 = isset($v[0])?$v[0]:0;
+							$v2 = isset($v[2])?$v[2]:0;
+							$v5 = isset($v[5])?$v[5]:0;
+							$ArrSubTotalLeyes02 = isset($ArrSubTotalLeyes[$v0][2])?$ArrSubTotalLeyes[$v0][2]:0;
+							$ArrParamLeyes00 = isset($ArrParamLeyes[$v0][0])?$ArrParamLeyes[$v0][0]:"";
+							$ArrParamLeyes01 = isset($ArrParamLeyes[$v0][1])?$ArrParamLeyes[$v0][1]:"";
+							$ArrParamLeyes03 = isset($ArrParamLeyes[$v0][3])?$ArrParamLeyes[$v0][3]:"";
+							
+							if ($TotalLotePesoSeco>0 && $v2>0 && $v5>0) 
+								$ArrSubTotalLeyes[$v0][2] = (float)$ArrSubTotalLeyes02 + (($TotalLotePesoSeco * $v2)/$v5);//VALOR
 							else
-								$ArrSubTotalLeyes[$v[0]][2] = $ArrSubTotalLeyes[$v[0]][2];
-							$ArrSubTotalLeyes[$v[0]][3] = $ArrParamLeyes[$v[0]][0];//COD UNIDAD
-							$ArrSubTotalLeyes[$v[0]][4] = $ArrParamLeyes[$v[0]][3];//NOM UNIDAD
-							$ArrSubTotalLeyes[$v[0]][5] = $ArrParamLeyes[$v[0]][1];//CONVERSION
-							$Fino = "";
-							$Ley = "";
+								$ArrSubTotalLeyes[$v0][2] = $ArrSubTotalLeyes02;
+							
+							$ArrSubTotalLeyes[$v0][3] = $ArrParamLeyes00;//COD UNIDAD
+							$ArrSubTotalLeyes[$v0][4] = $ArrParamLeyes03;//NOM UNIDAD
+							$ArrSubTotalLeyes[$v0][5] = $ArrParamLeyes01;//CONVERSION
+							$Fino = 0;
+							$Ley = 0;
 						}
 						echo "</tr>\n";
 						$SubTotalPesoHum = $SubTotalPesoHum + $TotalLotePesoHum;
@@ -997,13 +1009,17 @@ while ($Fila01 = mysqli_fetch_array($Resp01))
 				}*/
 			}
 			//TOTAL
+			$ArrTotalLeyes2 = isset($ArrTotalLeyes[$k][2])?$ArrTotalLeyes[$k][2]:0;
+			$ArrParamLeyes0 = isset($ArrParamLeyes[$k][0])?$ArrParamLeyes[$k][0]:"";
+			$ArrParamLeyes1 = isset($ArrParamLeyes[$k][1])?$ArrParamLeyes[$k][1]:0;
+			$ArrParamLeyes3 = isset($ArrParamLeyes[$k][3])?$ArrParamLeyes[$k][3]:"";
 			if ($SubTotalPesoSeco>0 && $v[2]>0 && $v[5]>0) 
-				$ArrTotalLeyes[$k][2] = $ArrTotalLeyes[$k][2] + (($SubTotalPesoSeco * $Ley)/$ArrParamLeyes[$k][1]);//VALOR
+				$ArrTotalLeyes[$k][2] = (float)$ArrTotalLeyes2 + (($SubTotalPesoSeco * $Ley)/$ArrParamLeyes1);//VALOR
 			else
-				$ArrTotalLeyes[$k][2] = $ArrTotalLeyes[$k][2];
-			$ArrTotalLeyes[$k][3] = $ArrParamLeyes[$k][0];//COD UNIDAD
-			$ArrTotalLeyes[$k][4] = $ArrParamLeyes[$k][3];//NOM UNIDAD
-			$ArrTotalLeyes[$k][5] = $ArrParamLeyes[$k][1];//CONVERSION
+				$ArrTotalLeyes[$k][2] = $ArrTotalLeyes2;
+			$ArrTotalLeyes[$k][3] = $ArrParamLeyes0;//COD UNIDAD
+			$ArrTotalLeyes[$k][4] = $ArrParamLeyes3;//NOM UNIDAD
+			$ArrTotalLeyes[$k][5] = $ArrParamLeyes1;//CONVERSION
 		}
 		echo "</tr>\n";
 		$TotalPesoHum = $TotalPesoHum + $SubTotalPesoHum;

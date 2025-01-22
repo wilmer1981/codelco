@@ -48,8 +48,12 @@
 				$NomLey = $Datos2[0];
 				$ValorSigno = $Datos2[1];
 				$ValorLimite = $Datos2[2];
+				$Insertar = "insert into age_web.limites (cod_producto, cod_subproducto, rut_proveedor, cod_leyes, limite) ";
+				$Insertar.= " VALUES('".$Producto."','".$SubProducto."','".$RutAux."','".$NomLey."','".$ValorLimite."')";
+				/*
 				$Insertar = "insert into age_web.limites (cod_producto, cod_subproducto, rut_proveedor, cod_leyes, signo, limite) ";
 				$Insertar.= " VALUES('".$Producto."','".$SubProducto."','".$RutAux."','".$NomLey."','".$ValorSigno."','".$ValorLimite."')";
+				*/
 				mysqli_query($link, $Insertar);
 			}
 			if ($SubProducto=="99")
