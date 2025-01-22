@@ -216,7 +216,8 @@
 			Titulo($Fila["rut_proveedor"], $Fila["nom_proveedor"], $ArrLeyes, $ArrLimites);
 		}
 		$ArrLote["lote"]=$Fila["lote"];
-		LeyesLote($ArrLote,$ArrLeyes,"N","S","S","","","",$link);
+		$ArrLote  = LeyesLote($ArrLote,$ArrLeyes,"N","S","S","","","","",$link);
+		$ArrLeyes = LeyesLote($ArrLote,$ArrLeyes,"N","S","S","","","","L",$link);
 		echo "<tr align='right'>\n";
 		echo "<td align=\"center\">".$ArrLote["lote"]."</td>\n";
 		echo "<td>".number_format($ArrLote["peso_humedo"],0,",",".")."</td>\n";
@@ -230,12 +231,13 @@
 			{
 				$Fino = ($ArrLote["peso_humedo"]*$ArrLeyes[$key][2])/$ArrLeyes[$key][5];
 				$Ley = ($Fino/$ArrLote["peso_humedo"])*$ArrLeyes[$key][34];
-			}			
+			}
+			$ArrTotalLeyes2 = isset($ArrTotalLeyes[$key][2])?$ArrTotalLeyes[$key][2]:0;			
 			$Color="";
-			AsignaColor($key, $Ley, $ArrLimites, $Color, $BajoMin, $EntreMin, $EntreMax, $SobreMax);
+			$Color = AsignaColor($key, $Ley, $ArrLimites, $Color, $BajoMin, $EntreMin, $EntreMax, $SobreMax);
 			echo "<td width='50' bgcolor='".$Color."'>".number_format($Ley,$ArrLeyes[$key][35],",",".")."</td>\n";
 			$ArrLeyes[$key][2] = "";
-			$ArrTotalLeyes[$key][2] = $ArrTotalLeyes[$key][2]+$Fino;
+			$ArrTotalLeyes[$key][2] = $ArrTotalLeyes2+$Fino;
 			$ArrTotalLeyes[$key][34] = $ArrLeyes[$key][34];
 			$ArrTotalLeyes[$key][35] = $ArrLeyes[$key][35];
 		} while (next($ArrLeyes));	
@@ -280,6 +282,7 @@ function AsignaColor($CodLey, $Valor, $Limites, $BgColor, $BajoMin, $EntreMin, $
 			}
 		}
 	}//FIN USADA
+	return $BgColor;
 }
 	
 function TotalProv($PesoHum, $PesoSeco, $ArrTotal, $ArrLimites, $BajoMin, $EntreMin, $EntreMax, $SobreMax)

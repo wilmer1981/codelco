@@ -9,6 +9,7 @@
 	$CmbMes        = isset($_REQUEST["CmbMes"])?$_REQUEST["CmbMes"]:date("m");
 	$CmbAno        = isset($_REQUEST["CmbAno"])?$_REQUEST["CmbAno"]:date("Y");
 	$Plantilla     = isset($_REQUEST["Plantilla"])?$_REQUEST["Plantilla"]:"";
+	$Busq          = isset($_REQUEST["Busq"])?$_REQUEST["Busq"]:"";
 	
 	//COLORES DE LIMITES
 	$Consulta = "SELECT * from proyecto_modernizacion.sub_clase where cod_clase='15007'";
@@ -101,9 +102,9 @@ function Proceso(opt)
             <?php
 	for ($i=1;$i<=12;$i++)
 	{
-		if ($CmbMes!="")
+		if ($CmbMes=="")
 		{
-			if ($i == date("n"))
+			if ($i == date("m"))
 				echo "<option selected value='".$i."'>".$Meses[$i-1]."</option>\n";
 			else
 				echo "<option value='".$i."'>".$Meses[$i-1]."</option>\n";
@@ -122,7 +123,7 @@ function Proceso(opt)
               <?php
 	for ($i=date("Y")-1;$i<=date("Y")+1;$i++)
 	{
-		if ($CmbAno!="")
+		if ($CmbAno=="")
 		{
 			if ($i == date("Y"))
 				echo "<option selected value='".$i."'>".$i."</option>\n";
