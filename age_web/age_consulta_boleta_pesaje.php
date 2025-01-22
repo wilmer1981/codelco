@@ -14,7 +14,6 @@
 	$CmbSubProducto = isset($_REQUEST['CmbSubProducto']) ? $_REQUEST['CmbSubProducto'] : '';
 	$CmbProveedor = isset($_REQUEST['CmbProveedor']) ? $_REQUEST['CmbProveedor'] : '';
 	$TxtFiltroPrv    = isset($_REQUEST["TxtFiltroPrv"])?$_REQUEST["TxtFiltroPrv"]:"";
-
 ?>
 <html>
 <head>
@@ -148,7 +147,7 @@ function Salir()
             <td><select name="CmbProveedor" onChange='Recarga()' style="width:300">
               <option class="NoSelec" value="S">SELECCIONAR</option>
               <?php
-				if (isset($CmbSubProducto) && $CmbSubProducto != "S")
+				if ($CmbSubProducto!="" && $CmbSubProducto != "S")
 				{
 					$Consulta = "select t1.rut_prv as RUTPRV_A, t1.nombre_prv as NOMPRV_A ";
 					$Consulta.= " from sipa_web.proveedores t1 inner join age_web.relaciones t2 ";
@@ -197,11 +196,11 @@ function Salir()
 		  <td align="right"  width="90">Peso.Hum(Kg)</td>
 		  </tr>          
 		  <?php
-		  $SubTotalPeso=0;
+		  	$SubTotalPeso=0;
 		  $TotalPeso = 0;
 		  $SubCantReg=0;
 		  $DescrAnt="";
-		  $CantReg = 0;
+		  $CantReg = 0;		  
 			if ($Mostrar=='S')	
 			{
 				if (strlen($CmbMes)=='1')
@@ -240,7 +239,7 @@ function Salir()
 				//echo $Consulta;
 				$Resp = mysqli_query($link, $Consulta);
 				echo "<input type='hidden' name='CheckCod'>";
-				$TotalPeso = 0;
+			$TotalPeso = 0;
 				$SubTotalPeso = 0;
 				$CantReg = 0;
 				$SubCantReg = 0;;	
