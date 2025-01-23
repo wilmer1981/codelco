@@ -243,20 +243,14 @@ function Leyes($Lote,$MuestraParalela,$Cu_Pri,$Ag_Pri,$Au_Pri,$Cu_Par,$Ag_Par,$A
 	//LEYES DEL PAQUETE PRIMERO
 	$DatosLote= array();
 	$ArrLeyes=array();
-	$DatosLote["lote"]=$Lote;
-	/*
-	LeyesLote($DatosLote,$ArrLeyes,"N","S","S","","","",$link);
+	$DatosLote["lote"]=$Lote;	
+	$DatosLote = LeyesLote($DatosLote,$ArrLeyes,"N","S","S","","","","",$link);
+	$ArrLeyes  = LeyesLote($DatosLote,$ArrLeyes,"N","S","S","","","","L",$link);
 	$PesoLote=$DatosLote["peso_seco"];
 	$Cu_Pri=$ArrLeyes["02"][2];
 	$Ag_Pri=$ArrLeyes["04"][2];
 	$Au_Pri=$ArrLeyes["05"][2];
-	*/
-	$LeyesL = LeyesLote($DatosLote,$ArrLeyes,"N","S","S","","","",$link);
-	//var_dump($LeyesL);
-	$PesoLote = isset($DatosLote["peso_seco"])?$DatosLote["peso_seco"]:0;
-	$Cu_Pri = isset($LeyesL["02"][2])?$LeyesL["02"][2]:0;
-	$Ag_Pri = isset($LeyesL["04"][2])?$LeyesL["04"][2]:0;
-	$Au_Pri = isset($LeyesL["05"][2])?$LeyesL["05"][2]:0;	
+
 	//BUSCA DATOS MUESTRA PARALELA
 	$Consulta="select * from cal_web.solicitud_analisis where id_muestra='".$MuestraParalela."' and tipo=4 and recargo='R' and year(fecha_muestra)='".$Ano."'";
 	$Respuesta=mysqli_query($link, $Consulta);
