@@ -81,7 +81,22 @@ if ($Mostrar=="S")
 		{
 			$Lote=$Fila2["lote"];
 			$Cu_Pri=0;$Ag_Pri=0;$Au_Pri=0;$Cu_Seg=0;$Ag_Seg=0;$Au_Seg=0;$Cu_Ter=0;$Ag_Ter=0;$Au_Ter=0;$SA_Pri="";
-			Leyes($Lote,$Cu_Pri,$Ag_Pri,$Au_Pri,$Cu_Seg,$Ag_Seg,$Au_Seg,$Cu_Ter,$Ag_Ter,$Au_Ter,$Ley_CanjeCu,$Ley_CanjeAg,$Ley_CanjeAu,$SA_Pri,$link);						
+			$Ley_CanjeCu=0;$Ley_CanjeAg=0;$Ley_CanjeAu=0;
+			$Result = Leyes($Lote,$Cu_Pri,$Ag_Pri,$Au_Pri,$Cu_Seg,$Ag_Seg,$Au_Seg,$Cu_Ter,$Ag_Ter,$Au_Ter,$Ley_CanjeCu,$Ley_CanjeAg,$Ley_CanjeAu,$SA_Pri,$link);
+			$Val = explode("**",$Result);
+			$Cu_Pri = $Val[0];
+			$Ag_Pri = $Val[1];
+			$Au_Pri = $Val[2];
+			$Cu_Seg = $Val[3];
+			$Ag_Seg = $Val[4];
+			$Au_Seg = $Val[5];
+			$Cu_Ter = $Val[6];
+			$Ag_Ter = $Val[7];
+			$Au_Ter = $Val[8];
+			$Ley_CanjeCu = $Val[9];
+			$Ley_CanjeAg = $Val[10];
+			$Ley_CanjeAu = $Val[11];
+			$SA_Pri      = $Val[12];
 			$Cu_Dif=0;$Ag_Dif=0;$Au_Dif=0;$Cu_Dif2=0;$Ag_Dif2=0;$Au_Dif2=0;
 			if($Cu_Seg>0)
 				$Cu_Dif=abs($Cu_Pri-$Cu_Seg);
@@ -225,7 +240,7 @@ function Leyes($Lote,$Cu_Pri,$Ag_Pri,$Au_Pri,$Cu_Seg,$Ag_Seg,$Au_Seg,$Cu_Ter,$Ag
 	$Cu_Par=0;$Ag_Par=0;$Au_Par=0;
 	$Respuesta=mysqli_query($link, $Consulta);
 	while($FilaLeyes=mysqli_fetch_array($Respuesta))
-	{
+	{   $Recargo = $FilaLeyes["recargo"];
 		switch($FilaLeyes["cod_leyes"])
 		{
 			case "02":
@@ -259,6 +274,9 @@ function Leyes($Lote,$Cu_Pri,$Ag_Pri,$Au_Pri,$Cu_Seg,$Ag_Seg,$Au_Seg,$Cu_Ter,$Ag
 	$RespSA=mysqli_query($link, $Consulta);
 	if($FilaSA=mysqli_fetch_array($RespSA))
 		$SA_Pri=$FilaSA["nro_solicitud"];
+	
+	$valores = $Cu_Pri."**".$Ag_Pri."**".$Au_Pri."**".$Cu_Seg."**".$Ag_Seg."**".$Au_Seg."**".$Cu_Ter."**".$Ag_Ter."**".$Au_Ter."**".$Ley_CanjeCu."**".$Ley_CanjeAg."**".$Ley_CanjeAu."**".$SA_Pri;
+    return $valores;
 }
 ?>
   </table>	  
