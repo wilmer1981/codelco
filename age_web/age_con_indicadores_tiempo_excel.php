@@ -400,8 +400,8 @@ function DifFecha($Fecha1, $Fecha2, $Tipo, $DifFecha)
 	$SegundoAux2=substr($Fecha2,17,2);
 	//echo $Fecha1." - ".$Fecha2."<br>";	
 	//echo $HoraAux2."-".$HoraAux.", ".$MinutoAux2."-".$MinutoAux.", ".$SegundoAux2."-".$SegundoAux.", ".$MesAux2."-".$MesAux.", ".$DiaAux2."-".$DiaAux.", ".$AnoAux2."-".$AnoAux."<br>";
-	$Fecha1=mktime($HoraAux, $MinutoAux, 0, $MesAux, $DiaAux, $AnoAux);
-	$Fecha2=mktime($HoraAux2, $MinutoAux2, 0, $MesAux2, $DiaAux2, $AnoAux2);
+	$Fecha1=mktime((int)$HoraAux, (int)$MinutoAux, 0, (int)$MesAux, (int)$DiaAux, (int)$AnoAux);
+	$Fecha2=mktime((int)$HoraAux2, (int)$MinutoAux2, 0, (int)$MesAux2, (int)$DiaAux2, (int)$AnoAux2);
 	$DifFecha=$Fecha2-$Fecha1;
 	if($Tipo=='H')
 	{
@@ -415,6 +415,7 @@ function DifFecha($Fecha1, $Fecha2, $Tipo, $DifFecha)
 		$DifFecha=round(($DifFecha/3600)/24);
 	//echo "Diferencia: $horas Hs:$min Min:$seg Seg"; 
 	//$DifFecha=mktime($HoraAux2-$HoraAux, $MinutoAux2-$MinutoAux, $SegundoAux2-$SegundoAux, $MesAux2-$MesAux, $DiaAux2-$DiaAux, $AnoAux2-$AnoAux);
+	//return $DifFecha;
 }
 ?>
 </table>	

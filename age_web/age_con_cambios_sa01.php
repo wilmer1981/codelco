@@ -15,6 +15,10 @@
 	$TxtAjuCu     = isset($_REQUEST["TxtAjuCu"])?$_REQUEST["TxtAjuCu"]:"";
 	$TxtAjuAg     = isset($_REQUEST["TxtAjuAg"])?$_REQUEST["TxtAjuAg"]:"";
 	$TxtAjuAu     = isset($_REQUEST["TxtAjuAu"])?$_REQUEST["TxtAjuAu"]:"";
+	
+	if($TxtAjuCu=="")$TxtAjuCu=0;
+	if($TxtAjuAg=="")$TxtAjuAg=0;
+	if($TxtAjuAu=="")$TxtAjuAu=0;
 
 	switch ($Proceso)
 	{
