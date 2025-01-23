@@ -191,7 +191,16 @@ if ($Mostrar=="S")
 			$Au_Par=0;
 			$SA_Pri="";
 			$SA_Par="";
-			Leyes($Lote,'',$Cu_Pri,$Ag_Pri,$Au_Pri,$Cu_Par,$Ag_Par,$Au_Par,$SA_Pri,$SA_Par, $Ano,$link);						
+			$Result = Leyes($Lote,'',$Cu_Pri,$Ag_Pri,$Au_Pri,$Cu_Par,$Ag_Par,$Au_Par,$SA_Pri,$SA_Par, $Ano,$link);	
+			$Val = explode("**",$Result);
+			$Cu_Pri = $Val[0];
+			$Ag_Pri = $Val[1];
+			$Au_Pri = $Val[2];
+			$Cu_Par = $Val[3];
+			$Ag_Par = $Val[4];
+			$Au_Par = $Val[5];
+			$SA_Pri = $Val[6];
+			$SA_Par = $Val[7];			
 			$Valores = $Lote."~~".$recargo;
 			echo "<tr align=\"center\">\n";
 			echo "<td><a href=\"JavaScript:Historial('".$SA_Pri."','0')\">".$Lote."</a></td>\n";			
@@ -261,7 +270,8 @@ function Leyes($Lote,$MuestraParalela,$Cu_Pri,$Ag_Pri,$Au_Pri,$Cu_Par,$Ag_Par,$A
 	$DatosLote= array();
 	$ArrLeyes=array();
 	$DatosLote["lote"]=$Lote;
-	LeyesLote($DatosLote,$ArrLeyes,"N","S","S","","","",$link);
+	$DatosLote  = LeyesLote($DatosLote,$ArrLeyes,"N","S","S","","","","",$link);
+	$ArrLeyes   = LeyesLote($DatosLote,$ArrLeyes,"N","S","S","","","","L",$link);
 	$PesoLote        = isset($DatosLote["peso_seco"])?$DatosLote["peso_seco"]:0;
 	$fecha_recepcion = isset($DatosLote["fecha_recepcion"])?$DatosLote["fecha_recepcion"]:"";
 	$Cu_Pri=isset($ArrLeyes["02"][2])?$ArrLeyes["02"][2]:"";
@@ -281,9 +291,9 @@ function Leyes($Lote,$MuestraParalela,$Cu_Pri,$Ag_Pri,$Au_Pri,$Cu_Par,$Ag_Par,$A
 	$Consulta.= " where lote='".$MuestraParalela."' ";
 	$Consulta.= " and recargo='0' and cod_leyes in('02','04','05') ";
 	$Consulta.= " and ano='".substr($fecha_recepcion,0,4)."' ";
-	$Cu_Par=0;
+	/*$Cu_Par=0;
 	$Ag_Par=0;
-	$Au_Par=0;
+	$Au_Par=0;*/
 	$Respuesta=mysqli_query($link, $Consulta);
 	while($FilaLeyes=mysqli_fetch_array($Respuesta))
 	{
@@ -368,7 +378,8 @@ function Leyes($Lote,$MuestraParalela,$Cu_Pri,$Ag_Pri,$Au_Pri,$Cu_Par,$Ag_Par,$A
 	{
 		$SA_Par=$FilaSA["nro_solicitud"];
 	}
-	
+	$valores = $Cu_Pri."**".$Ag_Pri."**".$Au_Pri."**".$Cu_Par."**".$Ag_Par."**".$Au_Par."**".$SA_Pri."**".$SA_Par;
+    return $valores;
 }
 ?>
 </td>
