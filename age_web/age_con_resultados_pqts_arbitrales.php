@@ -1,6 +1,6 @@
 <?php
 	$CodigoDeSistema=15;
-	$CodigoDePantalla=95;
+	$CodigoDePantalla=98;
 
 	$CmbMes     = isset($_REQUEST["CmbMes"])?$_REQUEST["CmbMes"]:"";
 	$CmbAno     = isset($_REQUEST["CmbAno"])?$_REQUEST["CmbAno"]:"";

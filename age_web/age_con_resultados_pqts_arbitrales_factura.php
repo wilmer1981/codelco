@@ -19,11 +19,12 @@
 	//echo $Consulta;
 	$Resp=mysqli_query($link, $Consulta);
 	$Fila=mysqli_fetch_array($Resp);
-	$NomLab        = strtoupper($Fila["nom_lab"]);
-	$CmbTipoMoneda = $Fila["valor_subclase1"];
-	$PrecioCu      = $Fila["valor_subclase2"];
-	$PrecioAg      = $Fila["valor_subclase3"];
-	$PrecioAu      = $Fila["valor_subclase4"];
+	$nom_lab = isset($Fila["nom_lab"])?$Fila["nom_lab"]:"";
+	$NomLab        = strtoupper($nom_lab);
+	$CmbTipoMoneda = isset($Fila["valor_subclase1"])?$Fila["valor_subclase1"]:"";
+	$PrecioCu      = isset($Fila["valor_subclase2"])?$Fila["valor_subclase2"]:"";
+	$PrecioAg      = isset($Fila["valor_subclase3"])?$Fila["valor_subclase3"]:"";
+	$PrecioAu      = isset($Fila["valor_subclase4"])?$Fila["valor_subclase4"]:"";
 	
 	if($TxtOrdenEnsaye=="")
 		$TxtOrdenEnsaye=$TxtOrdenEns;
