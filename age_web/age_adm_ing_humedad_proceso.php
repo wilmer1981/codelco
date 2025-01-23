@@ -20,13 +20,15 @@
 	$PorcMerma=0;
 	$DescMerma=0;
 	$CantDec=0;
+	$TotPesoHum=0;$TotPesoSecoAnt=0;$TotPesoSeco=0;
 	while ($Fila = mysqli_fetch_array($Resp))
 	{		
 		$DatosLoteRec = array();
 		$ArrLeyes=array();
 		$DatosLoteRec["lote"]=$TxtLote;
 		$DatosLoteRec["recargo"]=$Fila["recargo"];
-		LeyesLoteRecargo(&$DatosLoteRec,&$ArrLeyes,"N","N","S","","","");
+        $DatosLoteRec = LeyesLoteRecargo($DatosLoteRec,$ArrLeyes,"N","N","S","","","",$link);
+		$ArrLeyes     = LeyesLoteRecargo($DatosLoteRec,$ArrLeyes,"N","N","S","","","L",$link);
 		if ($ArrLeyes["01"][30]>0)
 		{
 			$PorcMerma = $ArrLeyes["01"][30];
@@ -103,7 +105,9 @@
 		$ArrLeyes=array();
 		$DatosLote["lote"]=$TxtLote;
 		$ArrLeyes["01"][0]="01";
-		LeyesLote(&$DatosLote,&$ArrLeyes,"N","S","S","","","");
+		$DatosLote  = LeyesLote($DatosLote,$ArrLeyes,"N","S","S","","","","",$link);
+		$ArrLeyes   = LeyesLote($DatosLote,$ArrLeyes,"N","S","S","","","","L",$link);
+		$ArrLeyes0130 = isset($ArrLeyes["01"][30])?$ArrLeyes["01"][30]:0;
 		if($DatosLote["tipo_remuestreo"]=='A')
 		{
 			$ValorLey=$ArrLeyes["01"][60];
@@ -122,7 +126,7 @@
 		//$TotPorc=abs($ValorLey-$ArrLeyes["01"][30]);
 		$TotPorc=100-($TotPesoSeco*100)/$TotPesoHum;
 		//$TotNuevoPorc=$ValorLey;
-		$TotNuevoPorc=abs($TotPorc-$ArrLeyes["01"][30]);
+		$TotNuevoPorc=abs($TotPorc-$ArrLeyes0130);
 		
 	?>
     <td align="right"><?php echo number_format($TotPesoHum,$CantDec,",",".");?></td>

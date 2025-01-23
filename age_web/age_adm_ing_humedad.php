@@ -103,7 +103,8 @@
 				$DatosLote= array();
 				$ArrLeyes=array();
 				$DatosLote["lote"]=$TxtLote;
-				LeyesLote($DatosLote,$ArrLeyes,"N","S","S","","","",$link);
+				$DatosLote  = LeyesLote($DatosLote,$ArrLeyes,"N","S","S","","","","",$link);
+				$ArrLeyes   = LeyesLote($DatosLote,$ArrLeyes,"N","S","S","","","","L",$link);
 				if($DatosLote["tipo_remuestreo"]=='A')
 				{
 					$PesoSecoLote=$DatosLote["peso_seco2_ori"];
