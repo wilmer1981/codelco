@@ -282,7 +282,7 @@ if ($Mostrar=="S")
 	{
 		Titulo($Fila["cod_subproducto"],$Fila["descripcion"],$Fila["rut_proveedor"],$Fila["nomprv_a"]);
 		//CONSULTA RECARGOS CON PARALELA
-		$Consulta = "select distinct t1.lote, t1.muestra_paralela, t1.remuestreo, t1.num_lote_remuestreo, t1.estado_lote ";
+		$Consulta = "select distinct t1.lote, t1.muestra_paralela, t1.remuestreo, t1.num_lote_remuestreo, t1.estado_lote, t2.recargo ";
 		$Consulta.= " from age_web.lotes t1 inner join age_web.leyes_por_lote t2 on t1.muestra_paralela=t2.lote ";
 		$Consulta.= " where t1.lote  between '".$LoteIni."' and '".$LoteFin."' ";		
 		$Consulta.= " and t1.muestra_paralela <>'' ";
@@ -313,54 +313,69 @@ if ($Mostrar=="S")
 			$Au_Par=0;
 			$SA_Pri="";
 			$SA_Par="";
-			Leyes($Lote,$Fila2["muestra_paralela"],$Cu_Pri,$Ag_Pri,$Au_Pri,$Cu_Par,$Ag_Par,$Au_Par,$SA_Pri,$SA_Par, $Ano,$link);						
-			$Cu_Dif=0;
-			$Ag_Dif=0;
-			$Au_Dif=0;
-			$Cu_Dif=$Cu_Pri-$Cu_Par;
-			$Ag_Dif=$Ag_Pri-$Ag_Par;
-			$Au_Dif=$Au_Pri-$Au_Par;
+			$Val = Leyes($Lote,$Fila2["muestra_paralela"],$Cu_Pri,$Ag_Pri,$Au_Pri,$Cu_Par,$Ag_Par,$Au_Par,$SA_Pri,$SA_Par, $Ano,$link);
+			//echo $Val;
+			$Cu_Pri = $Val[0];
+			$Ag_Pri = $Val[1];
+			$Au_Pri = $Val[2];
+			$Cu_Par = $Val[3];
+			$Ag_Par = $Val[4];
+			$Au_Par = $Val[5];
+			$SA_Pri = $Val[6];
+			$SA_Par = $Val[7];
+			//$Cu_Dif=0;
+			//$Ag_Dif=0;
+			//$Au_Dif=0;
+			$Cu_Dif=(float)$Cu_Pri-(float)$Cu_Par;
+			$Ag_Dif=(float)$Ag_Pri-(float)$Ag_Par;
+			$Au_Dif=(float)$Au_Pri-(float)$Au_Par;
 			$Valores = $Lote."~~".$Fila2["recargo"];
+			//echo "SA_Priiiii:".$SA_Pri;
 			echo "<tr align=\"center\">\n";
 			echo "<td><a href=\"JavaScript:Historial('".$SA_Pri."','0')\">".$Lote."</a></td>\n";			
-			echo "<td align=\"right\">".number_format($Cu_Pri,3,",",".")."</td>\n";
-			echo "<td align=\"right\">".number_format($Ag_Pri,3,",",".")."</td>\n";
-			echo "<td align=\"right\">".number_format($Au_Pri,3,",",".")."</td>\n";
+			echo "<td align=\"right\">".number_format((float)$Cu_Pri,3,",",".")."</td>\n";
+			echo "<td align=\"right\">".number_format((float)$Ag_Pri,3,",",".")."</td>\n";
+			echo "<td align=\"right\">".number_format((float)$Au_Pri,3,",",".")."</td>\n";
 			echo "<td><a href=\"JavaScript:Historial('".$SA_Par."','0')\">".$Fila2["muestra_paralela"]."</a></td>\n";
-			echo "<td align=\"right\">".number_format($Cu_Par,3,",",".")."</td>\n";
-			echo "<td align=\"right\">".number_format($Ag_Par,3,",",".")."</td>\n";
-			echo "<td align=\"right\">".number_format($Au_Par,3,",",".")."</td>\n";
+			echo "<td align=\"right\">".number_format((float)$Cu_Par,3,",",".")."</td>\n";
+			echo "<td align=\"right\">".number_format((float)$Ag_Par,3,",",".")."</td>\n";
+			echo "<td align=\"right\">".number_format((float)$Au_Par,3,",",".")."</td>\n";
 
-			$Seg_Cu="";
-			$Seg_Ag="";
-			$Seg_Au="";
+			$Seg_Cu="";$Seg_Ag="";$Seg_Au="";
+			$ColorCu="";$ColorAg=""; $ColorAu="";
 			if ($Cu_Par!=0)
-			{
-				ControlMuestra("02", $Cu_Pri, $Cu_Par, $Cu_Dif, $CmbPlantilla, $Seg_Cu, $ColorCu, $Ano,$link);						
+			{   
+				$Val = ControlMuestra("02", $Cu_Pri, $Cu_Par, $Cu_Dif, $CmbPlantilla, $Seg_Cu, $ColorCu, $link);
+				$Seg_Cu = $Val[0];
+				$ColorCu = $Val[1];				
 				echo "<td align='center' onMouseOver='JavaScript:muestra(".$Cont.");' onMouseOut='JavaScript:oculta(".$Cont.");' bgcolor='".$ColorCu."'>";
 				echo "<div align='left' id='Txt".$Cont."' style= 'position:Absolute; background-color:#fff4cf; visibility:hidden; border:solid 1px Black;width:250px'>\n";
-				echo "<font face='courier' color='#000000' size=1><b>".$Seg_Cu."<br></b></div>".number_format(abs($Cu_Dif),3,",",".")."</td>";
+				echo "<font face='courier' color='#ffffff' size=1><b>".$Seg_Cu."<br></b></div>".number_format(abs($Cu_Dif),3,",",".")."</td>";
 				$Cont++;
 			}
 			else
 				echo "<td align=\"right\">&nbsp;</td>\n";
 			if ($Ag_Par!=0)
 			{				
-				ControlMuestra("04", $Ag_Pri, $Ag_Par, $Ag_Dif, $CmbPlantilla, $Seg_Ag, $ColorAg, $Ano,$link);
+				$Val = ControlMuestra("04", $Ag_Pri, $Ag_Par, $Ag_Dif, $CmbPlantilla, $Seg_Ag, $ColorAg, $link);
+				$Seg_Ag = $Val[0];
+				$ColorAg = $Val[1];
 				echo "<td align='center' onMouseOver='JavaScript:muestra(".$Cont.");' onMouseOut='JavaScript:oculta(".$Cont.");' bgcolor='".$ColorAg."'>";
 				echo "<div align='left' id='Txt".$Cont."' style= 'position:Absolute; background-color:#fff4cf; visibility:hidden; border:solid 1px Black;width:250px'>\n";
-				echo "<font face='courier' color='#000000' size=1><b>".$Seg_Ag."<br></b></div>".number_format(abs($Ag_Dif),3,",",".")."</td>";
+				echo "<font face='courier' color='#ffffff' size=1><b>".$Seg_Ag."<br></b></div>".number_format(abs($Ag_Dif),3,",",".")."</td>";
 				$Cont++;
 			}
 			else
 				echo "<td align=\"right\">&nbsp;</td>\n";
 			//echo
 			if ($Au_Par!=0)
-			{
-				ControlMuestra("05", $Au_Pri, $Au_Par, $Au_Dif, $CmbPlantilla, $Seg_Au, $ColorAu, $Ano,$link);
+			{  
+				$Val = ControlMuestra("05", $Au_Pri, $Au_Par, $Au_Dif, $CmbPlantilla, $Seg_Au, $ColorAu, $link);
+				$Seg_Au = $Val[0];
+				$ColorAu = $Val[1];
 				echo "<td align='center' onMouseOver='JavaScript:muestra(".$Cont.");' onMouseOut='JavaScript:oculta(".$Cont.");' bgcolor='".$ColorAu."'>";
 				echo "<div align='left' id='Txt".$Cont."' style= 'position:Absolute; background-color:#fff4cf; visibility:hidden; border:solid 1px Black;width:250px'>\n";
-				echo "<font face='courier' color='#000000' size=1><b>".$Seg_Au."<br></b></div>".number_format(abs($Au_Dif),3,",",".")."</td>";
+				echo "<font face='courier' color='#ffffff' size=1><b>".$Seg_Au."<br></b></div>".number_format(abs($Au_Dif),3,",",".")."</td>";
 				$Cont++;
 			}
 			else
@@ -382,7 +397,7 @@ if ($Mostrar=="S")
 	}
 }//FIN MOSTRAR = S	
 
-function ControlMuestra($CodLey, $Ley_Pri, $Ley_Par, $Dif, $Plantilla, $Seguimiento, $ResultControl, $Ano,$link)
+function ControlMuestra($CodLey, $Ley_Pri, $Ley_Par, $Dif, $Plantilla, $Seguimiento, $ResultControl,$link)
 {
 	if($Ley_Pri!='')
 	{
@@ -390,7 +405,7 @@ function ControlMuestra($CodLey, $Ley_Pri, $Ley_Par, $Dif, $Plantilla, $Seguimie
 		$Consulta.= " from age_web.limites_particion t1 inner join proyecto_modernizacion.unidades t2 ";
 		$Consulta.= " on t1.cod_unidad =t2.cod_unidad ";
 		$Consulta.= " where proceso='REMUESTREO' and cod_plantilla='".$Plantilla."' ";
-		$Consulta.= " and cod_ley = '".$CodLey."' and ".$Ley_Pri." between rango1 and rango2";
+		$Consulta.= " and cod_ley = '".$CodLey."' and '".$Ley_Pri."' between rango1 and rango2";
 		//echo $Consulta."<br>";
 		$RespPar=mysqli_query($link, $Consulta);
 		if($FilaPar=mysqli_fetch_array($RespPar))
@@ -399,7 +414,7 @@ function ControlMuestra($CodLey, $Ley_Pri, $Ley_Par, $Dif, $Plantilla, $Seguimie
 			$Seguimiento="M.PARALELA: ".$FilaPar["descripcion"]."<BR>";
 			$Seguimiento.="LIMITE CONTROL: ".$LimControl."&nbsp;(".$FilaPar["abreviatura"].")<br>";
 			//echo "LIMITE CONTROL:".$LimControl."<br>";
-			$Dif=abs($Ley_Pri-$Ley_Par)*1;
+			$Dif=abs((float)$Ley_Pri-(float)$Ley_Par)*1;
 			$Seguimiento.="DIF.LEY FINAL Y M.PAREL :".number_format($Dif,3,',','.')."<br>";
 			//echo "DIF:".$Dif."<br>";
 			if(doubleval($Dif+1-1) > doubleval($LimControl+1-1))
@@ -413,7 +428,9 @@ function ControlMuestra($CodLey, $Ley_Pri, $Ley_Par, $Dif, $Plantilla, $Seguimie
 				$Seguimiento.="MUESTRA OK";
 			}	
 		}
-	}				
+	}
+	$valor = $Seguimiento."**".$ResultControl;
+	return $valor;
 }
 
 function Titulo($Prod, $NomProd, $Proved, $NomProved)
@@ -451,11 +468,12 @@ function Leyes($Lote,$MuestraParalela,$Cu_Pri,$Ag_Pri,$Au_Pri,$Cu_Par,$Ag_Par,$A
 	$DatosLote= array();
 	$ArrLeyes=array();
 	$DatosLote["lote"]=$Lote;
-	LeyesLote($DatosLote,$ArrLeyes,"N","S","S","","","",$link);
-	$PesoLote=$DatosLote["peso_seco"];
-	$Cu_Pri=$ArrLeyes["02"][2];
-	$Ag_Pri=$ArrLeyes["04"][2];
-	$Au_Pri=$ArrLeyes["05"][2];
+	$DatosLote = LeyesLote($DatosLote,$ArrLeyes,"N","S","S","","","","",$link);
+	$ArrLeyes  = LeyesLote($DatosLote,$ArrLeyes,"N","S","S","","","","L",$link);
+	$PesoLote= $DatosLote["peso_seco"];
+	$Cu_Pri  = $ArrLeyes["02"][2];
+	$Ag_Pri  = $ArrLeyes["04"][2];
+	$Au_Pri  = $ArrLeyes["05"][2];
 	//BUSCA DATOS MUESTRA PARALELA
 	$Consulta="select * from cal_web.solicitud_analisis ";
 	$Consulta.= " where id_muestra='".$MuestraParalela."' and tipo=4 and recargo='R' ";
@@ -465,14 +483,15 @@ function Leyes($Lote,$MuestraParalela,$Cu_Pri,$Ag_Pri,$Au_Pri,$Cu_Par,$Ag_Par,$A
 	{
 		$PesoMuestra=$FilaLeyes["peso_muestra"];
 		$PesoRetalla=$FilaLeyes["peso_retalla"];
+		$Recargo    =$FilaLeyes["recargo"];
 	}
 	$Consulta="select * from age_web.leyes_por_lote ";
 	$Consulta.= " where lote='".$MuestraParalela."' ";
 	$Consulta.= " and recargo='0' and cod_leyes in('02','04','05') ";
 	$Consulta.= " and ano='".substr($DatosLote["fecha_recepcion"],0,4)."' ";
-	$Cu_Par=0;
-	$Ag_Par=0;
-	$Au_Par=0;
+	//$Cu_Par=0;
+	//$Ag_Par=0;
+	//$Au_Par=0;
 	$Respuesta=mysqli_query($link, $Consulta);
 	while($FilaLeyes=mysqli_fetch_array($Respuesta))
 	{
@@ -556,7 +575,8 @@ function Leyes($Lote,$MuestraParalela,$Cu_Pri,$Ag_Pri,$Au_Pri,$Cu_Par,$Ag_Par,$A
 	{
 		$SA_Par=$FilaSA["nro_solicitud"];
 	}
-	
+	$valores = $Cu_Pri."**".$Ag_Pri."**".$Au_Pri."**".$Cu_Par."**".$Ag_Par."**".$Au_Par."**".$SA_Pri."**".$SA_Par;
+    return $valores;
 }
 ?>
 </table>	  
