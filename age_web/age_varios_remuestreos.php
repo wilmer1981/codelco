@@ -4,11 +4,12 @@
 	include("../principal/conectar_principal.php");
 	include("age_funciones.php");
 	$Mostrar       = isset($_REQUEST["Mostrar"])?$_REQUEST["Mostrar"]:"";
-	$Mes           = isset($_REQUEST["Mes"])?$_REQUEST["Mes"]:date("m");
+	$Mes           = isset($_REQUEST["Mes"])?$_REQUEST["Mes"]:date("n");
 	$Ano           = isset($_REQUEST["Ano"])?$_REQUEST["Ano"]:date("Y");
 	$TxtFiltroPrv  = isset($_REQUEST["TxtFiltroPrv"])?$_REQUEST["TxtFiltroPrv"]:"";
 	$SubProducto   = isset($_REQUEST["SubProducto"])?$_REQUEST["SubProducto"]:"";
 	$Proveedor     = isset($_REQUEST["Proveedor"])?$_REQUEST["Proveedor"]:"";
+	$Busq     = isset($_REQUEST["Busq"])?$_REQUEST["Busq"]:"";
 	
 ?>
 <html>
@@ -291,13 +292,13 @@ if ($Mostrar=="S")
 			echo "<tr>";
 			echo "<td><input type='radio' name='OptLote' value='".$FilaLote["lote"]."' onclick=Remuestreo('".$FilaLote["lote"]."')></td>";
 			echo "<td>".$FilaLote["lote"]."</td>";
-			BuscarRemuestreos($FilaLote["lote"],$LoteEnc,$link);
+			$LoteEnc = BuscarRemuestreos($FilaLote["lote"],$LoteEnc,$link);
 			echo "<td>".$LoteEnc."&nbsp;</td>";
-			BuscarRemuestreos($LoteEnc,$LoteEnc,$link);
+			$LoteEnc = BuscarRemuestreos($LoteEnc,$LoteEnc,$link);
 			echo "<td>".$LoteEnc."&nbsp;</td>";
-			BuscarRemuestreos($LoteEnc,$LoteEnc,$link);
+			$LoteEnc = BuscarRemuestreos($LoteEnc,$LoteEnc,$link);
 			echo "<td>".$LoteEnc."&nbsp;</td>";
-			BuscarRemuestreos($LoteEnc,$LoteEnc,$link);
+			$LoteEnc = BuscarRemuestreos($LoteEnc,$LoteEnc,$link);
 			echo "<td>".$LoteEnc."&nbsp;</td>";
 			echo "</tr>";
 		}	
@@ -305,7 +306,7 @@ if ($Mostrar=="S")
 }//FIN MOSTRAR = S
 function BuscarRemuestreos($LoteBusc,$LoteEnc,$link)
 {
-	$LoteEnc='';
+	//$LoteEnc='';
 	if($LoteBusc!='')
 	{
 		$Consulta = "select lote from age_web.lotes t1 where t1.num_lote_remuestreo='".$LoteBusc."'";
@@ -316,7 +317,8 @@ function BuscarRemuestreos($LoteBusc,$LoteEnc,$link)
 		{
 			$LoteEnc=$FilaLoteB["lote"];
 		}
-	}	
+	}
+return $LoteEnc;	
 } 	
 ?>
 </table>	  

@@ -6,18 +6,18 @@
 	$LoteEnc  = isset($_REQUEST["LoteEnc"])?$_REQUEST["LoteEnc"]:"";
 	$LoteBusc = isset($_REQUEST["LoteBusc"])?$_REQUEST["LoteBusc"]:"";
 
-	BuscarRemuestreos($LoteOri,$LoteEnc,$link);
+	$LoteEnc = BuscarRemuestreos($LoteOri,$LoteEnc,$link);
 	$TxtRemuestreo1=$LoteEnc;
-	BuscarRemuestreos($LoteEnc,$LoteEnc,$link);
+	$LoteEnc = BuscarRemuestreos($LoteEnc,$LoteEnc,$link);
 	$TxtRemuestreo2=$LoteEnc;
-	BuscarRemuestreos($LoteEnc,$LoteEnc,$link);
+	$LoteEnc = BuscarRemuestreos($LoteEnc,$LoteEnc,$link);
 	$TxtRemuestreo3=$LoteEnc;
-	BuscarRemuestreos($LoteEnc,$LoteEnc,$link);
+	$LoteEnc = BuscarRemuestreos($LoteEnc,$LoteEnc,$link);
 	$TxtRemuestreo4=$LoteEnc;
 	
 function BuscarRemuestreos($LoteBusc,$LoteEnc,$link)
 {
-	$LoteEnc='';
+	//$LoteEnc='';
 	if($LoteBusc!='')
 	{
 		$Consulta = "select lote from age_web.lotes t1 where t1.num_lote_remuestreo='".$LoteBusc."'";
@@ -28,7 +28,8 @@ function BuscarRemuestreos($LoteBusc,$LoteEnc,$link)
 		{
 			$LoteEnc=$FilaLoteB["lote"];
 		}
-	}	
+	}
+	return $LoteEnc;	
 }
 ?>
 <html>
@@ -48,7 +49,7 @@ function Remuestreo(Opc,Num)
 			}			
 			if(Opc=='A'&&Frm.TxtRemuestreo1.value=='')
 			{
-				alert('Debe Agregar Antes El Remuestreo N� 1');
+				alert('Debe Agregar Antes El Remuestreo N° 1');
 				return;
 			}	
 			if(Opc=='Q'&&Frm.TxtRemuestreo3.value!='')
@@ -86,7 +87,7 @@ function Remuestreo(Opc,Num)
 			}			
 			if(Opc=='A'&&Frm.TxtRemuestreo3.value=='')
 			{
-				alert('Debe Agregar Antes El Remuestreo N� 3');
+				alert('Debe Agregar Antes El Remuestreo N° 3');
 				return;
 			}	
 			Frm.action='age_varios_remuestreos01.php?Proceso='+Opc+'&Num=4&LoteRemuestreo='+Frm.TxtRemuestreo4.value+"&ExLote="+Frm.TxtRemuestreo3.value;
