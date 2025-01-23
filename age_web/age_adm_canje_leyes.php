@@ -24,7 +24,7 @@
 	$CmbLaboratorios    = isset($_REQUEST["CmbLaboratorios"])?$_REQUEST["CmbLaboratorios"]:"";
 	$TieneArb           = isset($_REQUEST["TieneArb"])?$_REQUEST["TieneArb"]:"";	
 	$TxtConjunto        = isset($_REQUEST["TxtConjunto"])?$_REQUEST["TxtConjunto"]:"";
-	$TxtFechaCanje      = isset($_REQUEST["TxtFechaCanje"])?$_REQUEST["TxtFechaCanje"]:date("Y-m-d");
+	$TxtFechaCanje      = isset($_REQUEST["TxtFechaCanje"])?$_REQUEST["TxtFechaCanje"]:"";
 	$TxtOrdenEnsaye     = isset($_REQUEST["TxtOrdenEnsaye"])?$_REQUEST["TxtOrdenEnsaye"]:"";
 	$TxtFechaSolPqts    = isset($_REQUEST["TxtFechaSolPqts"])?$_REQUEST["TxtFechaSolPqts"]:"";
 	$ClaseProducto      = isset($_REQUEST["ClaseProducto"])?$_REQUEST["ClaseProducto"]:"";
@@ -109,9 +109,11 @@
 				}	
 				
 				$Habilitado='';
+				
 				if($Fila["fin_canje"]=='S')
 				{
-					$EstadoCierre='Lote Cerrado Comercial';					
+					$EstadoCierre='Lote Cerrado Comercial';
+					
 					$Habilitado='disabled';
 				}	
 				else
@@ -229,7 +231,7 @@
 			//echo $Consulta."<br>";
 			$RespPesoLoteHvl=mysqli_query($link, $Consulta);
 			$FilaPesoLoteHvl=mysqli_fetch_assoc($RespPesoLoteHvl);
-			$PesoLote=$FilaPesoLoteHvl["peso"];
+			$PesoLote=isset($FilaPesoLoteHvl["peso"])?$FilaPesoLoteHvl["peso"]:0;
 			$AcumPesoLote=$AcumPesoLote+$PesoLote;
 			$Consulta ="select cod_leyes, valor1, valor2 from age_web.leyes_por_lote_canje ";
 			$Consulta.=" where lote = '".$FilaHVL["lote"]."' and valor2<>0";
@@ -365,7 +367,7 @@
 			$Datos210=isset($Datos2[10])?$Datos2[10]:0;
 			$Datos211=isset($Datos2[11])?$Datos2[11]:0;
 			$Datos215=isset($Datos2[15])?$Datos2[15]:0;
-			//echo "Datos28:".$Datos28;
+
 			$ValorLey1=$Datos23*1;
 			$ValorLey2=$Datos24*1;
 			$ValorLey3=$Datos25*1;
@@ -502,7 +504,8 @@
 								//echo $Consulta."<br>";
 								$Respuesta2=mysqli_query($link, $Consulta);
 								$Fila2=mysqli_fetch_array($Respuesta2);
-								$LimParticion=($ValorLey1*$Fila2["limite_particion"]*1)/100;
+								$limite_particion = isset($Fila2["limite_particion"])?$Fila2["limite_particion"]:0;
+								$LimParticion=($ValorLey1*$limite_particion*1)/100;
 							}
 							else
 								$LimParticion=$Fila["limite_particion"]*1;
