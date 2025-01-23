@@ -90,7 +90,7 @@
 	<br>
 	<table border='1' align='center' cellpadding='1' cellspacing='0' class='TablaInterior'>
 	<tr align="center" class="ColorTabla01">
-	<td width="14" rowspan="2">N�</td>
+	<td width="14" rowspan="2">N&deg;</td>
 	<td width="24" rowspan="2">Lote</td>
 	<td width="56" rowspan="2">Proveedor</td>
 	<td colspan="3">Pastas a tercero</td>
