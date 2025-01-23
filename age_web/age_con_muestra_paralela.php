@@ -313,8 +313,9 @@ if ($Mostrar=="S")
 			$Au_Par=0;
 			$SA_Pri="";
 			$SA_Par="";
-			$Val = Leyes($Lote,$Fila2["muestra_paralela"],$Cu_Pri,$Ag_Pri,$Au_Pri,$Cu_Par,$Ag_Par,$Au_Par,$SA_Pri,$SA_Par, $Ano,$link);
+			$Result = Leyes($Lote,$Fila2["muestra_paralela"],$Cu_Pri,$Ag_Pri,$Au_Pri,$Cu_Par,$Ag_Par,$Au_Par,$SA_Pri,$SA_Par, $Ano,$link);
 			//echo $Val;
+			$Val = explode("**",$Result);
 			$Cu_Pri = $Val[0];
 			$Ag_Pri = $Val[1];
 			$Au_Pri = $Val[2];
@@ -323,9 +324,7 @@ if ($Mostrar=="S")
 			$Au_Par = $Val[5];
 			$SA_Pri = $Val[6];
 			$SA_Par = $Val[7];
-			//$Cu_Dif=0;
-			//$Ag_Dif=0;
-			//$Au_Dif=0;
+	
 			$Cu_Dif=(float)$Cu_Pri-(float)$Cu_Par;
 			$Ag_Dif=(float)$Ag_Pri-(float)$Ag_Par;
 			$Au_Dif=(float)$Au_Pri-(float)$Au_Par;
@@ -345,24 +344,26 @@ if ($Mostrar=="S")
 			$ColorCu="";$ColorAg=""; $ColorAu="";
 			if ($Cu_Par!=0)
 			{   
-				$Val = ControlMuestra("02", $Cu_Pri, $Cu_Par, $Cu_Dif, $CmbPlantilla, $Seg_Cu, $ColorCu, $link);
+				$Result = ControlMuestra("02", $Cu_Pri, $Cu_Par, $Cu_Dif, $CmbPlantilla, $Seg_Cu, $ColorCu, $link);
+				
 				$Seg_Cu = $Val[0];
 				$ColorCu = $Val[1];				
 				echo "<td align='center' onMouseOver='JavaScript:muestra(".$Cont.");' onMouseOut='JavaScript:oculta(".$Cont.");' bgcolor='".$ColorCu."'>";
 				echo "<div align='left' id='Txt".$Cont."' style= 'position:Absolute; background-color:#fff4cf; visibility:hidden; border:solid 1px Black;width:250px'>\n";
-				echo "<font face='courier' color='#ffffff' size=1><b>".$Seg_Cu."<br></b></div>".number_format(abs($Cu_Dif),3,",",".")."</td>";
+				echo "<font face='courier' color='#000000' size=1><b>".$Seg_Cu."<br></b></div>".number_format(abs($Cu_Dif),3,",",".")."</td>";
 				$Cont++;
 			}
 			else
 				echo "<td align=\"right\">&nbsp;</td>\n";
 			if ($Ag_Par!=0)
 			{				
-				$Val = ControlMuestra("04", $Ag_Pri, $Ag_Par, $Ag_Dif, $CmbPlantilla, $Seg_Ag, $ColorAg, $link);
+				$Result = ControlMuestra("04", $Ag_Pri, $Ag_Par, $Ag_Dif, $CmbPlantilla, $Seg_Ag, $ColorAg, $link);
+				$Val = explode("**",$Result);
 				$Seg_Ag = $Val[0];
 				$ColorAg = $Val[1];
 				echo "<td align='center' onMouseOver='JavaScript:muestra(".$Cont.");' onMouseOut='JavaScript:oculta(".$Cont.");' bgcolor='".$ColorAg."'>";
 				echo "<div align='left' id='Txt".$Cont."' style= 'position:Absolute; background-color:#fff4cf; visibility:hidden; border:solid 1px Black;width:250px'>\n";
-				echo "<font face='courier' color='#ffffff' size=1><b>".$Seg_Ag."<br></b></div>".number_format(abs($Ag_Dif),3,",",".")."</td>";
+				echo "<font face='courier' color='#000000' size=1><b>".$Seg_Ag."<br></b></div>".number_format(abs($Ag_Dif),3,",",".")."</td>";
 				$Cont++;
 			}
 			else
@@ -370,12 +371,13 @@ if ($Mostrar=="S")
 			//echo
 			if ($Au_Par!=0)
 			{  
-				$Val = ControlMuestra("05", $Au_Pri, $Au_Par, $Au_Dif, $CmbPlantilla, $Seg_Au, $ColorAu, $link);
+				$Result = ControlMuestra("05", $Au_Pri, $Au_Par, $Au_Dif, $CmbPlantilla, $Seg_Au, $ColorAu, $link);
+				$Val = explode("**",$Result);
 				$Seg_Au = $Val[0];
 				$ColorAu = $Val[1];
 				echo "<td align='center' onMouseOver='JavaScript:muestra(".$Cont.");' onMouseOut='JavaScript:oculta(".$Cont.");' bgcolor='".$ColorAu."'>";
 				echo "<div align='left' id='Txt".$Cont."' style= 'position:Absolute; background-color:#fff4cf; visibility:hidden; border:solid 1px Black;width:250px'>\n";
-				echo "<font face='courier' color='#ffffff' size=1><b>".$Seg_Au."<br></b></div>".number_format(abs($Au_Dif),3,",",".")."</td>";
+				echo "<font face='courier' color='#000000' size=1><b>".$Seg_Au."<br></b></div>".number_format(abs($Au_Dif),3,",",".")."</td>";
 				$Cont++;
 			}
 			else
@@ -479,6 +481,7 @@ function Leyes($Lote,$MuestraParalela,$Cu_Pri,$Ag_Pri,$Au_Pri,$Cu_Par,$Ag_Par,$A
 	$Consulta.= " where id_muestra='".$MuestraParalela."' and tipo=4 and recargo='R' ";
 	$Consulta.= " and year(fecha_muestra)='".substr($DatosLote["fecha_recepcion"],0,4)."'";
 	$Respuesta=mysqli_query($link, $Consulta);
+	$Recargo =0; //WSO
 	if($FilaLeyes=mysqli_fetch_array($Respuesta))
 	{
 		$PesoMuestra=$FilaLeyes["peso_muestra"];
@@ -549,7 +552,7 @@ function Leyes($Lote,$MuestraParalela,$Cu_Pri,$Ag_Pri,$Au_Pri,$Cu_Par,$Ag_Par,$A
 	//CONSULTA LA S.A. PAQUETE PRIMERO
 	$Consulta = "select distinct t1.id_muestra,t1.nro_solicitud, t1.recargo ";
 	$Consulta.= " from cal_web.solicitud_analisis t1 ";
-	$Consulta.= " where t1.id_muestra='".$Lote."' and t1.agrupacion in(1,3,6)";// and t1.cod_producto='1' and t1.cod_subproducto='$CodSubProducto'";
+	$Consulta.= " where t1.id_muestra='".$Lote."' and t1.agrupacion in(1,3,6,99)";// and t1.cod_producto='1' and t1.cod_subproducto='$CodSubProducto'";
 	if($Recargo=='')
 		$Consulta.= " and (t1.recargo='0' or t1.recargo='')";
 	else
@@ -560,6 +563,7 @@ function Leyes($Lote,$MuestraParalela,$Cu_Pri,$Ag_Pri,$Au_Pri,$Cu_Par,$Ag_Par,$A
 	{
 		$SA_Pri=$FilaSA["nro_solicitud"];
 	}
+	//echo "SA_Pri:".$SA_Pri;
 	//CONSULTA LA S.A. MUESTRA PARALELA
 	$Consulta = "select distinct t1.id_muestra,t1.nro_solicitud, t1.recargo ";
 	$Consulta.= " from cal_web.solicitud_analisis t1 ";

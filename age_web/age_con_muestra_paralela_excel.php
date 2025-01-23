@@ -106,8 +106,8 @@ if ($Mostrar=="S")
 			$Au_Par=0;
 			$SA_Pri="";
 			$SA_Par="";
-			$Val = Leyes($Lote,$Fila2["muestra_paralela"],$Cu_Pri,$Ag_Pri,$Au_Pri,$Cu_Par,$Ag_Par,$Au_Par,$SA_Pri,$SA_Par, $Ano,$link);
-			//echo $Val;
+			$Result = Leyes($Lote,$Fila2["muestra_paralela"],$Cu_Pri,$Ag_Pri,$Au_Pri,$Cu_Par,$Ag_Par,$Au_Par,$SA_Pri,$SA_Par, $Ano,$link);
+			$Val = explode("**",$Result);
 			$Cu_Pri = $Val[0];
 			$Ag_Pri = $Val[1];
 			$Au_Pri = $Val[2];
@@ -134,7 +134,8 @@ if ($Mostrar=="S")
 			$ColorCu="";$ColorAg=""; $ColorAu="";
 			if ($Cu_Par!=0)
 			{
-				$Val = ControlMuestra("02", $Cu_Pri, $Cu_Par, $Cu_Dif, $CmbPlantilla, $Seg_Cu, $ColorCu,$link);
+				$Result = ControlMuestra("02", $Cu_Pri, $Cu_Par, $Cu_Dif, $CmbPlantilla, $Seg_Cu, $ColorCu,$link);
+				$Val = explode("**",$Result);
 				$Seg_Cu = $Val[0];
 				$ColorCu = $Val[1];							
 				echo "<td bgcolor='".$ColorCu."'>".number_format(abs($Cu_Dif),3,",",".")."</td>";
@@ -144,7 +145,8 @@ if ($Mostrar=="S")
 				echo "<td align=\"right\">&nbsp;</td>\n";
 			if ($Ag_Par!=0)
 			{				
-				$Val = ControlMuestra("04", $Ag_Pri, $Ag_Par, $Ag_Dif, $CmbPlantilla, $Seg_Ag, $ColorAg,$link);
+				$Result = ControlMuestra("04", $Ag_Pri, $Ag_Par, $Ag_Dif, $CmbPlantilla, $Seg_Ag, $ColorAg,$link);
+				$Val = explode("**",$Result);
 				$Seg_Ag = $Val[0];
 				$ColorAg = $Val[1];	
 				echo "<td bgcolor='".$ColorAg."'>".number_format(abs($Ag_Dif),3,",",".")."</td>";
@@ -154,7 +156,8 @@ if ($Mostrar=="S")
 				echo "<td align=\"right\">&nbsp;</td>\n";
 			if ($Au_Par!=0)
 			{
-				$Val = ControlMuestra("05", $Au_Pri, $Au_Par, $Au_Dif, $CmbPlantilla, $Seg_Au, $ColorAu,$link);
+				$Result = ControlMuestra("05", $Au_Pri, $Au_Par, $Au_Dif, $CmbPlantilla, $Seg_Au, $ColorAu,$link);
+				$Val = explode("**",$Result);
 				$Seg_Au = $Val[0];
 				$ColorAu = $Val[1];
 				echo "<td bgcolor='".$ColorAu."'>".number_format(abs($Au_Dif),3,",",".")."</td>";
