@@ -6,6 +6,7 @@
 
 	$TxtLote   = isset($_REQUEST["TxtLote"])?$_REQUEST["TxtLote"]:"";
 	$Plantilla = isset($_REQUEST["Plantilla"])?$_REQUEST["Plantilla"]:"";
+	$CmbPlantilla = isset($_REQUEST["CmbPlantilla"])?$_REQUEST["CmbPlantilla"]:"";
 
 	$TxtEsPopup    = isset($_REQUEST["TxtEsPopup"])?$_REQUEST["TxtEsPopup"]:"";
 	$EsPopup       = isset($_REQUEST["EsPopup"])?$_REQUEST["EsPopup"]:"";
@@ -118,17 +119,20 @@
 			$DatosLote= array();
 			$ArrLeyes=array();
 			$DatosLote["lote"]=$TxtLote;
-			LeyesLote($DatosLote,$ArrLeyes,"N","S","S","","","",$link);
+			//LeyesLote($DatosLote,$ArrLeyes,"N","S","S","","","",$link);
+			$DatosLote = LeyesLote($DatosLote,$ArrLeyes,"N","S","S","","","","",$link);
+			//var_dump($DatosLote);
 			$tipo_remuestreo = isset($DatosLote["tipo_remuestreo"])?$DatosLote["tipo_remuestreo"]:"";
+			//echo "<br>Tipo_remuestreo:".$tipo_remuestreo."<br>";
 			if($tipo_remuestreo=='A')
 			{
-				$PesoSecoLote=$DatosLote["peso_seco2_ori"];
-				$PesoHumLote=$DatosLote["peso_humedo_ori"];
+				$PesoSecoLote = $DatosLote["peso_seco2_ori"];
+				$PesoHumLote  = $DatosLote["peso_humedo_ori"];
 			}
 			else
 			{
-				$PesoSecoLote= isset($DatosLote["peso_seco2"])?$DatosLote["peso_seco2"]:0;
-				$PesoHumLote =isset($DatosLote["peso_humedo"])?$DatosLote["peso_humedo"]:0;
+				$PesoSecoLote = isset($DatosLote["peso_seco2"])?$DatosLote["peso_seco2"]:0;
+				$PesoHumLote  = isset($DatosLote["peso_humedo"])?$DatosLote["peso_humedo"]:0;
 			}	
 			$AnoMes=substr($TxtLote,0,3);
 			$LoteCons = $TxtLote;
