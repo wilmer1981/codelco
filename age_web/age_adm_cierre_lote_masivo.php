@@ -552,7 +552,8 @@ No
 			$DatosLote= array();
 			$ArrLeyes=array();
 			$DatosLote["lote"]=$Fila["lote"];
-			LeyesLote($DatosLote,$ArrLeyes,"N","S","S","","","",$link);
+			$DatosLote  = LeyesLote($DatosLote,$ArrLeyes,"N","S","S","","","","",$link);
+			$ArrLeyes   = LeyesLote($DatosLote,$ArrLeyes,"N","S","S","","","","L",$link);
 			echo "<tr>";
 			echo "<td><input type='checkbox' name='CheckCod' value='".$Fila["lote"]."'></td>";
 			$TxtLote=$Fila["lote"];
@@ -602,7 +603,7 @@ No
 				echo "<td align='center'><a href=\"JavaScript:DetalleLeyes('".$Fila["lote"]."','".$Fila["estado_lote"]."','ENM','".$Fila["canjeable"]."')\"><img src='../Principal/imagenes/ico_pag.gif' width='18' height='9' border='0'></a></td>";
 			}
 			echo "<td align='center'><a href=\"JavaScript:DescargaArchivos('".$Fila["lote"]."')\"><img src='../Principal/imagenes/ico_arriba.gif' border='0'><a></td>";	
-			echo "<td>$Fila[nom_recepcion]&nbsp;</td>";
+			echo "<td>'".$Fila["nom_recepcion"]."'&nbsp;</td>";
 			echo "<td align='center'>".$Fila["canjeable"]."&nbsp;</td>";
 			//RETALLA
 			$Consulta = "select distinct t2.nro_solicitud, t2.estado_actual, t3.nombre_subclase";
