@@ -120,23 +120,29 @@
 						$DatosLote["lote"]=$FilaLote["lote"];
 						$DatosLote = LeyesLote($DatosLote,$ArrLeyes,"N","S","N","","","","",$link);
 						$ArrLeyes  = LeyesLote($DatosLote,$ArrLeyes,"N","S","N","","","","L",$link);
-						echo "<td>".number_format($ArrLeyes["02"][2],2,',','')."</td>\n";
-						echo "<td>".number_format($ArrLeyes["04"][2],2,',','')."</td>\n";
-						echo "<td>".number_format($ArrLeyes["05"][2],2,',','')."</td>\n";
-						echo "<td>".number_format($ArrLeyes["02"][8],2,',','')."</td>\n";
-						echo "<td>".number_format($ArrLeyes["04"][8],2,',','')."</td>\n";
-						echo "<td>".number_format($ArrLeyes["05"][8],2,',','')."</td>\n";
+						$ArrLeyes022 = isset($ArrLeyes["02"][2])?$ArrLeyes["02"][2]:0;
+						$ArrLeyes042 = isset($ArrLeyes["04"][2])?$ArrLeyes["04"][2]:0;
+						$ArrLeyes052 = isset($ArrLeyes["05"][2])?$ArrLeyes["05"][2]:0;
+						$ArrLeyes028 = isset($ArrLeyes["02"][8])?$ArrLeyes["02"][8]:0;
+						$ArrLeyes048 = isset($ArrLeyes["04"][8])?$ArrLeyes["04"][8]:0;
+						$ArrLeyes058 = isset($ArrLeyes["05"][8])?$ArrLeyes["05"][8]:0;
+						echo "<td>".number_format($ArrLeyes022,2,',','')."</td>\n";
+						echo "<td>".number_format($ArrLeyes042,2,',','')."</td>\n";
+						echo "<td>".number_format($ArrLeyes052,2,',','')."</td>\n";
+						echo "<td>".number_format($ArrLeyes028,2,',','')."</td>\n";
+						echo "<td>".number_format($ArrLeyes048,2,',','')."</td>\n";
+						echo "<td>".number_format($ArrLeyes058,2,',','')."</td>\n";
 						echo "<td>".number_format($DatosLote["peso_humedo"],0,'','.')."</td>\n";
 						echo "<td>".number_format($DatosLote["peso_seco"],0,'','.')."</td>\n";
-						if ($ArrLeyes["02"][8]>0 && $ArrLeyes["02"][2]>0 && $DatosLote["peso_seco"]>0)
+						if ($ArrLeyes028>0 && $ArrLeyes022>0 && $DatosLote["peso_seco"]>0)
 							$Dif_Cu=(($ArrLeyes["02"][8]-$ArrLeyes["02"][2])*$DatosLote["peso_seco"])/$ArrLeyes["02"][5];
 						else
 							$Dif_Cu=0;
-						if ($ArrLeyes["04"][8]>0 && $ArrLeyes["04"][2]>0 && $DatosLote["peso_seco"]>0)
+						if ($ArrLeyes048>0 && $ArrLeyes042>0 && $DatosLote["peso_seco"]>0)
 							$Dif_Ag=(($ArrLeyes["04"][8]-$ArrLeyes["04"][2])*$DatosLote["peso_seco"])/$ArrLeyes["04"][5];
 						else
 							$Dif_Ag=0;
-						if ($ArrLeyes["05"][8]>0 && $ArrLeyes["05"][2]>0 && $DatosLote["peso_seco"]>0)
+						if ($ArrLeyes058>0 && $ArrLeyes052>0 && $DatosLote["peso_seco"]>0)
 							$Dif_Au=(($ArrLeyes["05"][8]-$ArrLeyes["05"][2])*$DatosLote["peso_seco"])/$ArrLeyes["05"][5];
 						else
 							$Dif_Au=0;
