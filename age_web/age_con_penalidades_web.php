@@ -438,8 +438,15 @@ body {
 					{				
 						//echo "if(".$c."!=''&&".$v[1]."!=''&&".$PesoLoteS.">0)<br>";
 						$v20 = isset($v[20])?$v[20]:0;
+						$v0 = isset($v[0])?$v[0]:0;
+						$v1 = isset($v[1])?$v[1]:0;
 						$v2 = isset($v[2])?$v[2]:0;
-						if($c!=''&&$v[1]!=''&&$PesoLoteS>0)
+						$v23 = isset($v[23])?$v[23]:0;
+						$ArrLeyesAux02 = isset($ArrLeyesAux[$v0][2])?$ArrLeyesAux[$v0][2]:0;
+						$ArrLeyesAux03 = isset($ArrLeyesAux[$v0][3])?$ArrLeyesAux[$v0][3]:0;
+						$ArrLeyesAux04 = isset($ArrLeyesAux[$v0][4])?$ArrLeyesAux[$v0][4]:0;
+						$ArrLeyesAux06 = isset($ArrLeyesAux[$v0][6])?$ArrLeyesAux[$v0][6]:0;
+						if($c!=''&&$v1!=''&&$PesoLoteS>0)
 						{							
 							$Mostrar=true;
 							if ($c=="01"&&$ExisteAgua=='N')
@@ -451,8 +458,8 @@ body {
 									$FinoAux=(float)$v20*(float)$PesoLoteS/100;
 								//	$ValorPorc=round(($FinoAux*$ArrLeyesAux[$v[0]][6])/$PesoLoteS,4);
 									// SE  SACA EL ROUND POR INTELLEGO 30-07-2015 Linea superior reemplasada por siguiente 
-									$ValorPorc=($FinoAux*$ArrLeyesAux[$v[0]][6])/$PesoLoteS;
-									$ValorPorcAux=($FinoAux*$ArrLeyesAux[$v[0]][6])/$PesoLoteS2;
+									$ValorPorc=($FinoAux*$ArrLeyesAux06)/$PesoLoteS;
+									$ValorPorcAux=($FinoAux*$ArrLeyesAux06)/$PesoLoteS2;
 								}
 								else
 								{
@@ -463,10 +470,12 @@ body {
 									echo "PESO LOTE S:".$PesoLoteS."<br>";*/
 								//	$ValorPorc=round(($v[23]*$ArrLeyesAux[$v[0]][6])/$PesoLoteS,4);
 									// SE  SACA EL ROUND POR INTELLEGO 30-07-2015 Linea superior reemplasada por siguiente 
-									$ValorPorc=((float)$v[23]*(float)$ArrLeyesAux[$v[0]][6])/$PesoLoteS;
+									//$ValorPorc=((float)$v23*(float)$ArrLeyesAux[$v[0]][6])/$PesoLoteS;
+									$ValorPorc=((float)$v23*(float)$ArrLeyesAux06)/$PesoLoteS;
 								
 									//echo $ValorPorc."<br>";
-									$ValorPorcAux=((float)$v[23]*(float)$ArrLeyesAux[$v[0]][6])/$PesoLoteS2;
+									//$ValorPorcAux=((float)$v23*(float)$ArrLeyesAux[$v[0]][6])/$PesoLoteS2;
+									$ValorPorcAux=((float)$v23*(float)$ArrLeyesAux06)/$PesoLoteS2;
 								}
 								//Penalidades
 								if ($ChkDetalle=="L")
@@ -476,7 +485,8 @@ body {
 									else
 										echo "<td align=\"right\">".number_format((float)$v2,4,',','.')."</td>\n";
 								}
-								$Dif=$ValorPorc-$ArrLeyesAux[$v[0]][3];
+								
+								$Dif=$ValorPorc-$ArrLeyesAux03;
 								
 								/*if($FilaLote["lote"]=="24020206")
 								{
@@ -490,7 +500,7 @@ body {
 									//echo "if(".$ValorPorc.">".$ArrLeyesAux[$v[0]][3]."&&".($Dif>0).")<br><br>";							
 								}*/
 								$Cont=0;
-								if($ValorPorc>$ArrLeyesAux[$v[0]][3] && $Dif>0)
+								if($ValorPorc>$ArrLeyesAux03 && $Dif>0)
 								{
 									//echo "if(".$ValorPorc.">".$ArrLeyesAux[$v[0]][3]."&&".($Dif>0).")<br>";
 									if ($c=="01")
@@ -501,10 +511,10 @@ body {
 									{
 										$PesoAux=$PesoLoteS; //PESO SECO
 									}
-									if($ArrLeyesAux[$v[0]][2]!='0')
-										$Cant=$Dif/$ArrLeyesAux[$v[0]][2];
+									if($ArrLeyesAux02!='0')
+										$Cant=$Dif/$ArrLeyesAux02;
 									$PesoSecoTon=$PesoAux/1000;
-									$ValorDolar=$Cant*$ArrLeyesAux[$v[0]][4]*$PesoSecoTon;
+									$ValorDolar=$Cant*$ArrLeyesAux04*$PesoSecoTon;
 									if ($ChkDetalle=="L")
 									{
 											/*EXCEPCION DEBIDO QUE EL ARSENICO SE DISPARA Y GENERA PENALIDAD, 19-02-2016

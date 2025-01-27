@@ -363,8 +363,15 @@
 					reset($ArrLeyes);
 					foreach($ArrLeyes as $c=>$v)
 					{	$v20 = isset($v[20])?$v[20]:0;
-						$v2 = isset($v[2])?$v[2]:0;				
-						if($c!=''&&$v[1]!=''&&$PesoLoteS>0)
+						$v0 = isset($v[0])?$v[0]:0;
+						$v1 = isset($v[1])?$v[1]:"";
+						$v2 = isset($v[2])?$v[2]:0;
+						$v23 = isset($v[23])?$v[23]:0;
+						$ArrLeyesAux02 = isset($ArrLeyesAux[$v0][2])?$ArrLeyesAux[$v0][2]:0;
+						$ArrLeyesAux03 = isset($ArrLeyesAux[$v0][3])?$ArrLeyesAux[$v0][3]:0;
+						$ArrLeyesAux04 = isset($ArrLeyesAux[$v0][4])?$ArrLeyesAux[$v0][4]:0;
+						$ArrLeyesAux06 = isset($ArrLeyesAux[$v0][6])?$ArrLeyesAux[$v0][6]:0;
+						if($c!=''&&$v1!=''&&$PesoLoteS>0)
 						{							
 							$Mostrar=true;
 							if ($c=="01"&&$ExisteAgua=='N')
@@ -373,10 +380,10 @@
 							{	
 								if ($c=="01")
 								{
-									$FinoAux=$v20*$PesoLoteS/100;
+									$FinoAux=(float)$v20*$PesoLoteS/100;
 									//$ValorPorc=round(($FinoAux*$ArrLeyesAux[$v[0]][6])/$PesoLoteS,4);
-									$ValorPorc=($FinoAux*$ArrLeyesAux[$v[0]][6])/$PesoLoteS;
-									$ValorPorcAux=($FinoAux*$ArrLeyesAux[$v[0]][6])/$PesoLoteS2;
+									$ValorPorc=($FinoAux*$ArrLeyesAux06)/$PesoLoteS;
+									$ValorPorcAux=($FinoAux*$ArrLeyesAux06)/$PesoLoteS2;
 								}
 								else
 								{
@@ -385,9 +392,10 @@
 									//echo $ArrLeyesAux[$v[0]][6]."<br>";
 									//echo $PesoLoteS."<br>";
 								//	$ValorPorc=round(($v[23]*$ArrLeyesAux[$v[0]][6])/$PesoLoteS,4);
-								$ValorPorc=($v[23]*$ArrLeyesAux[$v[0]][6])/$PesoLoteS;
+									$ValorPorc=((float)$v23*(float)$ArrLeyesAux06)/$PesoLoteS;
 									//echo $ValorPorc."<br>";
-								}		$ValorPorcAux=($v[23]*$ArrLeyesAux[$v[0]][6])/$PesoLoteS2;
+									$ValorPorcAux=((float)$v23*(float)$ArrLeyesAux06)/$PesoLoteS2;
+								}
 							
 								if ($ChkDetalle=="L")
 								{
@@ -396,12 +404,12 @@
 									else
 										echo "<td align=\"right\">".number_format((float)$v2,4,',','.')."</td>\n";
 								}
-								$Dif=$ValorPorc-$ArrLeyesAux[$v[0]][3];
+								$Dif=$ValorPorc-$ArrLeyesAux03;
 								//echo $ValorPorc."<br>";
 								//echo $Dif."<br>";
 								//echo $ArrLeyesAux[$v[0]][3]."<br><br>";	
 								$Cont=0;
-								if($ValorPorc>$ArrLeyesAux[$v[0]][3]&&$Dif>0)
+								if($ValorPorc>$ArrLeyesAux03&&$Dif>0)
 								{
 									
 									

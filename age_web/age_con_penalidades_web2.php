@@ -417,8 +417,8 @@ body {
 					reset($ArrLeyes);
 					foreach($ArrLeyes as $c=>$v)
 					{			
-				      
-						if($c!=''&&$v[1]!=''&&$PesoLoteS>0)
+				        $v1 = isset($v[1])?$v[1]:"";
+						if($c!=''&&$v1!=''&&$PesoLoteS>0)
 						{							
 							$Mostrar=true;
 
@@ -455,9 +455,9 @@ body {
 								{
 
 									if ($c=="01")
-										echo "<td align=\"right\">".number_format($v[20],4,',','.')."</td>\n";
+										echo "<td align=\"right\">".number_format((float)$v[20],4,',','.')."</td>\n";
 									else
-										echo "<td align=\"right\">".number_format($v[2],4,',','.')."</td>\n";
+										echo "<td align=\"right\">".number_format((float)$v[2],4,',','.')."</td>\n";
 								}
 								$Dif=$ValorPorc-$ArrLeyesAux[$v[0]][3];
 								//echo "valorPOrc".$ValorPorc."<br>";

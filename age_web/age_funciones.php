@@ -1173,18 +1173,21 @@ function LeyesLote($Lote,$LeyesPond,$EntreFechas,$IncMerma,$IncRetalla,$FechaIni
 			echo "D--> ".$LeyesPond[$key][5]."<br><BR><BR>";
 		}*/
 		$peso_seco2 = isset($Lote["peso_seco2"])?$Lote["peso_seco2"]:0;
+		$peso_seco  = isset($Lote["peso_seco"])?$Lote["peso_seco"]:0;
 		$LeyesPond2 = isset($LeyesPond[$key][2])?$LeyesPond[$key][2]:0;
 		$LeyesPond5 = isset($LeyesPond[$key][5])?$LeyesPond[$key][5]:0;
+		$LeyesPond8 = isset($LeyesPond[$key][8])?$LeyesPond[$key][8]:0;
 		if ($peso_seco2!=0 && $LeyesPond2!=0 && $LeyesPond5!=0)
 		{
 			//echo "PESO SECO=".$Lote["peso_seco2"]." LEY=".$LeyesPond[$key][2]."<br>";
+			
 			switch ($Lote["cod_subproducto"])
 			{
 				case 43:
 				case 56:
 				case 58:
-					$LeyesPond[$key][23] = ($Lote["peso_seco"] * $LeyesPond[$key][2])/$LeyesPond[$key][5];
-					$LeyesPond[$key][9] = ($Lote["peso_seco"] * $LeyesPond[$key][8])/$LeyesPond[$key][5];//FINO CANJE
+					$LeyesPond[$key][23] = ($peso_seco * $LeyesPond2)/$LeyesPond5;
+					$LeyesPond[$key][9] = ($peso_seco * $LeyesPond8)/$LeyesPond5;//FINO CANJE
 					break;
 				default:
 					/*if($ContRecargos-1==1)
@@ -1194,10 +1197,7 @@ function LeyesLote($Lote,$LeyesPond,$EntreFechas,$IncMerma,$IncRetalla,$FechaIni
 					}
 					else
 					{*/
-						$LeyesPond2 = isset($LeyesPond[$key][2])?$LeyesPond[$key][2]:0;				
-				        $LeyesPond5 = isset($LeyesPond[$key][5])?$LeyesPond[$key][5]:0;
-						$LeyesPond8 = isset($LeyesPond[$key][8])?$LeyesPond[$key][8]:0;
-						$peso_seco2 = isset($Lote["peso_seco2"])?$Lote["peso_seco2"]:0;
+					
 						/*if($Lote["lote"]=='24020206')
 						{
 
@@ -1273,13 +1273,13 @@ function ValoresRetalla($Lote,$Leyes,$CalculaInc,$link)
 		$peso_muestra = isset($Lote["peso_muestra"])?$Lote["peso_muestra"]:0;
 		$Leyescod_leyes2 = isset($Leyes[$FilaLeyes["cod_leyes"]][2])?$Leyes[$FilaLeyes["cod_leyes"]][2]:0;
 		if ($peso_retalla>0 && $peso_muestra>0 && $LeyesRetalla[$FilaLeyes["cod_leyes"]][2]>0)
-			$InfRetalla[$FilaLeyes["cod_leyes"]][2] = ($LeyesRetalla[$FilaLeyes["cod_leyes"]][2]  - $Leyescod_leyes2) * ($peso_retalla/$peso_muestra);  //VALOR
+			$InfRetalla[$FilaLeyes["cod_leyes"]][2] = ((float)$LeyesRetalla[$FilaLeyes["cod_leyes"]][2]  - (float)$Leyescod_leyes2) * ($peso_retalla/$peso_muestra);  //VALOR
 		else
 			$InfRetalla[$FilaLeyes["cod_leyes"]][2] = 0;  //VALOR
 		//CALCULA LA LEY INCLUYENDO INCIDENCIA DE LA RETALLA
 		$InfRetallacod_leyes2 = isset($InfRetalla[$FilaLeyes["cod_leyes"]][2])?$InfRetalla[$FilaLeyes["cod_leyes"]][2]:0;
 		if ($CalculaInc=="S")
-			$Leyes[$FilaLeyes["cod_leyes"]][2] = $Leyescod_leyes2 + $InfRetallacod_leyes2; //LEY PRI + INC. RETALLA			
+			$Leyes[$FilaLeyes["cod_leyes"]][2] = (float)$Leyescod_leyes2 + (float)$InfRetallacod_leyes2; //LEY PRI + INC. RETALLA			
 		//echo $Leyes[$FilaLeyes["cod_leyes"]][2]." + ".$InfRetalla[$FilaLeyes["cod_leyes"]][2];
 		//REGISTRA LOS VALORES DE LA RETALLA
 		$Leyes[$FilaLeyes["cod_leyes"]][12] = $FilaLeyes["valor"];     //VALOR RETALLA
