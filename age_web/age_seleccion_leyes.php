@@ -1,9 +1,8 @@
-<?php
+<?php 
 	include("../principal/conectar_principal.php");
 	$TxtLeyesMuestra='Cu,Ag,Au,';
 	$TxtCodLeyes="02~Cu~1~100~%~2//04~Ag~4~1000~g/T~0//05~Au~4~1000~g/T~1//";
-
-	$Pag = isset($_REQUEST['Pag'])?$_REQUEST['Pag']:"";
+	$Pag = isset($_REQUEST["Pag"])?$_REQUEST["Pag"]:"";
 	
 ?>
 <html>
@@ -63,17 +62,19 @@ function Proceso(opt,pag)
 }
 </script>
 <style type="text/css">
+<!--
 body {
 	background-image: url(../principal/imagenes/fondo3.gif);
 }
+-->
 </style></head>
 
 <body>
 <form name="frmPopUp" action="" method="post">
-<input name="TxtLeyesMuestra" type="hidden"  value='<?php echo $TxtLeyesMuestra;?>'><input name="TxtCodLeyes" type="hidden" value="<?php echo $TxtCodLeyes;?>">
+<input name="TxtLeyesMuestra" type="hidden"  value='<?php  echo $TxtLeyesMuestra;?>'><input name="TxtCodLeyes" type="hidden" value="<?php  echo $TxtCodLeyes;?>">
 <table width="350"  border="1" align="center" cellpadding="2" cellspacing="0" class="TablaDetalle">
   <tr align="center" >
-    <td colspan="12" class="ColorTabla02"><input name="BtnOK" type="button" id="BtnOK" value="OK" style="width:70px " onClick="Proceso('G','<?php echo $Pag; ?>')">
+    <td colspan="12" class="ColorTabla02"><input name="BtnOK" type="button" id="BtnOK" value="OK" style="width:70px " onClick="Proceso('G','<?php  echo $Pag; ?>')">
     <input name="BtnSalir" type="button" id="BtnSalir" value="Salir" style="width:70px " onClick="Proceso('S')"></td>
   </tr>
   <tr align="center" class="ColorTabla01">
@@ -95,7 +96,7 @@ body {
     <td width="95">Ley</td>
 	<td width="95">Unid</td>
   </tr>
-  <?php
+  <?php 
 	//$RegPorColum = round($CantLeyes/4);
 	$RegPorColum=5;
 	$Consulta = "select distinct t1.cod_leyes, LPAD(t1.cod_leyes,4,'0') as orden, t3.abreviatura as ley,t1.cod_unidad ";
@@ -104,7 +105,7 @@ body {
 	$Consulta.= " t1.cod_leyes=t3.cod_leyes";
 	$Consulta.= " where t1.cod_leyes not in ('01','02','04','05') and t1.cod_leyes<>'' and length(t1.cod_leyes)>=2 ";
 	$Consulta.= " group by t1.cod_leyes order by orden";
-	$Resp = mysqli_query($link, $Consulta);
+	$Resp = mysqli_query($link,$Consulta);
 	//echo $Consulta;
 	$ContColum = 1;
 	echo "<tr>\n";
@@ -131,7 +132,7 @@ body {
 		}*/
 		echo "<td class='ColorTabla03' align='left'><select name='CmbUnidad' style='width:50'>";
 		$Consulta="select cod_unidad,abreviatura as unidad,conversion from proyecto_modernizacion.unidades where cod_unidad in ('1','2','4')";
-		$RespUnid=mysqli_query($link, $Consulta);
+		$RespUnid=mysqli_query($link,$Consulta);
 		while($FilaUnid=mysqli_fetch_array($RespUnid))
 		{
 			if($Fila["cod_unidad"]==$FilaUnid["cod_unidad"])

@@ -506,9 +506,10 @@ body {
 						$FinoAu=($TotalPesoSecLote * $LeyAu)/1000;
 					reset($ArrLeyesAux);			
 					foreach($ArrLeyesAux as $c=>$v)
-					{
+					{   $ArrLeyesAux6 = isset($ArrLeyesAux[$c][6])?$ArrLeyesAux[$c][6]:0;
+					    $ArrLeyesAux3 = isset($ArrLeyesAux[$c][3])?$ArrLeyesAux[$c][3]:0;
 						if ($c!='01'&&$c!='02'&&$c!='04'&&$c!='05')
-								$ArrLeyesAux[$c][7]=($TotalPesoSecLote * $ArrLeyesAux[$c][6])/$ArrLeyesAux[$c][3];
+								$ArrLeyesAux[$c][7]=($TotalPesoSecLote * $ArrLeyesAux6)/$ArrLeyesAux3;
 					}	
 					echo "<td align='right'>".number_format($TotalPesoHumLote,$DecPHum,',','.')."</td>";
 					echo "<td align='right'>".number_format($PorcHumLote,2,',','.')."</td>";
@@ -517,10 +518,10 @@ body {
 					echo "<td align='right'>".number_format($LeyAu,$DecLeyes,',','.')."</td>";
 					reset($ArrLeyesAux);
 					foreach($ArrLeyesAux as $c=>$v)
-					{
+					{   $ArrLeyesAux6 = isset($ArrLeyesAux[$c][6])?$ArrLeyesAux[$c][6]:0;
 						if($c!='01'&&$c!='02'&&$c!='04'&&$c!='05')
 						{
-							echo "<td align='right'>".number_format($ArrLeyesAux[$c][6],$DecLeyes,',','.')."</td>";
+							echo "<td align='right'>".number_format((float)$ArrLeyesAux6,$DecLeyes,',','.')."</td>";
 							$ArrLeyesAux[$c][6]=0;
 						}
 					}	
@@ -530,11 +531,12 @@ body {
 					echo "<td align='right'>".number_format($FinoAu,$DecFinos,',','.')."</td>";
 					reset($ArrLeyesAux);
 					foreach($ArrLeyesAux as $c=>$v)
-					{
+					{   $ArrLeyesAux7 = isset($ArrLeyesAux[$c][7])?$ArrLeyesAux[$c][7]:0;
+						$ArrLeyesPrv3 = isset($ArrLeyesPrv[$c][3])?$ArrLeyesPrv[$c][3]:0;
 						if($c!='01'&&$c!='02'&&$c!='04'&&$c!='05')
 						{
-							echo "<td align='right'>".number_format($ArrLeyesAux[$c][7],$DecFinos,',','.')."</td>";
-							$ArrLeyesPrv[$c][3]=$ArrLeyesPrv[$c][3]+$ArrLeyesAux[$c][7];
+							echo "<td align='right'>".number_format((float)$ArrLeyesAux7,$DecFinos,',','.')."</td>";
+							$ArrLeyesPrv[$c][3]=$ArrLeyesPrv3+$ArrLeyesAux7;
 							$ArrLeyesAux[$c][7]=0;
 						}
 					}	
@@ -587,11 +589,12 @@ body {
 				echo "<td align='right'>".number_format($TotalFinoAuPrv,$DecFinos,',','.')."</td>";
 				reset($ArrLeyesPrv);
 				foreach($ArrLeyesPrv as $c=>$v)
-				{
+				{   $ArrLeyesAsig3 = isset($ArrLeyesAsig[$c][3])?$ArrLeyesAsig[$c][3]:0;
+					$ArrLeyesPrv3  = isset($ArrLeyesPrv[$c][3])?$ArrLeyesPrv[$c][3]:0;
 					if($c!='01'&&$c!='02'&&$c!='04'&&$c!='05') 
 					{
-						echo "<td align='right'>".number_format($ArrLeyesPrv[$c][3],$DecFinos,',','.')."</td>";
-						$ArrLeyesAsig[$c][3]=$ArrLeyesAsig[$c][3]+$ArrLeyesPrv[$c][3];
+						echo "<td align='right'>".number_format((float)$ArrLeyesPrv3,$DecFinos,',','.')."</td>";
+						$ArrLeyesAsig[$c][3]=$ArrLeyesAsig3+$ArrLeyesPrv3;
 						$ArrLeyesPrv[$c][2]=0;
 						$ArrLeyesPrv[$c][3]=0;
 					}	
@@ -640,11 +643,12 @@ body {
 			echo "<td align='right'>".number_format($TotalFinoAuAsig,$DecFinos,',','.')."</td>";
 			reset($ArrLeyesAsig);
 			foreach($ArrLeyesAsig as $c=>$v)
-			{
+			{   $ArrLeyesAsig3 = isset($ArrLeyesAsig[$c][3])?$ArrLeyesAsig[$c][3]:0;
+				$ArrLeyesProd3 = isset($ArrLeyesProd[$c][3])?$ArrLeyesProd[$c][3]:0;
 				if($c!='01'&&$c!='02'&&$c!='04'&&$c!='05')
 				{
-					echo "<td align='right'>".number_format($ArrLeyesAsig[$c][3],$DecFinos,',','.')."</td>";
-					$ArrLeyesProd[$c][3]=$ArrLeyesProd[$c][3]+$ArrLeyesAsig[$c][3];
+					echo "<td align='right'>".number_format((float)$ArrLeyesAsig3,$DecFinos,',','.')."</td>";
+					$ArrLeyesProd[$c][3]=$ArrLeyesProd3+$ArrLeyesAsig3;
 					$ArrLeyesAsig[$c][2]=0;
 					$ArrLeyesAsig[$c][3]=0;
 				}	
@@ -704,9 +708,10 @@ body {
 		foreach($ArrLeyesProd as $c=>$v)
 		{
 			if($c!='01'&&$c!='02'&&$c!='04'&&$c!='05')
-			{
-				echo "<td align='right'>".number_format($ArrLeyesProd[$c][3],$DecFinos,',','.')."</td>";
-				$ArrLeyesTot[$c][3]=$ArrLeyesTot[$c][3]+$ArrLeyesProd[$c][3];
+			{   $ArrLeyesAsig3 = isset($ArrLeyesAsig[$c][3])?$ArrLeyesAsig[$c][3]:0;
+				$ArrLeyesTot3  = isset($ArrLeyesTot[$c][3])?$ArrLeyesTot[$c][3]:0;
+				echo "<td align='right'>".number_format((float)$ArrLeyesProd3,$DecFinos,',','.')."</td>";
+				$ArrLeyesTot[$c][3]=$ArrLeyesTot3+$ArrLeyesProd3;
 				$ArrLeyesProd[$c][2]=0;
 				$ArrLeyesProd[$c][3]=0;
 			}	
