@@ -156,7 +156,9 @@ while ($Fila01 = mysqli_fetch_array($Resp01))
 		$ArrDatosProv=array();
 		$ArrLeyesProv=array();
 		$ArrLeyesProv["01"][0]="01";$ArrLeyesProv["02"][0]="02";$ArrLeyesProv["04"][0]="04";$ArrLeyesProv["05"][0]="05";
-		LeyesProveedor($TipoRecep,$FilaTipoRecep["rut_proveedor"],$Fila01["cod_producto"],$Fila01["cod_subproducto"],$ArrDatosProv,$ArrLeyesProv,"S","S","S",$TxtFechaIni,$TxtFechaFin,"",$link);
+		$ArrDatosProv = LeyesProveedor($TipoRecep,$FilaTipoRecep["rut_proveedor"],$Fila01["cod_producto"],$Fila01["cod_subproducto"],$ArrDatosProv,$ArrLeyesProv,"S","S","S",$TxtFechaIni,$TxtFechaFin,"","",$link);
+		$ArrLeyesProv = LeyesProveedor($TipoRecep,$FilaTipoRecep["rut_proveedor"],$Fila01["cod_producto"],$Fila01["cod_subproducto"],$ArrDatosProv,$ArrLeyesProv,"S","S","S",$TxtFechaIni,$TxtFechaFin,"","L",$link);
+		
 		//if ($ArrDatosProv["peso_humedo"]!=0 || $ArrDatosProv["peso_seco"]!=0)
 		//{
 			$peso_humedo = isset($ArrDatosProv["peso_humedo"])?$ArrDatosProv["peso_humedo"]:0;
@@ -182,7 +184,7 @@ while ($Fila01 = mysqli_fetch_array($Resp01))
 			if ($OptFinos=="S")
 			{
 				echo "<td align=\"right\">".number_format($ArrLeyesProv0223,0,",",".")."</td>\n";		
-				echo "<td align=\"right\">".number_format($ArrLeyesProv04230,",",".")."</td>\n";
+				echo "<td align=\"right\">".number_format($ArrLeyesProv0423,0,",",".")."</td>\n";
 				echo "<td align=\"right\">".number_format($ArrLeyesProv0523,0,",",".")."</td>\n";		
 			}
 			echo "</tr>\n";
