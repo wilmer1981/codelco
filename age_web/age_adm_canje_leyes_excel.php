@@ -23,8 +23,36 @@
 
 	$Mostrar          = isset($_REQUEST["Mostrar"])?$_REQUEST["Mostrar"]:"N";
 	$TxtLote          = isset($_REQUEST["TxtLote"])?$_REQUEST["TxtLote"]:"";
+	$CodSubProducto   = isset($_REQUEST["CodSubProducto"])?$_REQUEST["CodSubProducto"]:"";
+	$RutProveedor     = isset($_REQUEST["RutProveedor"])?$_REQUEST["RutProveedor"]:"";
 	$Calcular         = isset($_REQUEST["Calcular"])?$_REQUEST["Calcular"]:"";
 	$Valores          = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
+	$SeguimientoHVL   = isset($_REQUEST["SeguimientoHVL"])?$_REQUEST["SeguimientoHVL"]:"";
+	$CodFaena        = isset($_REQUEST["CodFaena"])?$_REQUEST["CodFaena"]:"";
+	$NombreFaena     = isset($_REQUEST["NombreFaena"])?$_REQUEST["NombreFaena"]:"";
+	$EstOpe          = isset($_REQUEST["EstOpe"])?$_REQUEST["EstOpe"]:"";
+	$Proc            = isset($_REQUEST["Proc"])?$_REQUEST["Proc"]:"";
+	$NewRec          = isset($_REQUEST["NewRec"])?$_REQUEST["NewRec"]:"";
+	$TipoConsulta    = isset($_REQUEST["TipoConsulta"])?$_REQUEST["TipoConsulta"]:"";
+	$EstadoInput     = isset($_REQUEST["EstadoInput"])?$_REQUEST["EstadoInput"]:"";
+	$NombreSubProducto  = isset($_REQUEST["NombreSubProducto"])?$_REQUEST["NombreSubProducto"]:"";
+	$NombrePrv          = isset($_REQUEST["NombrePrv"])?$_REQUEST["NombrePrv"]:"";
+	$CmbPlantLimPart    = isset($_REQUEST["CmbPlantLimPart"])?$_REQUEST["CmbPlantLimPart"]:"";
+	$CmbLaboratorios    = isset($_REQUEST["CmbLaboratorios"])?$_REQUEST["CmbLaboratorios"]:"";
+	$TieneArb           = isset($_REQUEST["TieneArb"])?$_REQUEST["TieneArb"]:"";	
+	$TxtConjunto        = isset($_REQUEST["TxtConjunto"])?$_REQUEST["TxtConjunto"]:"";
+	$TxtFechaCanje      = isset($_REQUEST["TxtFechaCanje"])?$_REQUEST["TxtFechaCanje"]:date("Y-m-d");
+	$TxtOrdenEnsaye     = isset($_REQUEST["TxtOrdenEnsaye"])?$_REQUEST["TxtOrdenEnsaye"]:"";
+	$TxtFechaSolPqts    = isset($_REQUEST["TxtFechaSolPqts"])?$_REQUEST["TxtFechaSolPqts"]:"";
+	$ClaseProducto      = isset($_REQUEST["ClaseProducto"])?$_REQUEST["ClaseProducto"]:"";
+	$Recepcion          = isset($_REQUEST["Recepcion"])?$_REQUEST["Recepcion"]:"";
+	$PesoRetalla        = isset($_REQUEST["PesoRetalla"])?$_REQUEST["PesoRetalla"]:"";
+	$PesoMuestra        = isset($_REQUEST["PesoMuestra"])?$_REQUEST["PesoMuestra"]:"";
+	$EstadoCierre  = isset($_REQUEST["EstadoCierre"])?$_REQUEST["EstadoCierre"]:"";
+	$EsPopup       = isset($_REQUEST["EsPopup"])?$_REQUEST["EsPopup"]:"";	
+	$Mensaje       = isset($_REQUEST["Mensaje"])?$_REQUEST["Mensaje"]:"";
+	$Habilitado   = isset($_REQUEST["Habilitado"])?$_REQUEST["Habilitado"]:""; 
+	
 
 	if ($TxtLote!="")
 	{
@@ -44,20 +72,20 @@
 		if ($Fila = mysqli_fetch_array($Resp))
 		{
 			//DATOS DEL LOTE
-			$Mostrar='S';
-			$TxtLote = $Fila["lote"];
+			$Mostrar        ='S';
+			$TxtLote        = $Fila["lote"];
 			$CodSubProducto = $Fila["cod_subproducto"];
-			$NombreSubProducto=$Fila["nom_subproducto"];
-			$RutProveedor = $Fila["rut_proveedor"];
-			$NombrePrv=$Fila["nom_prv"];
-			$CodFaena=$Fila["cod_faena"];
-			$NombreFaena = $Fila["nom_faena"];
-			$Recepcion = $Fila["nom_recepcion"];
-			$ClaseProducto = $Fila["nom_clase_producto"];
-			$TxtConjunto = $Fila["num_conjunto"];
-			$EstadoLote = $Fila["nom_estado_lote"];
-			$PesoRetalla=$Fila["peso_retalla"];
-			$PesoMuestra=$Fila["peso_muestra"];
+			$NombreSubProducto= $Fila["nom_subproducto"];
+			$RutProveedor     = $Fila["rut_proveedor"];
+			$NombrePrv        = $Fila["nom_prv"];
+			$CodFaena         = $Fila["cod_faena"];
+			$NombreFaena      = $Fila["nom_faena"];
+			$Recepcion        = $Fila["nom_recepcion"];
+			$ClaseProducto    = $Fila["nom_clase_producto"];
+			$TxtConjunto      = $Fila["num_conjunto"];
+			$EstadoLote       = $Fila["nom_estado_lote"];
+			$PesoRetalla      = $Fila["peso_retalla"];
+			$PesoMuestra      = $Fila["peso_muestra"];
 			//SE OBTIENE LAS LEYES A CANJEAR DEPENDIENDO DEL PRODUCTO
 			$ArrayLeyes=array();
 			$Consulta ="select * from age_web.leyes_canje where cod_producto='1' and cod_subproducto='".$Fila["cod_subproducto"]."'";
@@ -158,10 +186,10 @@
 					break;
 				case "2":
 					$ArrayLeyes[$CodLey][3]=$ValorLey2;//LEY CANJE
-					$Consulta="select * from age_web.limites_particion where cod_plantilla=1 and cod_ley='$CodLey' and ".$ValorLey1." between rango1 and rango2";
+					$Consulta="select * from age_web.limites_particion where cod_plantilla=1 and cod_ley='$CodLey' and '".$ValorLey1."' between rango1 and rango2";
 					$Respuesta=mysqli_query($link, $Consulta);
 					$Fila=mysqli_fetch_array($Respuesta);
-					$LimParticion=$Fila[limite_particion]*1;
+					$LimParticion=$Fila["limite_particion"]*1;
 					$Dif=abs($ValorLey1-$ValorLey2)*1;
 					if($LimParticion<=$Dif)
 						$LeyCanje=($ValorLey1+$ValorLey2)/2;//LEY CANJE

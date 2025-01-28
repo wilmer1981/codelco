@@ -314,8 +314,10 @@
 				$DatosLote["lote"]=$Lote;
 				$DatosLote["recargo"]=$FilaRec["recargo"];
 				$ArrLeyes["01"][0]="01";
+				$DatosLote = LeyesLoteRecargo($DatosLote,$ArrLeyes,"N","S","N","","","",$link);				
+				$ArrLeyes  = LeyesLoteRecargo($DatosLote,$ArrLeyes,"N","S","N","","","L",$link);
 				$ArrLeyes012 = isset($ArrLeyes["01"][2])?$ArrLeyes["01"][2]:0;
-				$ArrLeyes = LeyesLoteRecargo($DatosLote,$ArrLeyes,"N","S","N","","","L",$link);
+				$ArrLeyes014 = isset($ArrLeyes["01"][4])?$ArrLeyes["01"][4]:0;
 				$pdf->addTextWrap($PosCol,$PosAux,60,10,"R ".$FilaRec["rec"],$justification='left',0,0);
 				reset($ArrLeyes);
 				$pdf->addTextWrap($PosCol+105,$PosAux,60,10,number_format($ArrLeyes012,4,',','.'),$justification='right',0,0);
@@ -350,6 +352,7 @@
 			mysqli_query($link, $Actualizar);
 		}			
 	}
+	//echo "hasta aqui lleguè";
 	$pdf->ezStream();
 	$pdf->Output();	
 	
