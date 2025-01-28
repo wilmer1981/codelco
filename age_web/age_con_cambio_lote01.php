@@ -3,17 +3,13 @@ include("../principal/conectar_principal.php");
 
 $Proceso   = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
 $Valores   = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
-$Valores   = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
-$Valores   = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
-$Valores   = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
-$Valores   = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
   		
 $Datos = explode("//",$Valores);
-$SubPC = $Datos[0];
-$SubPB = $Datos[1];
-$LoteC = $Datos[2];
-$LoteB = $Datos[3];
-$FechaB= $Datos[4];
+$SubPC = isset($Datos[0])?$Datos[0]:"";
+$SubPB = isset($Datos[1])?$Datos[1]:"";
+$LoteC = isset($Datos[2])?$Datos[2]:"";
+$LoteB = isset($Datos[3])?$Datos[3]:"";
+$FechaB= isset($Datos[4])?$Datos[4]:"0000-00-00";
     
 if ($Proceso=="G")
 {

@@ -22,7 +22,7 @@
 	$TxtFechaB      = isset($_REQUEST["TxtFechaB"])?$_REQUEST["TxtFechaB"]:"";
 	$TipoCon        = isset($_REQUEST["TipoCon"])?$_REQUEST["TipoCon"]:"";
 	$LCatodo        = isset($_REQUEST["LCatodo"])?$_REQUEST["LCatodo"]:"";
-	$TipoBusqueda   = isset($_REQUEST["TipoBusqueda"])?$_REQUEST["TipoBusqueda"]:"";	
+	$TipoBusqueda   = isset($_REQUEST["TipoBusqueda"])?$_REQUEST["TipoBusqueda"]:"";
 
 ?>
 <html>
@@ -57,16 +57,19 @@ function Grabar()
 	{
 		alert ("Lote Blister debe ser ingresado")
 		f.TxtLoteB.focus();
+		return;
 	}
 	if (f.TxtFechaB.value=="")
 	{
 		alert ("Fecha de Lote Blister debe seleccionarse");
 		f.TxtFechaB.focus();
+		return;
 	}
 		Valores = f.SubProd.value+"//"+SubNew+"//"+f.TxtLote.value+"//"+f.TxtLoteB.value+"//"+f.TxtFechaB.value;
 		//alert(Valores);
 		f.action = "age_con_cambio_lote01.php?Proceso=G&Valores="+Valores;
 		f.submit();
+
 }
 function Salir()
 {
@@ -183,7 +186,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
     		<td width="9%">Guia</td>
     		<td width="10%">Patente</td>
     		<td width="4%">Est.</td>
-			<td width="10%">Recepci�n</td>
+			<td width="10%">Recepci&oacute;n</td>
     		<td width="4%">Aut.</td>
   		</tr>
 		
@@ -253,7 +256,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
     				<td width="8%">Guia</td>
     				<td width="10%">Patente</td>
     				<td width="4%">Est.</td>
-					<td width="10%">Recepci�n</td>
+					<td width="10%">Recepci&oacute;n</td>
     				<td width="4%">Aut.</td>
 				</tr>
 			
