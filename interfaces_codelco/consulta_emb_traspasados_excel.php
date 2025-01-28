@@ -1,37 +1,4 @@
 <?php
-	if(isset($_REQUEST["Mensaje"])){
-		$Mensaje = $_REQUEST["Mensaje"];
-	}else {
-		$Mensaje = "";
-	}
-	if(isset($_REQUEST["Mostrar"])){
-		$Mostrar = $_REQUEST["Mostrar"];
-	}else {
-		$Mostrar = "";
-	}
-
-	if(isset($_REQUEST["CodProducto"])){
-		$CodProducto = $_REQUEST["CodProducto"];
-	}else {
-		$CodProducto = "";
-	}
-
-	if(isset($_REQUEST["SubProducto"])){
-		$SubProducto = $_REQUEST["SubProducto"];
-	}else {
-		$SubProducto = "";
-	}
-
-	if(isset($_REQUEST["Ano"])){
-		$Ano = $_REQUEST["Ano"];
-	}else {
-		$Ano = "";
-	}
-	if(isset($_REQUEST["Mes"])){
-		$Mes = $_REQUEST["Mes"];
-	}else {
-		$Mes = "";
-	}
 
 ob_end_clean();
 $file_name=basename($_SERVER['PHP_SELF']).".xls";
@@ -59,10 +26,27 @@ header("Content-Type:  application/vnd.ms-excel");
 	include("../principal/conectar_principal.php");
 	include("funciones_interfaces_codelco.php");
 	include("funcion_consulta.php");
-	if (!isset($CmbMovimiento))
+	
+	$Mostrar = isset($_REQUEST["Mostrar"])?$_REQUEST["Mostrar"]:"";
+	$Mensaje = isset($_REQUEST["Mensaje"])?$_REQUEST["Mensaje"]:"";
+	$Ano     = isset($_REQUEST["Ano"])?$_REQUEST["Ano"]:date("Y");
+	$Mes     = isset($_REQUEST["Mes"])?$_REQUEST["Mes"]:date("m");
+
+	$CmbMovimiento  = isset($_REQUEST["CmbMovimiento"])?$_REQUEST["CmbMovimiento"]:"";
+	$CmbOrden  = isset($_REQUEST["CmbOrden"])?$_REQUEST["CmbOrden"]:"";
+	$CmbAlmacen  = isset($_REQUEST["CmbAlmacen"])?$_REQUEST["CmbAlmacen"]:"";
+
+	$Orden        = isset($_REQUEST["Orden"])?$_REQUEST["Orden"]:"";
+	$CodProducto  = isset($_REQUEST["CodProducto"])?$_REQUEST["CodProducto"]:"";
+	$SubProducto  = isset($_REQUEST["SubProducto"])?$_REQUEST["SubProducto"]:"";
+	$Valores      = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
+	
+	if ($CmbMovimiento=="")
 		$CmbMovimiento="921";
-	if (!isset($Orden))
-		$Orden="L";		
+	if ($Orden=="")
+		$Orden="L";	
+    if ($CodProducto=="")
+		$CodProducto="18";	
 
 ?>
 <html>
@@ -93,9 +77,16 @@ header("Content-Type:  application/vnd.ms-excel");
 <?php	
 if ($Mostrar == "S")
 {
+	echo "entroooo";
 	//CONSULTA CODIGO DE MATRIAL SAP
 	$Consulta = "select * from interfaces_codelco.ordenes_produccion ";
-	$Consulta.= " where cod_producto='".$CodProducto."' and cod_subproducto='".$SubProducto."' ";
+	$Consulta.= " where cod_producto='".$CodProducto."'";
+	if ($SubProducto != "S")
+	{
+		$Consulta.="and cod_subproducto='".$SubProducto."' ";
+	}	
+	//$Consulta = "select * from interfaces_codelco.ordenes_produccion ";
+	//$Consulta.= " where cod_producto='".$CodProducto."' and cod_subproducto='".$SubProducto."' ";	
 	$Resp=mysqli_query($link, $Consulta);
 	$CodMaterialSAP="";
 	if ($Fila=mysqli_fetch_array($Resp))
@@ -198,7 +189,8 @@ if ($Mostrar == "S")
 	echo "<td align=\"right\">".number_format($TotalPesoTraspasado,1,",",".")."</td>";
 	echo "<td colspan=\"4\">&nbsp;</td>";
 	echo "</tr>";
-}			
+}
+//echo "no entroooo";			
 ?>	
 </table>	
 </form>

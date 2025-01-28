@@ -299,12 +299,19 @@ function LeyesProducto($ExeptoRut,$RutPrv,$TipoRecep,$Prod,$SubProd,$ArrDatosPro
 		$TotalPesoNetoProd=$TotalPesoNetoProd + $ArrDatosLote["peso_neto"];
 		reset($ArrLeyesLote);
 		foreach($ArrLeyesLote as $k => $v)
-		{   $peso_seco2 = isset($ArrDatosLote["peso_seco2"])?$ArrDatosLote["peso_seco2"]:0;
+		{   $peso_seco  = isset($ArrDatosLote["peso_seco"])?$ArrDatosLote["peso_seco"]:0;
+			$peso_seco2 = isset($ArrDatosLote["peso_seco2"])?$ArrDatosLote["peso_seco2"]:0;
+			$v0 = isset($v[0])?$v[0]:0;
 			$v1 = isset($v[1])?$v[1]:"";
 			$v2 = isset($v[2])?$v[2]:0;
 			$v3 = isset($v[3])?$v[3]:"";
 			$v4 = isset($v[4])?$v[4]:"";
 			$v5 = isset($v[5])?$v[5]:0;
+			$v8 = isset($v[8])?$v[8]:0;
+			$v9 = isset($v[9])?$v[9]:0;
+			$ArrLeyesProd08  = isset($ArrLeyesProd[$v0][8])?$ArrLeyesProd[$v0][8]:0;
+			$ArrLeyesProd02  = isset($ArrLeyesProd[$v0][2])?$ArrLeyesProd[$v0][2]:0;
+			$ArrLeyesProd010 = isset($ArrLeyesProd[$v0][10])?$ArrLeyesProd[$v0][10]:0;
 			if ($peso_seco2!=0 && $v2!=0 && $v5!=0) 
 			{
 				//SUMA LAS HUMEDADES PARA LUEGO COMPARAR SI TIENE ALGO O NO
@@ -316,37 +323,37 @@ function LeyesProducto($ExeptoRut,$RutPrv,$TipoRecep,$Prod,$SubProd,$ArrDatosPro
 					case 56:
 					case 58:
 						//PRODUCTOS PMN
-						$ArrLeyesProd[$v[0]][2] = $ArrLeyesProd[$v[0]][2] + round(($ArrDatosLote["peso_seco"] * $v[2])/$v[5]);//VALOR
+						$ArrLeyesProd[$v[0]][2] = $ArrLeyesProd02 + round(( (float)$peso_seco *  (float)$v2)/$v5);//VALOR
 						if($v[10]=='S')
 						{
 							//if ($k=="04")
 								//echo $ArrDatosLote["lote"]." = ".$ArrDatosLote["peso_seco23"]." * ".$v[8].")/".$v[5]."<br>";											
-							$ArrLeyesProd[$v[0]][8] = $ArrLeyesProd[$v[0]][8] + round(($ArrDatosLote["peso_seco"] * $v[8])/$v[5]);//VALOR					
+							$ArrLeyesProd[$v[0]][8] = $ArrLeyesProd08 + round(( (float)$peso_seco *  (float)$v8)/$v5);//VALOR					
 							//REDONDEADO (PARA CUADRE CON ENAMI)
-							$ArrLeyesProd[$v[0]][10] = $ArrLeyesProd[$v[0]][10] + round($v[9],0);//(($ArrDatosLote["peso_seco"] * $v[9])/$v[5]);//VALOR
+							$ArrLeyesProd[$v[0]][10] = $ArrLeyesProd010 + round($v9,0);//(($ArrDatosLote["peso_seco"] * $v[9])/$v[5]);//VALOR
 						}
 						else
 						{
-							$ArrLeyesProd[$v[0]][8] = $ArrLeyesProd[$v[0]][8] + round(($ArrDatosLote["peso_seco"] * $v[2])/$v[5]);//VALOR PRI
+							$ArrLeyesProd[$v[0]][8] = $ArrLeyesProd08 + round(( (float)$peso_seco *  (float)$v2)/$v5);//VALOR PRI
 							//REDONDEADO (PARA CUADRE CON ENAMI)
-							$ArrLeyesProd[$v[0]][10] = $ArrLeyesProd[$v[0]][10] + (($ArrDatosLote["peso_seco"] * $v[2])/$v[5]);//VALOR PRI
+							$ArrLeyesProd[$v[0]][10] = $ArrLeyesProd010 + (( (float)$peso_seco *  (float)$v2)/$v5);//VALOR PRI
 						}
 						break;
 					default:
-						$ArrLeyesProd[$v[0]][2] = $ArrLeyesProd[$v[0]][2] + round(($ArrDatosLote["peso_seco2"] * $v[2])/$v[5]);//VALOR
+						$ArrLeyesProd[$v[0]][2] = (float)$ArrLeyesProd02 +  round(( (float)$peso_seco2 *  (float)$v2)/$v5);//VALOR
 						if($v[10]=='S')
 						{
 							//if ($k=="04")
 								//echo $ArrDatosLote["lote"]." = ".$ArrDatosLote["peso_seco23"]." * ".$v[8].")/".$v[5]."<br>";											
-							$ArrLeyesProd[$v[0]][8] = $ArrLeyesProd[$v[0]][8] + round(($ArrDatosLote["peso_seco2"] * $v[8])/$v[5]);//VALOR					
+							$ArrLeyesProd[$v[0]][8] = $ArrLeyesProd08 + round(( (float)$peso_seco2 *  (float)$v8)/$v5);//VALOR					
 							//REDONDEADO (PARA CUADRE CON ENAMI)
-							$ArrLeyesProd[$v[0]][10] = $ArrLeyesProd[$v[0]][10] + round($v[9],0);//(($ArrDatosLote["peso_seco"] * $v[9])/$v[5]);//VALOR
+							$ArrLeyesProd[$v[0]][10] = $ArrLeyesProd010 + round($v9,0);//(($ArrDatosLote["peso_seco"] * $v[9])/$v[5]);//VALOR
 						}
 						else
 						{
-							$ArrLeyesProd[$v[0]][8] = $ArrLeyesProd[$v[0]][8] + round(($ArrDatosLote["peso_seco2"] * $v[2])/$v[5]);//VALOR PRI
+							$ArrLeyesProd[$v[0]][8] = $ArrLeyesProd08 + round(( (float)$peso_seco2 *  (float)$v2)/$v5);//VALOR PRI
 							//REDONDEADO (PARA CUADRE CON ENAMI)
-							$ArrLeyesProd[$v[0]][10] = $ArrLeyesProd[$v[0]][10] + (($ArrDatosLote["peso_seco"] * $v[2])/$v[5]);//VALOR PRI
+							$ArrLeyesProd[$v[0]][10] = $ArrLeyesProd010 + (( (float)$peso_seco *  (float)$v2)/$v5);//VALOR PRI
 						}
 						break;
 				}				

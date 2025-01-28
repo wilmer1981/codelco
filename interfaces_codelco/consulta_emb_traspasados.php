@@ -4,7 +4,7 @@
 	include("../principal/conectar_principal.php");
 	include("funciones_interfaces_codelco.php");
 	include("funcion_consulta.php");
-
+	
 	$Mostrar = isset($_REQUEST["Mostrar"])?$_REQUEST["Mostrar"]:"";
 	$Mensaje = isset($_REQUEST["Mensaje"])?$_REQUEST["Mensaje"]:"";
 	$Ano     = isset($_REQUEST["Ano"])?$_REQUEST["Ano"]:date("Y");
@@ -18,7 +18,6 @@
 	$CodProducto  = isset($_REQUEST["CodProducto"])?$_REQUEST["CodProducto"]:"18";
 	$SubProducto  = isset($_REQUEST["SubProducto"])?$_REQUEST["SubProducto"]:"";
 	$Valores      = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
-	
 ?>
 <html>
 <head>
@@ -190,6 +189,7 @@ body {
 if ($Mostrar == "S")
 {
 	//CONSULTA CODIGO DE MATRIAL SAP
+	echo "entroooo";
 	$Consulta = "select * from interfaces_codelco.ordenes_produccion ";
 	$Consulta.= " where cod_producto='".$CodProducto."'";
 	if ($SubProducto != "S")
