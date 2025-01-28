@@ -189,7 +189,7 @@ body {
 if ($Mostrar == "S")
 {
 	//CONSULTA CODIGO DE MATRIAL SAP
-	echo "entroooo";
+	//echo "entroooo";
 	$Consulta = "select * from interfaces_codelco.ordenes_produccion ";
 	$Consulta.= " where cod_producto='".$CodProducto."'";
 	if ($SubProducto != "S")

@@ -77,7 +77,7 @@ header("Content-Type:  application/vnd.ms-excel");
 <?php	
 if ($Mostrar == "S")
 {
-	echo "entroooo";
+	//echo "entroooo";
 	//CONSULTA CODIGO DE MATRIAL SAP
 	$Consulta = "select * from interfaces_codelco.ordenes_produccion ";
 	$Consulta.= " where cod_producto='".$CodProducto."'";
