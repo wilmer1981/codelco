@@ -368,14 +368,14 @@
 			$Datos211=isset($Datos2[11])?$Datos2[11]:0;
 			$Datos215=isset($Datos2[15])?$Datos2[15]:0;
 
-			$ValorLey1=$Datos23*1;
-			$ValorLey2=$Datos24*1;
-			$ValorLey3=$Datos25*1;
-			$ValorLey4=$Datos26*1;
-			$ValorLeyR=$Datos27*1;
-			$ValorIncR=(int)$Datos28*1;
-			$ValorLeyC=$Datos29*1;
-			$ValorLeyF=(int)$Datos210*1;
+			$ValorLey1=(float)$Datos23*1;
+			$ValorLey2=(float)$Datos24*1;
+			$ValorLey3=(float)$Datos25*1;
+			$ValorLey4=(float)$Datos26*1;
+			$ValorLeyR=(float)$Datos27*1;
+			$ValorIncR=(float)$Datos28*1;
+			$ValorLeyC=(float)$Datos29*1;
+			$ValorLeyF=(float)$Datos210*1;
 			$NumPqte=$Datos211;
 			$ForzarLey2=$Datos215;
 			$Seguimiento='';

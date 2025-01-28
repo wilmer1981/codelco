@@ -51,8 +51,7 @@
 	$EstadoCierre  = isset($_REQUEST["EstadoCierre"])?$_REQUEST["EstadoCierre"]:"";
 	$EsPopup       = isset($_REQUEST["EsPopup"])?$_REQUEST["EsPopup"]:"";	
 	$Mensaje       = isset($_REQUEST["Mensaje"])?$_REQUEST["Mensaje"]:"";
-	$Habilitado   = isset($_REQUEST["Habilitado"])?$_REQUEST["Habilitado"]:""; 
-	
+	$Habilitado   = isset($_REQUEST["Habilitado"])?$_REQUEST["Habilitado"]:""; 	
 
 	if ($TxtLote!="")
 	{
