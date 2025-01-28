@@ -1,6 +1,7 @@
 <?php
 	include("../principal/conectar_principal.php");
 	include("../age_web/age_funciones.php");	
+	set_time_limit(700);
 	
 	$CmbRecepcion   = isset($_REQUEST["CmbRecepcion"])?$_REQUEST["CmbRecepcion"]:"";
 	$CmbSubProducto = isset($_REQUEST["CmbSubProducto"])?$_REQUEST["CmbSubProducto"]:"";

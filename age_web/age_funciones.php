@@ -268,6 +268,7 @@ function LeyesProducto($ExeptoRut,$RutPrv,$TipoRecep,$Prod,$SubProd,$ArrDatosPro
 		} while (next($ArrLeyesLote));	
 		$ArrDatosLote["lote"]=$FilaProd["lote"];
 		$ArrDatosLote = LeyesLote($ArrDatosLote,$ArrLeyesLote,$EntreFechas,"S","S",$FechaIni,$FechaFin,$FechaConCierre,"",$link);
+		$ArrLeyesLote = LeyesLote($ArrDatosLote,$ArrLeyesLote,$EntreFechas,"S","S",$FechaIni,$FechaFin,$FechaConCierre,"L",$link);
 		if ($ArrDatosLote["tipo_remuestreo"]=="A")
 		{
 			$ArrDatosLote["peso_humedo"]=$ArrDatosLote["peso_humedo_ori"];
@@ -504,8 +505,9 @@ function LeyesConjunto($Prod, $SubProd, $Rut, $Conjunto, $ArrDatosProv, $ArrLeye
 		$ArrDatosLote=array();		
 		$ArrDatosLote["lote"]=$FilaConj["lote"];
 		$ArrDatosLote = LeyesLote($ArrDatosLote,$ArrLeyesLote,$EntreFechas,$IncMerma,$IncRetalla,$FechaIni,$FechaFin,$FechaConCierre,"",$link);
+		$ArrLeyesLote = LeyesLote($ArrDatosLote,$ArrLeyesLote,$EntreFechas,$IncMerma,$IncRetalla,$FechaIni,$FechaFin,$FechaConCierre,"L",$link);
 		$peso_humedo = isset($ArrDatosLote["peso_humedo"])?$ArrDatosLote["peso_humedo"]:0;
-		$peso_seco2 = isset($ArrDatosLote["peso_seco2"])?$ArrDatosLote["peso_seco2"]:0;
+		$peso_seco2  = isset($ArrDatosLote["peso_seco2"])?$ArrDatosLote["peso_seco2"]:0;
 		$PesoHumProv=$PesoHumProv  + $peso_humedo;
 		$PesoSecoProv=$PesoSecoProv + $peso_seco2;
 		//echo "LOTE........ ".$ArrDatosLote["lote"]." = ".$ArrDatosLote["peso_humedo"]." - ".$ArrDatosLote["peso_seco"]."<br>";
@@ -525,7 +527,8 @@ function LeyesConjunto($Prod, $SubProd, $Rut, $Conjunto, $ArrDatosProv, $ArrLeye
 			$ArrLeyesLote[$k][2] = "";
 		} while (next($ArrLeyesLote));	
 	}
-	if ($PesoSecoProv>0 && $PesoHumProv>0 && $ArrDatosLote["clase_producto"]!="M")
+	$clase_producto = isset($ArrDatosLote["clase_producto"])?$ArrDatosLote["clase_producto"]:"";
+	if ($PesoSecoProv>0 && $PesoHumProv>0 && $clase_producto!="M")
 		$PorcHumProv = abs(100 - (($PesoSecoProv * 100)/$PesoHumProv));
 	else
 		$PorcHumProv = 0;
@@ -1600,7 +1603,8 @@ function LeyesAjusteProveedor($Ano,$Mes,$RutProv,$Prod,$SubProd,$ArrLeyesProv,$F
 		$LeyesLote=array();
 		$Lote["lote"]=$FilaProv["lote"];
 		$LeyesLote["01"][0]="01";$LeyesLote["02"][0]="02";$LeyesLote["04"][0]="04";$LeyesLote["05"][0]="05";
-		$Lote = LeyesLote($Lote,$LeyesLote,"N","S","S",$FechaIni,$FechaFin,$FechaCierreAnexo,"",$link);		
+		$Lote      = LeyesLote($Lote,$LeyesLote,"N","S","S",$FechaIni,$FechaFin,$FechaCierreAnexo,"",$link);	
+		$LeyesLote = LeyesLote($Lote,$LeyesLote,"N","S","S",$FechaIni,$FechaFin,$FechaCierreAnexo,"L",$link);		
 		$Consulta = "select * ";
 		$Consulta.= " from age_web.lotes t1 inner join age_web.leyes_por_lote_canje t2 on t1.lote = t2.lote ";	
 		$Consulta.= " where t1.lote='".$FilaProv["lote"]."'";
