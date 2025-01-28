@@ -287,19 +287,19 @@
 								case "02":
 									$IncRetalla=0;
 									if($FilaLote["peso_retalla"]>0&&$FilaLote["peso_muestra"]>0)
-										CalcIncRetalla($FilaLote["lote"],"02",$FilaLeyes["valor"],$FilaLote["peso_retalla"],$FilaLote["peso_muestra"],$IncRetalla,$link);
+										$IncRetalla = CalcIncRetalla($FilaLote["lote"],"02",$FilaLeyes["valor"],$FilaLote["peso_retalla"],$FilaLote["peso_muestra"],$IncRetalla,$link);
 									$LeyCu = $FilaLeyes["valor"]+$IncRetalla;
 									break;
 								case "04":
 									$IncRetalla=0;
 									if($FilaLote["peso_retalla"]>0&&$FilaLote["peso_muestra"]>0)
-										CalcIncRetalla($FilaLote["lote"],"04",$FilaLeyes["valor"],$FilaLote["peso_retalla"],$FilaLote["peso_muestra"],$IncRetalla,$link);
+										$IncRetalla = CalcIncRetalla($FilaLote["lote"],"04",$FilaLeyes["valor"],$FilaLote["peso_retalla"],$FilaLote["peso_muestra"],$IncRetalla,$link);
 									$LeyAg = $FilaLeyes["valor"]+$IncRetalla;
 									break;
 								case "05":
 									$IncRetalla=0;
 									if($FilaLote["peso_retalla"]>0&&$FilaLote["peso_muestra"]>0)
-										CalcIncRetalla($FilaLote["lote"],"05",$FilaLeyes["valor"],$FilaLote["peso_retalla"],$FilaLote["peso_muestra"],$IncRetalla,$link);
+										$IncRetalla = CalcIncRetalla($FilaLote["lote"],"05",$FilaLeyes["valor"],$FilaLote["peso_retalla"],$FilaLote["peso_muestra"],$IncRetalla,$link);
 									$LeyAu = $FilaLeyes["valor"]+$IncRetalla;
 									break;
 								default:
@@ -541,24 +541,7 @@
 	echo "<td align='right'>".number_format($TotalFinoAuTot,$DecFinos,',','.')."</td>";
 	echo "</tr>\n";
 echo "</table>\n";
-//FUNCIONES
-function CalcIncRetalla($Lote,$CodLey,$Valor,$PesoRetalla,$PesoMuestra,$IncRetalla,$link)
-{	
-	$Consulta = "select distinct t1.cod_leyes, t1.valor, t2.abreviatura as nom_unidad, t2.conversion";
-	$Consulta.= " from age_web.leyes_por_lote t1 left join proyecto_modernizacion.unidades t2 on ";
-	$Consulta.= " t1.cod_unidad=t2.cod_unidad ";
-	$Consulta.= " where t1.lote='".$Lote."' ";
-	$Consulta.= " and t1.recargo='R' and t1.cod_leyes='".$CodLey."'";	
-	//echo $Consulta."<br>";
-	$RespLeyes = mysqli_query($link, $Consulta);
-	$IncRetalla=0;
-	if($FilaLeyes = mysqli_fetch_array($RespLeyes))
-	{
-		if($FilaLeyes["valor"]>0)
-			$IncRetalla=($FilaLeyes["valor"] - $Valor) * ($PesoRetalla/$PesoMuestra);  //VALOR
-	}	
-}
-mysqli_close($link);
+
 ?>  
 
 </form>
