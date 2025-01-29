@@ -80,7 +80,7 @@ CmbAlmacen:
 			$Archivo = fopen("archivos_embarque/".$Producto."_embarque_".$FechaHora.".doc","w+");
 			$ArchivoLeyes = fopen("archivos_embarque/".$Producto."_leyes_embarque_".$FechaHora.".doc","w+");
 			$Datos=explode('//',$Valor);
-			//foreach($Datos as $c => $v)
+			//while(list($c,$v)=each($Datos))
 			foreach ($Datos as $c => $v)
 			{
 				$Datos2=explode('~',$v);
@@ -106,24 +106,34 @@ CmbAlmacen:
 				$Linea.= str_pad($SAP_Almacen,4,"0",STR_PAD_LEFT);
 				$Linea.= str_pad($SAP_OrdenProd_Manual,12," ");
 				$Linea.= str_pad($SAP_CodMaterial,18,"0",STR_PAD_LEFT);					
-				$Linea.= str_pad(number_format($SAP_Cantidad,3,",",""),15," ",STR_PAD_LEFT)." ";
+				$Linea.= str_pad(number_format((float)$SAP_Cantidad,3,",",""),15," ",STR_PAD_LEFT)." ";
 				$Linea.= str_pad($SAP_Unidad,3," ");
 				$Linea.= str_pad($SAP_Lote,10," ");
 				$Linea.= str_pad($SAP_ClaseValoriz_Manual,10," ");
 				$Linea.= str_pad($SAP_Status,1," ",STR_PAD_LEFT);
 				$Linea.= str_pad($SAP_Msg,80," ",STR_PAD_LEFT);
 				fwrite($Archivo,$Linea."\r\n");
-				$Insertar="INSERT INTO interfaces_codelco.registro_traspaso (tipo_registro,ano,mes,referencia,tipo_movimiento,registro) values(";
-				$Insertar.="'1','$Ano','$Mes','$SAP_Lote','$SAP_TipoMov','$Linea')";
-				mysqli_query($link, $Insertar);
+				$consulta = "SELECT * FROM interfaces_codelco.registro_traspaso WHERE ano='".$Ano."' AND mes='".$Mes."' AND referencia='".$SAP_Lote."' ";
+				$result = mysqli_query($link,$consulta);
+				$cont   = mysqli_num_rows($result);
+				if($cont==0){
+					$Insertar="insert into interfaces_codelco.registro_traspaso (tipo_registro,ano,mes,referencia,tipo_movimiento,registro) values(";
+					$Insertar.="'1','$Ano','$Mes','$SAP_Lote','$SAP_TipoMov','$Linea')";
+					mysqli_query($link, $Insertar);
+				}
 				$L_SAP_CodMaterial = "";
 				$L_SAP_UnidadPeso = "";
 				$L_SAP_Centro = "";
 				$L_SAP_FormaEmpaque01 = "";
-				Homologar("46","1", $L_SAP_CodMaterial, $L_SAP_UnidadPeso, $L_SAP_Centro, $L_SAP_FormaEmpaque01, $link);
+				$Lista = Homologar("46","1", $L_SAP_CodMaterial, $L_SAP_UnidadPeso, $L_SAP_Centro, $L_SAP_FormaEmpaque01, $link);
+				$valor = explode("**",$Lista);
+				$L_SAP_CodMaterial    = $valor[0];
+				$L_SAP_UnidadPeso     = $valor[1];
+				$L_SAP_Centro         = $valor[2];
+				$L_SAP_FormaEmpaque01 = $valor[3];
 				$L_SAP_Tipo = "3";
-				$L_SAP_CodMaterial = $SAP_CodMaterial;
-				$L_SAP_Centro = $SAP_Centro;
+				//$L_SAP_CodMaterial = $SAP_CodMaterial;
+				//$L_SAP_Centro = $SAP_Centro;
 				$L_SAP_Lote = $SAP_Lote;
 				$L_SAP_Almacen = $SAP_Almacen;
 				$L_SAP_IndActivo = "X";
@@ -142,12 +152,12 @@ CmbAlmacen:
 				$L_SAP_TipoTransporte = "";
 				$L_SAP_MarcaLote = "";
 				$ArregloLeyes = array();
-				DefinirArregloLeyes("46","1",$ArregloLeyes);		
+				$ArregloLeyes = DefinirArregloLeyes("46","1",$ArregloLeyes);		
 				reset($ArregloLeyes);					
 				//while (list($k,$Valor)=each($ArregloLeyes))
-				foreach ($ArregloLeyes as $k => $Valores)
+				foreach ($ArregloLeyes as $k => $Valor)
 				{
-					$L_SAP_Leyes = $L_SAP_Leyes.str_pad(number_format($Valor["valor"],3,',',''),15," ",STR_PAD_LEFT);
+					$L_SAP_Leyes = $L_SAP_Leyes.str_pad(number_format((float)$Valor["valor"],3,',',''),15," ",STR_PAD_LEFT);
 				}
 				$LineaLeyes = str_pad($L_SAP_Tipo,1," ",STR_PAD_LEFT);
 				$LineaLeyes.= str_pad($L_SAP_CodMaterial,18,"0",STR_PAD_LEFT);
@@ -158,9 +168,9 @@ CmbAlmacen:
 				$LineaLeyes.= str_pad($L_SAP_FechaDisp,10," ",STR_PAD_LEFT);
 				$LineaLeyes.= str_pad($L_SAP_LoteClasif,1," ",STR_PAD_LEFT);
 				$LineaLeyes.= $L_SAP_Leyes;
-				$LineaLeyes.= str_pad(number_format($L_SAP_PesoBruto,3,",",""),15," ",STR_PAD_LEFT);
-				$LineaLeyes.= str_pad(number_format($L_SAP_PesoNeto,3,",",""),15," ",STR_PAD_LEFT);
-				$LineaLeyes.= str_pad(number_format($L_SAP_PesoTara,3,",",""),15," ",STR_PAD_LEFT);
+				$LineaLeyes.= str_pad(number_format((float)$L_SAP_PesoBruto,3,",",""),15," ",STR_PAD_LEFT);
+				$LineaLeyes.= str_pad(number_format((float)$L_SAP_PesoNeto,3,",",""),15," ",STR_PAD_LEFT);
+				$LineaLeyes.= str_pad(number_format((float)$L_SAP_PesoTara,3,",",""),15," ",STR_PAD_LEFT);
 				$LineaLeyes.= str_pad($L_SAP_UnidadPeso,15," ");
 				$LineaLeyes.= str_pad($L_SAP_CantDesp01,15," ",STR_PAD_LEFT);
 				$LineaLeyes.= str_pad($L_SAP_FormaEmpaque01,15," ");
@@ -186,7 +196,7 @@ CmbAlmacen:
 			$SAP_Cantidad=$TxtTonelaje;
 			$SAP_Unidad="TO";
 			$SAP_Lote=strtoupper(substr($Meses[(substr($TxtFechaCon,5,2))-1],0,4).substr($TxtFechaCon,3,1).$TxtLote);
-			$SAP_ClaseValoriz_Manual = $Valores[1];
+			$SAP_ClaseValoriz_Manual = isset($Valores[1])?$Valores[1]:"";
 			
 			$Linea = $SAP_FechaDoc."~~";
 			$Linea.= $SAP_TipoMov."~~";
@@ -197,10 +207,17 @@ CmbAlmacen:
 			$Linea.= $SAP_OrdenProd_Manual."~~";
 			$Linea.= $SAP_ClaseValoriz_Manual."~~";
 			$Linea.= $SAP_Almacen;
-			$Insertar="INSERT into interfaces_codelco.registro_traspaso (tipo_registro,ano,mes,referencia,tipo_movimiento,registro) values(";
-			$Insertar.="'99','$Ano','$Mes','$SAP_Lote','$SAP_TipoMov','$Linea')";
-			mysqli_query($link, $Insertar);
-			$Mensaje='Archivos Creados Existosamente';
+			$consulta = "SELECT * FROM interfaces_codelco.registro_traspaso WHERE ano='".$Ano."' AND mes='".$Mes."' AND referencia='".$SAP_Lote."' ";
+			$result = mysqli_query($link,$consulta);
+			$cont   = mysqli_num_rows($result);
+			if($cont==0){
+				$Insertar="INSERT into interfaces_codelco.registro_traspaso (tipo_registro,ano,mes,referencia,tipo_movimiento,registro) values(";
+				$Insertar.="'99','$Ano','$Mes','$SAP_Lote','$SAP_TipoMov','$Linea')";
+				mysqli_query($link, $Insertar);
+				$Mensaje='Archivos Creados Existosamente';
+			}else{
+				$Mensaje='Archivos ya existe';
+			}
 			break;
 	}
 	header("location:traspaso_embarque_acid_manual.php?Mostrar=S&Mensaje=".$Mensaje);

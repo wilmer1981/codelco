@@ -3,11 +3,17 @@
 	$CodigoDePantalla = 8;
 	include("../principal/conectar_principal.php");
 	include("funciones_interfaces_codelco.php");
-	if (!isset($CmbMovimiento))
+	
+	$CmbMovimiento  = isset($_REQUEST["CmbMovimiento"])?$_REQUEST["CmbMovimiento"]:"";
+	$CmbOrden       = isset($_REQUEST["CmbOrden"])?$_REQUEST["CmbOrden"]:"";
+	$Orden          = isset($_REQUEST["Orden"])?$_REQUEST["Orden"]:"";
+	$CmbAlmacen     = isset($_REQUEST["CmbAlmacen"])?$_REQUEST["CmbAlmacen"]:"";
+	
+	if ($CmbMovimiento=="")
 		$CmbMovimiento="921";
-	if (!isset($Orden))
+	if ($Orden=="")
 		$Orden="L";		
-/*
+    /*
 	if(!isset($TxtFechaCon))
 	{
 		$TxtFechaCon = date("Y-m-d");
@@ -69,7 +75,7 @@ function Proceso(opt)
 			}
 			else
 			{
-				if(confirm('�Esta Seguro de Traspasar Los Datos?'))
+				if(confirm('\xBFEsta Seguro de Traspasar Los Datos?'))
 				{
 					Valor=Valor.substr(0,Valor.length-2);
 					//alert(Valor);
@@ -79,7 +85,7 @@ function Proceso(opt)
 			}	
 			break;
 		case "CR"://CREAR REGISTRO		
-			if(confirm('�Esta Seguro de Crear Registro?'))
+			if(confirm('\xBFEsta Seguro de Crear Registro?'))
 			{
 				f.action = "traspaso_embarque_acid_manual01.php?Proceso=CR";
 				f.submit();
@@ -372,7 +378,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 				echo '<td align="center"><input type="text" name="TxtMovimiento" '.$ColorTxtMov.' value="'.$TipoMovimiento.'" size="6" readonly class="InputCen"></td>';//CLASE DE MOVIMIENTO
 				echo '<td align="center">'.$Referencia.'</td>';//DESCRIPCION PRODUCTO
 				echo '<td align="center">'.$SAP_CodMaterial.'</td>';//CODIGO MATERIAL
-				echo '<td align="right">'.number_format($SAP_Cantidad,0,",",".").'</td>';//CANTIDAD
+				echo '<td align="right">'.number_format((float)$SAP_Cantidad,0,",",".").'</td>';//CANTIDAD
 				echo '<td align="center">'.$SAP_Unidad.'</td>';//UNIDAD DE MEDIDA
 				echo '<td>'.$Referencia.'</td>';//IDENTIFICACION
 				echo "<td align=\"center\"><input type=\"text\" name=\"TxtOrden\" value=\"";
@@ -395,7 +401,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 				echo "\"></td>";//ALMACEN		
 				echo '</tr>';
 				$ContCantidad++;
-				$SubTotalPeso = $SubTotalPeso + $SAP_Cantidad;
+				$SubTotalPeso = (int)$SubTotalPeso + (int)$SAP_Cantidad;
 				//GUARDA REG. ANTERIOR
 			}
 			EscribeSubTotal("", $ContCantidad, $SubTotalPeso);

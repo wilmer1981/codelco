@@ -12,7 +12,7 @@
 	$Ano     = isset($_REQUEST["Ano"])?$_REQUEST["Ano"]:date("Y");
 	$Mes     = isset($_REQUEST["Mes"])?$_REQUEST["Mes"]:date("m");
 
-	$Orden   = isset($_REQUEST["Orden"])?$_REQUEST["Orden"]:"L";
+	$Orden           = isset($_REQUEST["Orden"])?$_REQUEST["Orden"]:"L";
 	$CodProducto     = isset($_REQUEST["CodProducto"])?$_REQUEST["CodProducto"]:"";
 	$SubProducto     = isset($_REQUEST["SubProducto"])?$_REQUEST["SubProducto"]:"";
 	$ChkMarca        = isset($_REQUEST["ChkMarca"])?$_REQUEST["ChkMarca"]:"";
