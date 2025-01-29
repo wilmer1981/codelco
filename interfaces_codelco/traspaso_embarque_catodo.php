@@ -471,7 +471,7 @@ if ($Mostrar == "S")
 				$ColorTxtMov = "style='background=yellow;'";
 			}
 			$TipoMovimiento = $Fila2["tipo_movimiento"];
-			$Estado = $Fila2["tipo_movimiento"];
+			$Estado = "";//$Fila2["tipo_movimiento"];
 			$ColorTraspaso = "#00CC00";	
 			$SAP_OrdenProd_Manual = trim(substr($Fila2["registro"],32,12));
 			$SAP_ClaseValoriz_Manual = trim(substr($Fila2["registro"],90,11));
