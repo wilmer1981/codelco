@@ -1,6 +1,7 @@
 <?php
 	include("../principal/conectar_principal.php");
-	require_once 'reader.php';
+	//require_once 'reader.php';
+	
 	
 	$Opcion =  isset($_REQUEST['Opcion'])?$_REQUEST['Opcion']:'';
 	$TipoConsulta = isset($_REQUEST['TipoConsulta'])?$_REQUEST['TipoConsulta']:'';
@@ -38,7 +39,8 @@
 	if($Opcion=='MO')
 	{
 		$LotesConsulta=explode("~",$Lotes);
-		if(list($c,$v)=each($LotesConsulta))
+		//if(list($c,$v)=each($LotesConsulta))
+		foreach($LotesConsulta as $c=>$v)
 		{
 			//DATOS PARA LA CABEZERA
 			$Consulta="select * from age_web.lotes where lote='".$v."'";
@@ -577,7 +579,8 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 	if($Opcion=='MO')
 	{		
 		reset($LotesConsulta);$TotBruto=0;$TotTara=0;$TotNeto=0;
-		while(list($c,$v)=each($LotesConsulta))
+		//while(list($c,$v)=each($LotesConsulta))
+		foreach($LotesConsulta as $c=>$v)
 		{
 			$Consulta="select * from age_web.lotes where lote='".$v."'";
 			//echo $Consulta;
@@ -619,16 +622,16 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 					echo "<td width='97' align='center'>".$Fila2["recargo"]."</td>";
 					echo "<td width='97' align='center'>".$Fila2["patente"]."</td>";
 					echo "<td width='97' align='center'>".$Fila2["guia_despacho"]."</td>";
-					echo "<td width='97' align='right'>".number_format($Fila2[peso_bruto],0,'','.')."</td>";
+					echo "<td width='97' align='right'>".number_format($Fila2["peso_bruto"],0,'','.')."</td>";
 					echo "<td width='97' align='right'>".number_format($Fila2["peso_tara"],0,'','.')."</td>";
-					echo "<td width='97' align='right'>".number_format($Fila2[peso_neto],0,'','.')."</td>";	
+					echo "<td width='97' align='right'>".number_format($Fila2["peso_neto"],0,'','.')."</td>";	
 					echo "</tr>";
-					$SubTotBruto=$SubTotBruto+$Fila2[peso_bruto];	
+					$SubTotBruto=$SubTotBruto+$Fila2["peso_bruto"];	
 					$SubTotTara=$SubTotTara+$Fila2["peso_tara"];
-					$SubTotNeto=$SubTotNeto+$Fila2[peso_neto];			
-					$TotBruto=$TotBruto+$Fila2[peso_bruto];	
+					$SubTotNeto=$SubTotNeto+$Fila2["peso_neto"];			
+					$TotBruto=$TotBruto+$Fila2["peso_bruto"];	
 					$TotTara=$TotTara+$Fila2["peso_tara"];
-					$TotNeto=$TotNeto+$Fila2[peso_neto];			
+					$TotNeto=$TotNeto+$Fila2["peso_neto"];			
 
 				}
 				echo "<tr class='SinBorde'>";
