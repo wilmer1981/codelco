@@ -324,7 +324,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 		$Resp = mysqli_query($link, $Consulta);
 		if ($Fila = mysqli_fetch_array($Resp))
 		{
-			echo "<input type='hidden' name='CmbEstadoLote' value='".$Fila["cod_subproducto"]."'>"; 
+			echo "<input type='hidden' name='CmbEstadoLote' value='".$Fila["cod_subclase"]."'>"; 
 			echo $Fila["nombre_subclase"];	
 		}	
 	}	

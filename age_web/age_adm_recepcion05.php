@@ -1,27 +1,37 @@
 <?php
 	include("../principal/conectar_principal.php");
-	require_once 'reader.php';
-	if(!isset($TxtConjunto))
+	//require_once 'reader.php';
+	$TxtConjunto  = isset($_REQUEST["TxtConjunto"])?$_REQUEST["TxtConjunto"]:"";
+	$Opcion       = isset($_REQUEST["Opcion"])?$_REQUEST["Opcion"]:"";
+	$EstOpe       = isset($_REQUEST["EstOpe"])?$_REQUEST["EstOpe"]:"";
+	$Lotes        = isset($_REQUEST["Lotes"])?$_REQUEST["Lotes"]:"";
+	$Proc         = isset($_REQUEST["Proc"])?$_REQUEST["Proc"]:"";
+	$TxtLote      = isset($_REQUEST["TxtLote"])?$_REQUEST["TxtLote"]:"";
+	$TxtRecargo   = isset($_REQUEST["TxtRecargo"])?$_REQUEST["TxtRecargo"]:"";
+	$NewRec       = isset($_REQUEST["NewRec"])?$_REQUEST["NewRec"]:"";
+	
+	if($TxtConjunto=="")
 		$TxtConjunto=0;
 	if($Opcion=='MO')
 	{
 		$LotesConsulta=explode("~",$Lotes);
-		if(list($c,$v)=each($LotesConsulta))
+		//if(list($c,$v)=each($LotesConsulta))
+		foreach($LotesConsulta as $c => $v)
 		{
 			//DATOS PARA LA CABEZERA
 			$Consulta="select * from age_web.lotes_temp where lote='".$v."'";
 			$Resp = mysqli_query($link, $Consulta);
 			if($Fila = mysqli_fetch_array($Resp))
 			{
-				$TxtSubProducto=$Fila["cod_subproducto"];	
-				$TxtConjunto=$Fila["num_conjunto"];
-				$CmbEstadoLote=$Fila["estado_lote"];
-				$CmbProveedor=$Fila["rut_proveedor"];
-				$CmbCodFaena=$Fila["cod_faena"];
-				$CmbClaseProducto=$Fila[clase_producto];
-				$CmbCodRecepcion=$Fila["cod_recepcion"];
-				$CmbCodRecepcionENM=$Fila[cod_recepcion_enm];
-				$TxtCancha=$Fila[cancha];
+				$TxtSubProducto     = $Fila["cod_subproducto"];	
+				$TxtConjunto        = $Fila["num_conjunto"];
+				$CmbEstadoLote      = $Fila["estado_lote"];
+				$CmbProveedor       = $Fila["rut_proveedor"];
+				$CmbCodFaena        = $Fila["cod_faena"];
+				$CmbClaseProducto   = $Fila["clase_producto"];
+				$CmbCodRecepcion    = $Fila["cod_recepcion"];
+				$CmbCodRecepcionENM = $Fila["cod_recepcion_enm"];
+				$TxtCancha          = $Fila["cancha"];
 			}		
 		}
 	}
@@ -105,7 +115,7 @@ function Proceso(opt)
 			f.submit();
 			break;
 		case "C": //Cancelar	
-			mensaje=confirm("�Esta Seguro de Cancelar el Resultado?");
+			mensaje=confirm("\xBFEsta Seguro de Cancelar el Resultado?");
 			if(mensaje==true)
 			{
 				f.action = "age_adm_recepcion01.php?Proceso=ERDL";
@@ -200,7 +210,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 		$Resp = mysqli_query($link, $Consulta);
 		if ($Fila = mysqli_fetch_array($Resp))
 		{
-			echo "<input type='hidden' name='CmbEstadoLote' value='".$Fila["cod_subproducto"]."'>"; 
+			echo "<input type='hidden' name='CmbEstadoLote' value='".$Fila["cod_subclase"]."'>"; 
 			echo $Fila["nombre_subclase"];	
 		}	
 	}	
@@ -292,7 +302,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 	  //echo $ConsultaDetalle."<br>";
 	  $RespDet = mysqli_query($link, $ConsultaDetalle);
 	  if($FilaDet = mysqli_fetch_array($RespDet))
-	  { ?><input name="BtnSalir" type="button" id="BtnSalir" value="Ver Informaci�n" style="width:120px " onClick="Proceso('Info')"><?php }?></td>
+	  { ?><input name="BtnSalir" type="button" id="BtnSalir" value="Ver Informacion" style="width:120px " onClick="Proceso('Info')"><?php }?></td>
   </tr>
 </table>
 <br>
@@ -308,7 +318,7 @@ $ConsultaDetalle="select * from age_web.lotes_temp_detalle where obsloten!=''";
 //echo $ConsultaDetalle."<br>";
 $RespDet = mysqli_query($link, $ConsultaDetalle);
 while($FilaDet = mysqli_fetch_array($RespDet))
-	echo str_replace('//',' ya se encuentra ingresada en el Lote: ',str_replace('~R~',' del Recargo: ',str_replace('~L~',' del Lote: ',str_replace('G~','Gu�a: ',$FilaDet[obsloten]))))."<br>";
+	echo str_replace('//',' ya se encuentra ingresada en el Lote: ',str_replace('~R~',' del Recargo: ',str_replace('~L~',' del Lote: ',str_replace('G~','Guia: ',$FilaDet["obsloten"]))))."<br>";
 
 ?>
 </td>
@@ -321,7 +331,8 @@ while($FilaDet = mysqli_fetch_array($RespDet))
 	if($Opcion=='MO')
 	{		
 		reset($LotesConsulta);$TotBruto=0;$TotTara=0;$TotNeto=0;
-		while(list($c,$v)=each($LotesConsulta))
+		//while(list($c,$v)=each($LotesConsulta))
+		foreach($LotesConsulta as $c => $v)
 		{
 			$Consulta="select * from age_web.lotes_temp where lote='".$v."'";
 			//echo $Consulta."<BR>";
@@ -354,12 +365,12 @@ while($FilaDet = mysqli_fetch_array($RespDet))
 				   echo  "</tr>";$SubTotBruto=0;$SubTotTara=0;$SubTotNeto=0;			
 				$Consulta="select *,ceiling(recargo) as RecOrden from age_web.lotes_temp_detalle where lote='".$Fila["lote"]."'  order by RecOrden asc";
 				//echo $Consulta."<br>";
-				$Resp2 = mysqli_query($link, $Consulta);$Leyes='';$Impureza='';$SubTotHum='0';
+				$Resp2 = mysqli_query($link, $Consulta);$Leyes='';$Impureza='';$SubTotHum='0'; $TotHum=0;
 				while($Fila2 = mysqli_fetch_array($Resp2))
 				{
 					$Leyes='';$Impureza='';
-					$Ley=explode("~",$Fila2[pastas]);
-					while(list($c,$LEY)=each($Ley))
+					$Ley=explode("~",$Fila2["pastas"]);
+					foreach($Ley as $c => $LEY)
 					{
 						$ConLey="select * from proyecto_modernizacion.leyes where cod_leyes='".$LEY."'";
 						$RespLey = mysqli_query($link, $ConLey);
@@ -371,7 +382,7 @@ while($FilaDet = mysqli_fetch_array($RespDet))
 					$Leyes1=substr($Leyes,0,strlen($Leyes)-1);
 					
 					$Impu=explode("~",$Fila2["impurezas"]);
-					while(list($c,$IM)=each($Impu))
+					foreach($Impu as $c => $IM)
 					{
 						$ConIMP="select * from proyecto_modernizacion.leyes where cod_leyes='".$IM."'";
 						$RespIMP = mysqli_query($link, $ConIMP);
@@ -382,35 +393,35 @@ while($FilaDet = mysqli_fetch_array($RespDet))
 					}
 					$Impureza1=substr($Impureza,0,strlen($Impureza)-1);
 					
-					if($Fila2[humedad]!='0')
-						$Humedad="<td  align='right'>".number_format($Fila2[humedad],2,',','.')."</td>";
+					if($Fila2["humedad"]!='0')
+						$Humedad="<td  align='right'>".number_format($Fila2["humedad"],2,',','.')."</td>";
 					else
 						$Humedad="<td  align='center'><strong><span class='InputRojo'>X</span></strong></td>";							
 					echo "<tr>";
 					echo "<td  align='center'>".$Fila2["recargo"]."</td>";
 					echo "<td  align='center'>".$Fila2["patente"]."</td>";
 					echo "<td  align='center'>".$Fila2["guia_despacho"]."</td>";
-					echo "<td  align='right'>".number_format($Fila2[peso_bruto],0,'','.')."</td>";
+					echo "<td  align='right'>".number_format($Fila2["peso_bruto"],0,'','.')."</td>";
 					echo "<td  align='right'>".number_format($Fila2["peso_tara"],0,'','.')."</td>";
-					echo "<td  align='right'>".number_format($Fila2[peso_neto],0,'','.')."</td>";	
+					echo "<td  align='right'>".number_format($Fila2["peso_neto"],0,'','.')."</td>";	
 					echo $Humedad;	
 					echo "<td  align='left'>".$Leyes1."&nbsp;</td>";	
 					echo "<td  align='left'>".$Impureza1."&nbsp;</td>";	
 					echo "</tr>";
-					$SubTotBruto=$SubTotBruto+$Fila2[peso_bruto];	
-					$SubTotTara=$SubTotTara+$Fila2["peso_tara"];
-					$SubTotNeto=$SubTotNeto+$Fila2[peso_neto];
+					$SubTotBruto = $SubTotBruto + $Fila2["peso_bruto"];	
+					$SubTotTara  = $SubTotTara + $Fila2["peso_tara"];
+					$SubTotNeto  = $SubTotNeto + $Fila2["peso_neto"];
 					
-					if($Fila2[humedad]=='0')			
-						$SubTotHum=$SubTotHum+0;			
+					if($Fila2["humedad"]=='0')			
+						$SubTotHum = $SubTotHum + 0;			
 					else
-						$SubTotHum=$SubTotHum+$Fila2[humedad];			
+						$SubTotHum = $SubTotHum + $Fila2["humedad"];			
 						
-					$TotBruto=$TotBruto+$Fila2[peso_bruto];	
-					$TotTara=$TotTara+$Fila2["peso_tara"];
-					$TotNeto=$TotNeto+$Fila2[peso_neto];	
+					$TotBruto= $TotBruto + $Fila2["peso_bruto"];	
+					$TotTara = $TotTara  + $Fila2["peso_tara"];
+					$TotNeto = $TotNeto  + $Fila2["peso_neto"];	
 							
-					$TotHum=$TotHum+$Fila2[humedad];			
+					$TotHum = $TotHum + $Fila2["humedad"];			
 				}
 				echo "<tr class='SinBorde'>";
 				echo "<td align='right' colspan='3'>SUB-TOTAL</td>";

@@ -198,7 +198,8 @@ body {
 	echo "<tr>\n";
 	while ($Fila = mysqli_fetch_array($Resp))
 	{
-		$Limite = "";  					
+		$Limite = ""; 
+		$Signo = "";
 		$Consulta = "select  * from age_web.limites ";
 		if ($SubProducto!="" && $SubProducto!="S")
 		{	
@@ -218,8 +219,8 @@ body {
 		$RespAux = mysqli_query($link, $Consulta);
 		if ($FilaAux = mysqli_fetch_array($RespAux))
 		{
-			$Signo = $FilaAux["signo"];
-			$Limite = $FilaAux["limite"];
+			$Signo = isset($FilaAux["signo"])?$FilaAux["signo"]:"";
+			$Limite = isset($FilaAux["limite"])?$FilaAux["limite"]:"";
 		}
 		echo "<td class='Detalle01' align='center'>";
 		if ($Limite != "")

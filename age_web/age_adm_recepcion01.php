@@ -8,9 +8,9 @@
 	//echo __DIR__;
 	//require __DIR__ . "/vendor/autoload.php";
 	require_once '../cal_web/vendor/autoload.php';					
-	//use PhpOffice\PhpSpreadsheet\IOFactory;
 	//use PhpOffice\PhpSpreadsheet\Shared\Date;
 	use PhpOffice\PhpSpreadsheet\IOFactory;
+	use PhpOffice\PhpSpreadsheet\Shared\Date as SharedDate;
 	//use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
     $CookieRut = $_COOKIE["CookieRut"];
     $Proceso           =  isset($_REQUEST['Proceso'])?$_REQUEST['Proceso']:'';
@@ -704,20 +704,23 @@
 
 				echo "highestRow:".$highestRow;
 				//for ($i = 0; $i <= $data->sheets[$Hoja]['numRows']; $i++) 
-				for ($i = 0; $i <= $highestRow; $i++) 
+				for ($i = 1; $i <= $highestRow; $i++) 
 				{   //$data->sheets[$Hoja]['cells'][$i][1] 
 					  $value = $worksheet->getCell([1,$i])->getValue();
 					//if(substr(trim($data->sheets[$Hoja]['cells'][$i][1]),0,4)=='LOTE')
-					if(substr(trim($value),0,4)=='LOTE')
+						//echo "Value:".$value;
+					if(substr(trim((string)$value),0,4)=='LOTE')
 					{						
 						//-------------FECHA DE CADA LOTE------
-						//$TxtFechaRecep = $data->sheets[$Hoja]['cells'][$i][10];	
-						$TxtFechaRecep = $worksheet->getCell([10,$i])->getValue();	
-						//TxtFechaRecep."<br>";
+						//$TxtFechaRecep = $data->sheets[$Hoja]['cells'][$i][10];
+						$TxtFechaRecep = $worksheet->getCell([10,$i])->getFormattedValue();	//fecha recepcion						
+						/* $TxtFechaRecep ="01/24/2024"*/
+						$TxtFechaRecep = date("d/m/Y", strtotime($TxtFechaRecep));						
+						//echo "TxtFechaRecep:".$TxtFechaRecep."<br>";
 						$TxtFechaRecep = explode("/",$TxtFechaRecep);
 						$DIA=intval($TxtFechaRecep[0]);
-						$MES=$TxtFechaRecep[1];
-						$ANO=$TxtFechaRecep[2];					
+						$MES=isset($TxtFechaRecep[1])?$TxtFechaRecep[1]:"";
+						$ANO=isset($TxtFechaRecep[2])?$TxtFechaRecep[2]:"";					
 						$TxtFechaRecep=date('Y-m-d',mktime(0,0,0,$MES,$DIA+1,$ANO));
 						//TxtFechaRecep."<br>";
 						//--------LOTE DE ENTRADA PARA PODER SABER DESPUES SI EXISTE O NO EN LA BASE DE DATOS------
@@ -767,10 +770,10 @@
 						//echo "2".$PesoTara."<br>";
 						//echo "2".$PesoNeto."<br><br>";
 						
-						$PesoBruto=str_replace('.','',$PesoBruto*1000);
-						$PesoTara=str_replace('.','',$PesoTara*1000);
-						$PesoNeto=str_replace('.','',$PesoNeto*1000);						
-						$PesoSeco=str_replace('.','',$PesoSeco*1000);
+						$PesoBruto=str_replace('.','',(float)$PesoBruto*1000);
+						$PesoTara=str_replace('.','',(float)$PesoTara*1000);
+						$PesoNeto=str_replace('.','',(float)$PesoNeto*1000);						
+						$PesoSeco=str_replace('.','',(float)$PesoSeco*1000);
 						//echo "3".$PesoBruto."<br>";
 						//echo "3".$PesoTara."<br>";
 						//echo "3".$PesoNeto."<br><br><br><br><br>";
@@ -817,12 +820,13 @@
 							$Consulta ="Select max(correlativo) as correl from sipa_web.recepciones";
 							$Resp = mysqli_query($link, $Consulta);
 							if ($Row = mysqli_fetch_array($Resp))
-								$correl = $Row[correl];
+								$correl = $Row["correl"];
 							$correl = $correl + 1;
 							
 							   $Consulta = "select leyes,impurezas from age_web.relaciones ";
 							   $Consulta.= " where cod_producto='1' and cod_subproducto='".$CmbSubProducto."' and rut_proveedor='".$CmbProveedor."'";
 							   $Respuesta=mysqli_query($link, $Consulta);
+							   $TxtLeyes="";$TxtImpurezas="";
 							   if($Fila=mysqli_fetch_array($Respuesta))
                                {
                                         $TxtLeyes=$Fila["leyes"];
@@ -852,7 +856,7 @@
 						}
 					}										
 					//if(trim($data->sheets[$Hoja]['cells'][$i][3])=='TOTAL LOTE')
-					if(trim($worksheet->getCell([3,$i])->getValue())=='TOTAL LOTE')
+					if(trim((string)$worksheet->getCell([3,$i])->getValue())=='TOTAL LOTE')
 					{	
 						/*$Consulta="select lote,recargo from age_web.detalle_lotes where lote='".$TxtLoteMod."' order by recargo desc";
 						$Resp = mysqli_query($link, $Consulta);
@@ -917,6 +921,7 @@
 						//-----------------CONSULTO POR EL LOTE, SI NO EXISTE LO INSERTA-------------------
 						$Consulta1="select lote from age_web.detalle_lotes where observacion='".$LoteOrigen."'";
 						$Resp1 = mysqli_query($link, $Consulta1);
+						$Lotes="";
 						if(!$Fila1 = mysqli_fetch_array($Resp1))
 						{
 							$Consulta1="select lote,observacion from age_web.detalle_lotes where observacion like '%".$FilaTemp["lote"]."%'";
@@ -1048,7 +1053,7 @@
 								if($Hum!=0)
 								{
 							//		echo "Modfica Sa <br>";//modifico solicitudes creadas
-									ModificaSA($FilaRecargo["lote"],$FilaRecargo["recargo"],$CookieRut,$PesoNeto,$Hum,$PesSeco);
+									ModificaSA($FilaRecargo["lote"],$FilaRecargo["recargo"],$CookieRut,$PesoNeto,$Hum,$PesSeco,$link);
 								}
 							}
 						}				
