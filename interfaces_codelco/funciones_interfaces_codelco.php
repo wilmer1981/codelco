@@ -611,7 +611,10 @@ function OrdenProduccionSap($Asignacion,$Prod,$SubProd,$OrdenProd,$CodMatSAP,$Un
 
 
 function RescataCatodos($ProdAux, $SubProdAux, $AnoAux, $MesAux, $Arreglo, $IdLote, $ArregloLeyes, $Orden, $link)
-{
+{   
+	if($MesAux=='2') $dia=28;
+	if($MesAux=='1' || $MesAux=='3' || $MesAux=='5' || $MesAux=='7' || $MesAux=='8' || $MesAux=='10' || $MesAux=='12') $dia=31;
+	if($MesAux=='4' || $MesAux=='6' || $MesAux=='9' || $MesAux=='11') $dia=30;	
 
 	$AnoMenos = $AnoAux - 1;
 	if ($ProdAux!="")
@@ -629,7 +632,8 @@ function RescataCatodos($ProdAux, $SubProdAux, $AnoAux, $MesAux, $Arreglo, $IdLo
 	$Consulta.= " left join sec_web.guia_despacho_emb t2 on t1.num_guia=t2.num_guia and t1.fecha_embarque=t2.fecha_guia";
 	$Consulta.= " inner join proyecto_modernizacion.subproducto t3 on tt.cod_producto=t3.cod_producto and tt.cod_subproducto=t3.cod_subproducto ";
 	$Consulta.= " inner join sec_web.marca_catodos t4 on t0.cod_marca=t4.cod_marca ";
-	$Consulta.= " where tt.fecha_disponible between '".$AnoAux."-".$MesAux."-01' and '".$AnoAux."-".$MesAux."-31' ";
+	//$Consulta.= " where tt.fecha_disponible between '".$AnoAux."-".$MesAux."-01' and '".$AnoAux."-".$MesAux."-31' ";
+	$Consulta.= " where tt.fecha_disponible between '".$AnoAux."-".$MesAux."-01' and '".$AnoAux."-".$MesAux."-$dia' ";
 	$Consulta.= " and t.salida<>'' and tt.estado2 IN ('C','T') and year(t0.fecha_creacion_lote)>= '".$AnoMenos."'";
 	if ($ProdAux=="" && $SubProdAux=="")
 		$Consulta.= " and tt.cod_producto in (18) and t2.cod_subproducto not in  ('49','16','17')  ";
