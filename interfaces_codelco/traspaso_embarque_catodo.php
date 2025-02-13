@@ -426,17 +426,18 @@ if ($Mostrar == "S")
 {
 	$ArrResp = array();
 	$ArrRespLeyes = array();
-	$Tipo = "1";
+	$Tipo    = "1";
 	$Almacen = "0005";
-	$Prod=$CodProducto;
-	$SubProd=$SubProducto;
-	$DescAnt    = "";
+	$Prod    = $CodProducto;
+	$SubProd = $SubProducto;
+	$DescAnt = "";
+	//echo "Mes:".$Mes;
 	$ArrResp = RescataCatodosGradoA($Prod, $SubProd, $Ano, $Mes, $ArrResp, "", $ArrRespLeyes, $Orden, $link);
 	$ContCantidad = 0;
 	$SubTotalPeso = 0;
-	$ProdAnt = "";
-	$SubProdAnt = "";
-
+	$ProdAnt      = "";
+	$SubProdAnt   = "";
+	
 	reset($ArrResp);
 	foreach ($ArrResp as $k => $Fila)
 	{
@@ -449,13 +450,14 @@ if ($Mostrar == "S")
 		$Lote2 = $Fila["cod_bulto"]."~".$Fila["num_bulto"];	
 		$Referencia=substr($Ano,2,2).str_pad($Mes,2,'0',STR_PAD_LEFT).$Fila["corr_enm"];
         // echo "-------------entrooooo".$Fila["corr_enm"];
+		//echo "Referencia:".$Referencia;
 		$SAP_OrdenProd_Manual = "";
 		$SAP_ClaseValoriz_Manual = "";
 		//CONSULTA SI ESTA TRASPASADO
 		$Consulta = "select * from interfaces_codelco.registro_traspaso ";
 		$Consulta.= " where tipo_registro='".$Tipo."' and ano='".$Ano."' and mes='".$Mes."' ";
 		$Consulta.= " and referencia='".$Referencia."' ";		
-		//echo "Connnnn".$Consulta;
+		//echo "<br>Connnnn".$Consulta;
 		$Resp2 = mysqli_query($link, $Consulta);
 		$Traspaso="No";
 		$Estado="&nbsp;";
@@ -477,12 +479,12 @@ if ($Mostrar == "S")
 			$SAP_ClaseValoriz_Manual = trim(substr($Fila2["registro"],90,11));
 			$Traspaso="Si";
 		}		
-		$AnoLote = substr($Fila["fecha_creacion_lote"],0,4);		
-		$SAP_OrdenProd = "";
-		$SAP_CodMaterial = "";
-		$SAP_Unidad = "";
+		$AnoLote          = substr($Fila["fecha_creacion_lote"],0,4);		
+		$SAP_OrdenProd    = "";
+		$SAP_CodMaterial  = "";
+		$SAP_Unidad       = "";
 		$SAP_ClaseValoriz = "";
-		$SAP_Centro = "";
+		$SAP_Centro       = "";
 		//echo "PPP".$Fila["cod_marca"];
 		$Lista = OrdenProduccionSap($Fila["asignacion"],$Fila["cod_producto"],$Fila["cod_subproducto"],$SAP_OrdenProd,$SAP_CodMaterial,$SAP_Unidad,$SAP_ClaseValoriz,$SAP_Centro,$link);	
 		$valor = explode("**",$Lista);

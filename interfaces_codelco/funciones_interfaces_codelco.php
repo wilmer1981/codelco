@@ -474,6 +474,7 @@ function ObtieneSA($Correlativo,$Grupo,$ProdAux,$SubProdAux,$AnoAux,$MesAux,$IdL
 	$Consulta.= " and (t0.cod_bulto='".$ValorId[0]."' and t0.num_bulto='".$ValorId[1]."') ";
 	$Consulta.= " order by t1.fecha_creacion_paquete desc";
 	$RespFec=mysqli_query($link, $Consulta);
+	$SA = "";
 	if($FilaPqte=mysqli_fetch_array($RespFec))
 	{
 		$FechaR=explode('-',$FilaPqte["fecha_creacion_paquete"]);
@@ -519,23 +520,21 @@ function InsertarLineaTmp($CorrIE,$Tipo,$Linea,$link)
 	$Insertar="insert into interfaces_codelco.tmp_archivo_embarque (corr,tipo,linea) values ('".$CorrIE."','".$Tipo."','".$Linea."')";
 	mysqli_query($link, $Insertar);
 }
+
 function CreaArchivoTxt($Archivo1,$Archivo2,$link)
 {
 	$Consulta="select linea from interfaces_codelco.tmp_archivo_embarque where tipo in ('1','2') order by corr,tipo";
 	$Resp=mysqli_query($link, $Consulta);
 	while($Fila=mysqli_fetch_array($Resp))
 	{
-		fwrite($Archivo1,$Fila["linea"]."\r\n");
-	
+		fwrite($Archivo1,$Fila["linea"]."\r\n");	
 	}
 	$Consulta="select linea from interfaces_codelco.tmp_archivo_embarque where tipo='3' order by corr,tipo";
 	$Resp=mysqli_query($link, $Consulta);
 	while($Fila=mysqli_fetch_array($Resp))
 	{
-		fwrite($Archivo2,$Fila["linea"]."\r\n");
-	
-	}
-	
+		fwrite($Archivo2,$Fila["linea"]."\r\n");	
+	}	
 }	
 
 
@@ -719,7 +718,7 @@ function RescataCatodos($ProdAux, $SubProdAux, $AnoAux, $MesAux, $Arreglo, $IdLo
 			}
 		}
 		 //CONSULTA LAS LEYES
-		
+		$Arreglo[$i]["con_leyes"] = "N";
         if ($ProdAux != '64' && $ProdAux != '19') 
 		{
 			if ($ProdAux == '18')  
@@ -820,7 +819,10 @@ function RescataCatodos($ProdAux, $SubProdAux, $AnoAux, $MesAux, $Arreglo, $IdLo
 	return $Arreglo;
 }
 function RescataCatodosGradoA($ProdAux, $SubProdAux, $AnoAux, $MesAux, $Arreglo, $IdLote, $ArregloLeyes, $Orden, $link)
-{
+{  //01, 03, 05, 07, 08, 10,12
+	if($MesAux=='2') $dia=28;
+	if($MesAux=='1' || $MesAux=='3' || $MesAux=='5' || $MesAux=='7' || $MesAux=='8' || $MesAux=='10' || $MesAux=='12') $dia=31;
+	if($MesAux=='4' || $MesAux=='6' || $MesAux=='9' || $MesAux=='11') $dia=30;	
 	$AnoMenos = $AnoAux - 1;
 	if ($ProdAux!="")
 		$ArregloLeyes = DefinirArregloLeyes($ProdAux, $SubProdAux, $ArregloLeyes);	
@@ -837,7 +839,8 @@ function RescataCatodosGradoA($ProdAux, $SubProdAux, $AnoAux, $MesAux, $Arreglo,
 	$Consulta.= " left join sec_web.guia_despacho_emb t2 on t1.num_guia=t2.num_guia and t1.fecha_embarque=t2.fecha_guia ";
 	$Consulta.= " inner join proyecto_modernizacion.subproducto t3 on tt.cod_producto=t3.cod_producto and tt.cod_subproducto=t3.cod_subproducto ";
 	$Consulta.= " inner join sec_web.marca_catodos t4 on t0.cod_marca=t4.cod_marca ";
-	$Consulta.= " where tt.fecha_disponible between '".$AnoAux."-".$MesAux."-01' and '".$AnoAux."-".$MesAux."-31' ";
+	//$Consulta.= " where tt.fecha_disponible between '".$AnoAux."-".$MesAux."-01' and '".$AnoAux."-".$MesAux."-31' ";
+	$Consulta.= " where tt.fecha_disponible between '".$AnoAux."-".$MesAux."-01' and '".$AnoAux."-".$MesAux."-$dia' ";
 	$Consulta.= " and t.salida<>'' and tt.estado2 IN ('C','T') and year(t0.fecha_creacion_lote)>= '".$AnoMenos."'";
 	$Consulta.= " and tt.cod_producto ='18' and tt.cod_subproducto='40'";
 	
