@@ -100,11 +100,11 @@
 	$medida      = isset($_REQUEST["medida"])?$_REQUEST["medida"]:"";
 $codigopaquete = isset($_REQUEST["codigopaquete"])?$_REQUEST["codigopaquete"]:"";
 
-//echo "IP: ".$IP; 
+echo "IP: ".$IP; 
 
 $ROMANA = LeerRomana($IP,$link); 
 
-//echo "<br>ROMANA: ".$ROMANA;
+echo "<br>ROMANA: ".$ROMANA;
 
 ?>
 
@@ -1168,14 +1168,9 @@ function Modificar()
 				StrPaquetePeso=f.cmbcodpaq.options[f.cmbcodpaq.selectedIndex].text+"-"+f.txtnumpaq.value+"\r\n"+f.txtpeso.value;
 				
 				//fwrite_x('c:/','datos.txt',StrPaquetePeso,1);
-				<?php
-				$ruta    = '';
-				$archivo = 'datos.txt';
-				$var     = "<script>document.writeln(StrPaquetePeso);</script>";	
-				?>
-				//echo fwrite_x($ruta,$archivo,'StrPaquetePeso');
-				var write = '<?php echo fwrite_x($ruta,$archivo,$var); ?>'; 
-				//alert("Write:" + write);
+				ruta    = '';
+				archivo = 'datos.txt';	
+				EscribirArchivo(ruta,archivo,StrPaquetePeso);
 				
 				if(f.cmbproducto.value==18||f.cmbproducto.value==48)//ETIQUETAS SOLO PARA CATODOS Y LAMINAS
 				{
@@ -1201,13 +1196,9 @@ function Modificar()
 					}
 					//alert (StrDatosEtiqueta);
 					//fwrite_x('c:/','etiquetas.txt',StrDatosEtiqueta,1);
-					<?php
-					$ruta    = '';
-					$archivo = 'etiquetas.txt';
-					$var     = "<script>document.writeln(StrDatosEtiqueta);</script>";
-					?>
-					//echo fwrite_x($ruta,$archivo,'StrPaquetePeso');
-					var write = '<?php echo fwrite_x($ruta,$archivo,$var); ?>'; 
+					ruta    = '';
+					archivo = 'etiquetas.txt';	
+					EscribirArchivo(ruta,archivo,StrDatosEtiqueta);	
 					//alert("Write:" + write);
 					//f.id_paquete.value='';
 					//f.id_lote.value='';
