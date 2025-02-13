@@ -16,6 +16,8 @@
 	$Ano         = isset($_REQUEST['Ano']) ? $_REQUEST['Ano'] : date("Y");
 	$ChkTipoProg = isset($_REQUEST['ChkTipoProg']) ? $_REQUEST['ChkTipoProg'] : "00";
 	$ChkProv     = isset($_REQUEST['ChkProv']) ? $_REQUEST['ChkProv'] : "";
+	//$ChkPeso     = isset($_REQUEST['ChkPeso']) ? $_REQUEST['ChkPeso'] : "";
+
 	
 
 	switch ($Proceso)
@@ -33,9 +35,11 @@
 				for ($i=1;$i<=12;$i++)
 				{
 					$Valor = 0;
-					$Objeto = "\$ChkPeso".$Mes[$i]."_".str_replace("-","",$rut_proveedor);
-					echo $Objeto;
-					eval("\$Valor = \"$Objeto\";");
+					//$Objeto = "\$ChkPeso".$Mes[$i]."_".str_replace("-","",$rut_proveedor);
+					$Objeto  = "ChkPeso".$Mes[$i]."_".str_replace("-","",$rut_proveedor);
+					$Objeto1 = isset($_REQUEST[$Objeto])?$_REQUEST[$Objeto]:"";
+					eval(" \$Valor= \"$Objeto1\";");
+					
 					//VERIFICA SI EXISTE EL REGISTRO
 					//INSERTAR NUEVO REGISTRO POR PROVEEDOR
 					$Consulta = "select * from age_web.programa_recepcion ";
@@ -55,6 +59,7 @@
 					$Actualizar.= " ".$Mes[$i]." = '".$Valor."'";
 					$Actualizar.= " where cod_producto='1' and cod_subproducto='".$CmbSubProducto."'  and tipo_programa='".$ChkTipoProg."' ";
 					$Actualizar.= " and cod_contrato='".$CmbContrato."' and rut_proveedor='".$rut_proveedor."' and ano='".$Ano."'";
+					//echo $Actualizar;
 					mysqli_query($link, $Actualizar);
 				}
 			}
@@ -78,12 +83,17 @@
 				$Consulta.= " and cod_contrato='".$CmbContrato."' and ano='".$Ano."' and tipo_programa='".$ChkTipoProg."'";
 				$Resp = mysqli_query($link, $Consulta);
 				while ($Fila = mysqli_fetch_array($Resp))
-				{
+				{   
+					$rut_proveedor = isset($Fila["rut_proveedor"])?$Fila["rut_proveedor"]:"";
 					for ($i=1;$i<=12;$i++)
 					{
 						$Valor = 0;
-						$Objeto = "\$ChkPeso".$Mes[$i]."_".str_replace("-","",$Fila["rut_proveedor"]);
-						eval(" \$Valor= \"$Objeto\";");
+						//$Objeto = "\$ChkPeso".$Mes[$i]."_".str_replace("-","",$Fila["rut_proveedor"]);
+						//eval(" \$Valor= \"$Objeto\";");
+						$Objeto  = "ChkPeso".$Mes[$i]."_".str_replace("-","",$rut_proveedor);
+						$Objeto1 = isset($_REQUEST[$Objeto])?$_REQUEST[$Objeto]:"";
+						eval(" \$Valor= \"$Objeto1\";");		
+						
 						$Actualizar = "UPDATE age_web.programa_recepcion set ";
 						$Actualizar.= " ".$Mes[$i]." = '".$Valor."'";
 						$Actualizar.= " where cod_producto='1' and cod_subproducto='".$CmbSubProducto."' and tipo_programa='".$ChkTipoProg."' ";
@@ -134,8 +144,10 @@
 				$Consulta = "select * from age_web.programa_recepcion ";
 				$Consulta.= " where cod_producto='1' and cod_subproducto='".$CmbSubProducto."' ";
 				$Consulta.= " and cod_contrato='".$CmbContrato."' and rut_proveedor='".$CmbProveedor."'";
-				$Consulta.= " and ano='".$Ano."' and tipo_programa='00'";
+				$Consulta.= " and tipo_programa='00'";
+				//$Consulta.= " and ano='".$Ano."' and tipo_programa='00'";
 				$Resp = mysqli_query($link, $Consulta);
+				//$Cont = mysqli_num_rows($Resp);				
 				if (!$Fila = mysqli_fetch_array($Resp))
 				{
 					//INSERTAR NUEVO CONTRATO
