@@ -2,13 +2,14 @@
 	$CodigoDeSistema = 21;
 	$CodigoDePantalla = 1;
 	include("../principal/conectar_principal.php");
-
+	
 	$CmbMovimiento  = isset($_REQUEST["CmbMovimiento"])?$_REQUEST["CmbMovimiento"]:"101";
 	$CmbSubProducto = isset($_REQUEST["CmbSubProducto"])?$_REQUEST["CmbSubProducto"]:"";
 	$Mostrar = isset($_REQUEST["Mostrar"])?$_REQUEST["Mostrar"]:"";
 	$Mensaje = isset($_REQUEST["Mensaje"])?$_REQUEST["Mensaje"]:"";
 	$Ano     = isset($_REQUEST["Ano"])?$_REQUEST["Ano"]:date("Y");
 	$Mes     = isset($_REQUEST["Mes"])?$_REQUEST["Mes"]:date("m");
+
 ?>
 <html>
 <head>
@@ -282,9 +283,14 @@ function DetallePrv(Prod,SubPro,RutPrv)
       </tr>
 <?php	
 if ($Mostrar == "S")
-{		
+{	
+	if($Mes=='2') $dia=28;
+	if($Mes=='1' || $Mes=='3' || $Mes=='5' || $Mes=='7' || $Mes=='8' || $Mes=='10' || $Mes=='12') $dia=31;
+	if($Mes=='4' || $Mes=='6' || $Mes=='9' || $Mes=='11') $dia=30;	
+	
 	$FechaDesde=$Ano."-".$Mes."-01 00:00:00";
-	$FechaHasta=$Ano."-".$Mes."-31 23:59:59";
+	$FechaHasta=$Ano."-".$Mes."-$dia 23:59:59";
+	//$FechaHasta=$Ano."-".$Mes."-31 23:59:59";
 	$Consulta="SELECT * from interfaces_codelco.asignaciones where rut_proveedor<>'99999999-9'";
 	$RespAsig= mysqli_query($link, $Consulta);	
 	$RutCompra="(";
