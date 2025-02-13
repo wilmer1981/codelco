@@ -58,20 +58,30 @@
 				$Resp = mysqli_query($link, $Consulta);	
 				$Fila = mysqli_fetch_array($Resp);
 				//PARA ARCHIVO DE RECEPCIONES
-				$FechaDoc=substr($Fila["fecha_recepcion"],8,2).".".substr($Fila["fecha_recepcion"],5,2).".".substr($Fila["fecha_recepcion"],0,4);
-				$FechaCont=substr($Fila["fecha_recepcion"],8,2).".".substr($Fila["fecha_recepcion"],5,2).".".substr($Fila["fecha_recepcion"],0,4);
+				$fecha_recepcion  = isset($Fila["fecha_recepcion"])?$Fila["fecha_recepcion"]:"0000-00-00";
+				$codigo_op        = isset($Fila["codigo_op"])?$Fila["codigo_op"]:"";
+				$cod_material_sap = isset($Fila["cod_material_sap"])?$Fila["cod_material_sap"]:"";
+				$peso             = isset($Fila["peso"])?$Fila["peso"]:"0";
+				$lote             = isset($Fila["lote"])?$Fila["lote"]:"0";
+				$unidad_medida    = isset($Fila["unidad_medida"])?$Fila["unidad_medida"]:"";
+				$clase_valor_101  = isset($Fila["clase_valor_101"])?$Fila["clase_valor_101"]:"";
+				$clase_valor_921  = isset($Fila["clase_valor_921"])?$Fila["clase_valor_921"]:"";
+				$mat_sap          = isset($Fila["mat_sap"])?$Fila["mat_sap"]:"";
+				 
+				$FechaDoc=substr($fecha_recepcion,8,2).".".substr($fecha_recepcion,5,2).".".substr($fecha_recepcion,0,4);
+				$FechaCont=substr($fecha_recepcion,8,2).".".substr($fecha_recepcion,5,2).".".substr($fecha_recepcion,0,4);
 				//$Pedido=str_pad($Fila[pedido],10,' ',STR_PAD_LEFT);
 				//$Posicion=str_pad($Fila[posicion],5,' ',STR_PAD_LEFT);
 				$Centro="FV01";
 				$Almacen="0005";
-				$OrdenProd=str_pad($Fila["codigo_op"],12,' ',STR_PAD_LEFT);
-				$CodMaterial=str_pad($Fila["cod_material_sap"],18,' ',STR_PAD_LEFT);
-				$Cantidad=str_pad(number_format($Fila["peso"],3,',',''),13,' ',STR_PAD_LEFT);
-				$UnidadMedida=str_pad($Fila["unidad_medida"],3,' ',STR_PAD_LEFT);
-				$LoteT=substr($Fila["fecha_recepcion"],0,4).$Fila["lote"];
+				$OrdenProd=str_pad($codigo_op,12,' ',STR_PAD_LEFT);
+				$CodMaterial=str_pad($cod_material_sap,18,' ',STR_PAD_LEFT);
+				$Cantidad=str_pad(number_format((float)$peso,3,',',''),13,' ',STR_PAD_LEFT);
+				$UnidadMedida=str_pad($unidad_medida,3,' ',STR_PAD_LEFT);
+				$LoteT=substr($fecha_recepcion,0,4).$lote;
 				$Status=str_pad('',81,' ');
-				$ClaseVal101=str_pad($Fila["clase_valor_101"],10,' ',STR_PAD_LEFT);
-				$ClaseVal921=str_pad($Fila["clase_valor_921"],10,' ',STR_PAD_LEFT);
+				$ClaseVal101=str_pad($clase_valor_101,10,' ',STR_PAD_LEFT);
+				$ClaseVal921=str_pad($clase_valor_921,10,' ',STR_PAD_LEFT);
 				if($ClaseMov=='101')
 					$LineaR='5'.$FechaDoc.$FechaCont.$ClaseMov.$Centro.$Almacen.$Cantidad.$LoteT.$Status;
 				else
@@ -88,12 +98,12 @@
 				}
 				
 				//PARA ARCHIVO LEYES DE RECEPCIONES
-				$CodMaterial=str_pad($Fila["mat_sap"],18,'0',STR_PAD_LEFT);
+				$CodMaterial=str_pad($mat_sap,18,'0',STR_PAD_LEFT);
 				$Centro="FV01";
-				$LoteR=substr($Fila["fecha_recepcion"],0,4).$Fila["lote"];
+				$LoteR=substr($fecha_recepcion,0,4).$lote;
 				$Almacen='0005';
 				$LoteLibre='X';
-				$FechaDisp=substr($Fila["fecha_recepcion"],8,2).".".substr($Fila["fecha_recepcion"],5,2).".".substr($Fila["fecha_recepcion"],0,4);
+				$FechaDisp=substr($fecha_recepcion,8,2).".".substr($fecha_recepcion,5,2).".".substr($fecha_recepcion,0,4);
 				$LoteClasif='X';
 				$ArrDatos=array();
 				$ArregloLeyes=array();
@@ -102,6 +112,7 @@
 					$ArrLeyesProd=array();
 					$ArrLeyesProd = DefinirArregloLeyes('1',$SubProducto,$ArrLeyesProd);
 					$ArrLeyesProd = LeyesProducto($RutCompra,'','','1',$SubProducto,$ArrDatos,$ArrLeyesProd,'N','S','S',$FechaDesde,$FechaHasta,"","L",$link);
+					$ArrDatos     = LeyesProducto($RutCompra,'','','1',$SubProducto,$ArrDatos,$ArrLeyesProd,'N','S','S',$FechaDesde,$FechaHasta,"","",$link);
 					reset($ArrLeyesProd);
 					foreach($ArrLeyesProd as $c=>$v)
 					{
@@ -114,6 +125,7 @@
 					$ArrLeyesProv=array();
 					$ArrLeyesProv = DefinirArregloLeyes('1',$SubProducto,$ArrLeyesProv);
 					$ArrLeyesProv = LeyesProveedor('',$RutPrv,'1',$SubProducto,$ArrDatos,$ArrLeyesProv,'N','S','S',$FechaDesde,$FechaHasta,"","L",$link);
+					$ArrDatos     = LeyesProveedor('',$RutPrv,'1',$SubProducto,$ArrDatos,$ArrLeyesProv,'N','S','S',$FechaDesde,$FechaHasta,"","L",$link);
 					reset($ArrLeyesProv);
 					foreach($ArrLeyesProv as $c=>$v)
 					{
