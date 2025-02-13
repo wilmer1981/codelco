@@ -3,13 +3,16 @@
 	include("funciones_interfaces_codelco.php");
 	set_time_limit(2000);
 
-	$Proceso = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
-	$Valores = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
-	$Ano     = isset($_REQUEST["Ano"])?$_REQUEST["Ano"]:date("Y");
-	$Mes     = isset($_REQUEST["Mes"])?$_REQUEST["Mes"]:date("m");
-    $Orden   = isset($_REQUEST["Orden"])?$_REQUEST["Orden"]:"";
+	$Proceso     = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+	$Valores     = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
+	$Ano         = isset($_REQUEST["Ano"])?$_REQUEST["Ano"]:date("Y");
+	$Mes         = isset($_REQUEST["Mes"])?$_REQUEST["Mes"]:date("m");
+    $Orden       = isset($_REQUEST["Orden"])?$_REQUEST["Orden"]:"";
 	$Producto    = isset($_REQUEST["Producto"])?$_REQUEST["Producto"]:"";
-	$CodProducto    = isset($_REQUEST["CodProducto"])?$_REQUEST["CodProducto"]:"";
+	$CodProducto = isset($_REQUEST["CodProducto"])?$_REQUEST["CodProducto"]:"";
+	$LineaLeyes  = isset($_REQUEST["LineaLeyes"])?$_REQUEST["LineaLeyes"]:"";
+	$SAP_FechaDoc = isset($_REQUEST["SAP_FechaDoc"])?$_REQUEST["SAP_FechaDoc"]:"";
+	$SAP_FechaCon = isset($_REQUEST["SAP_FechaCon"])?$_REQUEST["SAP_FechaCon"]:"";
 	
 	switch ($Proceso)
 	{
@@ -28,15 +31,15 @@
 				$Datos2 = explode("~",$v);				
 				$ArrResp = array();
 				$ArrRespLeyes = array();
-				$Prod = $Datos2[0];
-				$SubProd = $Datos2[1];	
-				$CodBulto = $Datos2[2];
-				$NumBulto = $Datos2[3];
-				$IE=$Datos2[4];
-				$SAP_TipoMov = $Datos2[5];
-				$SAP_OrdenProd_Manual = $Datos2[6];
-				$SAP_ClaseValoriz_Manual = $Datos2[7];
-				$SAP_Marca = isset($Datos2[8])?$Datos2[8]:"";
+				$Prod     = isset($Datos2[0])?$Datos2[0]:"";	
+				$SubProd  = isset($Datos2[1])?$Datos2[1]:"";	
+				$CodBulto = isset($Datos2[2])?$Datos2[2]:"";	
+				$NumBulto = isset($Datos2[3])?$Datos2[3]:"";	
+				$IE       =isset($Datos2[4])?$Datos2[4]:"";	
+				$SAP_TipoMov             = isset($Datos2[5])?$Datos2[5]:"";	
+				$SAP_OrdenProd_Manual    = isset($Datos2[6])?$Datos2[6]:"";	
+				$SAP_ClaseValoriz_Manual = isset($Datos2[7])?$Datos2[7]:"";	
+				$SAP_Marca               = isset($Datos2[8])?$Datos2[8]:"";
 				$LoteAux = $CodBulto."/".$NumBulto."/".$SAP_Marca;
 				//echo $Prod."-".$SubProd."-".$Ano."-".$Mes."-".$LoteAux."-".$Orden."<br>";
 				$ArrResp = RescataCatodosGradoA($Prod, $SubProd, $Ano, $Mes, $ArrResp, $LoteAux, $ArrRespLeyes, $Orden,$link);
