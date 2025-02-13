@@ -2,7 +2,7 @@
 	$CodigoDeSistema = 21;
 	$CodigoDePantalla = 3;
 	include("../principal/conectar_principal.php");
-	set_time_limit(400);
+	set_time_limit(1200);
 	include("funciones_interfaces_codelco.php");
 	
 	$Mostrar = isset($_REQUEST["Mostrar"])?$_REQUEST["Mostrar"]:"";
@@ -174,8 +174,8 @@ function DescargaArchivos()
 {
 	window.open("descarga.php?Proceso=E&Tipo=PMN","","top=35,left=10,width=600,height=400,scrollbars=yes,resizable=YES,toolbar=YES,menubar=YES");
 }
-</script><meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-<style type="text/css">
+</script><meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"><style type="text/css">
+
 body {
 	margin-left: 3px;
 	margin-top: 3px;
@@ -186,8 +186,8 @@ body {
 	color: #0066CC;
 	font-weight: bold;
 }
-</style>
-</head>
+
+</style></head>
 
 <body>
 <form name="frmPrincipal" action="" method="post">
@@ -256,32 +256,33 @@ body {
         <tr bgcolor="#FFFFFF">
           <td height="24">Producto:</td>
           <td height="24" colspan="4"><select name="CodProducto" onChange="Proceso('R')">
-			<?php
-				$Consulta = "select * from proyecto_modernizacion.productos ";
-				$Consulta.= " where cod_producto in('24','25','34','29','33','31','47','28') order by lpad(cod_producto,2,'0')";
-				$Resp = mysqli_query($link, $Consulta);
-				while ($Fila=mysqli_fetch_array($Resp))
-				{
-					if ($CodProducto==$Fila["cod_producto"])
-						echo "<option value=\"".$Fila["cod_producto"]."\" selected>".strtoupper($Fila["descripcion"])."</option>\n";
-					else
-						echo "<option value=\"".$Fila["cod_producto"]."\" >".strtoupper($Fila["descripcion"])."</option>\n";			
-				}
-			?>		  
+<?php
+	$Consulta = "select * from proyecto_modernizacion.productos ";
+	$Consulta.= " where cod_producto in('24','25','34','29','33','31','47','28') order by lpad(cod_producto,2,'0')";
+	$Resp = mysqli_query($link, $Consulta);
+	while ($Fila=mysqli_fetch_array($Resp))
+	{
+		if ($CodProducto==$Fila["cod_producto"])
+			echo "<option value=\"".$Fila["cod_producto"]."\" selected>".strtoupper($Fila["descripcion"])."</option>\n";
+		else
+			echo "<option value=\"".$Fila["cod_producto"]."\" >".strtoupper($Fila["descripcion"])."</option>\n";			
+	}
+?>		  
           </select>
             <input type="hidden" name="Producto" value="PMN"></td>
           </tr>
 <?php  // Desde aquiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii 15-12-2008 
      
    		if ($CodProducto =='28')
-        {   ?>
+      {   ?>
           <tr bgcolor="#FFFFFF">
             <td height="24">SubProducto</td>
             <td height="24" colspan="4"><select name="SubProducto">
               <option value="S">TODOS</option>
               <?php
 				$Consulta = "select * from proyecto_modernizacion.subproducto ";
-				$Consulta.= " where cod_producto='".$CodProducto."' order by lpad(cod_subproducto,2,'0')";				
+				$Consulta.= " where cod_producto='".$CodProducto."' order by lpad(cod_subproducto,2,'0')";
+				
 				$Resp = mysqli_query($link, $Consulta);
 				while ($Fila=mysqli_fetch_array($Resp))
 				{
@@ -293,10 +294,10 @@ body {
 				?>
             </select></td>
           </tr>
-		<?php 
-		} 
-		// hasta acccccccccccccccccccccccc              
-		?>		  
+     <?php } 
+
+
+	// hasta acccccccccccccccccccccccc              ?>		  
         <tr align="center" bgcolor="#FFFFFF">
           <td>&nbsp;</td>
           <td width="122" height="20" class="ColorTabla01">Movimiento</td>
@@ -445,14 +446,14 @@ if ($Mostrar == "S")
 					 break;		
 					 
 	}
-	RescataPlamen($Prod, $SubProd, $Ano, $Mes, $ArrResp, "", $ArrRespLeyes, $link);
+	$ArrResp = RescataPlamen($Prod, $SubProd, $Ano, $Mes, $ArrResp, "", $ArrRespLeyes, $link);
 	$ContCantidad = 0;
 	$SubTotalPeso = 0;
 	$ProdAnt = "";
 	$SubProdAnt = "";
 	$DescAnt    = "";
 	reset($ArrResp);
-	//foreach($ArrResp as $k=>$Fila)
+	//while (list($k,$Fila)=each($ArrResp))
 	foreach ($ArrResp as $k => $Fila)
 	{
 		$Referencia="";
