@@ -1,5 +1,5 @@
 <?php
-	$Tipo = isset($_REQUEST["Tipo"])?$_REQUEST["Tipo"]:"";	
+	$Tipo   = isset($_REQUEST["Tipo"])?$_REQUEST["Tipo"]:"";	
 	$Titulo = isset($_REQUEST["Titulo"])?$_REQUEST["Titulo"]:"";
 	$VerDia = isset($_REQUEST["VerDia"])?$_REQUEST["VerDia"]:"";
 	$VerMes = isset($_REQUEST["VerMes"])?$_REQUEST["VerMes"]:"";
@@ -7,9 +7,10 @@
 	$VerAyer = isset($_REQUEST["VerAyer"])?$_REQUEST["VerAyer"]:"";
 	$VerSemana = isset($_REQUEST["VerSemana"])?$_REQUEST["VerSemana"]:"";
 	$Carpeta = isset($_REQUEST["Carpeta"])?$_REQUEST["Carpeta"]:"";
-	$DiaAnt = isset($_REQUEST["DiaAnt"])?$_REQUEST["DiaAnt"]:"";
-	$MesAnt = isset($_REQUEST["MesAnt"])?$_REQUEST["MesAnt"]:"";
-	$AnoAnt = isset($_REQUEST["AnoAnt"])?$_REQUEST["AnoAnt"]:"";
+	$DiaAnt  = isset($_REQUEST["DiaAnt"])?$_REQUEST["DiaAnt"]:"";
+	$MesAnt  = isset($_REQUEST["MesAnt"])?$_REQUEST["MesAnt"]:"";
+	$AnoAnt  = isset($_REQUEST["AnoAnt"])?$_REQUEST["AnoAnt"]:"";
+	
 	switch ($Tipo)
 	{
 		case "AVANCE_DIARIO":
@@ -367,7 +368,7 @@
           <input name="BtnBuscar" type="button" id="BtnBuscar2" style="width:60px " onClick="BuscarArchivo('<?php echo $Tipo; ?>','','','')" value="Buscar"></td>
     </tr>
     <tr align="center">
-      <td ><img src=\"images/vineta2.gif\" width=\"13\" height=\"12\" border=\"0\"><a href="<?php echo $Carpeta; ?>"><font class="main-menu_2">Ver Todos</font></a></td>
+      <td ><img src="images/vineta2.gif" width="13" height="12" border="0"><a href="<?php echo $Carpeta; ?>"><font class="main-menu_2">Ver Todos</font></a></td>
     </tr>
     <tr align="center">
       <td bgcolor="#efefef" ><span class="BordeInf"><a href="JavaScript:window.history.back();"><span>volver</span></a></span></td>
