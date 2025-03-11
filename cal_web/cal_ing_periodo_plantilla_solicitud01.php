@@ -1,5 +1,20 @@
 <?php
 include("../principal/conectar_cal_web.php");
+$CookieRut = $_COOKIE["CookieRut"];	
+$proceso = isset($_REQUEST["proceso"])?$_REQUEST["proceso"]:'';
+$Muestras = isset($_REQUEST["Muestras"])?$_REQUEST["Muestras"]:'';
+$CmbAno = isset($_REQUEST["CmbAno"])?$_REQUEST["CmbAno"]:'';
+$CmbMes = isset($_REQUEST["CmbMes"])?$_REQUEST["CmbMes"]:'';
+$CmbDias = isset($_REQUEST["CmbDias"])?$_REQUEST["CmbDias"]:'';
+$CmbHora = isset($_REQUEST["CmbHora"])?$_REQUEST["CmbHora"]:'';
+$CmbMinutos = isset($_REQUEST["CmbMinutos"])?$_REQUEST["CmbMinutos"]:'';
+$Periodo = isset($_REQUEST["Periodo"])?$_REQUEST["Periodo"]:'';
+$Modificar = isset($_REQUEST["Modificar"])?$_REQUEST["Modificar"]:'';
+$CmbProductos = isset($_REQUEST["CmbProductos"])?$_REQUEST["CmbProductos"]:'';
+$CmbSubProducto = isset($_REQUEST["CmbSubProducto"])?$_REQUEST["CmbSubProducto"]:'';
+$Producto = isset($_REQUEST["Producto"])?$_REQUEST["Producto"]:'';
+$GenerarVal = isset($_REQUEST["GenerarVal"])?$_REQUEST["GenerarVal"]:'';
+
 $ValCheck = $Muestras;
 $FechaI = $CmbAno."-".$CmbMes."-".$CmbDias." ".$CmbHora.":".$CmbMinutos.":00";
 $Rut =$CookieRut;
@@ -43,7 +58,7 @@ for ($j = 0;$j <= strlen($Muestras); $j++)
 	$j=0;	
 	}
 }
-if (isset($Modificar)and($Modificar=='S'))
+if ($Modificar!="" and($Modificar=='S'))
 {			
 	header("location:../cal_web/cal_generacion_plantillas_solicitudes.php?Productos=".$CmbProductos."&SubProducto=".$CmbSubProducto."&Modificar=".$Modificar."&FechaHora=".$Fecha);
 	

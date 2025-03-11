@@ -1,10 +1,26 @@
 <?php
 include("../principal/conectar_cal_web.php");
+$CookieRut = $_COOKIE["CookieRut"];
+$ValoresLeyes = isset($_REQUEST["ValoresLeyes"])?$_REQUEST["ValoresLeyes"]:'';
+$ValoresImpurezas = isset($_REQUEST["ValoresImpurezas"])?$_REQUEST["ValoresImpurezas"]:'';
+$ValoresLeyesFisicas = isset($_REQUEST["ValoresLeyesFisicas"])?$_REQUEST["ValoresLeyesFisicas"]:'';
+$Muestras = isset($_REQUEST["Muestras"])?$_REQUEST["Muestras"]:'';
+$Modificando = isset($_REQUEST["Modificando"])?$_REQUEST["Modificando"]:'';
+$Productos = isset($_REQUEST["Productos"])?$_REQUEST["Productos"]:'';
+$SubProducto = isset($_REQUEST["SubProducto"])?$_REQUEST["SubProducto"]:'';
+$Personalizar = isset($_REQUEST["Personalizar"])?$_REQUEST["Personalizar"]:'';
+$NombrePlantilla = isset($_REQUEST["NombrePlantilla"])?$_REQUEST["NombrePlantilla"]:'';
+$CodPlantilla = isset($_REQUEST["CodPlantilla"])?$_REQUEST["CodPlantilla"]:'';
+$SolAut = isset($_REQUEST["SolAut"])?$_REQUEST["SolAut"]:'';
+$BuscarDetalle = isset($_REQUEST["BuscarDetalle"])?$_REQUEST["BuscarDetalle"]:'';
+$BuscarPrv = isset($_REQUEST["BuscarPrv"])?$_REQUEST["BuscarPrv"]:'';
+$CmbRutPrv = isset($_REQUEST["CmbRutPrv"])?$_REQUEST["CmbRutPrv"]:'';
+
 $ValCheck = $Muestras;
 $Rut=$CookieRut;
-if (!isset($Personalizar))
+if ($Personalizar=="")
 {
-	if (!isset($SolAut))
+	if ($SolAut=="")
 	{
 		$Fecha="";
 		$Muestra="";

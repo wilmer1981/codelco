@@ -1,5 +1,15 @@
 <?php
 include("../principal/conectar_cal_web.php");
+$CookieRut = $_COOKIE["CookieRut"];	
+	$Muestras = isset($_REQUEST["Muestras"])?$_REQUEST["Muestras"]:'';
+	$ValoresLeyes = isset($_REQUEST["ValoresLeyes"])?$_REQUEST["ValoresLeyes"]:'';
+	$ValoresImpurezas = isset($_REQUEST["ValoresImpurezas"])?$_REQUEST["ValoresImpurezas"]:'';
+	$ValoresLeyesFisicas = isset($_REQUEST["ValoresLeyesFisicas"])?$_REQUEST["ValoresLeyesFisicas"]:'';
+	$Productos = isset($_REQUEST["Productos"])?$_REQUEST["Productos"]:'';
+	$SubProducto = isset($_REQUEST["SubProducto"])?$_REQUEST["SubProducto"]:'';
+	$Opcion = isset($_REQUEST["Opcion"])?$_REQUEST["Opcion"]:'';
+	$Modificando = isset($_REQUEST["Modificando"])?$_REQUEST["Modificando"]:'';
+	
 $ValCheck = $Muestras;
 $Rut=$CookieRut;
 if ($Opcion == 'Generar')

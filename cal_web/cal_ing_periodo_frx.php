@@ -4,6 +4,22 @@ include("../principal/conectar_principal.php");
 $meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
 $HoraActual = date("H");
 $MinutoActual = date("i");
+
+$Muestras = isset($_REQUEST["Muestras"])?$_REQUEST["Muestras"]:'';
+$Periodo = isset($_REQUEST["Periodo"])?$_REQUEST["Periodo"]:'';
+$Modificar = isset($_REQUEST["Modificar"])?$_REQUEST["Modificar"]:'';
+$CmbProductos = isset($_REQUEST["CmbProductos"])?$_REQUEST["CmbProductos"]:'';
+$CmbSubProducto = isset($_REQUEST["CmbSubProducto"])?$_REQUEST["CmbSubProducto"]:'';
+$SolAut = isset($_REQUEST["SolAut"])?$_REQUEST["SolAut"]:'';
+$BuscarDetalle = isset($_REQUEST["BuscarDetalle"])?$_REQUEST["BuscarDetalle"]:'';
+$BuscarPrv = isset($_REQUEST["BuscarPrv"])?$_REQUEST["BuscarPrv"]:'';
+
+$CmbAno = isset($_REQUEST["CmbAno"])?$_REQUEST["CmbAno"]:date("Y");
+$CmbMes = isset($_REQUEST["CmbMes"])?$_REQUEST["CmbMes"]:date("m");
+$CmbDias = isset($_REQUEST["CmbDias"])?$_REQUEST["CmbDias"]:date("d");
+$CmbHora = isset($_REQUEST["CmbHora"])?$_REQUEST["CmbHora"]:'';
+$CmbMinutos = isset($_REQUEST["CmbMinutos"])?$_REQUEST["CmbMinutos"]:'';
+
 ?>
 
 

@@ -3,6 +3,32 @@
 	$CodigoDePantalla = 1;
 	include("../principal/conectar_principal.php");
 	$Fecha_Hora = date("Y-m-d");
+
+	$CookieRut = $_COOKIE["CookieRut"];	
+	$FechaBusqueda   = isset($_REQUEST["FechaBusqueda"])?$_REQUEST["FechaBusqueda"]:'';
+	$FechaBuscar    = isset($_REQUEST["FechaBuscar"])?$_REQUEST["FechaBuscar"]:'';
+	$Modificar      = isset($_REQUEST["Modificar"])?$_REQUEST["Modificar"]:'';
+	$CmbProductos   = isset($_REQUEST["CmbProductos"])?$_REQUEST["CmbProductos"]:'';
+	$CmbSubProducto   = isset($_REQUEST["CmbSubProducto"])?$_REQUEST["CmbSubProducto"]:'';
+	$CmbTipoAnalisis   = isset($_REQUEST["CmbTipoAnalisis"])?$_REQUEST["CmbTipoAnalisis"]:'';
+	$Productos   = isset($_REQUEST["Productos"])?$_REQUEST["Productos"]:'';
+	$SubProducto   = isset($_REQUEST["SubProducto"])?$_REQUEST["SubProducto"]:'';
+	$GenerarValidacion = isset($_REQUEST["GenerarValidacion"])?$_REQUEST["GenerarValidacion"]:'';
+	$TxtMuestra = isset($_REQUEST["TxtMuestra"])?$_REQUEST["TxtMuestra"]:'';
+	$Flujo = isset($_REQUEST["Flujo"])?$_REQUEST["Flujo"]:'';
+	$CmbCCosto = isset($_REQUEST["CmbCCosto"])?$_REQUEST["CmbCCosto"]:'';
+	$MsjIdMuestra = isset($_REQUEST["MsjIdMuestra"])?$_REQUEST["MsjIdMuestra"]:'';
+	$CmbAgrupacion = isset($_REQUEST["CmbAgrupacion"])?$_REQUEST["CmbAgrupacion"]:'';
+	$CmbTipo = isset($_REQUEST["CmbTipo"])?$_REQUEST["CmbTipo"]:'';
+	$CmbAreasProceso = isset($_REQUEST["CmbAreasProceso"])?$_REQUEST["CmbAreasProceso"]:'';
+	$ValorAnalisis = isset($_REQUEST["ValorAnalisis"])?$_REQUEST["ValorAnalisis"]:'';
+	$ValorMuestreo = isset($_REQUEST["ValorMuestreo"])?$_REQUEST["ValorMuestreo"]:'';
+	$TxtObs = isset($_REQUEST["TxtObs"])?$_REQUEST["TxtObs"]:'';
+	$poly = isset($_REQUEST["poly"])?$_REQUEST["poly"]:'';
+	$ValorCheck = isset($_REQUEST["ValorCheck"])?$_REQUEST["ValorCheck"]:'';
+	$FechaHora   = isset($_REQUEST["FechaHora"])?$_REQUEST["FechaHora"]:'0000-00-00 00:00';
+	$Enabal = isset($_REQUEST["Enabal"])?$_REQUEST["Enabal"]:'';
+	
 	if (isset($FechaBusqueda) and ($FechaBusqueda !=""))
 	{
 		$FechaHora = $FechaBusqueda;
@@ -578,7 +604,7 @@ function SoloUnElementoCheck()
 
   <table width="730" border="0" cellpadding="3" cellspacing="0" class="TablaInterior">
     <tr> 
-		 <td ><strong>Versi�n 3 </strong> </td>
+		 <td ><strong>Versi&oacute;n 3 </strong> </td>
 		</tr> 
 	<tr>	 
       <td height="27"><div align="left"><strong><?php echo $Fecha_Hora ?> 
@@ -615,7 +641,7 @@ function SoloUnElementoCheck()
 			{
 				echo "<select name='CmbProductos' style='width:250 'id='select' onChange=Recarga('N');>";
 				echo "<option value='-1' selected>Seleccionar</option>";
-				if (isset($FechaBuscar))
+				if ($FechaBuscar!="")
 				{
 					$CmbProductos = $Productos;
 				}
@@ -696,7 +722,7 @@ function SoloUnElementoCheck()
 			{
 				echo "<select name='CmbSubProducto' style='width:250' onChange=Recarga('N')>";
 				echo "<option value='-1' selected>Seleccionar</option>";
-				if (isset($FechaBuscar))
+				if ($FechaBuscar!="")
 				{
 					$CmbSubProducto = $CmbSubProducto;
 				}
@@ -707,7 +733,7 @@ function SoloUnElementoCheck()
 					if ($CmbSubProducto == $Fila["cod_subproducto"])
 					{
 						echo "<option value = '".$Fila["cod_subproducto"]."' selected>".ucwords(strtolower($Fila["descripcion"]))."</option>\n";
-						if (!is_null($Fila[flujos]))
+						if (!is_null($Fila["flujos"]))
 						{
 							$Flujo='S';
 						}
@@ -745,7 +771,7 @@ function SoloUnElementoCheck()
             <td height="23"> <font color="#FFFF00"> 
             <?php 
 	  	
-		if (isset($ValorMuestreo))
+		if ($ValorMuestreo!="")
 		{
 			if ($ValorMuestreo == 1)
 			{
@@ -758,13 +784,14 @@ function SoloUnElementoCheck()
 		}
 		else
 		{
-			if (isset($Modificar))
+			if ($Modificar!="")
 			{
 				$Consulta = "select distinct(id_muestra),cod_tipo_muestra from cal_web.solicitud_analisis where (rut_funcionario ='".$CookieRut."') and ";
 				$Consulta = $Consulta."(fecha_hora ='".$FechaHora."' and cod_producto = '".$Productos."' and cod_subproducto = '".$SubProducto."')";
 				$Respuesta = mysqli_query($link, $Consulta);
 				$Fila=mysqli_fetch_array($Respuesta);
-				if (($Fila["cod_tipo_muestra"]=='2') or ($Fila["cod_tipo_muestra"]=='3'))
+				$cod_tipo_muestra = isset($Fila["cod_tipo_muestra"])?$Fila["cod_tipo_muestra"]:"";
+				if (($cod_tipo_muestra=='2') or ($cod_tipo_muestra=='3'))
 				{
 					echo "<input type='checkbox' name='CheckMuestreo' style='background:#FFFFCC' value='' disabled checked><strong><font color='black'>Muestreo</strong></font>";		
 				}
@@ -782,7 +809,7 @@ function SoloUnElementoCheck()
 </font> 
             <td height="23"> 
               <?php 
-	  	if (isset($ValorAnalisis))
+	  	if ($ValorAnalisis!="")
 		{
 			if ($ValorAnalisis == 1)
 				{
@@ -796,13 +823,14 @@ function SoloUnElementoCheck()
 		}
 		else
 		{
-			if (isset($Modificar))
+			if ($Modificar!="")
 			{
 				$Consulta = "select distinct(id_muestra),cod_tipo_muestra from cal_web.solicitud_analisis where (rut_funcionario ='".$CookieRut."') and ";
 				$Consulta = $Consulta."(fecha_hora ='".$FechaHora."' and cod_producto = '".$Productos."' and cod_subproducto = '".$SubProducto."')";
 				$Respuesta = mysqli_query($link, $Consulta);
 				$Fila=mysqli_fetch_array($Respuesta);
-				if (($Fila["cod_tipo_muestra"]=='1') or ($Fila["cod_tipo_muestra"]=='3'))
+				$cod_tipo_muestra = isset($Fila["cod_tipo_muestra"])?$Fila["cod_tipo_muestra"]:"";
+				if (($cod_tipo_muestra=='1') or ($cod_tipo_muestra=='3'))
 				{
 					echo "<input type='checkbox' name='CheckAnalisis' value='' disabled style='background:#66CCFF' checked><font color='black'><strong>Analisis</strong></font>&nbsp;&nbsp;<input type='text' name='textfield' style='width:15px'  disabled ><font color='black'>Ambos</font></td>";
 				}	
@@ -863,14 +891,14 @@ function SoloUnElementoCheck()
 				if ($FilaVal=mysqli_fetch_array($RespVal))
 				{
 					echo "<input type='hidden' name='ValidarMuestra' value='S'>";
-					echo "<input type='hidden' name='TxtValTipo' value='".$FilaVal[tipo]."'>";
-					$TxtValTipo=$FilaVal[tipo];
-					echo "<input type='hidden' name='TxtValEntero' value='".$FilaVal[entero]."'>";
-					$TxtValEntero=$FilaVal[entero];
+					echo "<input type='hidden' name='TxtValTipo' value='".$FilaVal["tipo"]."'>";
+					$TxtValTipo=$FilaVal["tipo"];
+					echo "<input type='hidden' name='TxtValEntero' value='".$FilaVal["entero"]."'>";
+					$TxtValEntero=$FilaVal["entero"];
 					echo "<input type='hidden' name='TxtValRango1' value='".$FilaVal["rango1"]."'>";
 					$TxtValRango1=$FilaVal["rango1"];
-					echo "<input type='hidden' name='TxtValRango2' value='".$FilaVal[rango2]."'>";
-					$TxtValRango2=$FilaVal[rango2];
+					echo "<input type='hidden' name='TxtValRango2' value='".$FilaVal["rango2"]."'>";
+					$TxtValRango2=$FilaVal["rango2"];
 					echo "<input type='hidden' name='TxtValDes' value='".$FilaVal["descripcion"]."'>";
 					$TxtValDes=$FilaVal["descripcion"];
 				}
@@ -923,7 +951,7 @@ function SoloUnElementoCheck()
                 //echo $Consulta."</br>";
 				while ($Fila=mysqli_fetch_array($Respuesta))
 				{
-					echo "<option value = '".$Fila[centro_costo]."'>".$Fila[centro_costo]." - ".ucwords(strtolower($Fila["descripcion"]))."</option>\n"; 
+					echo "<option value = '".$Fila["centro_costo"]."'>".$Fila["centro_costo"]." - ".ucwords(strtolower($Fila["descripcion"]))."</option>\n"; 
 				}
 				echo "<option value ='-1'>____________________________________________________</option>\n";
 				$Consulta = "select centro_costo,descripcion from proyecto_modernizacion.centro_costo where mostrar_calidad<>'S' order by centro_costo";
@@ -931,7 +959,7 @@ function SoloUnElementoCheck()
                //echo $Consulta."</br>";
 				while ($Fila=mysqli_fetch_array($Respuesta))
 				{
-					echo "<option value = '".$Fila[centro_costo]."'>".$Fila[centro_costo]." - ".ucwords(strtolower($Fila["descripcion"]))."</option>\n"; 
+					echo "<option value = '".$Fila["centro_costo"]."'>".$Fila["centro_costo"]." - ".ucwords(strtolower($Fila["descripcion"]))."</option>\n"; 
 				}
 			?>
         </select>
@@ -1018,9 +1046,9 @@ function SoloUnElementoCheck()
     </tr>
     <?php  
 		include ("../Principal/conectar_cal_web.php");	   
-	    if (isset($CmbSubProducto) or (isset($Modificar)))
+	    if ($CmbSubProducto!="" or $Modificar!="" )
 		{
-			if ((!isset($Modificar)) or ($Modificar!='S'))
+			if (($Modificar=="") or ($Modificar!='S'))
 			{
 				$ValorProducto=$CmbProductos;
 				$ValorSubProducto=$CmbSubProducto;

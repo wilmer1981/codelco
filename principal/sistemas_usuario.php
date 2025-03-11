@@ -468,7 +468,7 @@ if($mensajeInterno["Desc1"]!= '')
 							$ExisteNivel = true;
 							if (!isset($Nivel))
 							{
-								$consulta = "select min(nivel_agrup) as nivel_agrup from acceso_menu";
+								$consulta = "select min(nivel_agrup) as nivel_agrup from proyecto_modernizacion.acceso_menu";
 								$consulta.= " where cod_sistema = '".$CodSistema."' ";
 								$result2 = mysqli_query($link, $consulta);
 	
@@ -489,7 +489,7 @@ if($mensajeInterno["Desc1"]!= '')
 								{
 									
 					
-									$consulta = "SELECT * FROM pantallas";
+									$consulta = "SELECT * FROM proyecto_modernizacion.pantallas";
 									$consulta.= " WHERE cod_sistema = '".$CodSistema."' ";
 									
 									if (isset($CodPantalla))
@@ -503,24 +503,22 @@ if($mensajeInterno["Desc1"]!= '')
 									}
 								}
 
-								$consulta = "SELECT distinct(t1.cod_pantalla) as cod_pantalla";
-								$consulta.= " FROM acceso_menu t1, pantallas t2";
+								$consulta = "SELECT distinct(t1.cod_pantalla) as cod_pantalla, t2.orden ";
+							    $consulta.= " FROM acceso_menu t1, pantallas t2";
 								$consulta.= " WHERE t1.cod_sistema = '".$CodSistema."' "; 
-								$consulta.= " AND t1.cod_sistema = t2.cod_sistema";
-								$consulta.= " AND t1.cod_pantalla = t2.cod_pantalla";
+								$consulta.= " AND t1.cod_sistema = t2.cod_sistema ";
+								$consulta.= " AND t1.cod_pantalla = t2.cod_pantalla ";
 								//$Consulta.= " where cod_sistema='".$Sistem."' and nivel='".$Nivel."'";
 
 								if (isset($CodPantalla) || !(is_null($CodPantalla)) || ($CodPantalla != ""))
 								{
-									$consulta.= " AND t1.cod_pant_agrup ='".$CodPantalla."'";
+									$consulta.= " AND t1.cod_pant_agrup ='".$CodPantalla."' ";
 								}
 							
-								$consulta.= " AND t1.nivel ='".$TipoUsuario."' ";
-								$consulta.= " AND t1.nivel_agrup ='".$Nivel."' ";
-								$consulta.= " ORDER BY t2.orden";
+								$consulta.= " AND t1.nivel ='".$TipoUsuario."' AND t1.nivel_agrup ='".$Nivel."' ";
+								$consulta.= " ORDER BY t2.orden ";
 
 								//echo "consulta query:<BR>".$consulta."<br>";
-
 								$result3 = mysqli_query($link, $consulta);
 
 								//-------------CONTROL ACCESO USUARIOS---------------

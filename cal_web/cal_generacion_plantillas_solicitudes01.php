@@ -1,7 +1,40 @@
 <?php 
 	$CodigoDeSistema=1;
 	include ("../Principal/conectar_principal.php");
-	//include ("../Principal/conectar_cal_web.php");
+	
+	$CookieRut = $_COOKIE["CookieRut"];		
+	$proceso = isset($_REQUEST["proceso"])?$_REQUEST["proceso"]:'';
+	$Muestras = isset($_REQUEST["Muestras"])?$_REQUEST["Muestras"]:'';
+	$ValorAnalisis = isset($_REQUEST["ValorAnalisis"])?$_REQUEST["ValorAnalisis"]:'';
+	$GenerarVal = isset($_REQUEST["GenerarVal"])?$_REQUEST["GenerarVal"]:'';
+	$Producto = isset($_REQUEST["Producto"])?$_REQUEST["Producto"]:'';
+	$Modificando = isset($_REQUEST["Modificando"])?$_REQUEST["Modificando"]:'';
+	$FechaBusqueda = isset($_REQUEST["FechaBusqueda"])?$_REQUEST["FechaBusqueda"]:'';
+	$FechaBuscar = isset($_REQUEST["FechaBuscar"])?$_REQUEST["FechaBuscar"]:'';
+	$FechaHora = isset($_REQUEST["FechaHora"])?$_REQUEST["FechaHora"]:'0000-00-00 00:00';
+	$Modificar = isset($_REQUEST["Modificar"])?$_REQUEST["Modificar"]:'';
+	$CmbProductos = isset($_REQUEST["CmbProductos"])?$_REQUEST["CmbProductos"]:'';
+	$CmbSubProducto = isset($_REQUEST["CmbSubProducto"])?$_REQUEST["CmbSubProducto"]:'';
+	$Productos = isset($_REQUEST["Productos"])?$_REQUEST["Productos"]:'';
+	$SubProducto = isset($_REQUEST["SubProducto"])?$_REQUEST["SubProducto"]:'';
+	$Flujo = isset($_REQUEST["Flujo"])?$_REQUEST["Flujo"]:'';
+	$CmbTipo = isset($_REQUEST["CmbTipo"])?$_REQUEST["CmbTipo"]:'';
+	$CmbPeriodo = isset($_REQUEST["CmbPeriodo"])?$_REQUEST["CmbPeriodo"]:'';
+	$CmbAgrupacion = isset($_REQUEST["CmbAgrupacion"])?$_REQUEST["CmbAgrupacion"]:'';
+	$GenerarValidacion = isset($_REQUEST["GenerarValidacion"])?$_REQUEST["GenerarValidacion"]:'';
+	$TxtMuestra = isset($_REQUEST["TxtMuestra"])?$_REQUEST["TxtMuestra"]:'';
+	$CmbTipoAnalisis  = isset($_REQUEST["CmbTipoAnalisis"])?$_REQUEST["CmbTipoAnalisis"]:'';
+	$ValorAnalisis  = isset($_REQUEST["ValorAnalisis"])?$_REQUEST["ValorAnalisis"]:'';
+	$ValorMuestreo = isset($_REQUEST["ValorMuestreo"])?$_REQUEST["ValorMuestreo"]:'';
+	$CmbCCosto = isset($_REQUEST["CmbCCosto"])?$_REQUEST["CmbCCosto"]:'';
+	$ValorCheck = isset($_REQUEST["ValorCheck"])?$_REQUEST["ValorCheck"]:'';
+	$TxtPlantilla = isset($_REQUEST["TxtPlantilla"])?$_REQUEST["TxtPlantilla"]:'';
+	$TxtValDes = isset($_REQUEST["TxtValDes"])?$_REQUEST["TxtValDes"]:'';
+	$CmbAreasProceso = isset($_REQUEST["CmbAreasProceso"])?$_REQUEST["CmbAreasProceso"]:'';
+	$TxtIdMuestra = isset($_REQUEST["TxtIdMuestra"])?$_REQUEST["TxtIdMuestra"]:'';
+	$Valor = isset($_REQUEST["Valor"])?$_REQUEST["Valor"]:'';
+	$Enabal = isset($_REQUEST["Valor"])?$_REQUEST["Enabal"]:'';
+	 
 	$TipoMuestra = "";
 	$ValCheck = $Muestras;//RECIBE LOS ELEMENTOS CHEQUEADOS PARA VOLVERLOS A MARCAR
 	if (($ValorAnalisis==1) && ($ValorMuestreo==1))		
@@ -144,7 +177,7 @@
 	}
 	if ($Entrar==true)
 	{
-		if (isset($Modificando))
+		if ($Modificando!="")
 		{
 			header ("location:cal_generacion_plantillas_solicitudes.php?Productos=".$CmbProductos."&SubProducto=".$CmbSubProducto."&FechaBusqueda=".$FechaHora."&Modificar=".$Modificando."&ValorCheck=".$ValCheck);
 		}

@@ -3,6 +3,7 @@
 	$CodigoDePantalla = 2;
 	include("../principal/conectar_principal.php");
 	$Fecha_Hora = date("Y-m-d");
+	$FechaBusqueda   = isset($_REQUEST["FechaBusqueda"])?$_REQUEST["FechaBusqueda"]:'';
 	if (isset($FechaBusqueda) and ($FechaBusqueda !=""))
 	{
 		$FechaHora = $FechaBusqueda;

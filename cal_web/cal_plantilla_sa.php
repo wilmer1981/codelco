@@ -1,5 +1,9 @@
 ﻿<?php
 	include("../principal/conectar_rec_web.php");
+
+	$CmbProductos = isset($_REQUEST["CmbProductos"])?$_REQUEST["CmbProductos"]:'';
+	$CmbSubProducto = isset($_REQUEST["CmbSubProducto"])?$_REQUEST["CmbSubProducto"]:'';
+	$FechaHora = isset($_REQUEST["FechaHora"])?$_REQUEST["FechaHora"]:'';
 ?>
 <html>
 <head>
@@ -42,6 +46,7 @@ function RecuperarSeleccion(ValorProducto,ValorSubProducto,FechaHora,NombrePlant
 			$Consulta="select fecha_hora,cod_periodo,descripcion from cal_web.plantilla_solicitud_analisis ";
 			$Consulta=$Consulta." where not isnull(descripcion) and not isnull(cod_periodo) and cod_producto=".$CmbProductos." and cod_subproducto=".$CmbSubProducto." group by fecha_hora";
 			$Resultado=mysqli_query($link, $Consulta);
+			$Muestras="";
 			while ($Fila=mysqli_fetch_array($Resultado))
 			{
 				$Consulta="select id_muestra from cal_web.plantilla_solicitud_analisis ";
@@ -52,13 +57,13 @@ function RecuperarSeleccion(ValorProducto,ValorSubProducto,FechaHora,NombrePlant
 					$Muestras=$Muestras.$Fila2["id_muestra"]."/";				
 				}
 				$Consulta="select nombre_subclase as periodo from proyecto_modernizacion.sub_clase";
-				$Consulta=$Consulta." where cod_clase=2 and cod_subclase =".$Fila[cod_periodo];
+				$Consulta=$Consulta." where cod_clase=2 and cod_subclase =".$Fila["cod_periodo"];
 				$Resultado3=mysqli_query($link, $Consulta);
 				$Fila3=mysqli_fetch_array($Resultado3);
 				echo "<tr>";
-				echo "<td width='30'><input type='radio' name='OptPlantilla' value='".$Fila["fecha_hora"]."' onClick=\"RecuperarSeleccion('$CmbProductos','$CmbSubProducto','$FechaHora','$Fila["descripcion"]');\"></td>";
+				echo "<td width='30'><input type='radio' name='OptPlantilla' value='".$Fila["fecha_hora"]."' onClick=\"RecuperarSeleccion('$CmbProductos','$CmbSubProducto','$FechaHora','".$Fila["descripcion"]."');\"></td>";
 				echo "<td width='250'>".$Fila["descripcion"]."</td>";
-				echo "<td width='170'>".$Fila3[periodo]."</td>";
+				echo "<td width='170'>".$Fila3["periodo"]."</td>";
 				echo "<td width='250'>".$Muestras."</td>";
 				echo "</tr>";
 			}

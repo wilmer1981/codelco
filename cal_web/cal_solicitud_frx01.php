@@ -1,7 +1,29 @@
 <?php 
 	$CodigoDeSistema=1;
 	include ("../Principal/conectar_principal.php");
-	//include ("../Principal/conectar_cal_web.php");
+
+	$CookieRut = $_COOKIE["CookieRut"];
+	$proceso   = isset($_REQUEST["proceso"])?$_REQUEST["proceso"]:'';
+	$ValorAnalisis   = isset($_REQUEST["ValorAnalisis"])?$_REQUEST["ValorAnalisis"]:'';
+	$ValorMuestreo   = isset($_REQUEST["ValorMuestreo"])?$_REQUEST["ValorMuestreo"]:'';
+	$Muestras   = isset($_REQUEST["Muestras"])?$_REQUEST["Muestras"]:'';
+	$Valor   = isset($_REQUEST["Valor"])?$_REQUEST["Valor"]:'';
+	$Enabal = isset($_REQUEST["Enabal"])?$_REQUEST["Enabal"]:'';
+	$Periodo = isset($_REQUEST["Periodo"])?$_REQUEST["Periodo"]:'';
+	$CmbAgrupacion = isset($_REQUEST["CmbAgrupacion"])?$_REQUEST["CmbAgrupacion"]:'';
+	$CmbTipo = isset($_REQUEST["CmbTipo"])?$_REQUEST["CmbTipo"]:'';
+	$Pagina = isset($_REQUEST["Pagina"])?$_REQUEST["Pagina"]:'';
+	$Variables = isset($_REQUEST["Variables"])?$_REQUEST["Variables"]:'';
+	$CmbCCosto = isset($_REQUEST["CmbCCosto"])?$_REQUEST["CmbCCosto"]:'';
+	$CmbAreasProceso = isset($_REQUEST["CmbAreasProceso"])?$_REQUEST["CmbAreasProceso"]:'';
+	$CmbPeriodo = isset($_REQUEST["CmbPeriodo"])?$_REQUEST["CmbPeriodo"]:'';
+	$Modificando = isset($_REQUEST["Modificando"])?$_REQUEST["Modificando"]:'';
+	$CmbProductos = isset($_REQUEST["CmbProductos"])?$_REQUEST["CmbProductos"]:'';
+	$CmbSubProducto = isset($_REQUEST["CmbSubProducto"])?$_REQUEST["CmbSubProducto"]:'';
+	$CmbTipoAnalisis = isset($_REQUEST["CmbTipoAnalisis"])?$_REQUEST["CmbTipoAnalisis"]:'';
+	$FechaHora = isset($_REQUEST["FechaHora"])?$_REQUEST["FechaHora"]:'';
+	$TxtMuestra     = isset($_REQUEST["TxtMuestra"])?$_REQUEST["TxtMuestra"]:'';
+	
 	$TipoMuestra = "";
 	$ValCheck = $Muestras;//RECIBE LOS ELEMENTOS CHEQUEADOS PARA VOLVERLOS A MARCAR
 	$Rut = $CookieRut;
@@ -247,7 +269,7 @@
 	}
 	if ($Entrar==true)
 	{
-		if (isset($Modificando))
+		if ($Modificando!="")
 		{
 			header ("location:cal_solicitud_frx.php?Productos=".$CmbProductos."&SubProducto=".$CmbSubProducto."&FechaBusqueda=".$FechaHora."&Modificar=".$Modificando."&ValorCheck=".$ValCheck);
 		}

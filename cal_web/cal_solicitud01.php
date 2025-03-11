@@ -1,8 +1,29 @@
 <?php 
 	$CodigoDeSistema=1;
 	include ("../Principal/conectar_principal.php");
+	$CookieRut = $_COOKIE["CookieRut"];	
+	$proceso   = isset($_REQUEST["proceso"])?$_REQUEST["proceso"]:'';
+	$ValorAnalisis   = isset($_REQUEST["ValorAnalisis"])?$_REQUEST["ValorAnalisis"]:'';
+	$ValorMuestreo   = isset($_REQUEST["ValorMuestreo"])?$_REQUEST["ValorMuestreo"]:'';
+	$Muestras   = isset($_REQUEST["Muestras"])?$_REQUEST["Muestras"]:'';
+	$Valor   = isset($_REQUEST["Valor"])?$_REQUEST["Valor"]:'';
+	$Periodo = isset($_REQUEST["Periodo"])?$_REQUEST["Periodo"]:'';
+	$CmbAgrupacion = isset($_REQUEST["CmbAgrupacion"])?$_REQUEST["CmbAgrupacion"]:'';
+	$CmbTipo = isset($_REQUEST["CmbTipo"])?$_REQUEST["CmbTipo"]:'';
+	$Enabal = isset($_REQUEST["Enabal"])?$_REQUEST["Enabal"]:'';
+	$TxtMuestra = isset($_REQUEST["TxtMuestra"])?$_REQUEST["TxtMuestra"]:'';
+	$CmbCCosto = isset($_REQUEST["CmbCCosto"])?$_REQUEST["CmbCCosto"]:'';
+	$CmbAreasProceso = isset($_REQUEST["CmbAreasProceso"])?$_REQUEST["CmbAreasProceso"]:'';
+	$CmbPeriodo = isset($_REQUEST["CmbPeriodo"])?$_REQUEST["CmbPeriodo"]:'';
+	$TxtObs = isset($_REQUEST["TxtObs"])?$_REQUEST["TxtObs"]:'';
+	$Modificando = isset($_REQUEST["Modificando"])?$_REQUEST["Modificando"]:'';
+	$CmbProductos = isset($_REQUEST["CmbProductos"])?$_REQUEST["CmbProductos"]:'';
+	$CmbSubProducto = isset($_REQUEST["CmbSubProducto"])?$_REQUEST["CmbSubProducto"]:'';
+	$CmbTipoAnalisis = isset($_REQUEST["CmbTipoAnalisis"])?$_REQUEST["CmbTipoAnalisis"]:'';
+	$FechaHora = isset($_REQUEST["FechaHora"])?$_REQUEST["FechaHora"]:'';
 	$TipoMuestra = "";
 	$ValCheck = $Muestras;//RECIBE LOS ELEMENTOS CHEQUEADOS PARA VOLVERLOS A MARCAR
+	
 	if (($ValorAnalisis==1) && ($ValorMuestreo==1))		
 	{
 		$TipoMuestra=3;
@@ -18,7 +39,6 @@
 		}
 	$Rut = $CookieRut;
 	$control = 0;
-o;
     //$FechaHora = date("Y-m-d H:i");
 	$Entrar=true;//USADO PARA NO HACER DOS HEADER CON LA OPCION L Y S(TIENES SUS PROPIOS HEADER)
 	switch ($proceso)
@@ -372,13 +392,13 @@ o;
 									{
 										$NroSemana=$Fila["nro_semana"];
 									}
-									if ((is_null($Fila["a�o"]))||($Fila["a�o"]==""))
+									if ((is_null($Fila["año"]))||($Fila["año"]==""))
 									{
-										$A�o="NULL";
+										$Año="NULL";
 									}
 									else
 									{
-										$A�o=$Fila["a�o"];
+										$Año=$Fila["año"];
 									}
 									if ((is_null($Fila["mes"]))||($Fila["mes"]==""))
 									{
@@ -398,13 +418,13 @@ o;
 									}
 									$insertar = "insert into cal_web.solicitud_analisis(rut_funcionario,fecha_hora,id_muestra,peso_muestra,recargo,";
 									$insertar =$insertar." cod_producto,cod_subproducto,leyes,cod_analisis,cod_tipo_muestra,tipo_solicitud,";
-									$insertar =$insertar." nro_solicitud,cod_area,cod_ccosto,cod_periodo,estado_actual,rut_proveedor,peso_retalla,observacion,agrupacion,fecha_muestra,nro_semana,a�o,mes,tipo)";
+									$insertar =$insertar." nro_solicitud,cod_area,cod_ccosto,cod_periodo,estado_actual,rut_proveedor,peso_retalla,observacion,agrupacion,fecha_muestra,nro_semana,año,mes,tipo)";
 									$insertar =$insertar." values ('".$Fila["rut_funcionario"]."','".$Fila["fecha_hora"]."','".$Fila["id_muestra"]."',".$PesoM.",";
 									$insertar =$insertar." '".$Recargo."','".$Fila["cod_producto"]."','".$Fila["cod_subproducto"]."','01~~1//',";
 									$insertar =$insertar." '".$Fila["cod_analisis"]."','".$Fila["cod_tipo_muestra"]."','".$Fila["tipo_solicitud"]."',";
 									$insertar =$insertar." '".$Fila["nro_solicitud"]."','".$Fila["cod_area"]."','".$Fila["cod_ccosto"]."','".$Fila["cod_periodo"]."',";
 									$insertar =$insertar." '".$Fila["estado_actual"]."','".$Fila["rut_proveedor"]."',".$PesoR.",'".$Fila["observacion"]."', ";
-									$insertar =$insertar." '".$Fila["agrupacion"]."','".$Fila["fecha_muestra"]."',".$NroSemana.",".$A�o.",".$Mes.",".$Fila["tipo"].")";
+									$insertar =$insertar." '".$Fila["agrupacion"]."','".$Fila["fecha_muestra"]."',".$NroSemana.",".$Año.",".$Mes.",".$Fila["tipo"].")";
 									//echo $insertar."<br>";
 									mysqli_query($link, $insertar);
 									$insertar ="insert into cal_web.estados_por_solicitud (rut_funcionario,nro_solicitud,recargo,cod_estado,fecha_hora,ult_atencion,rut_proceso)";
@@ -451,7 +471,7 @@ o;
 
 	if ($Entrar==true)
 	{
-		if (isset($Modificando))
+		if ($Modificando!="")
 		{
 		
 			header ("location:cal_solicitud.php?poly=2&Productos=".$CmbProductos."&SubProducto=".$CmbSubProducto."&FechaBusqueda=".$FechaHora."&Modificar=".$Modificando."&ValorCheck=".$ValCheck);

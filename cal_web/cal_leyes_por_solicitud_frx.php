@@ -1,5 +1,13 @@
 ﻿<?php
 	include("../principal/conectar_principal.php");
+	
+	$Valores     = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:'';
+	$Modificando = isset($_REQUEST["Modificando"])?$_REQUEST["Modificando"]:'';
+	$Productos   = isset($_REQUEST["Productos"])?$_REQUEST["Productos"]:'';
+	$SubProducto = isset($_REQUEST["SubProducto"])?$_REQUEST["SubProducto"]:'';
+	$Personalizar = isset($_REQUEST["Personalizar"])?$_REQUEST["Personalizar"]:'';
+	$NombrePlantilla = isset($_REQUEST["NombrePlantilla"])?$_REQUEST["NombrePlantilla"]:'';
+	$CodPlantilla = isset($_REQUEST["CodPlantilla"])?$_REQUEST["CodPlantilla"]:'';
 ?>
 <html>
 <head>

@@ -1,11 +1,18 @@
 ﻿<?php
 	include("../principal/conectar_principal.php");
+	$CookieRut = $_COOKIE["CookieRut"];	
 	$Rut=$CookieRut;
+	$Valores = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:'';
+	$Productos = isset($_REQUEST["Productos"])?$_REQUEST["Productos"]:'';
+	$SubProducto = isset($_REQUEST["SubProducto"])?$_REQUEST["SubProducto"]:'';
+	$Opcion = isset($_REQUEST["Opcion"])?$_REQUEST["Opcion"]:'';
+	
 	$Leyes=array();
 	$Impurezas=array();
 	$i=0;
 	$f=0;
 	$SA_Aux=$Valores;
+
 	if (($Opcion=='Generar')||($Opcion=='Rutinaria'))
 	{
 		for ($j = 0;$j <= strlen($SA_Aux); $j++)
@@ -29,7 +36,7 @@
 						}
 						$Respuesta = mysqli_query($link, $Consulta);
 						$Fila=mysqli_fetch_array($Respuesta);
-						$LeyesAux=$Fila[leyes];
+						$LeyesAux=$Fila["leyes"];
 						for ($l = 0;$l <= strlen($LeyesAux); $l++)
 						{
 							if (substr($LeyesAux,$l,2) == "//")

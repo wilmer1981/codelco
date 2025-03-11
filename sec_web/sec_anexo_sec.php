@@ -775,7 +775,7 @@ function ObtieneExistencias($AnoFin,$MesFin,$Nodo,$PesoTotal,$AcumFinoCu,$AcumFi
 		$FechaIniAux = date("Y-m-d", mktime(0,0,0,substr($FechaInicio,5,2)-1,1,substr($FechaInicio,0,4)));
 		$FechaFinAux = substr($FechaIniAux,0,4)."-".substr($FechaIniAux,5,2)."-31";
 		$Consulta = "select sum(t1.peso_paquetes) as peso,t3.cod_bulto,t3.num_bulto,";
-		$Consulta.= " year(t3.fecha_creacion_lote) as ano_creacion, t5.hornada, t4.fecha_traspaso, t5.fecha_movimiento,t1.cod_subproducto, t1.cod_subproducto ";
+		$Consulta.= " year(t3.fecha_creacion_lote) as ano_creacion, t5.hornada, t4.fecha_traspaso, t5.fecha_movimiento,t1.cod_producto, t1.cod_subproducto ";
 		$Consulta.= " from sec_web.paquete_catodo t1 ";
 		$Consulta.= " inner join sec_web.lote_catodo t3 on t1.cod_paquete = t3.cod_paquete";
 		$Consulta.= " and t1.num_paquete = t3.num_paquete and t1.fecha_creacion_paquete = t3.fecha_creacion_paquete";

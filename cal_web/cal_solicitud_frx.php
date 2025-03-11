@@ -1,9 +1,32 @@
 <?php 	
 	$CodigoDeSistema = 1;
 	$CodigoDePantalla = 1;
-	$Rut=$CookieRut;
 	include("../principal/conectar_principal.php");
+	$CookieRut      = $_COOKIE["CookieRut"];
+	$Rut=$CookieRut;	
 	$Fecha_Hora = date("Y-m-d");
+	$FechaBusqueda  = isset($_REQUEST["FechaBusqueda"])?$_REQUEST["FechaBusqueda"]:'';
+	$FechaBuscar    = isset($_REQUEST["FechaBuscar"])?$_REQUEST["FechaBuscar"]:'';
+	$Modificar      = isset($_REQUEST["Modificar"])?$_REQUEST["Modificar"]:'';
+	$TxtMuestra     = isset($_REQUEST["TxtMuestra"])?$_REQUEST["TxtMuestra"]:'';
+	$TxtIdMuestra = isset($_REQUEST["TxtIdMuestra"])?$_REQUEST["TxtIdMuestra"]:'';
+	$CmbProductos   = isset($_REQUEST["CmbProductos"])?$_REQUEST["CmbProductos"]:'';
+	$CmbSubProducto   = isset($_REQUEST["CmbSubProducto"])?$_REQUEST["CmbSubProducto"]:'';
+	$CmbTipoAnalisis   = isset($_REQUEST["CmbTipoAnalisis"])?$_REQUEST["CmbTipoAnalisis"]:'';
+	$Productos   = isset($_REQUEST["Productos"])?$_REQUEST["Productos"]:'';
+	$SubProducto   = isset($_REQUEST["SubProducto"])?$_REQUEST["SubProducto"]:'';
+	$GenerarValidacion = isset($_REQUEST["GenerarValidacion"])?$_REQUEST["GenerarValidacion"]:'';
+	$CmbAgrupacion = isset($_REQUEST["CmbAgrupacion"])?$_REQUEST["CmbAgrupacion"]:'';
+	$CmbTipo = isset($_REQUEST["CmbTipo"])?$_REQUEST["CmbTipo"]:'';
+	$CmbPeriodo = isset($_REQUEST["CmbPeriodo"])?$_REQUEST["CmbPeriodo"]:'';
+	$ValorAnalisis = isset($_REQUEST["ValorAnalisis"])?$_REQUEST["ValorAnalisis"]:'';
+	$ValorMuestreo = isset($_REQUEST["ValorMuestreo"])?$_REQUEST["ValorMuestreo"]:'';
+	$ValorCheck = isset($_REQUEST["ValorCheck"])?$_REQUEST["ValorCheck"]:'';
+	$FechaHora   = isset($_REQUEST["FechaHora"])?$_REQUEST["FechaHora"]:'';
+	$Enabal = isset($_REQUEST["Enabal"])?$_REQUEST["Enabal"]:'';
+	$CmbAreasProceso = isset($_REQUEST["CmbAreasProceso"])?$_REQUEST["CmbAreasProceso"]:'';
+
+	
 	if (isset($FechaBusqueda) and ($FechaBusqueda !=""))
 	{
 		$FechaHora = $FechaBusqueda;
@@ -380,7 +403,7 @@ function BuscarSubProducto()
     <tr> 
       <td height="27"><div align="left"><strong><?php echo $Fecha_Hora ?> 
           <?php
-	if (!isset($FechaHora))
+	if ($FechaHora=="")
   	{
 		echo "<input name='FechaHora' type='hidden' value='".date('Y-m-d H:i')."'>";
 		$FechaHora=date('Y-m-d H:i');
@@ -412,7 +435,7 @@ function BuscarSubProducto()
 			{
 				echo "<select name='CmbProductos' style='width:250 'id='select' onChange=Recarga();>";
 				echo "<option value='-1' selected>Seleccionar</option>";
-				if (isset($FechaBuscar))
+				if ($FechaBuscar!="")
 				{
 					$CmbProductos = $Productos;
 				}
@@ -451,7 +474,7 @@ function BuscarSubProducto()
 			{
 				echo "<select name='CmbSubProducto' style='width:250'>";
 				echo "<option value='-1' selected>Seleccionar</option>";
-				if (isset($FechaBuscar))
+				if ($FechaBuscar!="")
 				{
 					$CmbSubProducto = $CmbSubProducto;
 				}
@@ -555,14 +578,14 @@ function BuscarSubProducto()
 				$Respuesta = mysqli_query ($link, $Consulta);
 				while ($Fila=mysqli_fetch_array($Respuesta))
 				{
-					echo "<option value = '".$Fila[centro_costo]."'>".$Fila[centro_costo]." - ".ucwords(strtolower($Fila["descripcion"]))."</option>\n"; 
+					echo "<option value = '".$Fila["centro_costo"]."'>".$Fila["centro_costo"]." - ".ucwords(strtolower($Fila["descripcion"]))."</option>\n"; 
 				}
 				echo "<option value ='-1'>____________________________________________________</option>\n";
 				$Consulta = "select centro_costo,descripcion from proyecto_modernizacion.centro_costo where mostrar_frx<>'S' order by centro_costo";
 				$Respuesta = mysqli_query ($link, $Consulta);
 				while ($Fila=mysqli_fetch_array($Respuesta))
 				{
-					echo "<option value = '".$Fila[centro_costo]."'>".$Fila[centro_costo]." - ".ucwords(strtolower($Fila["descripcion"]))."</option>\n"; 
+					echo "<option value = '".$Fila["centro_costo"]."'>".$Fila["centro_costo"]." - ".ucwords(strtolower($Fila["descripcion"]))."</option>\n"; 
 				}
 				
 			?>
@@ -667,9 +690,9 @@ function BuscarSubProducto()
     </tr>
     <?php  
 		include ("../Principal/conectar_cal_web.php");	   
-	    if (isset($CmbSubProducto) or (isset($Modificar)))
+	    if ($CmbSubProducto!="" or $Modificar!="")
 		{
-			if ((!isset($Modificar)) or ($Modificar!='S'))
+			if (($Modificar=="") or ($Modificar!='S'))
 			{
 				$ValorProducto=$CmbProductos;
 				$ValorSubProducto=$CmbSubProducto;

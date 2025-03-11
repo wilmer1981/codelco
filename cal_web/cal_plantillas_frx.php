@@ -1,6 +1,32 @@
 <?php
 include("../principal/conectar_principal.php");
+$CookieRut = $_COOKIE["CookieRut"];	
 $Rut =$CookieRut;
+
+$Valores = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:'';
+$Modificando = isset($_REQUEST["Modificando"])?$_REQUEST["Modificando"]:'';
+$CmbProductos = isset($_REQUEST["CmbProductos"])?$_REQUEST["CmbProductos"]:'';
+$CmbSubProducto = isset($_REQUEST["CmbSubProducto"])?$_REQUEST["CmbSubProducto"]:'';
+$Productos = isset($_REQUEST["Productos"])?$_REQUEST["Productos"]:'';
+$TxtProducto = isset($_REQUEST["TxtProducto"])?$_REQUEST["TxtProducto"]:'';
+$SubProducto = isset($_REQUEST["SubProducto"])?$_REQUEST["SubProducto"]:'';
+$TxtSubProducto = isset($_REQUEST["TxtSubProducto"])?$_REQUEST["TxtSubProducto"]:'';
+$Personalizar = isset($_REQUEST["Personalizar"])?$_REQUEST["Personalizar"]:'';
+$NombrePlantilla = isset($_REQUEST["NombrePlantilla"])?$_REQUEST["NombrePlantilla"]:'';
+$CodPlantilla = isset($_REQUEST["CodPlantilla"])?$_REQUEST["CodPlantilla"]:'';
+$SolAut = isset($_REQUEST["SolAut"])?$_REQUEST["SolAut"]:'';
+$SolEsp = isset($_REQUEST["SolEsp"])?$_REQUEST["SolEsp"]:'';
+$BuscarDetalle = isset($_REQUEST["BuscarDetalle"])?$_REQUEST["BuscarDetalle"]:'';
+$BuscarPrv = isset($_REQUEST["BuscarPrv"])?$_REQUEST["BuscarPrv"]:'';
+$CmbRutPrv = isset($_REQUEST["CmbRutPrv"])?$_REQUEST["CmbRutPrv"]:'';
+$TxtLotes = isset($_REQUEST["TxtLotes"])?$_REQUEST["TxtLotes"]:'';
+$Lotes = isset($_REQUEST["Lotes"])?$_REQUEST["Lotes"]:'';
+$TxtCCosto = isset($_REQUEST["TxtCCosto"])?$_REQUEST["TxtCCosto"]:'';
+$CCosto = isset($_REQUEST["CCosto"])?$_REQUEST["CCosto"]:'';
+$BtnMuestras = isset($_REQUEST["BtnMuestras"])?$_REQUEST["BtnMuestras"]:'';
+$TxtSA = isset($_REQUEST["TxtSA"])?$_REQUEST["TxtSA"]:'';
+$SA = isset($_REQUEST["SA"])?$_REQUEST["SA"]:'';
+$TxtPlantillas = isset($_REQUEST["TxtPlantillas"])?$_REQUEST["TxtPlantillas"]:'';
 ?>
 <html>
 <head>
@@ -85,7 +111,7 @@ function Recuperar(Valor,valor2,BuscarDetalle,BuscarPrv,CmbRutPrv,Modificando)
 <body leftmargin="0" topmargin="0"  >
 <form name="FrmPlantillas" method="post" action="">
   <?php
-if (isset($TxtProducto))
+if ($TxtProducto!="")
 {
 	echo "<input type='hidden' name ='TxtProducto' value='$TxtProducto'>";
 }
@@ -94,7 +120,7 @@ else
 	echo "<input type='hidden' name ='TxtProducto' value='$Productos'>";
 }
 
-if (isset($TxtSubProducto))
+if ($TxtSubProducto!="")
 {
 	echo "<input type='hidden' name ='TxtSubProducto' value='$TxtSubProducto'>";
 }
@@ -103,20 +129,20 @@ else
 	echo "<input type='hidden' name ='TxtSubProducto' value='$SubProducto'>";
 }
   
-if (isset($Modificando))
+if ($Modificando!="")
 {
 	echo "<input name='Modificando' type='hidden' value='".$Modificando."'>";
 }
-if (isset($CmbProductos))
+if ($CmbProductos!="")
 {
 	echo "<input name='CmbProductos' type='hidden' value='".$CmbProductos."'>";
 }
-if (isset($CmbSubProducto))
+if ($CmbSubProducto!="")
 {
 	echo "<input name='$CmbSubProducto' type='hidden' value='".$CmbSubProducto."'>";
 }
   
-if(!isset($BtnMuestras))
+if($BtnMuestras=="")
 { 
  	echo "<input name='BtnMuestras' type='hidden' value='".$Valores."'>";
 	$BtnMuestras=$Valores;
@@ -125,7 +151,7 @@ else
 {
 	echo "<input name='BtnMuestras' type='hidden' value='".$BtnMuestras."'>";
 }
-if(!isset($TxtLotes))
+if($TxtLotes=="")
 { 
  	echo "<input name='TxtLotes' type='hidden' value='".$Lotes."'>";
 	$TxtLotes=$Lotes;
@@ -134,7 +160,7 @@ else
 {
 	echo "<input name='TxtLotes' type='hidden' value='".$TxtLotes."'>";
 }
-if(!isset($TxtCCosto))
+if($TxtCCosto=="")
 { 
  	echo "<input name='TxtCCosto' type='hidden' value='".$CCosto."'>";
 	$TxtCCosto=$CCosto;
@@ -143,7 +169,7 @@ else
 {
 	echo "<input name='TxtCCosto' type='hidden' value='".$TxtCCosto."'>";
 }
-if(!isset($TxtSA))
+if($TxtSA=="")
 { 
  	echo "<input name='TxtSA' type='hidden' value='".$SA."'>";
 	$TxtSA=$SA;
@@ -204,13 +230,13 @@ else
               </strong></td>
             <td width="84" rowspan="2"><div align="center"> 
                 <?php
-					if (isset($SolAut))//S.A AUTOMATICA O RUTINARIA
+					if ($SolAut!="")//S.A AUTOMATICA O RUTINARIA
 					{
 						echo "<input name='BtnBuscar' type='button' value='Buscar' onClick=\"Recarga('A','$BuscarDetalle','$BuscarPrv','$CmbRutPrv','$Modificando');\">";
 					}
 					else
 					{
-						if (isset($SolEsp))//S.A ESPECIAL
+						if ($SolEsp!="")//S.A ESPECIAL
 						{
 							echo "<input name='BtnBuscar' type='button' value='Buscar' onClick=\"Recarga('E','','','','$Modificando');\">";
 						}

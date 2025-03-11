@@ -1,5 +1,17 @@
 <?php
 include("../principal/conectar_cal_web.php");
+
+$CookieRut = $_COOKIE["CookieRut"];	
+$BtnMuestras  = isset($_REQUEST["BtnMuestras"])?$_REQUEST["BtnMuestras"]:'';
+$Plantilla    = isset($_REQUEST["Plantilla"])?$_REQUEST["Plantilla"]:'';
+$SolAut = isset($_REQUEST["SolAut"])?$_REQUEST["SolAut"]:'';
+$SolEsp = isset($_REQUEST["SolEsp"])?$_REQUEST["SolEsp"]:'';
+$Rut = isset($_REQUEST["Rut"])?$_REQUEST["Rut"]:'';
+$BuscarDetalle = isset($_REQUEST["BuscarDetalle"])?$_REQUEST["BuscarDetalle"]:'';
+$BuscarPrv = isset($_REQUEST["BuscarPrv"])?$_REQUEST["BuscarPrv"]:'';
+$CmbRutPrv = isset($_REQUEST["CmbRutPrv"])?$_REQUEST["CmbRutPrv"]:'';
+$Modificando = isset($_REQUEST["Modificando"])?$_REQUEST["Modificando"]:'';
+
 $ValCheck = $BtnMuestras;
 $RutF = $CookieRut;
 $Consulta = "select t1.cod_leyes,t1.cod_unidad ";
@@ -131,7 +143,7 @@ if ($SolAut=='S')//S.A AUTOMATICA O RUTINARIA
 		$j = 0;
 		}
 	}
-	if (isset($Modificando)and($Modificando=='S'))
+	if ($Modificando!="" and($Modificando=='S'))
 	{			
 		echo "<script languaje='JavaScript'>";
 		echo " window.opener.document.FrmSolicitudAut.action='cal_solicitud_automatica.php?Productos=".$TxtProducto."&SubProducto=".$TxtSubProducto."&ValorCheck=".$ValCheck."&Modificar=".$Modificando."';";
@@ -204,7 +216,7 @@ else//S.A ESPECIAL
 		$j = 0;
 		}
 	}
-	if (isset($Modificando)and($Modificando=='S'))
+	if ($Modificando!="" and ($Modificando=='S'))
 	{			
 		echo "<script languaje='JavaScript'>";
 		echo " window.opener.document.FrmSolicitud.action='cal_solicitud_frx.php?Productos=".$TxtProducto."&SubProducto=".$TxtSubProducto."&ValorCheck=".$ValCheck."&Modificar=".$Modificando."';";

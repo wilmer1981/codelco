@@ -1,5 +1,21 @@
 <?php 
 	include ("../Principal/conectar_cal_web.php");
+	$CookieRut = $_COOKIE["CookieRut"];	
+	$Muestras = isset($_REQUEST["Muestras"])?$_REQUEST["Muestras"]:'';
+	$proceso   = isset($_REQUEST["proceso"])?$_REQUEST["proceso"]:'';
+	$Pagina   = isset($_REQUEST["Pagina"])?$_REQUEST["Pagina"]:'';
+	$Variables   = isset($_REQUEST["Variables"])?$_REQUEST["Variables"]:'';
+	$Modificar = isset($_REQUEST["Modificar"])?$_REQUEST["Modificar"]:'';
+	$CmbProductos = isset($_REQUEST["CmbProductos"])?$_REQUEST["CmbProductos"]:'';
+	$CmbSubProducto = isset($_REQUEST["CmbSubProducto"])?$_REQUEST["CmbSubProducto"]:'';
+	$FechaHora = isset($_REQUEST["FechaHora"])?$_REQUEST["FechaHora"]:'';
+	$FechaTraspaso = isset($_REQUEST["FechaTraspaso"])?$_REQUEST["FechaTraspaso"]:'';
+	$NombrePlantillaSA = isset($_REQUEST["NombrePlantillaSA"])?$_REQUEST["NombrePlantillaSA"]:'';
+	$Valor = isset($_REQUEST["Valor"])?$_REQUEST["Valor"]:'';
+	$CmbCCosto = isset($_REQUEST["CmbCCosto"])?$_REQUEST["CmbCCosto"]:'';
+	$CmbAreasProceso = isset($_REQUEST["CmbAreasProceso"])?$_REQUEST["CmbAreasProceso"]:'';
+	$CmbPeriodo = isset($_REQUEST["CmbPeriodo"])?$_REQUEST["CmbPeriodo"]:'';
+	
 	$TipoMuestra = "";
 	$ValCheck = $Muestras;//RECIBE LOS ELEMENTOS CHEQUEADOS PARA VOLVERLOS A MARCAR
 	$Rut = $CookieRut;
@@ -36,18 +52,18 @@
 				$Insertar = $Insertar.$Fila["cod_producto"]."','";					
 				$Insertar = $Insertar.$Fila["cod_subproducto"]."','";			
 				$Insertar = $Insertar.$Fila["cod_analisis"]."','";
-				$Insertar = $Insertar.$Fila[cod_tipo_muestra]."','";
-				$Insertar = $Insertar.$Fila[tipo_solicitud]."','";
-				$Insertar = $Insertar.$Fila[agrupacion]."','";
-				$Insertar = $Insertar.$Fila[tipo]."','";
-				$Insertar = $Insertar.$Fila[enabal]."','";			
-				$Insertar = $Insertar.$Fila[cod_ccosto]."',";			
-				$Insertar = $Insertar.$Fila[cod_area].",'";
-				$Insertar = $Insertar.$Fila[leyes]."','";
+				$Insertar = $Insertar.$Fila["cod_tipo_muestra"]."','";
+				$Insertar = $Insertar.$Fila["tipo_solicitud"]."','";
+				$Insertar = $Insertar.$Fila["agrupacion"]."','";
+				$Insertar = $Insertar.$Fila["tipo"]."','";
+				$Insertar = $Insertar.$Fila["enabal"]."','";			
+				$Insertar = $Insertar.$Fila["cod_ccosto"]."',";			
+				$Insertar = $Insertar.$Fila["cod_area"].",'";
+				$Insertar = $Insertar.$Fila["leyes"]."','";
 				$Insertar = $Insertar.$Fila["impurezas"]."')";	
 				//echo 	$Insertar;	
 				mysqli_query($link, $Insertar);
-				$CodPeriodo=$Fila[cod_periodo];
+				$CodPeriodo=$Fila["cod_periodo"];
 			}
 			echo "<script languaje='JavaScript'>";
 			echo "window.opener.document.FrmSolicitudRutinaria.action='cal_solicitud_rutinaria.php?CmbProductos=".$CmbProductos."&CmbSubProducto=".$CmbSubProducto."&FechaHora=".$FechaHora."&NombrePlantillaSA=".$NombrePlantillaSA."&PeriodoX=".$CodPeriodo."';";
@@ -264,7 +280,7 @@
 							$Consulta="select cod_periodo from cal_web.solicitud_analisis where rut_funcionario ='".$Rut."' and fecha_hora ='".$Fecha."' and id_muestra='".$Muestra."'";
 							$Respuesta=mysqli_query($link, $Consulta);
 							$Fila=mysqli_fetch_array($Respuesta);
-							$Periodo=$Fila[cod_periodo];
+							$Periodo=$Fila["cod_periodo"];
 							$Actualizar ="UPDATE cal_web.solicitud_analisis set id_muestra='".$TxtCambiaID."' where rut_funcionario ='".$Rut."' and fecha_hora ='".$Fecha."' and id_muestra='".$Muestra."'";
 							mysqli_query($link, $Actualizar);
 							$Consulta = "select nro_solicitud from cal_web.solicitud_analisis where rut_funcionario ='".$Rut."' and fecha_hora ='".$Fecha."' and id_muestra='".$Muestra."'";
@@ -293,7 +309,7 @@
 	}
 	if ($Entrar==true)
 	{
-		if (isset($Modificando))
+		if ($Modificando!="")
 		{
 			header ("location:cal_solicitud_rutinaria.php?Productos=".$CmbProductos."&SubProducto=".$CmbSubProducto."&FechaBusqueda=".$FechaHora."&Modificar=".$Modificando."&ValorCheck=".$ValCheck."&PeriodoX=".$PeriodoO."&NombrePlantillaSA=".$NombrePlantillaSA);
 		}

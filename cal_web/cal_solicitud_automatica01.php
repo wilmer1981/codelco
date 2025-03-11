@@ -1,7 +1,28 @@
 <?php
 	$CodigoDeSistema=1;
 	include("../principal/conectar_cal_web.php");
-
+    $CookieRut = $_COOKIE["CookieRut"];	
+	$proceso   = isset($_REQUEST["proceso"])?$_REQUEST["proceso"]:'';
+	$ValorAnalisis  = isset($_REQUEST["ValorAnalisis"])?$_REQUEST["ValorAnalisis"]:'';
+	$ValorMuestreo  = isset($_REQUEST["ValorMuestreo"])?$_REQUEST["ValorMuestreo"]:'';
+	$Muestras_Check = isset($_REQUEST["Muestras_Check"])?$_REQUEST["Muestras_Check"]:'';
+	$EsBusqueda     = isset($_REQUEST["EsBusqueda"])?$_REQUEST["EsBusqueda"]:'';
+	$ConHum         = isset($_REQUEST["ConHum"])?$_REQUEST["ConHum "]:'';
+	$Muestras   = isset($_REQUEST["Muestras"])?$_REQUEST["Muestras"]:'';
+	$Valor   = isset($_REQUEST["Valor"])?$_REQUEST["Valor"]:'';
+	$Periodo = isset($_REQUEST["Periodo"])?$_REQUEST["Periodo"]:'';
+	$CmbAgrupacion = isset($_REQUEST["CmbAgrupacion"])?$_REQUEST["CmbAgrupacion"]:'';
+	$CmbTipo = isset($_REQUEST["CmbTipo"])?$_REQUEST["CmbTipo"]:'';
+	$Enabal = isset($_REQUEST["Enabal"])?$_REQUEST["Enabal"]:'';
+	$TxtMuestra = isset($_REQUEST["TxtMuestra"])?$_REQUEST["TxtMuestra"]:'';
+	$CmbCCosto = isset($_REQUEST["CmbCCosto"])?$_REQUEST["CmbCCosto"]:'';
+	$CmbAreasProceso = isset($_REQUEST["CmbAreasProceso"])?$_REQUEST["CmbAreasProceso"]:'';
+	$CmbPeriodo = isset($_REQUEST["CmbPeriodo"])?$_REQUEST["CmbPeriodo"]:'';
+	$TxtObs = isset($_REQUEST["TxtObs"])?$_REQUEST["TxtObs"]:'';
+	$Modificando = isset($_REQUEST["Modificando"])?$_REQUEST["Modificando"]:'';
+	$CmbProductos = isset($_REQUEST["CmbProductos"])?$_REQUEST["CmbProductos"]:'';
+	$CmbSubProducto = isset($_REQUEST["CmbSubProducto"])?$_REQUEST["CmbSubProducto"]:'';
+	$CmbTipoAnalisis = isset($_REQUEST["CmbTipoAnalisis"])?$_REQUEST["CmbTipoAnalisis"]:'';
 	
 	$TipoMuestra = "";
 	$ValCheck = $Muestras;//RECIBE LOS ELEMENTOS CHEQUEADOS PARA VOLVERLOS A MARCAR
@@ -121,7 +142,7 @@
 										$Insertar = $Insertar.$Fila["rut_proveedor"]."','";
 										$Insertar = $Insertar.$Fila["observacion"]."',1,'";
 										$Insertar = $Insertar.$Fila["fecha_muestra"]."','";
-										$Insertar = $Insertar.$Fila["a�o"]."','";
+										$Insertar = $Insertar.$Fila["año"]."','";
 										$Insertar = $Insertar.$Fila["mes"]."','";
 										$Insertar = $Insertar.$Fila["nro_semana"]."')";									
 										mysqli_query($link, $Insertar);
@@ -192,7 +213,7 @@
 										$Insertar = $Insertar.$Fila["rut_proveedor"]."','";
 										$Insertar = $Insertar.$Fila["observacion"]."',1,'";
 										$Insertar = $Insertar.$Fila["fecha_muestra"]."','";
-										$Insertar = $Insertar.$Fila["a�o"]."','";
+										$Insertar = $Insertar.$Fila["año"]."','";
 										$Insertar = $Insertar.$Fila["mes"]."','";
 										$Insertar = $Insertar.$Fila["nro_semana"]."')";									
 										mysqli_query($link, $Insertar);

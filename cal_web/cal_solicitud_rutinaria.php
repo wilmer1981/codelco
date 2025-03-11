@@ -2,7 +2,19 @@
 	$CodigoDeSistema = 1;
 	$CodigoDePantalla = 48;
 	include("../principal/conectar_principal.php");
+	$CookieRut = $_COOKIE["CookieRut"];	
 	$Fecha_Hora = date("Y-m-d");
+	$FechaBusqueda  = isset($_REQUEST["FechaBusqueda"])?$_REQUEST["FechaBusqueda"]:'';
+	$Periodo = isset($_REQUEST["Periodo"])?$_REQUEST["Periodo"]:'';
+	$Modificar = isset($_REQUEST["Modificar"])?$_REQUEST["Modificar"]:'';
+	$CmbProductos = isset($_REQUEST["CmbProductos"])?$_REQUEST["CmbProductos"]:'';
+	$CmbSubProducto = isset($_REQUEST["CmbSubProducto"])?$_REQUEST["CmbSubProducto"]:'';
+	$NombrePlantillaSA = isset($_REQUEST["NombrePlantillaSA"])?$_REQUEST["NombrePlantillaSA"]:'';
+	$CmbAreasProceso = isset($_REQUEST["CmbAreasProceso"])?$_REQUEST["CmbAreasProceso"]:'';
+	$Pagina   = isset($_REQUEST["Pagina"])?$_REQUEST["Pagina"]:'';
+	$Variables   = isset($_REQUEST["Variables"])?$_REQUEST["Variables"]:'';
+	$ValorCheck = isset($_REQUEST["ValorCheck"])?$_REQUEST["ValorCheck"]:''; 
+	
 	if (isset($FechaBusqueda) and ($FechaBusqueda !=""))
 	{
 		$FechaHora = $FechaBusqueda;
@@ -666,7 +678,7 @@ function MostrarPlantillaSA(FechaHora)
             </strong></div></td>
             <td width="7%" height="23">
 			<?php
-				if ((isset($CmbSubProducto))&&($CmbSubProducto!='-1'))
+				if ($CmbSubProducto!=""&&($CmbSubProducto!='-1'))
 				{
 				}	
 			?>	
@@ -682,7 +694,7 @@ function MostrarPlantillaSA(FechaHora)
 			{
 				echo "<select name='CmbSubProducto' style='width:250' onChange=Recarga('N')>";
 				echo "<option value='-1' selected>Seleccionar</option>";
-				if (isset($FechaBuscar))
+				if ($FechaBuscar!="")
 				{
 					$CmbSubProducto = $CmbSubProducto;
 				}
@@ -738,14 +750,14 @@ function MostrarPlantillaSA(FechaHora)
 				$Respuesta = mysqli_query ($link, $Consulta);
 				while ($Fila=mysqli_fetch_array($Respuesta))
 				{
-					echo "<option value = '".$Fila[centro_costo]."'>".$Fila[centro_costo]." - ".ucwords(strtolower($Fila["descripcion"]))."</option>\n"; 
+					echo "<option value = '".$Fila["centro_costo"]."'>".$Fila["centro_costo"]." - ".ucwords(strtolower($Fila["descripcion"]))."</option>\n"; 
 				}
 				echo "<option value ='-1'>____________________________________________________</option>\n";
 				$Consulta = "select centro_costo,descripcion from proyecto_modernizacion.centro_costo where mostrar_calidad<>'S' order by centro_costo";
 				$Respuesta = mysqli_query ($link, $Consulta);
 				while ($Fila=mysqli_fetch_array($Respuesta))
 				{
-					echo "<option value = '".$Fila[centro_costo]."'>".$Fila[centro_costo]." - ".ucwords(strtolower($Fila["descripcion"]))."</option>\n"; 
+					echo "<option value = '".$Fila["centro_costo"]."'>".$Fila["centro_costo"]." - ".ucwords(strtolower($Fila["descripcion"]))."</option>\n"; 
 				}
 			?>
               </select>
@@ -818,9 +830,9 @@ function MostrarPlantillaSA(FechaHora)
     </tr>
     <?php  
 		include ("../Principal/conectar_cal_web.php");	   
-	    if (isset($CmbSubProducto) or (isset($Modificar)))
+	    if ($CmbSubProducto!="" or $Modificar!="")
 		{
-			if ((!isset($Modificar)) or ($Modificar!='S'))
+			if ($Modificar=="" or $Modificar!='S')
 			{
 				$ValorProducto=$CmbProductos;
 				$ValorSubProducto=$CmbSubProducto;
@@ -965,7 +977,7 @@ function MostrarPlantillaSA(FechaHora)
 				}
 				if ((is_null($Fila["cod_periodo"])) or ($Fila["cod_periodo"] == ""))
 				{
-					echo "<td><input type='Text' name='TxtPeriodo' readonly style='width:100'><input type ='hidden' value='".$Fila["recargo"]."'><input type='hidden' value='".$Fila[fecha_muestra]."'></td>";											
+					echo "<td><input type='Text' name='TxtPeriodo' readonly style='width:100'><input type ='hidden' value='".$Fila["recargo"]."'><input type='hidden' value='".$Fila["fecha_muestra"]."'></td>";											
 				}	
 				else
 				{

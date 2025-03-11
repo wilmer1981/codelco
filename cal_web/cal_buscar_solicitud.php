@@ -2,6 +2,12 @@
   include("../principal/conectar_principal.php");
   $Fecha_Hora = date("d/m/Y");
   $meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+  $CookieRut = $_COOKIE["CookieRut"];	
+  $Buscar = isset($_REQUEST["Buscar"])?$_REQUEST["Buscar"]:'';
+  $Sol_Aut = isset($_REQUEST["Sol_Aut"])?$_REQUEST["Sol_Aut"]:'';
+  $CmbAno = isset($_REQUEST["CmbAno"])?$_REQUEST["CmbAno"]:date("Y");
+  $CmbMes = isset($_REQUEST["CmbMes"])?$_REQUEST["CmbMes"]:date("m");
+  $CmbDias = isset($_REQUEST["CmbDias"])?$_REQUEST["CmbDias"]:date("d");
 ?>
 <html>
 <head>
