@@ -169,11 +169,12 @@ if($Encontro!='S')
 				if (foco == 'btnEntrar') {
 					var f = document.frmPrincipal;
 					var l = document.frmLdap;
-					//var rut    = f.txtrut.value;
-					//var passwd = f.txtpassword.value;
-					//var opc    = f.opcion.value;
+					var rut    = f.txtrut.value;
+					var passwd = f.txtpassword.value;
+					var opc    = f.opcion.value;
 					//alert("f.RUT:"+rut+"f.PASSWD:"+passwd+" f.OPCION:"+opc);
 					if(rut==""){
+						//alert("f.RUT:"+rut+"f.PASSWD:"+passwd+" f.OPCION:"+opc);
 						if (ValidaCamposL())
 						{
 							//alert("Ingresando a index01");
