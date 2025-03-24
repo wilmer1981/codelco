@@ -1,7 +1,8 @@
 <?php 
-	        ob_end_clean();
+	    ob_end_clean();
         $file_name=basename($_SERVER['PHP_SELF']).".xls";
         $userBrowser = $_SERVER['HTTP_USER_AGENT'];
+		$filename="";
         if ( preg_match( '/MSIE/i', $userBrowser ) ) {
         $filename = urlencode($filename);
         }
@@ -19,6 +20,21 @@
  	header("Expires: 0");
   	header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
 	include("../principal/conectar_sea_web.php");
+$Proceso    = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+$radio2    = isset($_REQUEST["radio2"])?$_REQUEST["radio2"]:"";
+$radio     = isset($_REQUEST["radio"])?$_REQUEST["radio"]:"";
+$dia_i     = isset($_REQUEST["dia_i"])?$_REQUEST["dia_i"]:date("d");
+$mes_i     = isset($_REQUEST["mes_i"])?$_REQUEST["mes_i"]:date("m");
+$ano_i     = isset($_REQUEST["ano_i"])?$_REQUEST["ano_i"]:date("Y");
+$dia_t     = isset($_REQUEST["dia_t"])?$_REQUEST["dia_t"]:date("d");
+$mes_t     = isset($_REQUEST["mes_t"])?$_REQUEST["mes_t"]:date("m");
+$ano_t     = isset($_REQUEST["ano_t"])?$_REQUEST["ano_t"]:date("Y");
+$mes2     = isset($_REQUEST["mes2"])?$_REQUEST["mes2"]:date("m");
+$ano2     = isset($_REQUEST["ano2"])?$_REQUEST["ano2"]:date("Y");
+
+$cmborigen = isset($_REQUEST["cmborigen"])?$_REQUEST["cmborigen"]:"";
+$cmbflujorestos = isset($_REQUEST["cmbflujorestos"])?$_REQUEST["cmbflujorestos"]:"";
+$cmbrestos = isset($_REQUEST["cmbrestos"])?$_REQUEST["cmbrestos"]:"";
  ?>
 <html>
 <head>
@@ -115,16 +131,16 @@ function Imprimir()
 	{
 		while ($row4 = mysqli_fetch_array($rs4))
 		{
-			echo '<td width="45" align="center">'.$row4[ab1].'<br>'.$row4[ab2].'</td>';
+			echo '<td width="45" align="center">'.$row4["ab1"].'<br>'.$row4["ab2"].'</td>';
 	
-			$det_leyes[$row4[codigo]][0] = 0; //ley.
-			$det_leyes[$row4[codigo]][1] = $row4["conversion"]; //unidad de conversion.
+			$det_leyes[$row4["codigo"]][0] = 0; //ley.
+			$det_leyes[$row4["codigo"]][1] = $row4["conversion"]; //unidad de conversion.
 
-			$total_grupo[$row4[codigo]][0] = 0; //Acumulador por cada Ley.
-			$total_grupo[$row4[codigo]][1] = $row4["conversion"]; //unidad de conversion.
+			$total_grupo[$row4["codigo"]][0] = 0; //Acumulador por cada Ley.
+			$total_grupo[$row4["codigo"]][1] = $row4["conversion"]; //unidad de conversion.
 
-			$total_dia[$row4[codigo]][0] = 0; //Valor Ley
-			$total_dia[$row4[codigo]][1] = $row4["conversion"]; //Unidad de conversion.			
+			$total_dia[$row4["codigo"]][0] = 0; //Valor Ley
+			$total_dia[$row4["codigo"]][1] = $row4["conversion"]; //Unidad de conversion.			
 		}
 	}	
 ?>	
@@ -146,7 +162,7 @@ if (mysqli_num_rows($rs8) != 0) //Si existen datos escribir flujo.
    $row8 = mysqli_fetch_array($rs8);
 
 }
-$fecha_aux = $row8[fecha_movimiento];
+$fecha_aux = $row8["fecha_movimiento"];
 while (date($fecha_aux) <= date($fecha_ter)) //Recorre los dias.
 {
 	$TotalCantidad = 0;
@@ -154,7 +170,8 @@ while (date($fecha_aux) <= date($fecha_ter)) //Recorre los dias.
 		
 		//Limpia el arreglo de los Totales de las Leyes.
 		reset($total_dia);
-		while (list($c1, $v1) = each($total_dia))
+		//while (list($c1, $v1) = each($total_dia))
+		foreach($total_dia as $c1 => $v1)
 		{	
 			$total_dia[$c1][0] = 0; //Acumulador.
 			$total_dia[$c1][2] = 0; //peso.				
@@ -184,7 +201,8 @@ while (date($fecha_aux) <= date($fecha_ter)) //Recorre los dias.
 			{
 				//Limpia el arreglo de los Totales de las Leyes.
 				reset($total_grupo);
-				while (list($c1, $v1) = each($total_grupo))
+				//while (list($c1, $v1) = each($total_grupo))
+				foreach($total_grupo as $c1 => $v1)
 				{	
 					$total_grupo[$c1][0] = 0; //Acumulador.
 					$total_grupo[$c1][2] = 0; //peso.				
@@ -192,7 +210,7 @@ while (date($fecha_aux) <= date($fecha_ter)) //Recorre los dias.
 															 
 				$consulta = "SELECT SUM(unidades) as unidades, sum(peso) as peso FROM movimientos";
 				$consulta = $consulta." WHERE tipo_movimiento = 4 AND cod_producto = 19 and cod_subproducto = '".$cmbanodos."' ";
-				$consulta = $consulta." AND campo2 = '".$row2[campo2]."' AND fecha_movimiento = '".$fecha_aux."'";
+				$consulta = $consulta." AND campo2 = '".$row2["campo2"]."' AND fecha_movimiento = '".$fecha_aux."'";
 				$consulta.=" and (hora between '".$Fecha1."' and '".$Fecha2."')";
 				$rs3 = mysqli_query($link, $consulta);
 				$row3 = mysqli_fetch_array($rs3);
@@ -201,7 +219,7 @@ while (date($fecha_aux) <= date($fecha_ter)) //Recorre los dias.
 				$TotalPeso = $TotalPeso + $row3["peso"];
 								
 				echo '<tr class="ColorTabla02">';
-				echo '<td width="100" align="center">'.$row2[campo2].'</td>';
+				echo '<td width="100" align="center">'.$row2["campo2"].'</td>';
 				echo '<td width="100" align="center">'.$row3["unidades"].'</td>';
 				echo '<td width="100" align="center">'.$row3["peso"].'</td>';
 
@@ -210,7 +228,7 @@ while (date($fecha_aux) <= date($fecha_ter)) //Recorre los dias.
 					//LEYES.
 					$consulta = "SELECT * FROM sea_web.movimientos";
 					$consulta = $consulta." WHERE tipo_movimiento = 4 AND cod_producto = 19 and cod_subproducto = '".$cmbanodos."' ";
-					$consulta = $consulta." AND campo2 = '".$row2[campo2]."' AND fecha_movimiento = '".$fecha_aux."'";
+					$consulta = $consulta." AND campo2 = '".$row2["campo2"]."' AND fecha_movimiento = '".$fecha_aux."'";
 					$consulta.=" and (hora between '".$Fecha1."' and '".$Fecha2."')";
 					$rs4 = mysqli_query($link, $consulta);
 					while ($row4 = mysqli_fetch_array($rs4))
@@ -219,7 +237,7 @@ while (date($fecha_aux) <= date($fecha_ter)) //Recorre los dias.
 						$consulta = $consulta." INNER JOIN proyecto_modernizacion.leyes AS t2 ON t1.cod_leyes = t2.cod_leyes";
 						$consulta = $consulta." INNER JOIN proyecto_modernizacion.unidades AS t3 ON t2.cod_unidad = t3.cod_unidad";
 						$consulta = $consulta." WHERE t1.cod_producto = ".$row4["cod_producto"]." AND t1.cod_subproducto = '".$row4["cod_subproducto"]."'";
-						$consulta = $consulta." AND t1.hornada = ".$row4[hornada]." AND t1.valor <> ''";
+						$consulta = $consulta." AND t1.hornada = ".$row4["hornada"]." AND t1.valor <> ''";
 						$rs5 = mysqli_query($link, $consulta);
 						
 						//Traspaso las leyes de cada hornada a un arreglo, para que mantengan la estructura de la tabla.
@@ -235,7 +253,8 @@ while (date($fecha_aux) <= date($fecha_ter)) //Recorre los dias.
 					}
 					//Detalle del grupo.
 					reset($total_grupo);
-					while (list($c1, $v1) = each($total_grupo))
+					//while (list($c1, $v1) = each($total_grupo))
+					foreach($total_grupo as $c1 => $v1)
 					{
 						if ($radio2 == "L") //Leyes.
 						{
@@ -265,7 +284,8 @@ while (date($fecha_aux) <= date($fecha_ter)) //Recorre los dias.
 			if($radio2 != "P")
 		    {
 				reset($total_dia);
-				while (list($c1, $v1) = each($total_dia))
+				//while (list($c1, $v1) = each($total_dia))
+				foreach($total_dia as $c1 => $v1)
 				{
 					if ($radio2 == "L") //Leyes.
 					{

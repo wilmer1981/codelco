@@ -337,19 +337,19 @@ var f=formulario;
 		if($cmbmovimiento == 3)
 		{	
 			if($cmblistados == 4)
-			echo '<option value="4" SELECTed>Producción Acumulada por Grupos de Restos</option>';
+			echo '<option value="4" SELECTed>Producci&oacute;n Acumulada por Grupos de Restos</option>';
 			else
-			echo '<option value="4">Producción Acumulada por Grupos de Restos</option>';
+			echo '<option value="4">Producci&oacute;n Acumulada por Grupos de Restos</option>';
 
 			if($cmblistados == 5)
-			echo '<option value="5" SELECTed>Producción Acumulada de Restos</option>';
+			echo '<option value="5" SELECTed>Producci&oacute;n Acumulada de Restos</option>';
 			else
-			echo '<option value="5">Producción Acumulada de Restos</option>';
+			echo '<option value="5">Producci&oacute;n Acumulada de Restos</option>';
 
 			if($cmblistados == 6)
-			echo '<option value="6" SELECTed>Producción Diaria Acumulada de Restos</option>';
+			echo '<option value="6" SELECTed>Producci&oacute;n Diaria Acumulada de Restos</option>';
 			else
-			echo '<option value="6">Producción Diaria Acumulada de Restos</option>';
+			echo '<option value="6">Producci&oacute;n Diaria Acumulada de Restos</option>';
 
         }	
 
@@ -455,7 +455,7 @@ include("../principal/conectar_principal.php");
 	if($radio=='P' and $cmborigen!='T')
 	{	
 	   
-		 $consulta2 = "SELECT * FROM sub_clase WHERE cod_clase=2002 and cod_subclase = $cmborigen";
+		 $consulta2 = "SELECT * FROM sub_clase WHERE cod_clase=2002 and cod_subclase = '".$cmborigen."'";
 		 $rs2 = mysqli_query($link, $consulta2);
 			 if($row1 = mysqli_fetch_array($rs2))
 			 {	
@@ -538,7 +538,7 @@ include("../principal/conectar_principal.php");
 
 			$consulta5 = "SELECT distinct flujo, descripcion FROM relacion_prod_flujo_nodo AS t1 INNER JOIN flujos AS t2";
 			$consulta5 = $consulta5." ON t1.flujo = t2.cod_flujo"; 
-			$consulta5 = $consulta5." WHERE t1.cod_proceso = $cmbmovimiento and t1.cod_producto=17 and t1.cod_origen = '$cmborigen' order by t1.flujo";
+			$consulta5 = $consulta5." WHERE t1.cod_proceso = '".$cmbmovimiento."' and t1.cod_producto=17 and t1.cod_origen = '".$cmborigen."' order by t1.flujo";
 			$rs5 = mysqli_query($link, $consulta5);
 			while($row5 = mysqli_fetch_array($rs5))						
 			{
@@ -564,9 +564,9 @@ include("../principal/conectar_principal.php");
 
 			$consulta5 = "SELECT distinct flujo, descripcion FROM relacion_prod_flujo_nodo AS t1 INNER JOIN flujos AS t2";
 			$consulta5 = $consulta5." ON t1.flujo = t2.cod_flujo"; 
-			$consulta5 = $consulta5." WHERE t1.cod_proceso = $cmbmovimiento and t1.cod_producto=19 and t1.cod_origen = '$cmborigen' order by t1.flujo";
+			$consulta5 = $consulta5." WHERE t1.cod_proceso = '".$cmbmovimiento."' and t1.cod_producto=19 and t1.cod_origen = '".$cmborigen."' order by t1.flujo";
 			$rs5 = mysqli_query($link, $consulta5);
-			echo $consulta5;
+			//echo $consulta5;
 			while($row5 = mysqli_fetch_array($rs5))						
 			{
 			if ($row5["flujo"] == $cmbflujo and ($Proceso == 'R'))
@@ -880,7 +880,7 @@ if($cmblistados != 6)
           <tr> 
             <td colspan="7"><div align="center"> 
                 <input name="ejecutarweb" type="button" value="Ejecutar Web" onClick="ejecucion('W');">
-                <input name="ejecutarexcel" type="button" value="Ejecutar Excel" onClick="ejecucion('E')">
+                <input name="ejecutarexcel" type="button" value="Ejecutar Excel" onClick="ejecucion('E');">
                 <input name="salir" type="button" style="width:70" onClick="salir_menu();" value="Salir">
               </div></td>
           </tr>

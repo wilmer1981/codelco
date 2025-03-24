@@ -1,4 +1,21 @@
-<?php include("../principal/conectar_sea_web.php") ?>
+<?php 
+include("../principal/conectar_sea_web.php");
+
+$radio2    = isset($_REQUEST["radio2"])?$_REQUEST["radio2"]:"";
+$radio = isset($_REQUEST["radio"])?$_REQUEST["radio"]:"";
+$dia_i     = isset($_REQUEST["dia_i"])?$_REQUEST["dia_i"]:date("d");
+$mes_i     = isset($_REQUEST["mes_i"])?$_REQUEST["mes_i"]:date("m");
+$ano_i     = isset($_REQUEST["ano_i"])?$_REQUEST["ano_i"]:date("Y");
+$dia_t     = isset($_REQUEST["dia_t"])?$_REQUEST["dia_t"]:date("d");
+$mes_t     = isset($_REQUEST["mes_t"])?$_REQUEST["mes_t"]:date("m");
+$ano_t     = isset($_REQUEST["ano_t"])?$_REQUEST["ano_t"]:date("Y");
+$cmborigen = isset($_REQUEST["cmborigen"])?$_REQUEST["cmborigen"]:"";
+$cmbflujorestos = isset($_REQUEST["cmbflujorestos"])?$_REQUEST["cmbflujorestos"]:"";
+$cmbflujo = isset($_REQUEST["cmbflujo"])?$_REQUEST["cmbflujo"]:"";
+$cmbrestos = isset($_REQUEST["cmbrestos"])?$_REQUEST["cmbrestos"]:"";
+$cmbanodos = isset($_REQUEST["cmbanodos"])?$_REQUEST["cmbanodos"]:"";
+
+?>
 
 <html>
 <head>
@@ -55,7 +72,7 @@ function Imprimir()
 	$fecha_ini = $ano_i.'-'.$mes_i.'-'.$dia_i;
 	$fecha_ter = $ano_t.'-'.$mes_t.'-'.$dia_t;
 
-
+	$largo = 200; //Largo de la Tabla.
 	if ($radio2 != "P")	
 	{
 
@@ -67,13 +84,13 @@ function Imprimir()
  		$consulta = $consulta." INNER JOIN proyecto_modernizacion.leyes AS t2 ON t1.cod_leyes = t2.cod_leyes";
  		$consulta = $consulta." WHERE t1.cod_producto = 16 AND t1.valor <> ''"; 
 		$consulta = $consulta." ORDER BY t2.orden_sea";
-	}
-	$largo = 200; //Largo de la Tabla.
+	//}
+	//$largo = 200; //Largo de la Tabla.
 	
 	$rs4 = mysqli_query($link, $consulta);
 	
-	if ($radio2 != "P")
-	{	
+	//if ($radio2 != "P")
+	//{	
 		if (mysqli_num_rows($rs4) <> 0)
 		{
 			$largo = $largo + (40 * (mysqli_num_rows($rs4) - 3));
@@ -100,22 +117,22 @@ function Imprimir()
 	{	
 		while ($row4 = mysqli_fetch_array($rs4))
 		{
-			if (($radio2 == "F") and (($row4[codigo] == '02') or ($row4[codigo] == '04') or ($row4[codigo] == '05')))
-				echo '<td width="60" align="center">'.$row4[ab1].'<br>'.$row4[ab2].'</td>';
+			if (($radio2 == "F") and (($row4["codigo"] == '02') or ($row4["codigo"] == '04') or ($row4["codigo"] == '05')))
+				echo '<td width="60" align="center">'.$row4["ab1"].'<br>'.$row4["ab2"].'</td>';
 			else 
-				echo '<td width="40" align="center">'.$row4[ab1].'<br>'.$row4[ab2].'</td>';
+				echo '<td width="40" align="center">'.$row4["ab1"].'<br>'.$row4["ab2"].'</td>';
 				
-			$det_leyes[$row4[codigo]][0] = 0; //ley.
-			$det_leyes[$row4[codigo]][1] = $row4["conversion"]; //Unidad de conversion.
+			$det_leyes[$row4["codigo"]][0] = 0; //ley.
+			$det_leyes[$row4["codigo"]][1] = $row4["conversion"]; //Unidad de conversion.
 				
-			$total_leyes[$row4[codigo]][0] = 0; //Acumulador por cada Ley.
-			$total_leyes[$row4[codigo]][1] = $row4["conversion"]; //Unidad de conversion.
+			$total_leyes[$row4["codigo"]][0] = 0; //Acumulador por cada Ley.
+			$total_leyes[$row4["codigo"]][1] = $row4["conversion"]; //Unidad de conversion.
 				
-			$total_dia[$row4[codigo]][0] = 0; //Acumulador por cada Ley.
-			$total_dia[$row4[codigo]][1] = $row4["conversion"]; //Unidad de conversion.			
+			$total_dia[$row4["codigo"]][0] = 0; //Acumulador por cada Ley.
+			$total_dia[$row4["codigo"]][1] = $row4["conversion"]; //Unidad de conversion.			
 				
-			$total_horno[$row4[codigo]][0] = 0; //Acumulador por cada Ley.
-			$total_horno[$row4[codigo]][1] = $row4["conversion"]; //Unidad de conversion.		
+			$total_horno[$row4["codigo"]][0] = 0; //Acumulador por cada Ley.
+			$total_horno[$row4["codigo"]][1] = $row4["conversion"]; //Unidad de conversion.		
 		}
 	}
     echo '</tr>';	
@@ -132,7 +149,8 @@ while (date($fecha_aux) <= date($fecha_ter)) //Recorre los dias.
 	$AcumPesoDia = 0;
 
 	reset($total_dia);
-	while (list($c1, $v1) = each($total_dia))
+	//while (list($c1, $v1) = each($total_dia))
+	foreach($total_dia as $c1 => $v1)
 	{	
 		$total_dia[$c1][0] = 0; //Acumulador.				
 	}		
@@ -151,7 +169,7 @@ while (date($fecha_aux) <= date($fecha_ter)) //Recorre los dias.
 		while ($row2 = mysqli_fetch_array($rs2))
 		{												  
 			$lote = substr($row2["hornada"],3,6);
-			echo '<tr><td width="30">'.substr($row2[fecha_movimiento],8,2).'</td>';
+			echo '<tr><td width="30">'.substr($row2["fecha_movimiento"],8,2).'</td>';
 			echo '<td width="40" align="center">'.$lote.'</td>';
 			echo '<td width="35" align="right">';
 
@@ -185,7 +203,8 @@ while (date($fecha_aux) <= date($fecha_ter)) //Recorre los dias.
 				
 			//Limpio el arreglo.
 			reset($det_leyes);
-			while (list($c1, $v1) = each($det_leyes))
+			//while (list($c1, $v1) = each($det_leyes))
+			foreach($det_leyes as $c1=>$v1)
 			{	
 				$det_leyes[$c1][0] = 0;
 			}				
@@ -211,7 +230,8 @@ while (date($fecha_aux) <= date($fecha_ter)) //Recorre los dias.
 			
 			//Genero las columnas de leyes que estan en el arreglo.
 			reset($det_leyes);
-			while (list($c1, $v1) = each($det_leyes))
+			//while (list($c1, $v1) = each($det_leyes))
+			foreach($det_leyes as $c1=>$v1)
 			{
 				if ($radio2 == "L")//Leyes.
 				{
@@ -246,7 +266,8 @@ while (date($fecha_aux) <= date($fecha_ter)) //Recorre los dias.
 
 		//Genero las columnas de leyes que estan en el arreglo.
 		reset($total_dia);
-		while (list($c1, $v1) = each($total_dia))
+		//while (list($c1, $v1) = each($total_dia))
+		foreach($total_dia as $c1=>$v1)
 		{
 			if ($radio2 == "L")//Leyes.
 			{

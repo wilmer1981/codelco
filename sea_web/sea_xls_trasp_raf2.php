@@ -1,7 +1,8 @@
 <?php 
-	        ob_end_clean();
+	    ob_end_clean();
         $file_name=basename($_SERVER['PHP_SELF']).".xls";
         $userBrowser = $_SERVER['HTTP_USER_AGENT'];
+		$filename = "";
         if ( preg_match( '/MSIE/i', $userBrowser ) ) {
         $filename = urlencode($filename);
         }
@@ -21,6 +22,22 @@
 	
 	include("../principal/conectar_sea_web.php");
 	set_time_limit(2000);
+
+$Proceso    = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+$radio2    = isset($_REQUEST["radio2"])?$_REQUEST["radio2"]:"";
+$radio     = isset($_REQUEST["radio"])?$_REQUEST["radio"]:"";
+$dia_i     = isset($_REQUEST["dia_i"])?$_REQUEST["dia_i"]:date("d");
+$mes_i     = isset($_REQUEST["mes_i"])?$_REQUEST["mes_i"]:date("m");
+$ano_i     = isset($_REQUEST["ano_i"])?$_REQUEST["ano_i"]:date("Y");
+$dia_t     = isset($_REQUEST["dia_t"])?$_REQUEST["dia_t"]:date("d");
+$mes_t     = isset($_REQUEST["mes_t"])?$_REQUEST["mes_t"]:date("m");
+$ano_t     = isset($_REQUEST["ano_t"])?$_REQUEST["ano_t"]:date("Y");
+$mes2     = isset($_REQUEST["mes2"])?$_REQUEST["mes2"]:date("m");
+$ano2     = isset($_REQUEST["ano2"])?$_REQUEST["ano2"]:date("Y");
+
+$cmborigen = isset($_REQUEST["cmborigen"])?$_REQUEST["cmborigen"]:"";
+$cmbflujorestos = isset($_REQUEST["cmbflujorestos"])?$_REQUEST["cmbflujorestos"]:"";
+$cmbrestos = isset($_REQUEST["cmbrestos"])?$_REQUEST["cmbrestos"]:"";
  ?>
 <html>
 <head>
@@ -79,7 +96,7 @@
 				$consulta = "SELECT * FROM proyecto_modernizacion.sub_clase WHERE cod_clase = 2002 AND cod_subclase = ".$cmborigen;
 				$rs = mysqli_query($link, $consulta);
 				$row = mysqli_fetch_array($rs);
-				$codigos = $row["valor_subclase1"].",".$row[valor_subclase2].",".$row["valor_subclase3"];
+				$codigos = $row["valor_subclase1"].",".$row["valor_subclase2"].",".$row["valor_subclase3"];
 			
 			$consulta = "SELECT * FROM proyecto_modernizacion.relacion_prod_flujo_nodo WHERE cod_producto = 19 AND cod_proceso = 4";
 			$consulta = $consulta." AND cod_subproducto in (".$codigos.")";
@@ -120,6 +137,7 @@
 	}
 
 //
+	$largo = 180; //Largo de la Tabla.
     if($radio2 != "P")//radio peso 
 	{	
 		//consulto las abreviaturas
@@ -136,17 +154,18 @@
 		
 		//Limpia el arreglo de los Totales de las Leyes.
 		reset($total_leyes);
-		while (list($c1, $v1) = each($total_leyes))
+		//while (list($c1, $v1) = each($total_leyes))
+		foreach($total_leyes as $c1 => $v1)
 		{	
 			$total_leyes[$c1][0] = 0; //Acumulador.				
 		}
-     }
+    // }
 //
 
    	$largo = 180; //Largo de la Tabla.
 
-	 if($radio2 != "P")//radio peso 
-	 {	
+	// if($radio2 != "P")//radio peso 
+	 //{	
 		if (mysqli_num_rows($rs6) <> 0)
 		{
 			$largo = $largo + (40 * (mysqli_num_rows($rs6)-3));
@@ -169,19 +188,19 @@
 	 {	
 		while ($row6 = mysqli_fetch_array($rs6))
 		{
-			if (($radio2 == "F") and (($row6[codigo] == '02') or ($row6[codigo] == '04') or ($row6[codigo] == '05')))
-				echo '<td width="60" align="center">'.$row6[ab1].'<br>'.$row6[ab2].'</td>';
+			if (($radio2 == "F") and (($row6["codigo"] == '02') or ($row6["codigo"] == '04') or ($row6["codigo"] == '05')))
+				echo '<td width="60" align="center">'.$row6["ab1"].'<br>'.$row6["ab2"].'</td>';
 			else
-				echo '<td width="40" align="center">'.$row6[ab1].'<br>'.$row6[ab2].'</td>';
+				echo '<td width="40" align="center">'.$row6["ab1"].'<br>'.$row6["ab2"].'</td>';
 				
-			$det_leyes[$row6[codigo]][0] = 0; //ley.
-			$det_leyes[$row6[codigo]][1] = $row6["conversion"]; //unidad de conversion.
+			$det_leyes[$row6["codigo"]][0] = 0; //ley.
+			$det_leyes[$row6["codigo"]][1] = $row6["conversion"]; //unidad de conversion.
 			
-			$total_grupo[$row6[codigo]][0] = 0;
-			$total_grupo[$row6[codigo]][1] = $row6["conversion"]; //unidad de conversion.
+			$total_grupo[$row6["codigo"]][0] = 0;
+			$total_grupo[$row6["codigo"]][1] = $row6["conversion"]; //unidad de conversion.
 			
-			$total_leyes[$row6[codigo]][0] = 0; //Acumulador por cada Ley.
-			$total_leyes[$row6[codigo]][1] = $row6["conversion"]; //unidad de conversion.
+			$total_leyes[$row6["codigo"]][0] = 0; //Acumulador por cada Ley.
+			$total_leyes[$row6["codigo"]][1] = $row6["conversion"]; //unidad de conversion.
 		}
 	 }//			
 	 echo '</tr></table><br>';					 	
@@ -205,13 +224,15 @@
 
 	// Saca todos los movimientos de recepcion afectados.
 	reset($arreglo);
-	while (list($clave, $valor) = each($arreglo)) // (0: flujo, 1: cod_producto, 2: cod_subproducto, 3: horno_inicial)
+	//while (list($clave, $valor) = each($arreglo)) // (0: flujo, 1: cod_producto, 2: cod_subproducto, 3: horno_inicial)
+	foreach($arreglo as $clave => $valor)
 	{
 
 	 if($radio2 != "P")//radio peso 
 	 {	
 		reset($total_leyes);
-		while (list($c1, $v1) = each($total_leyes))
+		//while (list($c1, $v1) = each($total_leyes))
+		foreach($total_leyes as $c1 => $v1)
 		{	
 			$total_leyes[$c1][0] = 0; //Acumulador.				
 		}
@@ -269,7 +290,7 @@
 				{
 					$consulta = "SELECT fecha_movimiento FROM movimientos";
 					$consulta = $consulta." WHERE tipo_movimiento = 4 AND cod_producto = 19 AND cod_subproducto = ".$valor[2]." AND flujo = ".$valor[0];
-					$consulta = $consulta." AND hornada = $row2[hornada] AND fecha_movimiento BETWEEN '".$fecha_ini."' AND '".$fecha_ter."'";
+					$consulta = $consulta." AND hornada = '".$row2["hornada"]."' AND fecha_movimiento BETWEEN '".$fecha_ini."' AND '".$fecha_ter."'";
 					$consulta = $consulta." and hora between '".$fecha_ini." 08:00:00' and '".$fecha_ter." 07:59:59'";		
 
 				}
@@ -277,7 +298,7 @@
 				{
 					$consulta = "SELECT fecha_movimiento FROM sea_web.tmp_movimientos";
 					$consulta = $consulta." WHERE tipo_movimiento = 4 AND cod_producto = 19  AND flujo = ".$valor[0];
-					$consulta = $consulta." AND hornada = $row2[hornada] AND fecha_movimiento BETWEEN '".$fecha_ini."' AND '".$fecha_ter."'";				
+					$consulta = $consulta." AND hornada = '".$row2["hornada"]."' AND fecha_movimiento BETWEEN '".$fecha_ini."' AND '".$fecha_ter."'";				
 					$consulta = $consulta." and hora between '".$fecha_ini." 08:00:00' and '".$fecha_ter." 07:59:59'";		
 
 				}
@@ -285,19 +306,19 @@
 				$rs_f = mysqli_query($link, $consulta);
 				if($row_f = mysqli_fetch_array($rs_f))
 				{ 
-					$fecha_movimiento = $row_f[fecha_movimiento];	
+					$fecha_movimiento = $row_f["fecha_movimiento"];	
 				}
 
 				echo '<tr class="ColorTabla02"><td width="30">'.substr($fecha_movimiento,8,2).'</td>';
 
-				echo '<td width="50" align="center">'.substr($row2[hornada],6,6).'</td>';
+				echo '<td width="50" align="center">'.substr($row2["hornada"],6,6).'</td>';
 				echo '<td width="40" align="right">';
 
 				if ($radio == "P") //Producto	
 				{
 					$consulta = "SELECT SUM(unidades) as unidades FROM movimientos";
 					$consulta = $consulta." WHERE tipo_movimiento = 4 AND cod_producto = 19 AND cod_subproducto = ".$valor[2]." AND flujo = ".$valor[0];
-					$consulta = $consulta." AND hornada = $row2[hornada] AND fecha_movimiento BETWEEN '".$fecha_ini."' AND '".$fecha_ter."'";
+					$consulta = $consulta." AND hornada = '".$row2["hornada"]."' AND fecha_movimiento BETWEEN '".$fecha_ini."' AND '".$fecha_ter."'";
 					$consulta = $consulta." and hora between '".$fecha_ini." 08:00:00' and '".$fecha_ter." 07:59:59'";		
 
 				}
@@ -305,7 +326,7 @@
 				{
 					$consulta = "SELECT SUM(unidades) as unidades FROM sea_web.tmp_movimientos";
 					$consulta = $consulta." WHERE tipo_movimiento = 4 AND cod_producto = 19  AND flujo = ".$valor[0];
-					$consulta = $consulta." AND hornada = $row2[hornada] AND fecha_movimiento BETWEEN '".$fecha_ini."' AND '".$fecha_ter."'";		
+					$consulta = $consulta." AND hornada = '".$row2["hornada"]."' AND fecha_movimiento BETWEEN '".$fecha_ini."' AND '".$fecha_ter."'";		
 					$consulta = $consulta." and hora between '".$fecha_ini." 08:00:00' and '".$fecha_ter." 07:59:59'";		
 
 				}
@@ -322,7 +343,7 @@
 				{
 					$consulta = "SELECT SUM(peso) as peso FROM movimientos";
 					$consulta = $consulta." WHERE tipo_movimiento = 4 AND cod_producto = 19 AND cod_subproducto = ".$valor[2]." AND flujo = ".$valor[0];
-					$consulta = $consulta." AND hornada = $row2[hornada] AND fecha_movimiento BETWEEN '".$fecha_ini."' AND '".$fecha_ter."'";
+					$consulta = $consulta." AND hornada = '".$row2["hornada"]."' AND fecha_movimiento BETWEEN '".$fecha_ini."' AND '".$fecha_ter."'";
 					$consulta = $consulta." and hora between '".$fecha_ini." 08:00:00' and '".$fecha_ter." 07:59:59'";		
 
 				}
@@ -330,7 +351,7 @@
 				{
 					$consulta = "SELECT SUM(peso) as peso FROM sea_web.tmp_movimientos";
 					$consulta = $consulta." WHERE tipo_movimiento = 4 AND cod_producto = 19  AND flujo = ".$valor[0];
-					$consulta = $consulta." AND hornada = $row2[hornada] AND fecha_movimiento BETWEEN '".$fecha_ini."' AND '".$fecha_ter."'";			
+					$consulta = $consulta." AND hornada = '".$row2["hornada"]."' AND fecha_movimiento BETWEEN '".$fecha_ini."' AND '".$fecha_ter."'";			
 					$consulta = $consulta." and hora between '".$fecha_ini." 08:00:00' and '".$fecha_ter." 07:59:59'";		
 
 				}
@@ -350,7 +371,7 @@
 						$consulta = $consulta." INNER JOIN proyecto_modernizacion.leyes AS t2 ON t1.cod_leyes = t2.cod_leyes";
 						$consulta = $consulta." INNER JOIN proyecto_modernizacion.unidades AS t3 ON t2.cod_unidad = t3.cod_unidad";
 						$consulta = $consulta." WHERE t1.cod_producto = 19  AND t1.cod_subproducto = ".$valor[2];
-						$consulta = $consulta." AND t1.hornada = ".$row2[hornada]." AND t1.valor <> ''";
+						$consulta = $consulta." AND t1.hornada = ".$row2["hornada"]." AND t1.valor <> ''";
 					}
 					else 
 					{
@@ -358,7 +379,7 @@
 						$consulta = $consulta." INNER JOIN proyecto_modernizacion.leyes AS t2 ON t1.cod_leyes = t2.cod_leyes";
 						$consulta = $consulta." INNER JOIN proyecto_modernizacion.unidades AS t3 ON t2.cod_unidad = t3.cod_unidad";
 						$consulta = $consulta." WHERE t1.cod_producto = 19  and cod_subproducto = '".$row2["cod_subproducto"]."' ";
-						$consulta = $consulta." AND t1.hornada = ".$row2[hornada]." AND t1.valor <> ''";					
+						$consulta = $consulta." AND t1.hornada = ".$row2["hornada"]." AND t1.valor <> ''";					
 					}
 					//echo $consulta; 		
 					
@@ -366,7 +387,8 @@
 					
 					//Limpio el arreglo.
 					reset($det_leyes);
-					while (list($c1, $v1) = each($det_leyes))
+					//while (list($c1, $v1) = each($det_leyes))
+					foreach($det_leyes as $c1 => $v1)
 					{	
 						$det_leyes[$c1][0] = 0;
 					}				
@@ -387,7 +409,8 @@
 		
 					//Genero las columnas de leyes que estan en el arreglo.
 					reset($det_leyes);
-					while (list($c1, $v1) = each($det_leyes))
+					//while (list($c1, $v1) = each($det_leyes))
+					foreach($det_leyes as $c1 => $v1)
 					{
 		
 						if ($radio2 == "L") //Leyes.
@@ -443,9 +466,9 @@
 				echo 'Total Flujo</td>';
 				
 			$row3 = mysqli_fetch_array($rs3);
-			if (!is_null($row3[unid]))					
+			if (!is_null($row3["unid"]))					
 			{  
-				echo '<td width="40" align="right">'.$row3[unid].'</td>';
+				echo '<td width="40" align="right">'.$row3["unid"].'</td>';
 				echo '<td width="60" align="right">'.number_format($row3["peso"],0,'','').'</td>';
 				
 			} 
@@ -454,7 +477,8 @@
 			{
 				//Genero las columnas con los totales de las Leyes.
 				reset($total_leyes);
-				while (list($c1, $v1) = each($total_leyes))
+				//while (list($c1, $v1) = each($total_leyes))
+				foreach($total_leyes as $c1 => $v1)
 				{
 					if ($radio2 == "L") //Leyes.
 					{

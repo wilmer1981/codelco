@@ -3,6 +3,7 @@
 	        ob_end_clean();
         $file_name=basename($_SERVER['PHP_SELF']).".xls";
         $userBrowser = $_SERVER['HTTP_USER_AGENT'];
+		$filename = "";
         if ( preg_match( '/MSIE/i', $userBrowser ) ) {
         $filename = urlencode($filename);
         }
@@ -20,6 +21,20 @@
  	header("Expires: 0");
   	header("Cache-Control: must-revalidate, post-check=0, pre-check=0");	
 	include("../principal/conectar_sea_web.php");
+
+	$radio2    = isset($_REQUEST["radio2"])?$_REQUEST["radio2"]:"";
+	$radio = isset($_REQUEST["radio"])?$_REQUEST["radio"]:"";
+	$dia_i     = isset($_REQUEST["dia_i"])?$_REQUEST["dia_i"]:date("d");
+	$mes_i     = isset($_REQUEST["mes_i"])?$_REQUEST["mes_i"]:date("m");
+	$ano_i     = isset($_REQUEST["ano_i"])?$_REQUEST["ano_i"]:date("Y");
+	$dia_t     = isset($_REQUEST["dia_t"])?$_REQUEST["dia_t"]:date("d");
+	$mes_t     = isset($_REQUEST["mes_t"])?$_REQUEST["mes_t"]:date("m");
+	$ano_t     = isset($_REQUEST["ano_t"])?$_REQUEST["ano_t"]:date("Y");
+	$cmborigen = isset($_REQUEST["cmborigen"])?$_REQUEST["cmborigen"]:"";
+	$cmbflujorestos = isset($_REQUEST["cmbflujorestos"])?$_REQUEST["cmbflujorestos"]:"";
+	$cmbflujo = isset($_REQUEST["cmbflujo"])?$_REQUEST["cmbflujo"]:"";
+	$cmbrestos = isset($_REQUEST["cmbrestos"])?$_REQUEST["cmbrestos"]:"";
+	$cmbanodos = isset($_REQUEST["cmbanodos"])?$_REQUEST["cmbanodos"]:"";
 ?>
 <html>
 <head>
@@ -106,18 +121,18 @@ function Imprimir()
 	{
 		while ($row4 = mysqli_fetch_array($rs4))
 		{
-			echo '<td width="43" align="center">'.$row4[ab1].'<br>'.$row4[ab2].'</td>';
-			$det_leyes[$row4[codigo]][0] = 0; //ley.
-			$det_leyes[$row4[codigo]][1] = $row4["conversion"]; //unidad de conversion.
+			echo '<td width="43" align="center">'.$row4["ab1"].'<br>'.$row4["ab2"].'</td>';
+			$det_leyes[$row4["codigo"]][0] = 0; //ley.
+			$det_leyes[$row4["codigo"]][1] = $row4["conversion"]; //unidad de conversion.
 			
-			$total_grupo[$row6[codigo]][0] = 0;
-			$total_grupo[$row6[codigo]][1] = $row6["conversion"]; //unidad de conversion.
+			$total_grupo[$row6["codigo"]][0] = 0;
+			$total_grupo[$row6["codigo"]][1] = $row6["conversion"]; //unidad de conversion.
 			
-			$total_dia[$row4[codigo]][0] = 0; //Valor Ley
-			$total_dia[$row4[codigo]][1] = $row4["conversion"]; //Unidad de conversion.
+			$total_dia[$row4["codigo"]][0] = 0; //Valor Ley
+			$total_dia[$row4["codigo"]][1] = $row4["conversion"]; //Unidad de conversion.
 			
-			$total_leyes[$row4[codigo]][0] = 0; //Acumulador por cada Ley.
-			$total_leyes[$row4[codigo]][1] = $row4["conversion"]; //Unidad de conversion.		
+			$total_leyes[$row4["codigo"]][0] = 0; //Acumulador por cada Ley.
+			$total_leyes[$row4["codigo"]][1] = $row4["conversion"]; //Unidad de conversion.		
 		}
 	}
 ?>	
@@ -191,16 +206,18 @@ function Imprimir()
 	//Llena el arreglo con los flujos y subproductos; y el inicio de hornada en el caso de Ventanas(Representa al horno).
 	while ($row1 = mysqli_fetch_array($rs1))
 	{
-		$arreglo[] = array($row1["flujo"], $row1["cod_producto"], $row1["cod_subproducto"], $row1[cod_proceso]);
+		$arreglo[] = array($row1["flujo"], $row1["cod_producto"], $row1["cod_subproducto"], $row1["cod_proceso"]);
 	}	
 
 	// Saca todos los movimientos de recepcion afectados.
 	reset($arreglo);
-	while (list($clave, $valor) = each($arreglo)) // (0: flujo, 1: cod_producto, 2: cod_subproducto, 3: cod_proceso)
+	//while (list($clave, $valor) = each($arreglo)) // (0: flujo, 1: cod_producto, 2: cod_subproducto, 3: cod_proceso)
+	foreach($arreglo as $clave => $valor)
 	{
 		//Limpia el arreglo de los Totales de las Leyes.
 		reset($total_leyes);
-		while (list($c1, $v1) = each($total_leyes))
+		//while (list($c1, $v1) = each($total_leyes))
+		foreach($total_leyes as $c1 => $v1)
 		{	
 			$total_leyes[$c1][0] = 0; //Acumulador.				
 		}
@@ -242,7 +259,8 @@ function Imprimir()
 			{
 				//Limpia el arreglo de los Totales por Dia de las Leyes.
 				reset($total_dia);
-				while (list($c1, $v1) = each($total_dia))
+				//while (list($c1, $v1) = each($total_dia))
+				foreach($total_dia as $c1 => $v1)
 				{	
 					$total_dia[$c1][0] = 0; //Acumulador.				
 				}		
@@ -261,7 +279,8 @@ function Imprimir()
 					  {	
 							//Limpio el arreglo.
 							reset($total_grupo);
-							while (list($c2, $v2) = each($total_grupo))
+							//while (list($c2, $v2) = each($total_grupo))
+							foreach($total_grupo as $c2 => $v2)
 							{	
 								$total_grupo[$c2][0] = 0;	
 							}
@@ -269,7 +288,8 @@ function Imprimir()
 
 							//Limpia el arreglo de los Totales por Dia de las Leyes.
 							reset($total_dia);
-							while (list($c1, $v1) = each($total_dia))
+							//while (list($c1, $v1) = each($total_dia))
+							foreach($total_dia as $c1 => $v1)
 							{	
 								$total_dia[$c1][0] = 0; //Acumulador.				
 							}		
@@ -277,14 +297,14 @@ function Imprimir()
 
 						//escribe el Grupo.
 						echo '<table width="164" border="0" cellspacing="0" cellpadding="0" align="center">';
-						echo '<tr class="ColorTabla01"><td align="center">Grupo '.$fila[campo2].'</td>';
+						echo '<tr class="ColorTabla01"><td align="center">Grupo '.$fila["campo2"].'</td>';
 						echo '</tr></table>';																
 
 						$consulta = "SELECT cod_producto, cod_subproducto, fecha_movimiento, fecha_benef, campo1, campo2, hornada, unidades, peso,";
 						$consulta = $consulta." CASE WHEN fecha_benef <> '0000-00-00' THEN 'D' ELSE 'N' END AS tipo_reg";
 						$consulta = $consulta." FROM sea_web.movimientos";
 						$consulta = $consulta." WHERE tipo_movimiento = 2 AND cod_producto = ".$valor[1];
-						$consulta = $consulta." AND flujo = ".$valor[0]." AND campo2 = '".$fila[campo2]."'";
+						$consulta = $consulta." AND flujo = ".$valor[0]." AND campo2 = '".$fila["campo2"]."'";
 						$consulta = $consulta." AND ((fecha_movimiento = '".$fecha_aux."' AND fecha_benef = '0000-00-00')";
 						$consulta = $consulta." OR (fecha_benef = '".$fecha_aux."'))";	
 						$consulta = $consulta." ORDER BY hornada";			
@@ -297,13 +317,13 @@ function Imprimir()
 							echo '<table width="'.$largo.'" border="0" cellspacing="0" cellpadding="0" align="center" class="ColorTabla02">'; 
 							while ($row2 = mysqli_fetch_array($rs2))
 							{												  
-								if ($row2[tipo_reg] == "N")
-									echo '<tr><td width="25">'.substr($row2[fecha_movimiento],8,2).'</td>';
+								if ($row2["tipo_reg"] == "N")
+									echo '<tr><td width="25">'.substr($row2["fecha_movimiento"],8,2).'</td>';
 								else 
-									echo '<tr><td width="25">'.substr($row2[fecha_benef],8,2).'</td>';
+									echo '<tr><td width="25">'.substr($row2["fecha_benef"],8,2).'</td>';
 									
-								echo '<td width="40 "align="center">'.substr($row2[hornada],6,6).'</td>';
-								echo '<td width="40" align="center">'.$row2[campo1].'</td>';
+								echo '<td width="40 "align="center">'.substr($row2["hornada"],6,6).'</td>';
+								echo '<td width="40" align="center">'.$row2["campo1"].'</td>';
 								echo '<td width="30" align="center">';
 								echo $row2["unidades"].'</td>';
 								echo '<td width="50" align="center">';
@@ -313,7 +333,8 @@ function Imprimir()
 								{
 									//Limpio el arreglo.
 									reset($det_leyes);
-									while (list($c1, $v1) = each($det_leyes))
+									//while (list($c1, $v1) = each($det_leyes))
+									foreach($det_leyes as $c1 => $v1)
 									{	
 										$det_leyes[$c1][0] = 0;
 									}
@@ -323,7 +344,7 @@ function Imprimir()
 									$consulta = $consulta." INNER JOIN proyecto_modernizacion.leyes AS t2 ON t1.cod_leyes = t2.cod_leyes";
 									$consulta = $consulta." INNER JOIN proyecto_modernizacion.unidades AS t3 ON t1.cod_unidad = t3.cod_unidad";
 									$consulta = $consulta." WHERE cod_producto = ".$valor[1]." AND t1.cod_subproducto = ".$valor[2];
-									$consulta = $consulta." AND t1.hornada = ".$row2[hornada]." AND t1.valor <> ''";
+									$consulta = $consulta." AND t1.hornada = ".$row2["hornada"]." AND t1.valor <> ''";
 								
 									$rs5 = mysqli_query($link, $consulta);
 																				
@@ -349,7 +370,8 @@ function Imprimir()
 										
 								//Genero las columnas de leyes que estan en el arreglo.
 								reset($det_leyes);
-								while (list($c1, $v1) = each($det_leyes))
+								//while (list($c1, $v1) = each($det_leyes))
+								foreach($det_leyes as $c1 => $v1)
 								{
 									if ($radio2 == "L") //Leyes.
 									{
@@ -370,7 +392,7 @@ function Imprimir()
 							$consulta = $consulta." FROM sea_web.movimientos";
 							$consulta = $consulta." WHERE tipo_movimiento = ".$valor[3]." AND cod_producto =".$valor[1];
 							$consulta = $consulta." AND cod_subproducto = ".$valor[2]." AND flujo = ".$valor[0];
-							$consulta = $consulta." AND campo2 = '".$fila[campo2]."'";
+							$consulta = $consulta." AND campo2 = '".$fila["campo2"]."'";
 							$consulta = $consulta." AND ((fecha_movimiento = '".$fecha_aux."' AND fecha_benef = '0000-00-00')";
 							$consulta = $consulta." OR (fecha_benef = '".$fecha_aux."'))";	
 							$consulta = $consulta." GROUP BY fecha_movimiento";				
@@ -381,13 +403,14 @@ function Imprimir()
 							echo '<table width="'.$largo.'" border="0" cellspacing="0" cellpadding="0" align="center" class="Detalle02">'; 				
 							echo '<tr><td width="150" colspan="3">Subtotal Dia</td>'; 
 							echo '<td width="30" align="center">';
-							echo $row7[unid].'</td>';
+							echo $row7["unid"].'</td>';
 							echo '<td width="50" align="center">';
 							echo $row7["peso"].'</td>';
 							
 							//Genero las columnas de leyes que estan en el arreglo.
 							reset($total_dia);
-							while (list($c1, $v1) = each($total_dia))
+							//while (list($c1, $v1) = each($total_dia))
+							foreach($total_dia as $c1 => $v1)
 							{
 								if ($radio2 == "L") //Leyes.
 								{
@@ -436,16 +459,17 @@ function Imprimir()
 						echo 'Total Flujo</td>';
 					
 					$row3 = mysqli_fetch_array($rs3);
-					if (!is_null($row3[unid]))					
+					if (!is_null($row3["unid"]))					
 					{  
 						echo '<td width="30" align="center">';
-						echo $row3[unid].'</td>';				
+						echo $row3["unid"].'</td>';				
 						echo '<td width="50" align="center">';
 						echo $row3["peso"].'</td>';
 					
 						//Genero las columnas con los totales de las Leyes.
 						reset($total_leyes);
-						while (list($c1, $v1) = each($total_leyes))
+						//while (list($c1, $v1) = each($total_leyes))
+						foreach($total_leyes as $c1 => $v1)
 						{
 							if ($radio2 == "L") //Leyes.
 							{

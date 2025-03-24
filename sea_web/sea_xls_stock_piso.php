@@ -2,6 +2,7 @@
 	        ob_end_clean();
         $file_name=basename($_SERVER['PHP_SELF']).".xls";
         $userBrowser = $_SERVER['HTTP_USER_AGENT'];
+		$filename = "";
         if ( preg_match( '/MSIE/i', $userBrowser ) ) {
         $filename = urlencode($filename);
         }
@@ -19,6 +20,23 @@
  	header("Expires: 0");
   	header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
 	include("../principal/conectar_sea_web.php");
+
+$Proceso    = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+$radio2    = isset($_REQUEST["radio2"])?$_REQUEST["radio2"]:"";
+$radio     = isset($_REQUEST["radio"])?$_REQUEST["radio"]:"";
+$dia_i     = isset($_REQUEST["dia_i"])?$_REQUEST["dia_i"]:date("d");
+$mes_i     = isset($_REQUEST["mes_i"])?$_REQUEST["mes_i"]:date("m");
+$ano_i     = isset($_REQUEST["ano_i"])?$_REQUEST["ano_i"]:date("Y");
+$dia_t     = isset($_REQUEST["dia_t"])?$_REQUEST["dia_t"]:date("d");
+$mes_t     = isset($_REQUEST["mes_t"])?$_REQUEST["mes_t"]:date("m");
+$ano_t     = isset($_REQUEST["ano_t"])?$_REQUEST["ano_t"]:date("Y");
+$mes2     = isset($_REQUEST["mes2"])?$_REQUEST["mes2"]:date("m");
+$ano2     = isset($_REQUEST["ano2"])?$_REQUEST["ano2"]:date("Y");
+
+$cmborigen = isset($_REQUEST["cmborigen"])?$_REQUEST["cmborigen"]:"";
+$cmbflujorestos = isset($_REQUEST["cmbflujorestos"])?$_REQUEST["cmbflujorestos"]:"";
+$cmbrestos = isset($_REQUEST["cmbrestos"])?$_REQUEST["cmbrestos"]:"";
+
 ?>
 <html>
 <head>
@@ -105,7 +123,7 @@ echo '<table width="'.$largo.'" border="0" cellspacing="0" cellpadding="0" align
 
 while($row8 = mysqli_fetch_array($rs8))
 {
-	$consulta = "SELECT * FROM subproducto WHERE cod_producto = '17' and cod_subproducto = $row8["cod_subproducto"]";
+	$consulta = "SELECT * FROM subproducto WHERE cod_producto = '17' and cod_subproducto = '".$row8["cod_subproducto"]."'";
 	include("../principal/conectar_principal.php");
 	$rs3 = mysqli_query($link, $consulta);
 	if($row3 = mysqli_fetch_array($rs3))
@@ -117,7 +135,7 @@ while($row8 = mysqli_fetch_array($rs8))
 
 			$consulta = "SELECT SUM(unidades) as unidades FROM sea_web.stock_piso_raf";
 			$consulta = $consulta." WHERE cod_producto = 17";
-			$consulta = $consulta." AND cod_subproducto = $row8["cod_subproducto"] AND fecha BETWEEN '".$fecha_ini."' AND '".$fecha_ter."'";
+			$consulta = $consulta." AND cod_subproducto = '".$row8["cod_subproducto"]."' AND fecha BETWEEN '".$fecha_ini."' AND '".$fecha_ter."'";
 			$rs_u = mysqli_query($link, $consulta);
 			if($row_u = mysqli_fetch_array($rs_u))
 			{ 
@@ -128,7 +146,7 @@ while($row8 = mysqli_fetch_array($rs8))
 
 			$consulta = "SELECT SUM(peso) as peso FROM sea_web.stock_piso_raf";
 			$consulta = $consulta." WHERE cod_producto = 17";
-			$consulta = $consulta." AND cod_subproducto = $row8["cod_subproducto"] AND fecha BETWEEN '".$fecha_ini."' AND '".$fecha_ter."'";
+			$consulta = $consulta." AND cod_subproducto = '".$row8["cod_subproducto"]."' AND fecha BETWEEN '".$fecha_ini."' AND '".$fecha_ter."'";
 			$rs_p = mysqli_query($link, $consulta);
 			
 			if($row_p = mysqli_fetch_array($rs_p))
@@ -224,7 +242,7 @@ echo '<table width="'.$largo.'" border="0" cellspacing="0" cellpadding="0" align
 
 while($row8 = mysqli_fetch_array($rs8))
 {
-	$consulta = "SELECT * FROM subproducto WHERE cod_producto = '16' and cod_subproducto = $row8["cod_subproducto"]";
+	$consulta = "SELECT * FROM subproducto WHERE cod_producto = '16' and cod_subproducto = '".$row8["cod_subproducto"]."'";
 	include("../principal/conectar_principal.php");
 	$rs3 = mysqli_query($link, $consulta);
 	if($row3 = mysqli_fetch_array($rs3))
@@ -236,7 +254,7 @@ while($row8 = mysqli_fetch_array($rs8))
 
 			$consulta = "SELECT SUM(unidades) as unidades FROM sea_web.stock_piso_raf";
 			$consulta = $consulta." WHERE cod_producto = 16";
-			$consulta = $consulta." AND cod_subproducto = $row8["cod_subproducto"] AND fecha BETWEEN '".$fecha_ini."' AND '".$fecha_ter."'";
+			$consulta = $consulta." AND cod_subproducto ='". $row8["cod_subproducto"]."' AND fecha BETWEEN '".$fecha_ini."' AND '".$fecha_ter."'";
 			$rs_u = mysqli_query($link, $consulta);
 			if($row_u = mysqli_fetch_array($rs_u))
 			{ 
@@ -247,7 +265,7 @@ while($row8 = mysqli_fetch_array($rs8))
 
 			$consulta = "SELECT SUM(peso) as peso FROM sea_web.stock_piso_raf";
 			$consulta = $consulta." WHERE cod_producto = 16";
-			$consulta = $consulta." AND cod_subproducto = $row8["cod_subproducto"] AND fecha BETWEEN '".$fecha_ini."' AND '".$fecha_ter."'";
+			$consulta = $consulta." AND cod_subproducto = '".$row8["cod_subproducto"]."' AND fecha BETWEEN '".$fecha_ini."' AND '".$fecha_ter."'";
 			$rs_p = mysqli_query($link, $consulta);
 			
 			if($row_p = mysqli_fetch_array($rs_p))
