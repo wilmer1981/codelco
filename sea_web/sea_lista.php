@@ -2,32 +2,15 @@
 $CodigoDeSistema = 2;
 $CodigoDePantalla = 13;
 
-if(isset($_REQUEST["Proceso"])) {
-	$Proceso = $_REQUEST["Proceso"];
-}else{
-	$Proceso = "";
-}
-
-if(isset($_REQUEST["listados"])) {
-	$listados = $_REQUEST["listados"];
-}else{
-	$listados =  "";
-}
-if(isset($_REQUEST["cmbmovimiento"])) {
-	$cmbmovimiento = $_REQUEST["cmbmovimiento"];
-}else{
-	$cmbmovimiento =  "";
-}
-if(isset($_REQUEST["cmblistados"])) {
-	$cmblistados = $_REQUEST["cmblistados"];
-}else{
-	$cmblistados =  "";
-}
-	$cmborigen = isset($_REQUEST["cmborigen"])?$_REQUEST["cmborigen"]:"";
-	$cmbrestos = isset($_REQUEST["cmbrestos"])?$_REQUEST["cmbrestos"]:"";
-	$cmbanodos = isset($_REQUEST["cmbanodos"])?$_REQUEST["cmbanodos"]:"";
-	$radio = isset($_REQUEST["radio"])?$_REQUEST["radio"]:"";
-	$radio2= isset($_REQUEST["radio2"])?$_REQUEST["radio2"]:"";
+$Proceso       = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+$listados      = isset($_REQUEST["listados"])?$_REQUEST["listados"]:"";
+$cmbmovimiento = isset($_REQUEST["cmbmovimiento"])?$_REQUEST["cmbmovimiento"]:"";
+$cmblistados   = isset($_REQUEST["cmblistados"])?$_REQUEST["cmblistados"]:"";
+$cmborigen = isset($_REQUEST["cmborigen"])?$_REQUEST["cmborigen"]:"";
+$cmbrestos = isset($_REQUEST["cmbrestos"])?$_REQUEST["cmbrestos"]:"";
+$cmbanodos = isset($_REQUEST["cmbanodos"])?$_REQUEST["cmbanodos"]:"";
+$radio = isset($_REQUEST["radio"])?$_REQUEST["radio"]:"";
+$radio2= isset($_REQUEST["radio2"])?$_REQUEST["radio2"]:"";
 
 ?>
 <html>
@@ -175,9 +158,9 @@ function ejecucion(opc)
 			if (f.radio[0].checked==true)
 			{
 				if (opc == "W")			
-					f.action = "sea_lst_trasp_raf.php?cmbanodos=" + f.cmbanodos.value + "&cmbrestos=" + f.cmbrestos.value;
+					f.action = "sea_lst_trasp_raf.php?cmbanodos="+f.cmbanodos.value+"&cmbrestos="+f.cmbrestos.value;
 				else
-					f.action = "sea_xls_trasp_raf.php?cmbanodos=" + f.cmbanodos.value + "&cmbrestos=" + f.cmbrestos.value;
+					f.action = "sea_xls_trasp_raf.php?cmbanodos="+f.cmbanodos.value+"&cmbrestos="+f.cmbrestos.value;
 			}
 			else
 			{
