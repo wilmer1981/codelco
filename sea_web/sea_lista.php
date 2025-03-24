@@ -260,7 +260,7 @@ var f=formulario;
 			while ($row = mysqli_fetch_array($rs1))
 			{			
 	          	if ($row["cod_subclase"] == $cmbmovimiento)	
-					echo '<option value="'.$row["cod_subclase"].'" SELECTed>'.$row["nombre_subclase"].'</option>';
+					echo '<option value="'.$row["cod_subclase"].'" Selected>'.$row["nombre_subclase"].'</option>';
 				else 
 					echo '<option value="'.$row["cod_subclase"].'">'.$row["nombre_subclase"].'</option>';
 			}
@@ -273,7 +273,7 @@ var f=formulario;
             <td><font color="#FFFFFF"> 
               <SELECT name="cmblistados" onChange="recarga_listados();">
                 <?php
-   		echo '<option value="-1" SELECTed>SELECCIONAR</option>';
+   		echo '<option value="-1" Selected>SELECCIONAR</option>';
 
     if($listados == 'S')       	
    {
@@ -282,17 +282,17 @@ var f=formulario;
 		if($cmbmovimiento == 1)
 		{	
 			if($cmblistados == 1)
-			echo '<option value="1" SELECTed>Producci&oacute;n/Recepci&oacute;n de &Aacute;nodos Diaria</option>';
+			echo '<option value="1" Selected>Producci&oacute;n/Recepci&oacute;n de &Aacute;nodos Diaria</option>';
 			else
 			echo '<option value="1">Producci&oacute;n/Recepci&oacute;n de &Aacute;nodos Diaria</option>';
 
 			if($cmblistados == 10)
-			echo '<option value="10" SELECTed>Producci&oacute;n/Recepci&oacute;n de &Aacute;nodos Acumulada</option>';
+			echo '<option value="10" Selected>Producci&oacute;n/Recepci&oacute;n de &Aacute;nodos Acumulada</option>';
 			else
 			echo '<option value="10">Producci&oacute;n/Recepci&oacute;n de &Aacute;nodos Acumulada</option>';
 
 			if($cmblistados == 12)
-			echo '<option value="12" SELECTed>Recepci&oacute;n de Blister</option>';
+			echo '<option value="12" Selected>Recepci&oacute;n de Blister</option>';
 			else
 			echo '<option value="12">Recepci&oacute;n de Blister</option>';
         }  
@@ -301,17 +301,17 @@ var f=formulario;
 		if($cmbmovimiento == 2)
 		{	
 			if($cmblistados == 2)
-			echo '<option value="2"SELECTed>Beneficio Total Acumulado</option>';
+			echo '<option value="2"Selected>Beneficio Total Acumulado</option>';
 			else
 			echo '<option value="2">Beneficio Total Acumulado</option>';
 
 			if($cmblistados == 3)
-			echo '<option value="3" SELECTed>Carga A N.E. Acumulada</option>';
+			echo '<option value="3" Selected>Carga A N.E. Acumulada</option>';
 			else
 			echo '<option value="3">Carga A N.E. Acumulada</option>';
 
 			if($cmblistados == 14)
-			echo '<option value="14" SELECTed>Blister A N.E. Acumulada</option>';
+			echo '<option value="14" Selected>Blister A N.E. Acumulada</option>';
 			else
 			echo '<option value="14">Blister A N.E. Acumulada</option>';
         }
@@ -320,17 +320,17 @@ var f=formulario;
 		if($cmbmovimiento == 3)
 		{	
 			if($cmblistados == 4)
-			echo '<option value="4" SELECTed>Producci&oacute;n Acumulada por Grupos de Restos</option>';
+			echo '<option value="4" Selected>Producci&oacute;n Acumulada por Grupos de Restos</option>';
 			else
 			echo '<option value="4">Producci&oacute;n Acumulada por Grupos de Restos</option>';
 
 			if($cmblistados == 5)
-			echo '<option value="5" SELECTed>Producci&oacute;n Acumulada de Restos</option>';
+			echo '<option value="5" Selected>Producci&oacute;n Acumulada de Restos</option>';
 			else
 			echo '<option value="5">Producci&oacute;n Acumulada de Restos</option>';
 
 			if($cmblistados == 6)
-			echo '<option value="6" SELECTed>Producci&oacute;n Diaria Acumulada de Restos</option>';
+			echo '<option value="6" Selected>Producci&oacute;n Diaria Acumulada de Restos</option>';
 			else
 			echo '<option value="6">Producci&oacute;n Diaria Acumulada de Restos</option>';
 
@@ -340,27 +340,27 @@ var f=formulario;
 		if($cmbmovimiento == 4)
 		{	
 			if($cmblistados == 7)
-			echo '<option value="7" SELECTed>Traspaso de Restos a Raf Por Grupo</option>';
+			echo '<option value="7" Selected>Traspaso de Restos a Raf Por Grupo</option>';
 			else
 			echo '<option value="7">Traspaso de Restos a Raf Por Grupo</option>';
 
 			if($cmblistados == 11)
-			echo '<option value="11" SELECTed>Traspaso de Restos a Raf</option>';
+			echo '<option value="11" Selected>Traspaso de Restos a Raf</option>';
 			else
 			echo '<option value="11">Traspaso de Restos a Raf</option>';
 
 			if($cmblistados == 8)
-			echo '<option value="8" SELECTed>Rechazados a Raf</option>';
+			echo '<option value="8" Selected>Rechazados a Raf</option>';
 			else
 			echo '<option value="8">Rechazados a Raf</option>';
 
 			if($cmblistados == 9)
-			echo '<option value="9" SELECTed>Stock Piso Raf</option>';
+			echo '<option value="9" Selected>Stock Piso Raf</option>';
 			else
 			echo '<option value="9">Stock Piso Raf</option>';
 
 			if($cmblistados == 13)
-			echo '<option value="13" SELECTed>Blister a Raf</option>';
+			echo '<option value="13" Selected>Blister a Raf</option>';
 			else
 			echo '<option value="13">Blister a Raf</option>';
 			
@@ -379,9 +379,9 @@ var f=formulario;
 			include("../principal/conectar_principal.php");
           	
         	if (($cmborigen == 'T') and ($Proceso == 'R'))				
-			echo '<option value="T" SELECTed>Todos</option>';
+			echo '<option value="T" Selected>Todos</option>';
 			else
-			echo '<option value="T" SELECTed>Todos</option>';
+			echo '<option value="T" Selected>Todos</option>';
 
 			$consulta = "SELECT * FROM sub_clase WHERE cod_clase = 2002 ";
 			$rs = mysqli_query($link, $consulta);
@@ -389,7 +389,7 @@ var f=formulario;
 			while ($row = mysqli_fetch_array($rs))
 			{			
 	          	if (($row["cod_subclase"] == $cmborigen) and ($Proceso == 'R'))	
-					echo '<option value="'.$row["cod_subclase"].'" SELECTed>'.$row["nombre_subclase"].'</option>';
+					echo '<option value="'.$row["cod_subclase"].'" Selected>'.$row["nombre_subclase"].'</option>';
 				else 
 					echo '<option value="'.$row["cod_subclase"].'">'.$row["nombre_subclase"].'</option>';
 			}
@@ -456,9 +456,9 @@ include("../principal/conectar_principal.php");
 			echo "<td><SELECT name='cmbanodos'>";           
 
         	if (($cmbanodos == 'T') and ($Proceso == 'R'))				
-			echo '<option value="T" SELECTed>Todos</option>';
+			echo '<option value="T" Selected>Todos</option>';
 			else
-			echo '<option value="T" SELECTed>Todos</option>';
+			echo '<option value="T" Selected>Todos</option>';
 
 			$consulta3 = "SELECT * FROM subproducto WHERE cod_producto = '17' and cod_subproducto in('$producto1','$producto2','$producto3')";
 			$rs3 = mysqli_query($link, $consulta3);
@@ -466,7 +466,7 @@ include("../principal/conectar_principal.php");
 			while($row3 = mysqli_fetch_array($rs3))						
 			{			
 			if ($row3['cod_subproducto'] == $cmbanodos and ($Proceso == 'R'))
-				echo '<option value="'.$row3['cod_subproducto'].'" SELECTed>'.$row3['descripcion'].'</option>';
+				echo '<option value="'.$row3['cod_subproducto'].'" Selected>'.$row3['descripcion'].'</option>';
 			else 
 				echo '<option value="'.$row3['cod_subproducto'].'">'.$row3['descripcion'].'</option>';
 			}
@@ -483,9 +483,9 @@ include("../principal/conectar_principal.php");
 			echo "<td><SELECT name='cmbrestos'>";           
 
         	if (($cmbrestos == 'T') and ($Proceso == 'R'))				
-			echo '<option value="T" SELECTed>Todos</option>';
+			echo '<option value="T" Selected>Todos</option>';
 			else
-			echo '<option value="T" SELECTed>Todos</option>';
+			echo '<option value="T" Selected>Todos</option>';
 
 			$consulta4 = "SELECT * FROM subproducto WHERE cod_producto = '19' and cod_subproducto in('$producto1','$producto2','$producto3')";
 			$rs4 = mysqli_query($link, $consulta4);
@@ -493,7 +493,7 @@ include("../principal/conectar_principal.php");
 			while($row4 = mysqli_fetch_array($rs4))						
 			{			
 			if ($row4['cod_subproducto'] == $cmbanodos and ($Proceso == 'R'))
-				echo '<option value="'.$row4['cod_subproducto'].'" SELECTed>'.$row4['descripcion'].'</option>';
+				echo '<option value="'.$row4['cod_subproducto'].'" Selected>'.$row4['descripcion'].'</option>';
 			else 
 				echo '<option value="'.$row4['cod_subproducto'].'">'.$row4['descripcion'].'</option>';
 			}
@@ -511,13 +511,13 @@ include("../principal/conectar_principal.php");
 /***********  flujos anodos ********/
 		 if($cmbmovimiento == 1 || $cmbmovimiento == 10 || $cmbmovimiento == 2 || $cmbmovimiento == 4)
 		 {
-            echo'<tr><td width="100">?nodos de Cobre</td>';
+            echo'<tr><td width="100">&Aacute;nodos de Cobre</td>';
 			echo "<td><SELECT name='cmbflujo'>";           
 			
         	if (($cmbflujo == 'T') and ($Proceso == 'R'))				
-			echo '<option value="T" SELECTed>Todos</option>';
+			echo '<option value="T" Selected>Todos</option>';
 			else
-			echo '<option value="T" SELECTed>Todos</option>';
+			echo '<option value="T" Selected>Todos</option>';
 
 			$consulta5 = "SELECT distinct flujo, descripcion FROM relacion_prod_flujo_nodo AS t1 INNER JOIN flujos AS t2";
 			$consulta5 = $consulta5." ON t1.flujo = t2.cod_flujo"; 
@@ -526,7 +526,7 @@ include("../principal/conectar_principal.php");
 			while($row5 = mysqli_fetch_array($rs5))						
 			{
 			if ($row5["flujo"] == $cmbflujo and ($Proceso == 'R'))
-				echo '<option value="'.$row5["flujo"].'" SELECTed>'.$row5['flujo'].' '.$row5["descripcion"].'</option>';
+				echo '<option value="'.$row5["flujo"].'" Selected>'.$row5['flujo'].' '.$row5["descripcion"].'</option>';
 			else
 				echo '<option value="'.$row5['flujo'].'">'.$row5['flujo'].' '.$row5["descripcion"].'</option>';
 			}
@@ -537,13 +537,13 @@ include("../principal/conectar_principal.php");
 /***********  flujos restos ********/
 		 if($cmbmovimiento == 2 || $cmbmovimiento == 3 || $cmbmovimiento == 4)
 		 {
-            echo'<td width="110">Restos de ?nodos</td>';
+            echo'<td width="110">Restos de &Aacute;nodos</td>';
 			echo "<td><SELECT name='cmbflujorestos'>";           
 
         	if (($cmbflujorestos == 'T') and ($Proceso == 'R'))				
-			echo '<option value="T" SELECTed>Todos</option>';
+			echo '<option value="T" Selected>Todos</option>';
 			else
-			echo '<option value="T" SELECTed>Todos</option>';
+			echo '<option value="T" Selected>Todos</option>';
 
 			$consulta5 = "SELECT distinct flujo, descripcion FROM relacion_prod_flujo_nodo AS t1 INNER JOIN flujos AS t2";
 			$consulta5 = $consulta5." ON t1.flujo = t2.cod_flujo"; 
@@ -553,7 +553,7 @@ include("../principal/conectar_principal.php");
 			while($row5 = mysqli_fetch_array($rs5))						
 			{
 			if ($row5["flujo"] == $cmbflujo and ($Proceso == 'R'))
-				echo '<option value="'.$row5["flujo"].'" SELECTed>'.$row5['flujo'].' '.$row5["descripcion"].'</option>';
+				echo '<option value="'.$row5["flujo"].'" Selected>'.$row5['flujo'].' '.$row5["descripcion"].'</option>';
 			else
 				echo '<option value="'.$row5['flujo'].'">'.$row5['flujo'].' '.$row5["descripcion"].'</option>';
 			}
@@ -632,13 +632,13 @@ if($cmblistados != 6)
 					if (isset($dia_i))
 					{
 						if ($i == $dia_i)
-							echo "<option SELECTed value='".$i."'>".$i."</option>";
+							echo "<option Selected value='".$i."'>".$i."</option>";
 						else	echo "<option value='".$i."'>".$i."</option>";
 					}
 					else
 					{
 						if ($i == date("j"))
-							echo "<option SELECTed value='".$i."'>".$i."</option>";
+							echo "<option Selected value='".$i."'>".$i."</option>";
 						else	echo "<option  value='".$i."'>".$i."</option>";
 					}								    		
  				}
@@ -655,13 +655,13 @@ if($cmblistados != 6)
 				if (isset($mes_i))
 				{
 					if ($i==$mes_i)	
-						echo "<option SELECTed value ='".$i."'>".$meses[$i-1]." </option>";			
+						echo "<option Selected value ='".$i."'>".$meses[$i-1]." </option>";			
 					else	echo "<option value='$i'>".$meses[$i-1]."</option>\n";
 				}
 				else
 				{
 					if ($i==date("n"))	
-						echo "<option SELECTed value ='".$i."'>".$meses[$i-1]." </option>";			
+						echo "<option Selected value ='".$i."'>".$meses[$i-1]." </option>";			
 					else	echo "<option value='$i'>".$meses[$i-1]."</option>\n";
 				}
 		    }		
@@ -673,13 +673,13 @@ if($cmblistados != 6)
                if (isset($mes_i))
 				{
 					if ($i==$mes_i)	
-						echo "<option SELECTed value ='".$i."'>".$meses[$i-1]." </option>";			
+						echo "<option Selected value ='".$i."'>".$meses[$i-1]." </option>";			
 					else	echo "<option value='$i'>".$meses[$i-1]."</option>\n";
 				}
 				else
 				{
 					if ($i==date("n"))	
-						echo "<option SELECTed value ='".$i."'>".$meses[$i-1]." </option>";			
+						echo "<option Selected value ='".$i."'>".$meses[$i-1]." </option>";			
 					else	echo "<option value='$i'>".$meses[$i-1]."</option>\n";
 				}
 		    }  			 
@@ -695,13 +695,13 @@ if($cmblistados != 6)
 			if (isset($ano_i))
 			{
 				if ($i==$ano_i)
-					echo "<option SELECTed value ='$i'>$i</option>";
+					echo "<option Selected value ='$i'>$i</option>";
 				else	echo "<option value='".$i."'>".$i."</option>";
 			}
 			else
 			{
 				if ($i==date("Y"))
-					echo "<option SELECTed value ='$i'>$i</option>";
+					echo "<option Selected value ='$i'>$i</option>";
 				else	echo "<option value='".$i."'>".$i."</option>";
 			}
         }
@@ -713,13 +713,13 @@ if($cmblistados != 6)
             if (isset($ano_i))
 			{
 				if ($i==$ano_i)
-					echo "<option SELECTed value ='$i'>$i</option>";
+					echo "<option Selected value ='$i'>$i</option>";
 				else	echo "<option value='".$i."'>".$i."</option>";
 			}
 			else
 			{
 				if ($i==date("Y"))
-					echo "<option SELECTed value ='$i'>$i</option>";
+					echo "<option Selected value ='$i'>$i</option>";
 				else	echo "<option value='".$i."'>".$i."</option>";
 			}
          }   
@@ -744,13 +744,13 @@ if($cmblistados != 6)
  				   if (isset($dia_t))
 					{
 						if ($i == $dia_t)
-							echo "<option SELECTed value='".$i."'>".$i."</option>";
+							echo "<option Selected value='".$i."'>".$i."</option>";
 						else	echo "<option value='".$i."'>".$i."</option>";
 					}
 					else
 					{
 						if ($i == date("j"))
-							echo "<option SELECTed value='".$i."'>".$i."</option>";
+							echo "<option Selected value='".$i."'>".$i."</option>";
 						else	echo "<option  value='".$i."'>".$i."</option>";
 					}		    		
  				}
@@ -762,13 +762,13 @@ if($cmblistados != 6)
 	   				if (isset($dia_t))
 					{
 						if ($i == $dia_t)
-							echo "<option SELECTed value='".$i."'>".$i."</option>";
+							echo "<option Selected value='".$i."'>".$i."</option>";
 						else	echo "<option value='".$i."'>".$i."</option>";
 					}
 					else
 					{
 						if ($i == date("j"))
-							echo "<option SELECTed value='".$i."'>".$i."</option>";
+							echo "<option Selected value='".$i."'>".$i."</option>";
 						else	echo "<option  value='".$i."'>".$i."</option>";
 					}		    		
  				}
@@ -785,13 +785,13 @@ if($cmblistados != 6)
                 if (isset($mes_t))
 				{
 					if ($i==$mes_t)	
-						echo "<option SELECTed value ='".$i."'>".$meses[$i-1]." </option>";			
+						echo "<option Selected value ='".$i."'>".$meses[$i-1]." </option>";			
 					else	echo "<option value='$i'>".$meses[$i-1]."</option>\n";
 				}
 				else
 				{
 					if ($i==date("n"))	
-						echo "<option SELECTed value ='".$i."'>".$meses[$i-1]." </option>";			
+						echo "<option Selected value ='".$i."'>".$meses[$i-1]." </option>";			
 					else	echo "<option value='$i'>".$meses[$i-1]."</option>\n";
 				}
 		    }		
@@ -803,13 +803,13 @@ if($cmblistados != 6)
                 if (isset($mes_t))
 				{
 					if ($i==$mes_t)	
-						echo "<option SELECTed value ='".$i."'>".$meses[$i-1]." </option>";			
+						echo "<option Selected value ='".$i."'>".$meses[$i-1]." </option>";			
 					else	echo "<option value='$i'>".$meses[$i-1]."</option>\n";
 				}
 				else
 				{
 					if ($i==date("n"))	
-						echo "<option SELECTed value ='".$i."'>".$meses[$i-1]." </option>";			
+						echo "<option Selected value ='".$i."'>".$meses[$i-1]." </option>";			
 					else	echo "<option value='$i'>".$meses[$i-1]."</option>\n";
 				}
 		    }  			 
@@ -825,13 +825,13 @@ if($cmblistados != 6)
             if (isset($ano_t))
 			{
 				if ($i==$ano_t)
-					echo "<option SELECTed value ='$i'>$i</option>";
+					echo "<option Selected value ='$i'>$i</option>";
 				else	echo "<option value='".$i."'>".$i."</option>";
 			}
 			else
 			{
 				if ($i==date("Y"))
-					echo "<option SELECTed value ='$i'>$i</option>";
+					echo "<option Selected value ='$i'>$i</option>";
 				else	echo "<option value='".$i."'>".$i."</option>";
 			}
         }
@@ -843,13 +843,13 @@ if($cmblistados != 6)
             if (isset($ano_t))
 			{
 				if ($i==$ano_t)
-					echo "<option SELECTed value ='$i'>$i</option>";
+					echo "<option Selected value ='$i'>$i</option>";
 				else	echo "<option value='".$i."'>".$i."</option>";
 			}
 			else
 			{
 				if ($i==date("Y"))
-					echo "<option SELECTed value ='$i'>$i</option>";
+					echo "<option Selected value ='$i'>$i</option>";
 				else	echo "<option value='".$i."'>".$i."</option>";
 			}
          }   

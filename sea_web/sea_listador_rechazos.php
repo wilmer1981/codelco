@@ -3,6 +3,17 @@
 $CodigoDeSistema = 2;
 $CodigoDePantalla = 35;
 
+$Proceso       = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
+$listados      = isset($_REQUEST["listados"])?$_REQUEST["listados"]:"";
+$cmbmovimiento = isset($_REQUEST["cmbmovimiento"])?$_REQUEST["cmbmovimiento"]:"";
+$cmblistados   = isset($_REQUEST["cmblistados"])?$_REQUEST["cmblistados"]:"";
+$cmborigen = isset($_REQUEST["cmborigen"])?$_REQUEST["cmborigen"]:"";
+$cmbrestos = isset($_REQUEST["cmbrestos"])?$_REQUEST["cmbrestos"]:"";
+$cmbanodos = isset($_REQUEST["cmbanodos"])?$_REQUEST["cmbanodos"]:"";
+$cmbtipo = isset($_REQUEST["cmbtipo"])?$_REQUEST["cmbtipo"]:"";
+$cmbproducto = isset($_REQUEST["cmbproducto"])?$_REQUEST["cmbproducto"]:"";
+$recargapag1= isset($_REQUEST["recargapag1"])?$_REQUEST["recargapag1"]:"";
+
 ?>
 
 <html>
@@ -135,7 +146,7 @@ var f=formulario;
 	    {
             if ($i==$ano_t)
 			{
-			echo "<option SELECTed value ='$i'>$i</option>";
+			echo "<option Selected value ='$i'>$i</option>";
 			}
 			else	
 			{
@@ -149,7 +160,7 @@ var f=formulario;
 	    {
             if ($i==date("Y"))
 			{
-			echo "<option SELECTed value ='$i'>$i</option>";
+			echo "<option Selected value ='$i'>$i</option>";
 			}
 			else	
 			{
