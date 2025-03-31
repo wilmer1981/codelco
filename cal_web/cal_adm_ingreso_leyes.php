@@ -23,15 +23,15 @@ $Mostrar  = isset($_REQUEST["Mostrar"])?$_REQUEST["Mostrar"]:"";
 $CmbEstado      = isset($_REQUEST["CmbEstado"])?$_REQUEST["CmbEstado"]:"";
 $CmbProductos   = isset($_REQUEST["CmbProductos"])?$_REQUEST["CmbProductos"]:"";
 $CmbSubProducto = isset($_REQUEST["CmbSubProducto"])?$_REQUEST["CmbSubProducto"]:"";
-$AnoBuscadoIni  = isset($_REQUEST["AnoBuscadoIni"])?$_REQUEST["AnoBuscadoIni"]:date("Y");
-$AnoBuscadoFin  = isset($_REQUEST["AnoBuscadoFin"])?$_REQUEST["AnoBuscadoFin"]:date("Y");
-$TxtSa          = isset($_REQUEST["TxtSa"])?$_REQUEST["TxtSa"]:0;
-$TxtSaFin       = isset($_REQUEST["TxtSaFin"])?$_REQUEST["TxtSaFin"]:0;
+$AnoBuscadoIni  = isset($_REQUEST["AnoBuscadoIni"])?$_REQUEST["AnoBuscadoIni"]:"";
+$AnoBuscadoFin  = isset($_REQUEST["AnoBuscadoFin"])?$_REQUEST["AnoBuscadoFin"]:"";
+$TxtSa          = isset($_REQUEST["TxtSa"])?$_REQUEST["TxtSa"]:"";
+$TxtSaFin       = isset($_REQUEST["TxtSaFin"])?$_REQUEST["TxtSaFin"]:"";
 $checkTodos     = isset($_REQUEST["checkTodos"])?$_REQUEST["checkTodos"]:"";
 $LimitIni       = isset($_REQUEST["LimitIni"])?$_REQUEST["LimitIni"]:0;
 $LimitFin       = isset($_REQUEST["LimitFin"])?$_REQUEST["LimitFin"]:30;
 $Valores_Check  = isset($_REQUEST["Valores_Check"])?$_REQUEST["Valores_Check"]:"";
-
+//$TxtFechaRecepcion       = isset($_REQUEST["TxtFechaRecepcion"])?$_REQUEST["TxtFechaRecepcion"]:date("Y-m-d");
 
 ?>
 <html>
@@ -1703,13 +1703,13 @@ function ValidarModificar()
   }//cierre del if mostrar = S
 	   if ($Mostrar== 'O')  //BUSQUEDA DIRECTA
 	   {
-	   			if (!isset($AnoBuscadoIni))
+	   			if ($AnoBuscadoIni=="")
 					$AnoBuscadoIni = 0;
-				if (!isset($TxtSa))
+				if ($TxtSa=="")
 					$TxtSa = 0;
-				if (!isset($AnoBuscadoFin))
+				if ($AnoBuscadoFin=="")
 					$AnoBuscadoFin = 0;
-				if (!isset($TxtSaFin))
+				if ($TxtSaFin=="")
 					$TxtSaFin = 0;
 				$SolIni = $AnoBuscadoIni."000000";
 				$SolFin = $AnoBuscadoFin."000000";
@@ -1767,14 +1767,17 @@ function ValidarModificar()
 					$Fil26=mysqli_fetch_array($Res);
 					$Tipo = $Fil26["nombre_subclase"];
 					//FECHA RECEPCION
-					$Consulta ="select fecha_hora from estados_por_solicitud  where (rut_funcionario = '".$Fila["rut_funcionario"]."') and (nro_solicitud = ".$Fila["nro_solicitud"].") and (cod_estado = '4')";
+					$Consulta ="select fecha_hora from cal_web.estados_por_solicitud  where (rut_funcionario = '".$Fila["rut_funcionario"]."') and (nro_solicitud = ".$Fila["nro_solicitud"].") and (cod_estado = '4')";
 					$Respuesta2 = mysqli_query($link, $Consulta);
+					$TxtFechaRecepcion="";
+					//echo "Consulta:".$Consulta;
 					if ($Fila2 = mysqli_fetch_array($Respuesta2))
 					{
 						$TxtFechaRecepcion = $Fila2["fecha_hora"];
 					}	
-					$Consulta ="select fecha_hora from estados_por_solicitud  where (rut_funcionario = '".$Fila["rut_funcionario"]."') and (nro_solicitud = '".$Fila["nro_solicitud"]."') and (cod_estado = '5') ";
+					$Consulta ="select fecha_hora from cal_web.estados_por_solicitud  where (rut_funcionario = '".$Fila["rut_funcionario"]."') and (nro_solicitud = '".$Fila["nro_solicitud"]."') and (cod_estado = '5') ";
 					$Respuesta3 = mysqli_query($link, $Consulta);
+					$TxtFechaAtencion = "";
 					if ($Fila3 = mysqli_fetch_array($Respuesta3))
 					{
 						$TxtFechaAtencion = $Fila3["fecha_hora"];
