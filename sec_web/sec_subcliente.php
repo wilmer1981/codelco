@@ -1,4 +1,9 @@
-<?php include("../principal/conectar_pmn_web.php");
+<?php include("../principal/conectar_principal.php");
+error_reporting(E_ALL);
+$Envio           = isset($_REQUEST["Envio"])?$_REQUEST["Envio"]:"";
+$FechaEnvio      = isset($_REQUEST["FechaEnvio"])?$_REQUEST["FechaEnvio"]:"";
+$ClienteSantiago = isset($_REQUEST["ClienteSantiago"])?$_REQUEST["ClienteSantiago"]:"";
+$Valoresie       = isset($_REQUEST["Valoresie"])?$_REQUEST["Valoresie"]:"";
 ?>
 <html>
 <head>
@@ -63,7 +68,8 @@ function Salir()
 	$Consulta.=" inner join sec_web.nave t2 on ";
 	$Consulta.="	CEILING(t1.cod_cliente)=t2.cod_nave ";
 	echo "<tr>\n";
-	$Respuesta = mysqli_query($link, $Consulta);
+	$Respuesta = mysqli_query($link,$Consulta);
+	//echo $Consulta;
 	$cont=1;	
 	echo "<input type='hidden' name='IdCliente'><input type='hidden' name='Ciudad'><input type='hidden' name='Direccion'><input type='hidden' name='Rut'>";
 	while ($Row = mysqli_fetch_array($Respuesta))
@@ -74,8 +80,9 @@ function Salir()
 			echo '<tr>';
 			$cont=1;
 		}
-		echo "<td width='140'><input type='radio' name='IdCliente' value='".$Row["cod_sub_cliente"]."~".$Row["cod_cliente"]."~".$Row["ciudad"]."~".$Row["direccion"]."~".str_replace("�"," ",$Row["rut_cliente"])."~".$Row["comuna"]."' onClick='CargaDatos(this);' ><input type='hidden' name='Cliente' value='".$R["cod_cliente"]e]."'>\n";
-		echo "$Row["nombre_nave"]&nbsp;".str_replace("�"," ",$Row["direccion"])."&nbsp;$Row["comuna"]</td>";
+		echo "<td width='140'><input type='radio' name='IdCliente' value='".$Row['cod_sub_cliente']."~".$Row['cod_cliente']."~".$Row['ciudad']."~".$Row['direccion']."~".str_replace("?"," ",$Row['rut_cliente']??'')."~".$Row['comuna']."' onClick='CargaDatos(this);' ><input type='hidden' name='Cliente' value='".$Row['cod_cliente']."'>\n";
+		//echo "$Row['nombre_nave']&nbsp;".str_replace("?"," ",$Row['direccion'])."&nbsp;$Row['comuna']</td>";
+		echo $Row['nombre_nave']."&nbsp;".str_replace("?"," ",$Row['direccion']??'')."&nbsp;".$Row['comuna']."</td>";
 		$cont =$cont+ 1;
 	}
 ?>

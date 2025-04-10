@@ -23,9 +23,15 @@ function LeerArchivo($ruta,$archivo,$vpeso)
 	}	
 	if(file_exists($ubicacion)){
 		$arc = fopen($ubicacion,"r");
+		while (($line = fgets($arc)) !== false) {
+		   //echo $line;  // Imprimir la línea leída
+		   $valor = $line;
+		}
+		/*
 		while(! feof($arc))  {
 			$valor = fgets($arc);
 		}
+		*/
 		fclose($arc);
 	}else{
 		$valor=$vpeso;

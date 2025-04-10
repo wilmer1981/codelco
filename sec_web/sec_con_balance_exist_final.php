@@ -156,7 +156,8 @@ function Informacion(Mes,Lote, Ano)
 	if (($Producto == "48") || ($Producto == "18" && $SubProducto != "5"))
 	{
 		$Consulta.= " and t1.cod_producto = '18'";
-		if ((($Producto == "18") && (intval($Fila3["cod_grupo"]) < 50)) || ($Producto == "48"))
+		//if ((($Producto == "18") && (intval($Fila3["cod_grupo"]) < 50)) || ($Producto == "48"))
+		if (($Producto == "18") || ($Producto == "48"))
 		{
 			$Consulta.= " and t1.cod_subproducto = '1'";
 		}
@@ -175,7 +176,7 @@ function Informacion(Mes,Lote, Ano)
 		}
 	}
 	$Consulta.= " order by t3.cod_leyes ";
-	//echo $Consulta."<br>";
+	//echo $Consulta."<br>"; //trae leyes
 	$Respuesta2 = mysqli_query($link, $Consulta);
 	$ArrLeyes["02"][0] = "02";
 	$ArrLeyes["02"][1] = "Cu";
@@ -244,7 +245,7 @@ function Informacion(Mes,Lote, Ano)
 ?>	
   </tr>
   <tr class="ColorTabla01"> 
-	<?php
+	<?php //echo "oooooo";
 		switch ($FinoLeyes)
 		{
 			case "F":
@@ -294,16 +295,16 @@ function Informacion(Mes,Lote, Ano)
  
  	$Consulta.= "and "; 
 	$Consulta.= "( ";
-	$Consulta.= "(t1.cod_paquete='".$MesConsulta."' and t1.fecha_creacion_paquete <='".$FechaTerminoReal."' and ((t1.cod_estado='a' and t1.fecha_embarque = '00-00-0000') or (t1.cod_estado='c' and t1.fecha_embarque > '".$FechaTerminoReal."')))";
+	$Consulta.= "(t1.cod_paquete='".$MesConsulta."' and t1.fecha_creacion_paquete <='".$FechaTerminoReal."' and ((t1.cod_estado='a' and t1.fecha_embarque = '0000-00-00') or (t1.cod_estado='c' and t1.fecha_embarque > '".$FechaTerminoReal."')))";
 	$Consulta.= " or ";
-	$Consulta.= "(t1.cod_paquete='".$MesConsulta."' and (t1.fecha_creacion_paquete between '".$FechaTerminoReal."' and '".$FechaTermino."') and ((t1.cod_estado='a' and t1.fecha_embarque = '00-00-0000') or (t1.cod_estado='c' and t1.fecha_embarque > '".$FechaTerminoReal."')))";
+	$Consulta.= "(t1.cod_paquete='".$MesConsulta."' and (t1.fecha_creacion_paquete between '".$FechaTerminoReal."' and '".$FechaTermino."') and ((t1.cod_estado='a' and t1.fecha_embarque = '0000-00-00') or (t1.cod_estado='c' and t1.fecha_embarque > '".$FechaTerminoReal."')))";
 	$Consulta.= " or ";
-	$Consulta.= "(t1.cod_paquete<>'".$MesConsulta."' and  t1.fecha_creacion_paquete <='".$FechaTerminoReal."' and ((t1.cod_estado='a' and t1.fecha_embarque = '00-00-0000') or (t1.cod_estado='c' and t1.fecha_embarque > '".$FechaTerminoReal."')))"; 
+	$Consulta.= "(t1.cod_paquete<>'".$MesConsulta."' and  t1.fecha_creacion_paquete <='".$FechaTerminoReal."' and ((t1.cod_estado='a' and t1.fecha_embarque = '0000-00-00') or (t1.cod_estado='c' and t1.fecha_embarque > '".$FechaTerminoReal."')))"; 
 	$Consulta.= ")";	
 	$Consulta.= " group by t2.cod_bulto, t2.num_bulto ";
 	$Consulta.= " order by ano_creacion, t2.cod_bulto, t2.num_bulto";
 	
-//echo "consulta".$Consulta;
+    //echo "consulta".$Consulta; //solo muestra dos registros
 	mysqli_query($link, $Consulta);
 
 	//CONSULTA LO QUE SE TRASPASO
@@ -333,7 +334,7 @@ function Informacion(Mes,Lote, Ano)
 		$Consulta.= " and t1.cod_paquete < '".$MesConsulta."' ";
 	$Consulta.= " or year(t1.fecha_creacion_paquete) < ".$AnoFin.")  ";
 	$Consulta.= " group by t3.cod_bulto,t3.num_bulto";
-	//echo "traspaso".$Consulta."</br>";;
+	//echo "traspaso".$Consulta."</br>";//no muestra nada
 	$Respuesta = mysqli_query($link, $Consulta);
 	while ($Fila = mysqli_fetch_array($Respuesta))
 	{
@@ -373,9 +374,12 @@ function Informacion(Mes,Lote, Ano)
 			echo "<td align='center'>".str_pad($Fila2["num_envio"],5, "0", STR_PAD_LEFT)."</td>\n";
 		else
 			echo "<td align='center'>&nbsp;</td>\n";
+		
+	    $num_envio = isset($Fila2["num_envio"])?$Fila2["num_envio"]:""; //agregado por WSO
 		//--------------------------NUM. ORDEN DE EMBARQUE--------------------------------------------
 		$Consulta = "SELECT * from sec_web.embarque_ventana ";
-		$Consulta.= " where num_envio='".$Fila2["num_envio"]."' ";
+		//$Consulta.= " where num_envio='".$Fila2["num_envio"]."' ";
+		$Consulta.= " where num_envio='".$num_envio."' ";
 		$Consulta.= " and cod_bulto='".$Fila["cod_bulto"]."' ";
 		$Consulta.= " and num_bulto='".$Fila["num_bulto"]."' ";
 		//echo "con ".$Consulta;
@@ -440,14 +444,14 @@ function Informacion(Mes,Lote, Ano)
 		if ($Encontro == false)
 		{
 			//CREA CERTIFICADO VIRTUAL			
-			CertifVirtual($Fila["cod_bulto"],$Fila["num_bulto"],$Fila["ano_creacion"]);			
+			CertifVirtual($Fila["cod_bulto"],$Fila["num_bulto"],$Fila["ano_creacion"],$link);			
 			//CONSULTA LA TABLA TEMPORAL
 			$Consulta = "SELECT t1.cod_leyes, t1.valor, t1.signo ";
 			$Consulta.= " from sec_web.tmp_certificacion_catodos t1";
 			$Consulta.= " where t1.cod_lote = '".$Fila["cod_bulto"]."' ";
 			$Consulta.= " and t1.num_lote = '".$Fila["num_bulto"]."'";
 			$Consulta.= " order by t1.cod_leyes";
-		//	echo "<br><br>TEMPORAL ".$Consulta."<br>";
+			echo "<br><br>TEMPORAL ".$Consulta."<br>";
 			$Respuesta2 = mysqli_query($link, $Consulta);
 			$Encontro = false;
 			while ($Fila2 = mysqli_fetch_array($Respuesta2))
@@ -475,7 +479,7 @@ function Informacion(Mes,Lote, Ano)
 					$Encontro = false;
 					if ($Fila2 = mysqli_fetch_array($Respuesta2))
 					{
-						$NumCertificado=$Fila2[nro_certificado];
+						$NumCertificado=$Fila2["nro_certificado"];
 					}
 				}
 			}
@@ -493,16 +497,16 @@ function Informacion(Mes,Lote, Ano)
 		echo "<td align='right'>".number_format($Fila["peso"],0,",",".")."</td>\n";
 		if ($Certif == true)
 		{
-			$SumaImpurezas = "";
+			$SumaImpurezas = 0;
 			reset($ArrLeyes);
 			foreach($ArrLeyes as $k => $v)
 			{
 				if ($v[0] != "48")
 				{
 					if ($v[0] != "04" || $v[0] != "05")			
-						$SumaImpurezas = $SumaImpurezas + ($v[2] / 10000);
+						$SumaImpurezas = $SumaImpurezas + ((int)$v[2] / 10000);
 					else
-						$SumaImpurezas = $SumaImpurezas + ($v[2] / 10000);
+						$SumaImpurezas = $SumaImpurezas + ((int)$v[2] / 10000);
 				}
 			}
 			if ((100 - $SumaImpurezas) > 99.980)
@@ -516,27 +520,28 @@ function Informacion(Mes,Lote, Ano)
 		}						
 		reset($ArrLeyes);
 		foreach($ArrLeyes as $k => $v)
-		{
+		{   $ArrTotal01 = isset($ArrTotal[$v[0]][1])?$ArrTotal[$v[0]][1]:0; //agregado por WSO
 			if ($FinoLeyes == "L")
 			{
 				$Valor = $v[2];
 				switch ($v[0])
 				{
 					case "02":
-						$ValorAux = ($v[2] * $Fila["peso"]) / 100;
+						$ValorAux = ((float)$v[2] * (float)$Fila["peso"]) / 100;
 						break;
 					case "04":
-						$ValorAux = ($v[2] * $Fila["peso"]) / 1000;
+						$ValorAux = ((float)$v[2] * (float)$Fila["peso"]) / 1000;
 						break;
 					case "05":
-						$ValorAux = ($v[2] * $Fila["peso"]) / 1000;
+						$ValorAux = ((float)$v[2] * (float)$Fila["peso"]) / 1000;
 						break;
 					default:
-						$ValorAux = ($v[2] * $Fila["peso"]) / 1000000;
+						$ValorAux = ((float)$v[2] * (float)$Fila["peso"]) / 1000000;
 						break;
 				}
 				$ArrTotal[$v[0]][0] = $v[0];				
-				$ArrTotal[$v[0]][1] = $ArrTotal[$v[0]][1] + $ValorAux;
+				//$ArrTotal[$v[0]][1] = $ArrTotal[$v[0]][1] + $ValorAux;
+				$ArrTotal[$v[0]][1] = $ArrTotal01 + $ValorAux;
 			}
 			else
 			{
@@ -556,12 +561,13 @@ function Informacion(Mes,Lote, Ano)
 						break;
 				}
 				$ArrTotal[$v[0]][0] = $v[0];
-				$ArrTotal[$v[0]][1] = $ArrTotal[$v[0]][1] + $Valor;
+				//$ArrTotal[$v[0]][1] = $ArrTotal[$v[0]][1] + $Valor;
+				$ArrTotal[$v[0]][1] = $ArrTotal01 + $Valor;
 			}					
 			if ($v[0] == "02") 
-				echo "<td align='right'>".number_format($Valor,2,",",".")."</td>";
+				echo "<td align='right'>".number_format((float)$Valor,2,",",".")."</td>";
 			else
-				echo "<td align='right'>".number_format($Valor,1,",",".")."</td>";
+				echo "<td align='right'>".number_format((float)$Valor,1,",",".")."</td>";
 		}			
 		//------------------------------------------------------------------------------------------------					
 		echo "</tr>\n";

@@ -413,7 +413,7 @@
 <html><head>
 <title>Recepcion v6 20161215 - Tolerancia <?php echo $Tolerancia; ?></title>
 <link rel="stylesheet" type="text/css" href="../principal/estilos/css_principal.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="../principal/funciones/libs/jquery-3.5.1/jquery.min.js"></script>
 <script src="../principal/funciones/funciones_java.js" language="javascript"></script>
 
 <script language="javascript">

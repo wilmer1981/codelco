@@ -98,14 +98,22 @@
 	$cuba        = isset($_REQUEST["cuba"])?$_REQUEST["cuba"]:"";
 	$etapa       = isset($_REQUEST["etapa"])?$_REQUEST["etapa"]:"";
 	$medida      = isset($_REQUEST["medida"])?$_REQUEST["medida"]:"";
-$codigopaquete = isset($_REQUEST["codigopaquete"])?$_REQUEST["codigopaquete"]:"";
+    $codigopaquete = isset($_REQUEST["codigopaquete"])?$_REQUEST["codigopaquete"]:"";
 
 echo "IP: ".$IP; 
 
 $ROMANA = LeerRomana($IP,$link); 
 
 echo "<br>ROMANA: ".$ROMANA;
+/*
+$numero = 2;
+$fecha = DateTime::createFromFormat('!m', $numero);
+$mes = $fecha->format('F'); 
 
+$ultimoDia = mktime(0, 0, 0, $numero, 0, date("Y"));
+$ultDia = date('d', $ultimoDia);
+echo '<br>Last day in '.$mes.' '.date("Y").' is: ', $ultDia;
+*/
 ?>
 
 <html>

@@ -18,7 +18,7 @@ echo $respuesta;
 /*************** Funcion Leer Archivo TXT**************************/
 //Modulo: RECEPCION
 function EscribirArchivo($carpeta,$archivo,$content)
-{   
+{   $carpeta = 'configuracion_pesaje';
 	$fichero = $archivo;
 	if($carpeta!=""){
 		$ubicacion = "D:\\xampp\\htdocs\\proyecto\\".$carpeta."\\".$fichero;

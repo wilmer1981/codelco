@@ -142,7 +142,7 @@ function ToleranciaPesaje($link)
 			fwrite($Archivo,$Fila["fecha"]."\r\n");
 			fwrite($Archivo,$Fila["recargo"]."\r\n");
 			fwrite($Archivo,$Fila["ult_registro"]."\r\n");
-			//fwrite($Archivo,$Fila["fecha_padron"]."\r\n");
+			fwrite($Archivo,$Fila["fecha_padron"]."\r\n");
 			fwrite($Archivo,$Fila["peso_tara"]."\r\n");
 			fwrite($Archivo,$Fila["hora_salida"]."\r\n");
 			fwrite($Archivo,$Fila["peso_neto"]."\r\n");
@@ -159,7 +159,10 @@ function ToleranciaPesaje($link)
 			
 			$RutPrv=$Fila["rut_prv"];
 			$NomPrv=$Fila["nombre_prv"];
-			ObtenerProveedorDespacho('D',$Fila["rut_prv"],$Fila["correlativo"],$Fila["guia_despacho"],$RutPrv,$NomPrv,$link);
+			$Lista = ObtenerProveedorDespacho('D',$Fila["rut_prv"],$Fila["correlativo"],$Fila["guia_despacho"],$RutPrv,$NomPrv,$link);
+			$valor  = explode("**",$Lista);
+			$RutPrv = $valor[0];
+			$NomPrv = $valor[1];
 			fwrite($Archivo,$NomPrv."\r\n");
 			fwrite($Archivo,$RutPrv."\r\n");
 			fwrite($Archivo,""."\r\n");
@@ -629,6 +632,7 @@ function ToleranciaPesaje($link)
 		//$FechaAnt = date('Y-m-d',mktime(0,0,0,date("m")-1,date("d"),  date("Y")));
 		//echo "FechaAnt:".$FechaAnt."<br>";
 		$Consulta="SELECT * from sipa_web.cierre_lotes_mensual where substring(fecha,1,7)='".substr($FechaAnt,0,7)."' and tipo='".$TipoRegistro."'";
+		//echo $Consulta."<br>";
 		$Resp=mysqli_query($link, $Consulta);
 		if(!$Fila=mysqli_fetch_array($Resp))
 		{
@@ -962,8 +966,9 @@ function LeerArchivo($ruta,$archivo)
 	}	
 	if(file_exists($ubicacion)){
 		$arc = fopen($ubicacion,"r");
-		while(! feof($arc))  {
-			$valor = fgets($arc);
+		while (($line = fgets($arc)) !== false) {
+		   //echo $line;  // Imprimir la línea leída
+		   $valor = $line;
 		}
 		fclose($arc);
 	}else{

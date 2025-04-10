@@ -10,6 +10,9 @@ $SubCliente= isset($_REQUEST["SubCliente"])?$_REQUEST["SubCliente"]:"";
 $FechaEmb  = isset($_REQUEST["FechaEmb"])?$_REQUEST["FechaEmb"]:"";
 $Valores   = isset($_REQUEST["Valores"])?$_REQUEST["Valores"]:"";
 $ValoresIEAux  = isset($_REQUEST["ValoresIEAux"])?$_REQUEST["ValoresIEAux"]:"";
+$FechaEnvio = isset($_REQUEST["FechaEnvio"])?$_REQUEST["FechaEnvio"]:"";
+$Dir = isset($_REQUEST["Dir"])?$_REQUEST["Dir"]:"";
+$Ciu = isset($_REQUEST["Ciu"])?$_REQUEST["Ciu"]:"";
 
 $TipoEmbarque  = isset($_REQUEST["TipoEmbarque"])?$_REQUEST["TipoEmbarque"]:"";
 $RutCliente  = isset($_REQUEST["RutCliente"])?$_REQUEST["RutCliente"]:"";

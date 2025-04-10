@@ -136,7 +136,8 @@
 	if (($Producto == "48") || ($Producto == "18" && $SubProducto != "5"))
 	{
 		$Consulta.= " and t1.cod_producto = '18'";
-		if ((($Producto == "18") && (intval($Fila3["cod_grupo"]) < 50)) || ($Producto == "48"))
+		//if ((($Producto == "18") && (intval($Fila3["cod_grupo"]) < 50)) || ($Producto == "48"))
+		if (($Producto == "18") || ($Producto == "48"))
 		{
 			$Consulta.= " and t1.cod_subproducto = '1'";
 		}
@@ -323,7 +324,7 @@
 		if ($Encontro == false)
 		{
 			//CREA CERTIFICADO VIRTUAL			
-			CertifVirtual($Fila["cod_bulto"],$Fila["num_bulto"],$Ano);			
+			CertifVirtual($Fila["cod_bulto"],$Fila["num_bulto"],$Ano,$link);			
 			//CONSULTA LA TABLA TEMPORAL
 			$Consulta = "SELECT t1.cod_leyes, t1.valor, t1.signo ";
 			$Consulta.= " from sec_web.tmp_certificacion_catodos t1";
@@ -360,16 +361,16 @@
 		echo "<td align='right'>".number_format($Fila["peso"],0,",",".")."</td>\n";
 		if ($Certif == true)
 		{
-			$SumaImpurezas = "";
+			$SumaImpurezas = 0;
 			reset($ArrLeyes);
 			foreach($ArrLeyes as $k => $v)
 			{
 				if ($v[0] != "48")
 				{
 					if ($v[0] != "04" || $v[0] != "05")			
-						$SumaImpurezas = $SumaImpurezas + ($v[2] / 10000);
+						$SumaImpurezas = $SumaImpurezas + ((int)$v[2] / 10000);
 					else
-						$SumaImpurezas = $SumaImpurezas + ($v[2] / 10000);
+						$SumaImpurezas = $SumaImpurezas + ((int)$v[2] / 10000);
 				}
 			}
 			if ((100 - $SumaImpurezas) > 99.980)
@@ -383,52 +384,52 @@
 		}*/						
 		reset($ArrLeyes);
 		foreach($ArrLeyes as $k => $v)
-		{
+		{   $ArrTotal01 = isset($ArrTotal[$v[0]][1])?$ArrTotal[$v[0]][1]:0; //agregado por WSO
 			if ($FinoLeyes == "L")
 			{
 				$Valor = $v[2];
 				switch ($v[0])
 				{
 					case "02":
-						$ValorAux = ($v[2] * $Fila["peso"]) / 100;
+						$ValorAux = ((float)$v[2] * (float)$Fila["peso"]) / 100;
 						break;
 					case "04":
-						$ValorAux = ($v[2] * $Fila["peso"]) / 1000;
+						$ValorAux = ((float)$v[2] * (float)$Fila["peso"]) / 1000;
 						break;
 					case "05":
-						$ValorAux = ($v[2] * $Fila["peso"]) / 1000;
+						$ValorAux = ((float)$v[2] * (float)$Fila["peso"]) / 1000;
 						break;
 					default:
-						$ValorAux = ($v[2] * $Fila["peso"]) / 1000000;
+						$ValorAux = ((float)$v[2] * (float)$Fila["peso"]) / 1000000;
 						break;
 				}
 				$ArrTotal[$v[0]][0] = $v[0];				
-				$ArrTotal[$v[0]][1] = $ArrTotal[$v[0]][1] + $ValorAux;
+				$ArrTotal[$v[0]][1] = $ArrTotal01 + $ValorAux;
 			}
 			else
 			{
 				switch ($v[0])
 				{
 					case "02":
-						$Valor = ($v[2] * $Fila["peso"]) / 100;
+						$Valor = ((float)$v[2] * (float)$Fila["peso"]) / 100;
 						break;
 					case "04":
-						$Valor = ($v[2] * $Fila["peso"]) / 1000;
+						$Valor = ((float)$v[2] * (float)$Fila["peso"]) / 1000;
 						break;
 					case "05":
-						$Valor = ($v[2] * $Fila["peso"]) / 1000;
+						$Valor = ((float)$v[2] * (float)$Fila["peso"]) / 1000;
 						break;
 					default:
-						$Valor = ($v[2] * $Fila["peso"]) / 1000000;
+						$Valor = ((float)$v[2] * (float)$Fila["peso"]) / 1000000;
 						break;
 				}
 				$ArrTotal[$v[0]][0] = $v[0];
-				$ArrTotal[$v[0]][1] = $ArrTotal[$v[0]][1] + $Valor;
+				$ArrTotal[$v[0]][1] = $ArrTotal01 + $Valor;
 			}					
 			if ($v[0] == "02") 
-				echo "<td align='right'>".number_format($Valor,2,",",".")."</td>";
+				echo "<td align='right'>".number_format((float)$Valor,2,",",".")."</td>";
 			else
-				echo "<td align='right'>".number_format($Valor,1,",",".")."</td>";
+				echo "<td align='right'>".number_format((float)$Valor,1,",",".")."</td>";
 		}			
 		//------------------------------------------------------------------------------------------------					
 		echo "</tr>\n";

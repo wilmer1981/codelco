@@ -922,8 +922,9 @@ function LeerArchiv($ruta,$archivo,$txtvalor)
 	}	
 	if(file_exists($ubicacion)){
 		$arc = fopen($ubicacion,"r");
-		while(! feof($arc))  {
-			$valor = fgets($arc);
+		while (($line = fgets($arc)) !== false) {
+		   //echo $line;  // Imprimir la línea leída
+		   $valor = $line;
 		}
 		fclose($arc);
 	}else{
@@ -942,8 +943,9 @@ function LeerArchivo($ruta,$archivo)
 	
 	if(file_exists($ubicacion)){
 		$arc = fopen($ubicacion,"r");
-		while(! feof($arc))  {
-			$valor = fgets($arc);
+		while (($line = fgets($arc)) !== false) {
+		   //echo $line;  // Imprimir la línea leída
+		   $valor = $line;
 		}
 		fclose($arc);
 	}else{
