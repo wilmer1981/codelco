@@ -360,7 +360,7 @@ switch ($Proceso)
 				{
 					$Consulta="select * from pac_web.guia_despacho where num_guia='".$NumGuia."' and num_guia!=''";
 					$Respuesta=mysqli_query($link, $Consulta);
-					echo $Consulta;exit();
+					//echo $Consulta;exit();
 					if ($Fila=mysqli_fetch_array($Respuesta))
 					{
 						header("location:pac_guia_despacho_proceso.php?Mostrar=S");

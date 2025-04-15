@@ -3,7 +3,8 @@
 	$CodigoDeSistema = 9;
 	$CodigoDePantalla = 12;
 	include("../principal/conectar_pac_web.php");
-	$meses =array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");	
+	include("../principal/funciones.php");
+	$meses = array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");	
 	$Fecha_Hora = date("Y-m-d" );
 
 	$Proceso = isset($_REQUEST["Proceso"])?$_REQUEST["Proceso"]:"";
@@ -470,8 +471,14 @@ function Generar(Opcion)
 	?>
 	<div style="position:absolute; left: 20px; top: 135px; width: 755px; height: 190px; OVERFLOW: auto;" scrolling='yes' id="div2">
 	<?php
+	if(strlen($CmbMes)==1)
+		$CmbMes = '0'.$CmbMes;
+	
+	$ultdia='';
+	$ultdia = ultimodia($CmbMes,$CmbAno,$ultdia);	// agregado por WSO
+
 	$FechaInicio=$CmbAno."-".$CmbMes."-01 00:00:01";
-	$FechaTermino=$CmbAno."-".$CmbMes."-31 23:59:59";
+	$FechaTermino=$CmbAno."-".$CmbMes."-$ultdia 23:59:59";
 	echo "<table width='730' border='1' cellpadding='2' cellspacing='0' >";
 	$Consulta ="select t1.correlativo,t1.fecha_hora,t9.nombre as producto,t6.url_gde_local,t1.num_guia,t1.nro_patente,t2.nombre as transportista,t1.toneladas,t3.nombre as cliente,t4.nombre as chofer,t5.nombre_subclase,tipo_guia ";
 	$Consulta.="from pac_web.guia_despacho t1 left join pac_web.transportista t2 on t1.rut_transportista = t2.rut_transportista ";

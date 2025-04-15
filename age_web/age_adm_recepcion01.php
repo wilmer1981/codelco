@@ -3,8 +3,8 @@
 	set_time_limit(1000);
 	include("age_funciones.php");	
 	//require_once 'reader.php';
-	$Archivo_name = $_FILES["Archivo"]["name"];
-	$Archivo      = $_FILES["Archivo"]["tmp_name"];
+	$Archivo_name = isset($_FILES["Archivo"]["name"])?$_FILES["Archivo"]["name"]:"";
+	$Archivo      = isset($_FILES["Archivo"]["tmp_name"])?$_FILES["Archivo"]["tmp_name"]:"";
 	//echo __DIR__;
 	//require __DIR__ . "/vendor/autoload.php";
 	require_once '../cal_web/vendor/autoload.php';					
@@ -13,28 +13,41 @@
 	use PhpOffice\PhpSpreadsheet\Shared\Date as SharedDate;
 	//use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
     $CookieRut = $_COOKIE["CookieRut"];
-    $Proceso           =  isset($_REQUEST['Proceso'])?$_REQUEST['Proceso']:'';
-	$TxtCorrelativo    = isset($_REQUEST['TxtCorrelativo'])?$_REQUEST['TxtCorrelativo']:'';
-	$TxtLoteRemuestreo = isset($_REQUEST['TxtLoteRemuestreo'])?$_REQUEST['TxtLoteRemuestreo']:'';
-	$TxtLote           = isset($_REQUEST['TxtLote'])?$_REQUEST['TxtLote']:'';
-	$CmbSubProducto    = isset($_REQUEST['CmbSubProducto'])?$_REQUEST['CmbSubProducto']:'';	
-	$CmbProveedor      = isset($_REQUEST['CmbProveedor'])?$_REQUEST['CmbProveedor']:'';
-	$TxtFechaRecep     = isset($_REQUEST['TxtFechaRecep'])?$_REQUEST['TxtFechaRecep']:'';
-	$TxtCancha         = isset($_REQUEST['TxtCancha'])?$_REQUEST['TxtCancha']:'';
-	$CmbCodFaena       = isset($_REQUEST['CmbCodFaena'])?$_REQUEST['CmbCodFaena']:'';
-	$CmbCodRecepcion   = isset($_REQUEST['CmbCodRecepcion'])?$_REQUEST['CmbCodRecepcion']:'';
-	$CmbClaseProducto  = isset($_REQUEST['CmbClaseProducto'])?$_REQUEST['CmbClaseProducto']:'';
-	$TxtConjunto       = isset($_REQUEST['TxtConjunto'])?$_REQUEST['TxtConjunto']:'';
-	$TxtMuestraParalela = isset($_REQUEST['TxtMuestraParalela'])?$_REQUEST['TxtMuestraParalela']:'';
-	$CmbEstadoLote      = isset($_REQUEST['CmbEstadoLote'])?$_REQUEST['CmbEstadoLote']:'';	
-	$CmbCodRecepcionENM = isset($_REQUEST['CmbCodRecepcionENM'])?$_REQUEST['CmbCodRecepcionENM']:'';
-	$TxtValores         = isset($_REQUEST['TxtValores'])?$_REQUEST['TxtValores']:'';
-	$TipoBusqueda       = isset($_REQUEST['TipoBusqueda'])?$_REQUEST['TipoBusqueda']:'';
-	$TxtFechaIni        = isset($_REQUEST['TxtFechaIni'])?$_REQUEST['TxtFechaIni']:'';
-	$TxtFechaFin        = isset($_REQUEST['TxtFechaFin'])?$_REQUEST['TxtFechaFin']:'';
-	$TxtLoteIni         = isset($_REQUEST['TxtLoteIni'])?$_REQUEST['TxtLoteIni']:'';
-	$TxtLoteFin         = isset($_REQUEST['TxtLoteFin'])?$_REQUEST['TxtLoteFin']:'';
-	$LimitFin          = isset($_REQUEST['LimitFin'])?$_REQUEST['LimitFin']:'';
+   
+	$Proceso           =  isset($_REQUEST['Proceso'])?$_REQUEST['Proceso']:'';
+    $TxtCorrelativo    = isset($_REQUEST['TxtCorrelativo'])?$_REQUEST['TxtCorrelativo']:'';
+    $TxtLoteRemuestreo = isset($_REQUEST['TxtLoteRemuestreo'])?$_REQUEST['TxtLoteRemuestreo']:'';
+    $TxtLote           = isset($_REQUEST['TxtLote'])?$_REQUEST['TxtLote']:'';
+    $TxtRecargo           = isset($_REQUEST['TxtRecargo'])?$_REQUEST['TxtRecargo']:'';
+    $CmbSubProducto    = isset($_REQUEST['CmbSubProducto'])?$_REQUEST['CmbSubProducto']:'';
+    $CmbProveedor      = isset($_REQUEST['CmbProveedor'])?$_REQUEST['CmbProveedor']:'';
+    $TxtFechaRecep     = isset($_REQUEST['TxtFechaRecep'])?$_REQUEST['TxtFechaRecep']:'';
+    $TxtCancha         = isset($_REQUEST['TxtCancha'])?$_REQUEST['TxtCancha']:'';
+    $CmbCodFaena       = isset($_REQUEST['CmbCodFaena'])?$_REQUEST['CmbCodFaena']:'';
+    $CmbCodRecepcion   = isset($_REQUEST['CmbCodRecepcion'])?$_REQUEST['CmbCodRecepcion']:'';
+    $CmbClaseProducto  = isset($_REQUEST['CmbClaseProducto'])?$_REQUEST['CmbClaseProducto']:'';
+    $TxtConjunto       = isset($_REQUEST['TxtConjunto'])?$_REQUEST['TxtConjunto']:'';
+    $TxtMuestraParalela = isset($_REQUEST['TxtMuestraParalela'])?$_REQUEST['TxtMuestraParalela']:'';
+    $CmbEstadoLote      = isset($_REQUEST['CmbEstadoLote'])?$_REQUEST['CmbEstadoLote']:'';  
+    $CmbCodRecepcionENM = isset($_REQUEST['CmbCodRecepcionENM'])?$_REQUEST['CmbCodRecepcionENM']:'';
+    $TxtValores         = isset($_REQUEST['TxtValores'])?$_REQUEST['TxtValores']:'';
+    $TipoBusqueda       = isset($_REQUEST['TipoBusqueda'])?$_REQUEST['TipoBusqueda']:'';
+    $TxtFechaIni        = isset($_REQUEST['TxtFechaIni'])?$_REQUEST['TxtFechaIni']:'';
+    $TxtFechaFin        = isset($_REQUEST['TxtFechaFin'])?$_REQUEST['TxtFechaFin']:'';
+    $TxtLoteIni         = isset($_REQUEST['TxtLoteIni'])?$_REQUEST['TxtLoteIni']:'';
+    $TxtLoteFin         = isset($_REQUEST['TxtLoteFin'])?$_REQUEST['TxtLoteFin']:'';
+    $LimitFin           = isset($_REQUEST['LimitFin'])?$_REQUEST['LimitFin']:'';
+       
+    $TxtFolio          = isset($_REQUEST['TxtFolio'])?$_REQUEST['TxtFolio']:'';
+    $ChkFinLote        = isset($_REQUEST['ChkFinLote'])?$_REQUEST['ChkFinLote']:'';
+    $TxtPesoBruto      = isset($_REQUEST['TxtPesoBruto'])?$_REQUEST['TxtPesoBruto']:'';
+    $TxtPesoTara       = isset($_REQUEST['TxtPesoTara'])?$_REQUEST['TxtPesoTara']:'';
+    $TxtPesoNeto       = isset($_REQUEST['TxtPesoNeto'])?$_REQUEST['TxtPesoNeto']:'';
+    $TxtGuia           = isset($_REQUEST['TxtGuia'])?$_REQUEST['TxtGuia']:'';
+    $TxtPatente        = isset($_REQUEST['TxtPatente'])?$_REQUEST['TxtPatente']:'';
+    $CmbAutorizado     = isset($_REQUEST['CmbAutorizado'])?$_REQUEST['CmbAutorizado']:'';
+    $CmbEstadoRecargo  = isset($_REQUEST['CmbEstadoRecargo'])?$_REQUEST['CmbEstadoRecargo']:'';
+	
 	
 	if($TxtCorrelativo=='')
 		$TxtCorrelativo=0;
@@ -78,7 +91,7 @@
 			$Insertar.= " '00:00:00', '".$ChkFinLote."', '".$TxtPesoBruto."', '".$TxtPesoTara."', '".$TxtPesoNeto."', '".$TxtGuia."', ";
 			$Insertar.= " '".$TxtPatente."', '".$CmbAutorizado."', '".$CmbEstadoRecargo."','S')";
 			mysqli_query($link, $Insertar);
-	//echo "<br>DETALLE ".$Insertar."<br>";
+			//echo "<br>DETALLE ".$Insertar."<br>";
 		if (mysqli_errno($link)==0)
 			{
 				$EstOpe1 = "S";
@@ -695,14 +708,16 @@
 				$data = IOFactory::load($Directorio."/".$NombreArchivo);
 				
 				error_reporting(E_ALL ^ E_NOTICE);
-				$Hoja=0;$Det='N';$Lotes='';$LotesNo='';
+				$Hoja=0;$Det='N';
+				$Lotes='';
+				$LotesNo='';
 				$worksheet  = $data->getSheet($Hoja); // hoja actual
 				$highestRow = $worksheet->getHighestDataRow(); // e.g. 10
 				// Get the highest row number and column letter referenced in the worksheet
 				//$highestRow = $worksheet->getHighestDataRow(); // e.g. 10
 				//$highestColumn = $worksheet->getHighestDataColumn(); // e.g 'F'
 
-				echo "highestRow:".$highestRow;
+				//echo "highestRow:".$highestRow;
 				//for ($i = 0; $i <= $data->sheets[$Hoja]['numRows']; $i++) 
 				for ($i = 1; $i <= $highestRow; $i++) 
 				{   //$data->sheets[$Hoja]['cells'][$i][1] 
@@ -722,7 +737,7 @@
 						$MES=isset($TxtFechaRecep[1])?$TxtFechaRecep[1]:"";
 						$ANO=isset($TxtFechaRecep[2])?$TxtFechaRecep[2]:"";					
 						$TxtFechaRecep=date('Y-m-d',mktime(0,0,0,$MES,$DIA+1,$ANO));
-						//TxtFechaRecep."<br>";
+						//echo "TxtFechaRecep:".$TxtFechaRecep."<br>";
 						//--------LOTE DE ENTRADA PARA PODER SABER DESPUES SI EXISTE O NO EN LA BASE DE DATOS------
 						//$EntradaLote=trim($data->sheets[$Hoja]['cells'][$i][3]);
 						$EntradaLote=trim($worksheet->getCell([3,$i])->getValue());
@@ -762,21 +777,22 @@
 						*/
 						$PesoBruto = str_replace(',','.',trim($worksheet->getCell([7,$i])->getValue()));
 						$PesoTara  = str_replace(',','.',trim($worksheet->getCell([8,$i])->getValue()));
-						$PesoNeto  = str_replace(',','.',trim($worksheet->getCell([9,$i])->getValue()));
+						$PesoNeto  = str_replace(',','.',trim($worksheet->getCell([9,$i])->getCalculatedValue())); //valor calculado
 						$Humedad   = str_replace(',','.',trim($worksheet->getCell([10,$i])->getValue()));
 						$PesoSeco  = str_replace(',','.',trim($worksheet->getCell([11,$i])->getValue()));
 						
-						//echo "2".$PesoBruto."<br>";
-						//echo "2".$PesoTara."<br>";
-						//echo "2".$PesoNeto."<br><br>";
+						//echo "2:".$PesoBruto."<br>";
+						//echo "2:".$PesoTara."<br>";
+						//echo "2:".$PesoNeto."<br><br>";
 						
 						$PesoBruto=str_replace('.','',(float)$PesoBruto*1000);
 						$PesoTara=str_replace('.','',(float)$PesoTara*1000);
 						$PesoNeto=str_replace('.','',(float)$PesoNeto*1000);						
 						$PesoSeco=str_replace('.','',(float)$PesoSeco*1000);
-						//echo "3".$PesoBruto."<br>";
-						//echo "3".$PesoTara."<br>";
-						//echo "3".$PesoNeto."<br><br><br><br><br>";
+						//echo "3:".$PesoBruto."<br>";
+						//echo "3:".$PesoTara."<br>";
+						//echo "3:".$PesoNeto."<br><br><br><br><br>";						
+						//exit();
 						/*$Consulta="select guia_despacho,recargo,lote,patente,peso_bruto,peso_tara,peso_neto from age_web.detalle_lotes where recargo='".$Recargo."' and guia_despacho='".$GuiaDes."' and observacion='".$EntradaLote."'";
 						$Resp = mysqli_query($link, $Consulta);
 						if(!$Fila = mysqli_fetch_array($Resp))
@@ -903,6 +919,8 @@
 			case "GRDL"://GUARDA RESULTADO DE LOTES MOSTRADOS
 					$ConsultaTemp="select * from age_web.lotes_temp";
 					$RespTemp = mysqli_query($link, $ConsultaTemp);
+					$SolicitudFinales = ""; //WSO
+					$Lotes="";
 					while($FilaTemp = mysqli_fetch_array($RespTemp))
 					{						
 						$LoteTemporal=$FilaTemp["lote"];
@@ -921,7 +939,7 @@
 						//-----------------CONSULTO POR EL LOTE, SI NO EXISTE LO INSERTA-------------------
 						$Consulta1="select lote from age_web.detalle_lotes where observacion='".$LoteOrigen."'";
 						$Resp1 = mysqli_query($link, $Consulta1);
-						$Lotes="";
+						//$Lotes="";
 						if(!$Fila1 = mysqli_fetch_array($Resp1))
 						{
 							$Consulta1="select lote,observacion from age_web.detalle_lotes where observacion like '%".$FilaTemp["lote"]."%'";
@@ -966,6 +984,7 @@
 						$ConsultaDetalle="select * from age_web.lotes_temp_detalle where lote='".$LoteTemporal."'";
 						//ConsultaDetalle."<br>";
 						$RespDet = mysqli_query($link, $ConsultaDetalle);
+						$SolicitudesCreadas = ""; //WSO
 						while($FilaDet = mysqli_fetch_array($RespDet))
 						{
 							$Recargo      = $FilaDet["recargo"];
@@ -1027,14 +1046,15 @@
 									$Insertar.= "romana_salida,tipo,patente,leyes,impurezas,cod_clase) VALUES ('".$correl."','".$TxtLoteMod."','".$Recargo."','".$FinLote."','99999999','0','0',";
 									$Insertar.= " '".$FechaRecarDet."','00:00:00','00:00:00','".$PesoBruto."','".$PesoTara."','".$PesoNeto."',";
 									$Insertar.= " '".$Proveedor."','".$CodFaena."',1,'".$SubProducto."','".$GuiaDespa."',";
-									$Insertar.= "'".$Conjunto."','Ingresado x Abastecimiento','S',null,'S','0','0','0','0','','".$Patente."','".$FilaDet[pastas]."','".$FilaDet["impurezas"]."','".$ClaseProducto."')";
+									$Insertar.= "'".$Conjunto."','Ingresado x Abastecimiento','S','C','S','0','0','0','0','','".$Patente."','".$FilaDet["pastas"]."','".$FilaDet["impurezas"]."','".$ClaseProducto."')";
+									//$Insertar.= "'".$Conjunto."','Ingresado x Abastecimiento','S',null,'S','0','0','0','0','','".$Patente."','".$FilaDet["pastas"]."','".$FilaDet["impurezas"]."','".$ClaseProducto."')";
 									//echo "INSERTAMOS EN RECEPCIONES SIPA:   ".$Insertar."<br>";
 									mysqli_query($link, $Insertar);
 									
 								//		echo "crea sa ".$Recargo."<br>";
 									//FUNCION PARA CREAR SOLICITUDES.
 									//TxtLoteMod." ".$FinLote."<br>";							
-									$SolicitudesCreadas=CrearSA($TxtLoteMod,$Recargo,$RutProveedor,$FinLote,'1',$CmbSubProducto,$FilaDet["pastas"],$FilaDet["impurezas"],$CookieRut,$PesoNeto,$Hum,$PesSeco);							
+									$SolicitudesCreadas=CrearSA($TxtLoteMod,$Recargo,$RutProveedor,$FinLote,'1',$CmbSubProducto,$FilaDet["pastas"],$FilaDet["impurezas"],$CookieRut,$PesoNeto,$Hum,$PesSeco,$link);							
 								}
 							}
 							else
@@ -1091,7 +1111,7 @@
 						$SolicitudFinales=substr($SolicitudFinales,0,strlen($SolicitudFinales)-1);
 						//echo "solicitudes antes de enviar por correo:     ".$SolicitudFinales."<br>";
 						//ENVIAR CORREOS despues de tener el ultimo registro ingresado
-						EnvioCorreo($SolicitudFinales);									
+						EnvioCorreo($SolicitudFinales,$link);									
 					}
 					$EliminaTabla="drop table age_web.lotes_temp";
 					mysqli_query($link, $EliminaTabla);

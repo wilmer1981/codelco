@@ -1,14 +1,50 @@
-<?php
+<?php 
 	include("../principal/conectar_principal.php"); 
 //	$EstadoInput = "readonly";
 	
+	$Proc = isset($_REQUEST['Proc']) ? $_REQUEST['Proc'] : '';
+	$TxtLote = isset($_REQUEST['TxtLote']) ? $_REQUEST['TxtLote'] : '';
+	$EstOpe = isset($_REQUEST['EstOpe']) ? $_REQUEST['EstOpe'] : '';
+	$TxtRecargo = isset($_REQUEST['TxtRecargo']) ? $_REQUEST['TxtRecargo'] : '';
+	$TipoBusq = isset($_REQUEST['TipoBusq']) ? $_REQUEST['TipoBusq'] : '';
+	$NewRec = isset($_REQUEST['NewRec']) ? $_REQUEST['NewRec'] : '';
+	$ChkFinLote = isset($_REQUEST['ChkFinLote']) ? $_REQUEST['ChkFinLote'] : '';
+	$TxtFechaRecep = isset($_REQUEST['TxtFechaRecep']) ? $_REQUEST['TxtFechaRecep'] : '';
+	$TxtPesoBruto = isset($_REQUEST['TxtPesoBruto']) ? $_REQUEST['TxtPesoBruto'] : '';
+	$TxtPesoTara = isset($_REQUEST['TxtPesoTara']) ? $_REQUEST['TxtPesoTara'] : '';
+	$TxtPesoNeto = isset($_REQUEST['TxtPesoNeto']) ? $_REQUEST['TxtPesoNeto'] : '';
+	$TxtPatente = isset($_REQUEST['TxtPatente']) ? $_REQUEST['TxtPatente'] : '';
+	$TxtFolio = isset($_REQUEST['TxtFolio']) ? $_REQUEST['TxtFolio'] : '';
+	$TxtGuia = isset($_REQUEST['TxtGuia']) ? $_REQUEST['TxtGuia'] : '';
+	$CmbAutorizado = isset($_REQUEST['CmbAutorizado']) ? $_REQUEST['CmbAutorizado'] : '';
+	$CmbEstadoRecargo = isset($_REQUEST['CmbEstadoRecargo']) ? $_REQUEST['CmbEstadoRecargo'] : '';
+	$Mensaje = isset($_REQUEST['Mensaje']) ? $_REQUEST['Mensaje'] : '';
+	$MensajeExiste = isset($_REQUEST['MensajeExiste']) ? $_REQUEST['MensajeExiste'] : '';
+	$CmbCodRecepcionENM = isset($_REQUEST['CmbCodRecepcionENM']) ? $_REQUEST['CmbCodRecepcionENM'] : '';
+
+	$TxtCorrelativo = isset($_REQUEST['TxtCorrelativo']) ? $_REQUEST['TxtCorrelativo'] : '';
+	$TipoConsulta = isset($_REQUEST['TipoConsulta']) ? $_REQUEST['TipoConsulta'] : '';
+	$TxtConjunto = isset($_REQUEST['TxtConjunto']) ? $_REQUEST['TxtConjunto'] : '';
+
+	$TxtMuestraParalela = isset($_REQUEST['TxtMuestraParalela']) ? $_REQUEST['TxtMuestraParalela'] : '';
+	$CmbSubProducto = isset($_REQUEST['CmbSubProducto']) ? $_REQUEST['CmbSubProducto'] : '';
+	$CmbClaseProducto = isset($_REQUEST['CmbClaseProducto']) ? $_REQUEST['CmbClaseProducto'] : '';
+	$CmbEstadoLote = isset($_REQUEST['CmbEstadoLote']) ? $_REQUEST['CmbEstadoLote'] : '';
+	$CmbProveedor = isset($_REQUEST['CmbProveedor']) ? $_REQUEST['CmbProveedor'] : '';
+	$TxtFiltroPrv = isset($_REQUEST['TxtFiltroPrv']) ? $_REQUEST['TxtFiltroPrv'] : '';
+	$CmbCodFaena = isset($_REQUEST['CmbCodFaena']) ? $_REQUEST['CmbCodFaena'] : '';
+	$CmbCodRecepcion = isset($_REQUEST['CmbCodRecepcion']) ? $_REQUEST['CmbCodRecepcion'] : '';
+	$TxtLoteRemuestreo  = isset($_REQUEST['TxtLoteRemuestreo']) ? $_REQUEST['TxtLoteRemuestreo'] : '';
+	$TxtCancha  = isset($_REQUEST['TxtCancha']) ? $_REQUEST['TxtCancha'] : '';
+
+
 	if($Proc!='M')
 	{
 		$MensajeExiste="N";
 		$Consulta = "select * ";
 		$Consulta.= " from age_web.lotes t1";
 		$Consulta.= " where t1.lote = '".$TxtLote."'";
-		$Resp = mysqli_query($link, $Consulta);
+		$Resp = mysqli_query($link,$Consulta);
 		if ($Fila = mysqli_fetch_array($Resp))
 		{
 			$MensajeExiste="S";
@@ -29,7 +65,7 @@
 		$Consulta.= " on t1.lote = t2.lote";
 		$Consulta.= " where t1.lote = '".$TxtLote."'";
 		$Consulta.= " and t2.recargo = '".$TxtRecargo."'";
-		$Resp = mysqli_query($link, $Consulta);
+		$Resp = mysqli_query($link,$Consulta);
 		if ($Fila = mysqli_fetch_array($Resp))
 		{
 			//DATOS DEL LOTE
@@ -66,7 +102,7 @@
 			{
 				$Consulta = "select ifnull(max(recargo*1),0) as ult_recargo from age_web.detalle_lotes ";
 				$Consulta.= " where lote='".$TxtLote."'";
-				$Resp2 = mysqli_query($link, $Consulta);
+				$Resp2 = mysqli_query($link,$Consulta);
 				if ($Fila2 = mysqli_fetch_array($Resp2))
 					$TxtRecargo = $Fila2["ult_recargo"] + 1;
 				else
@@ -88,7 +124,7 @@
 		$Consulta = "select * ";
 		$Consulta.= " from age_web.lotes t1 ";
 		$Consulta.= " where t1.lote = '".$TxtLote."'";
-		$Resp = mysqli_query($link, $Consulta);
+		$Resp = mysqli_query($link,$Consulta);
 		if ($Fila = mysqli_fetch_array($Resp))
 		{
 			//DATOS DEL LOTE
@@ -264,13 +300,13 @@ body {
 BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=event.cancelBubble=true>
 <IFRAME name=popFrame src="../principal/popcjs.htm" frameBorder=0 width=165 scrolling=no height=185></IFRAME></DIV>
 <form name="frmProceso" method="post" action="">
-<input type="hidden" name="Proc" value="<?php echo $Proc; ?>">
-<input type="hidden" name="NewRec" value="<?php echo $NewRec; ?>">
-<input type="hidden" name="TipoConsulta" value="<?php echo $TipoConsulta; ?>">
+<input type="hidden" name="Proc" value="<?php  echo $Proc; ?>">
+<input type="hidden" name="NewRec" value="<?php  echo $NewRec; ?>">
+<input type="hidden" name="TipoConsulta" value="<?php  echo $TipoConsulta; ?>">
 <table width="550"  border="1" align="center" cellpadding="2" cellspacing="0" class="TablaInterior">
   <tr class="ColorTabla01">
     <td colspan="4"><strong>OPERACION:
-	<?php
+	<?php 
 	switch ($Proc)
 	{
 		case "M":
@@ -289,7 +325,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
     <td>&nbsp;</td>
     <td colspan="2" align="center"><strong>CARGAR DESDE EXCEL</strong><a href="JavaScript:Proceso('CE','','')"><img src="../principal/imagenes/ico_excel5.jpg" alt="Carga Lotes desde Excel"  border="0" align="absmiddle" /></a></td>
     </tr>
-<?php
+<?php 
 	if ($EstOpe != "")
 	{  
 		switch ($EstOpe)
@@ -308,19 +344,19 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 ?>
   <tr class="Colum01">
     <td width="92" class="Colum01">Lote:</td>
-    <td width="180" class="Colum01"><input <?php echo $EstadoInput; ?> name="TxtLote" type="text" class="InputCen" id="TxtLote" value="<?php echo $TxtLote; ?>" size="10" maxlength="10" onBlur="BuscarLote(this)" onKeyDown="TeclaPulsada2('S',true,this.form,'TxtConjunto');"></td>
+    <td width="180" class="Colum01"><input <?php  echo $EstadoInput; ?> name="TxtLote" type="text" class="InputCen" id="TxtLote" value="<?php  echo $TxtLote; ?>" size="10" maxlength="10" onBlur="BuscarLote(this)" onKeyDown="TeclaPulsada2('S',true,this.form,'TxtConjunto');"></td>
     <td width="103" align="right" class="Colum01">Num.Conjunto:</td>
-    <td width="98" class="Colum01"><input name="TxtConjunto" type="text" class="InputDer" id="TxtConjunto2" value="<?php echo $TxtConjunto; ?>" size="10" maxlength="10" onKeyDown="TeclaPulsada2('S',false,this.form,'CmbSubProducto');"></td>
+    <td width="98" class="Colum01"><input name="TxtConjunto" type="text" class="InputDer" id="TxtConjunto2" value="<?php  echo $TxtConjunto; ?>" size="10" maxlength="10" onKeyDown="TeclaPulsada2('S',false,this.form,'CmbSubProducto');"></td>
   </tr>
   <tr class="Colum01">
     <td class="Colum01">SubProducto:</td>
     <td class="Colum01"><select name="CmbSubProducto" class="Select01" id="CmbSubProducto" onKeyDown="TeclaPulsada2('N',true,this.form,'CmbEstadoLote');">
 	<option value="S" class="NoSelec">SELECCIONAR</option>
-<?php
+<?php 
 	$Consulta = "select cod_subproducto, descripcion, abreviatura, LPAD(cod_subproducto,2,'0') as orden ";
 	$Consulta.= " from proyecto_modernizacion.subproducto ";
 	$Consulta.= " where cod_producto='1' order by orden";
-	$Resp = mysqli_query($link, $Consulta);
+	$Resp = mysqli_query($link,$Consulta);
 	while ($Fila = mysqli_fetch_array($Resp))
 	{
 		if ($CmbSubProducto == $Fila["cod_subproducto"])
@@ -333,9 +369,9 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
     <td align="right" class="Colum01">Estado del Lote:</td>
     <td class="Colum01"><select name="CmbEstadoLote" class="Select01" id="CmbEstadoLote"  onkeydown="TeclaPulsada2('N',true,this.form,'CmbProveedor');">
       <option value="S" class="NoSelec">SELECCIONAR</option>
-      <?php
+      <?php 
 	$Consulta = "select * from proyecto_modernizacion.sub_clase where cod_clase='15003' order by cod_subclase";
-	$Resp = mysqli_query($link, $Consulta);
+	$Resp = mysqli_query($link,$Consulta);
 	while ($Fila = mysqli_fetch_array($Resp))
 	{
 		if ($Fila["cod_subclase"]==$CmbEstadoLote)
@@ -350,17 +386,20 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
     <td class="Colum01">Proveedor: </td>
     <td colspan="3" class="Colum01"><select name="CmbProveedor" class="Select01" onKeyDown="TeclaPulsada2('N',true,this.form,'CmbCodFaena');" style="width:270">
 	<option value="S" class="NoSelec">SELECCIONAR</option>
-<?php
+<?php 
 	$Consulta = "select * ";
 	$Consulta.= " from sipa_web.proveedores ";
 	if($TipoBusq=='3'&&$TxtFiltroPrv!='')
 	   $Consulta.= " where nombre_prv like '%".$TxtFiltroPrv."%'";    	
 	$Consulta.= " order by TRIM(nombre_prv) ";
-	$Resp = mysqli_query($link, $Consulta);
+	$Resp = mysqli_query($link,$Consulta);
+	$Datos = array();
 	while ($Fila = mysqli_fetch_array($Resp))
 	{
 		$Datos = explode("-",$Fila["rut_prv"]);
-		$RutAux = ($Datos[0]*1)."-".$Datos[1];
+		$Datos0 = isset($Datos[0])?$Datos[0]:'';
+		$Datos1 = isset($Datos[1])?$Datos[1]:'';
+		$RutAux = ($Datos0)."-".$Datos1;
 		if ($CmbProveedor == $RutAux)
 			echo  "<option selected value='".$RutAux."'>".str_pad($Fila["rut_prv"],10,"0",STR_PAD_LEFT)." - ".$Fila["nombre_prv"]."</option>\n";
 		else
@@ -376,9 +415,9 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
     <td class="Colum01">Cod Faena: </td>
     <td colspan="3" class="Colum01"><select name="CmbCodFaena" class="Select01" onKeyDown="TeclaPulsada2('N',true,this.form,'CmbClaseProducto');">
 	<option value="S" class="NoSelec">SELECCIONAR</option>
-<?php
+<?php 
 	$Consulta = "select distinct cod_mina,nombre_mina from sipa_web.minaprv order by nombre_mina ";
-	$Resp = mysqli_query($link, $Consulta);
+	$Resp = mysqli_query($link,$Consulta);
 	while ($Fila = mysqli_fetch_array($Resp))
 	{
 		if ($CmbCodFaena == $Fila["cod_mina"])
@@ -393,9 +432,9 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
     <td class="Colum01">Clase Producto:</td>
     <td class="Colum01"><select name="CmbClaseProducto" class="Select01" onKeyDown="TeclaPulsada2('N',true,this.form,'CmbCodRecepcion');">
 	<option value="S" class="NoSelec">SELECCIONAR</option>
-      <?php
+      <?php 
 	$Consulta = "select * from proyecto_modernizacion.sub_clase where cod_clase='15001' order by nombre_subclase";
-	$Resp = mysqli_query($link, $Consulta);
+	$Resp = mysqli_query($link,$Consulta);
 	while ($Fila = mysqli_fetch_array($Resp))
 	{
 		if ($Fila["nombre_subclase"]==$CmbClaseProducto)
@@ -406,17 +445,17 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 ?>
     </select></td>
     <td align="right" class="Colum01">Muestra Paral.:</td>
-    <td class="Colum01"><input name="TxtMuestraParalela" type="text" class="InputDer" id="TxtLoteRemuestreo" value="<?php echo $TxtMuestraParalela; ?>" size="10" maxlength="10" onKeyDown="TeclaPulsada2('S',false,this.form,'TxtLoteRemuestreo');"></td>
+    <td class="Colum01"><input name="TxtMuestraParalela" type="text" class="InputDer" id="TxtLoteRemuestreo" value="<?php  echo $TxtMuestraParalela; ?>" size="10" maxlength="10" onKeyDown="TeclaPulsada2('S',false,this.form,'TxtLoteRemuestreo');"></td>
   </tr>
   <tr class="Colum01">
     <td class="Colum01">Cod.Recep:</td>
     <td class="Colum01"><select name="CmbCodRecepcion" class="Select01" onkeydown="TeclaPulsada2('N',true,this.form,'TxtMuestraParalela');">
       <option value="S" class="NoSelec">SELECCIONAR</option>
-<?php
+<?php 
 	$Consulta = "select * from proyecto_modernizacion.sub_clase ";
 	$Consulta.= " where cod_clase='3104' ";
 	$Consulta.= " order by cod_subclase ";
-	$Resp = mysqli_query($link, $Consulta);
+	$Resp = mysqli_query($link,$Consulta);
 	while ($Fila = mysqli_fetch_array($Resp))
 	{
 		if ($CmbCodRecepcion==$Fila["nombre_subclase"])
@@ -427,15 +466,15 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 ?>
     </select></td>
     <td align="right" class="Colum01">Lote Remues.:</td>
-    <td class="Colum01"><input name="TxtLoteRemuestreo" type="text" class="InputDer" id="TxtLoteRemuestreo3" value="<?php echo $TxtLoteRemuestreo; ?>" size="10" maxlength="10" onKeyDown="TeclaPulsada2('S',false,this.form,'TxtRecargo');"></td>
+    <td class="Colum01"><input name="TxtLoteRemuestreo" type="text" class="InputDer" id="TxtLoteRemuestreo3" value="<?php  echo $TxtLoteRemuestreo; ?>" size="10" maxlength="10" onKeyDown="TeclaPulsada2('S',false,this.form,'TxtRecargo');"></td>
   </tr>
   <tr class="Colum01">
     <td class="Colum01">Cod.Recep.ENM : </td>
     <td class="Colum01"><select name="CmbCodRecepcionENM" class="Select01" id="CmbCodRecepcionENM" onkeydown="TeclaPulsada2('N',true,this.form,'TxtMuestraParalela');">
       <option value="" class="NoSelec">SELECCIONAR</option>
-      <?php
+      <?php 
 	$Consulta = "select COD_C, DESC_A from rec_web.tipos  where indica='R' order by DESC_A ";
-	$Resp = mysqli_query($link, $Consulta);
+	$Resp = mysqli_query($link,$Consulta);
 	while ($Fila = mysqli_fetch_array($Resp))
 	{
 		if ($Fila["COD_C"]==$CmbCodRecepcionENM)
@@ -446,14 +485,14 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 ?>
     </select></td>
     <td align="right" class="Colum01">Cancha:</td>
-    <td class="Colum01"><input name="TxtCancha" type="text" class="InputDer" value="<?php echo $TxtCancha; ?>" size="10" maxlength="10" onKeyDown="TeclaPulsada2('S',false,this.form,'TxtRecargo');"></td>
+    <td class="Colum01"><input name="TxtCancha" type="text" class="InputDer" value="<?php  echo $TxtCancha; ?>" size="10" maxlength="10" onKeyDown="TeclaPulsada2('S',false,this.form,'TxtRecargo');"></td>
   </tr>
 </table>
 <br>
 <table width="550"  border="1" align="center" cellpadding="2" cellspacing="0" class="TablaInterior">
   <tr class="ColorTabla02">
     <td colspan="5"><strong>
-<?php
+<?php 
 	if ($NewRec == "S")
 		echo "<font style='color=#FF0000'>INGRESAR DATOS DEL NUEVO RECARGO</font>";
 	else
@@ -462,13 +501,13 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
   </tr>
   <tr>
     <td width="97" class="Colum01">Num.Recargo:</td>
-    <td width="74" class="Colum01"><input <?php if ($NewRec!="S"){echo $EstadoInput;} ?> name="TxtRecargo" type="text" class="InputDer" id="TxtRecargo" value="<?php echo $TxtRecargo; ?>" size="10" maxlength="10" onKeyDown="TeclaPulsada2('S',false,this.form,'TxtFechaRecep');"></td>
+    <td width="74" class="Colum01"><input <?php  if ($NewRec!="S"){echo $EstadoInput;} ?> name="TxtRecargo" type="text" class="InputDer" id="TxtRecargo" value="<?php  echo $TxtRecargo; ?>" size="10" maxlength="10" onKeyDown="TeclaPulsada2('S',false,this.form,'TxtFechaRecep');"></td>
     <td width="80" class="Colum01"><select name="CmbRecargo" onChange="Proceso('R')">
       <option value="S">Recargos</option>
-      <?php
+      <?php 
 	$Consulta = "select recargo, LPAD(recargo,2,'0') as orden from age_web.detalle_lotes ";
 	$Consulta.= " where lote='".$TxtLote."' order by orden";
-	$Resp= mysqli_query($link, $Consulta);
+	$Resp= mysqli_query($link,$Consulta);
 	while ($Fila = mysqli_fetch_array($Resp))
 	{
 		if ($Fila["recargo"]==$TxtRecargo)
@@ -481,7 +520,7 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
     </select></td>
     <td width="103" align="right" class="Colum01">Fin Lote:</td>
     <td width="113" class="Colum01">
-      <?php
+      <?php 
 	switch ($ChkFinLote)
 	{
 		case "S":
@@ -497,34 +536,34 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
   </tr>
   <tr>
     <td class="Colum01">Fecha Recep:</td>
-    <td colspan="2" class="Colum01">      <input name="TxtFechaRecep" type="text" class="InputCen" id="TxtFechaRecep2" value="<?php echo $TxtFechaRecep; ?>" size="15" maxlength="10" readonly onKeyDown="TeclaPulsada2('S',false,this.form,'TxtFolio');">
+    <td colspan="2" class="Colum01">      <input name="TxtFechaRecep" type="text" class="InputCen" id="TxtFechaRecep2" value="<?php  echo $TxtFechaRecep; ?>" size="15" maxlength="10" readonly onKeyDown="TeclaPulsada2('S',false,this.form,'TxtFolio');">
       <img src="../principal/imagenes/ico_cal.gif" alt="Pulse Aqui ParaSeleccionar Fecha" width="16" height="16" border="0" align="absmiddle" onClick="popFrame.fPopCalendar(TxtFechaRecep,TxtFechaRecep,popCal);return false"></td>
     <td align="right" class="Colum01">Peso Bruto:</td>
-    <td class="Colum01"><input name="TxtPesoBruto" type="text" id="TxtPesoBruto" value="<?php echo $TxtPesoBruto;?>" size="10" maxlength="10" class="InputDer" onKeyDown="TeclaPulsada2('S',false,this.form,'TxtPesoTara');"></td>
+    <td class="Colum01"><input name="TxtPesoBruto" type="text" id="TxtPesoBruto" value="<?php  echo $TxtPesoBruto;?>" size="10" maxlength="10" class="InputDer" onKeyDown="TeclaPulsada2('S',false,this.form,'TxtPesoTara');"></td>
   </tr>
   <tr>
     <td class="Colum01">Folio:</td>
-    <td colspan="2" class="Colum01"><input name="TxtFolio" type="text" class="InputDer" id="TxtFolio2" value="<?php echo $TxtFolio; ?>" size="10" maxlength="10" onKeyDown="TeclaPulsada2('S',false,this.form,'TxtCorrelativo');"></td>
+    <td colspan="2" class="Colum01"><input name="TxtFolio" type="text" class="InputDer" id="TxtFolio2" value="<?php  echo $TxtFolio; ?>" size="10" maxlength="10" onKeyDown="TeclaPulsada2('S',false,this.form,'TxtCorrelativo');"></td>
     <td align="right" class="Colum01">Peso Tara:</td>
-    <td class="Colum01"><input name="TxtPesoTara" type="text" class="InputDer" id="TxtPesoTara" value="<?php echo $TxtPesoTara; ?>" size="10" maxlength="10" onKeyDown="TeclaPulsada2('S',false,this.form,'TxtPesoNeto');"></td>
+    <td class="Colum01"><input name="TxtPesoTara" type="text" class="InputDer" id="TxtPesoTara" value="<?php  echo $TxtPesoTara; ?>" size="10" maxlength="10" onKeyDown="TeclaPulsada2('S',false,this.form,'TxtPesoNeto');"></td>
   </tr>
   <tr>
     <td class="Colum01">&nbsp;</td>
-    <td colspan="2" class="Colum01"><input name="TxtCorrelativo" type="hidden" class="InputDer" id="TxtCorrelativo" value="<?php echo $TxtCorrelativo; ?>" size="10" maxlength="10" onKeyDown="TeclaPulsada2('S',false,this.form,'TxtGuia');" readonly></td>
+    <td colspan="2" class="Colum01"><input name="TxtCorrelativo" type="hidden" class="InputDer" id="TxtCorrelativo" value="<?php  echo $TxtCorrelativo; ?>" size="10" maxlength="10" onKeyDown="TeclaPulsada2('S',false,this.form,'TxtGuia');" readonly></td>
     <td align="right" class="Colum01">Peso Neto:</td>
-    <td class="Colum01"><input name="TxtPesoNeto" type="text" class="InputDer" id="TxtPesoNeto" value="<?php echo $TxtPesoNeto;?>" size="10" maxlength="10" onKeyDown="TeclaPulsada2('S',false,this.form,'TxtPatente');"></td>
+    <td class="Colum01"><input name="TxtPesoNeto" type="text" class="InputDer" id="TxtPesoNeto" value="<?php  echo $TxtPesoNeto;?>" size="10" maxlength="10" onKeyDown="TeclaPulsada2('S',false,this.form,'TxtPatente');"></td>
   </tr>
   <tr>
     <td class="Colum01">Guia Despacho:</td>
-    <td colspan="2" class="Colum01">      <input name="TxtGuia" type="text" class="InputCen" id="TxtGuia2" value="<?php echo $TxtGuia; ?>" size="10" maxlength="10" onKeyDown="TeclaPulsada2('S',false,this.form,'TxtPesoBruto');"></td>
+    <td colspan="2" class="Colum01">      <input name="TxtGuia" type="text" class="InputCen" id="TxtGuia2" value="<?php  echo $TxtGuia; ?>" size="10" maxlength="10" onKeyDown="TeclaPulsada2('S',false,this.form,'TxtPesoBruto');"></td>
     <td align="right" class="Colum01">Patente:</td>
-    <td class="Colum01"><input name="TxtPatente" type="text" class="InputCen" id="TxtPatente2" value="<?php echo $TxtPatente; ?>" size="10" maxlength="10" onKeyDown="TeclaPulsada2('N',false,this.form,'CmbEstadoRecargo');"></td>
+    <td class="Colum01"><input name="TxtPatente" type="text" class="InputCen" id="TxtPatente2" value="<?php  echo $TxtPatente; ?>" size="10" maxlength="10" onKeyDown="TeclaPulsada2('N',false,this.form,'CmbEstadoRecargo');"></td>
   </tr>
   <tr>
     <td class="Colum01">Autorizado:</td>
     <td colspan="2" class="Colum01">
 	<select name="CmbAutorizado">
-	<?php
+	<?php 
 	switch ($CmbAutorizado)
 	{
 		case "S":
@@ -558,9 +597,9 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
     <td align="right" class="Colum01">Estado de Recargo:</td>
     <td class="Colum01"><select name="CmbEstadoRecargo" class="Select01" id="CmbEstadoRecargo"  onkeydown="TeclaPulsada2('N',true,this.form,'');">
       <option value="S" class="NoSelec">SELECCIONAR</option>
-      <?php
+      <?php 
 	$Consulta = "select * from proyecto_modernizacion.sub_clase where cod_clase='15003' order by cod_subclase";
-	$Resp = mysqli_query($link, $Consulta);
+	$Resp = mysqli_query($link,$Consulta);
 	while ($Fila = mysqli_fetch_array($Resp))
 	{
 		if ($Fila["cod_subclase"]==$CmbEstadoRecargo)
@@ -573,12 +612,12 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
   </tr>
   <tr align="center" valign="middle">
     <td height="30" colspan="5" class="Colum01"><input name="BtnGuardar" type="button" id="BtnGuardar" value="Guardar" style="width:70px " onClick="Proceso('G')">
-<?php 
+<?php  
 	if ($Proc == "M")
 	{
 ?>	
       <input name="BtnNuevoRec" type="button" id="BtnNuevoRec" value="Nuevo Recargo" style="width:100px " onClick="Proceso('NR')">
-<?php
+<?php 
 	}
 ?>	 
       <input name="BtnImprimir" type="button" id="BtnImprimir" value="Imprimir" style="width:70px " onClick="Proceso('I')">
@@ -588,10 +627,10 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 </form>
 </body>
 <script language="javascript">
-<?php 
+<?php  
 if($MensajeExiste=="S")
 {
-	?>alert("El lote ingresado ya se encuentra");<?php
+	?>alert("El lote ingresado ya se encuentra");<?php 
 	}
 ?>
 </script>

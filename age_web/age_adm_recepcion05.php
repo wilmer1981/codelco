@@ -9,6 +9,7 @@
 	$TxtLote      = isset($_REQUEST["TxtLote"])?$_REQUEST["TxtLote"]:"";
 	$TxtRecargo   = isset($_REQUEST["TxtRecargo"])?$_REQUEST["TxtRecargo"]:"";
 	$NewRec       = isset($_REQUEST["NewRec"])?$_REQUEST["NewRec"]:"";
+	$TipoConsulta = isset($_REQUEST["TipoConsulta"])?$_REQUEST["TipoConsulta"]:"";
 	
 	if($TxtConjunto=="")
 		$TxtConjunto=0;

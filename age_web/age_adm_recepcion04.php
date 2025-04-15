@@ -10,6 +10,7 @@
 	$Proc =  isset($_REQUEST['Proc'])?$_REQUEST['Proc']:'';
 	$EstOpe =  isset($_REQUEST['EstOpe'])?$_REQUEST['EstOpe']:'';
 	$CmbSubProducto =  isset($_REQUEST['CmbSubProducto'])?$_REQUEST['CmbSubProducto']:'';
+	$TxtSubProducto = isset($_REQUEST['TxtSubProducto'])?$_REQUEST['TxtSubProducto']:'';
 	$TxtConjunto    =  isset($_REQUEST['TxtConjunto'])?$_REQUEST['TxtConjunto']:'';
 	$CmbEstadoLote =  isset($_REQUEST['CmbEstadoLote'])?$_REQUEST['CmbEstadoLote']:'';
 	$CmbProveedor =  isset($_REQUEST['CmbProveedor'])?$_REQUEST['CmbProveedor']:'';
@@ -22,6 +23,8 @@
 	$TxtLote            =  isset($_REQUEST['TxtLote'])?$_REQUEST['TxtLote']:'';
 	$TxtRecargo         =  isset($_REQUEST['TxtRecargo'])?$_REQUEST['TxtRecargo']:'';
 	$ProcesaExcelOk     = isset($_REQUEST['ProcesaExcelOk'])?$_REQUEST['ProcesaExcelOk']:'';
+	$TxtFiltroPrv  = isset($_REQUEST['TxtFiltroPrv'])?$_REQUEST['TxtFiltroPrv']:'';
+	
 	if($TxtConjunto=="")
 		$TxtConjunto=0;
 	if($Opcion=='N')
@@ -346,10 +349,13 @@ BORDER-RIGHT:solid 2px #000000; VISIBILITY: hidden; POSITION: absolute" onclick=
 			   $Consulta.= " where nombre_prv like '%".$TxtFiltroPrv."%'";    	
 			$Consulta.= " order by TRIM(nombre_prv) ";
 			$Resp = mysqli_query($link, $Consulta);
+			$Datos = array();
 			while ($Fila = mysqli_fetch_array($Resp))
 			{
 				$Datos = explode("-",$Fila["rut_prv"]);
-				$RutAux = ((int)$Datos[0]*1)."-".$Datos[1];
+				$Datos0 = isset($Datos[0])?$Datos[0]:'';
+				$Datos1 = isset($Datos[1])?$Datos[1]:'';
+				$RutAux = ((int)$Datos0*1)."-".(int)$Datos1;
 				if ($CmbProveedor == $RutAux)
 					echo  "<option selected value='".$RutAux."'>".str_pad($Fila["rut_prv"],10,"0",STR_PAD_LEFT)." - ".$Fila["nombre_prv"]."</option>\n";
 				else

@@ -1674,10 +1674,11 @@ function LeyesAjusteProveedor($Ano,$Mes,$RutProv,$Prod,$SubProd,$ArrLeyesProv,$F
 function CrearSA($Lote,$Recargo,$Proveedor,$UltRec,$Producto,$SubProducto,$Leyes,$Impurezas,$RutOperador,$PesoNeto,$Humedad,$PesoSeco,$link)
 {
 	$FechaHora=date('Y-m-d H:i');
-	$Datos=explode('~',$ProdSubProd);
+	//$Datos=explode('~',$ProdSubProd);
 	$Consulta="select * from sipa_web.proveedores where rut_prv='$Proveedor' and hum_ult_rec<>'S'";
 	//echo "sIPA PROVEEDORES:    ".$Consulta."<br>";
 	$RespPrv=mysqli_query($link, $Consulta);
+	$NSolicitudes="";
 	if($FilaPrv=mysqli_fetch_array($RespPrv))
 	{	
 		//VERIFICA SI EXISTE OTRO RECARGO CON NRO DE SOLICITUD PARA TOMAR SUS VALORES E INSERTARLO EN FORMA AUTOMATICA
@@ -1732,7 +1733,7 @@ function CrearSA($Lote,$Recargo,$Proveedor,$UltRec,$Producto,$SubProducto,$Leyes
 			{
 				$Insertar2="insert into cal_web.estados_por_solicitud(rut_funcionario,nro_solicitud,recargo,cod_estado,fecha_hora,ult_atencion,rut_proceso) values (";
 				$Insertar2.="'".$Fila["rut_funcionario"]."','".$Fila["nro_solicitud"]."','".$Recargo."','6','".$Fila["fecha_hora"]."','N','".$Fila["rut_funcionario"]."')";
-			    echo $Insertar2."<br><BR>";
+			    //echo $Insertar2."<br><BR>";
 				mysqli_query($link, $Insertar2);
 				$Insertar2="insert into cal_web.leyes_por_solicitud(rut_funcionario,fecha_hora,nro_solicitud,recargo,cod_leyes,cod_unidad,cod_producto,cod_subproducto,id_muestra,peso_humedo,valor,peso_seco,rut_quimico,candado) values (";
 				$Insertar2.="'".$Fila["rut_funcionario"]."','".$Fila["fecha_hora"]."','".$Fila["nro_solicitud"]."','".$Recargo."','01','1','".$Producto."','".$SubProducto."','".$Lote."','".$PesoNeto."','".$Humedad."','".$PesoSeco."','".$Fila["rut_funcionario"]."','1')";
@@ -1746,16 +1747,22 @@ function CrearSA($Lote,$Recargo,$Proveedor,$UltRec,$Producto,$SubProducto,$Leyes
 				//echo $Insertar2."<br><BR><BR><BR>";
 				mysqli_query($link, $Insertar2);
 			}
-			
-			$Insertar2="insert into cal_web.leyes_por_solicitud(rut_funcionario,fecha_hora,nro_solicitud,recargo,cod_leyes,cod_unidad,cod_producto,cod_subproducto,id_muestra,peso_humedo,valor,peso_seco,rut_quimico,candado) values (";
-			$Insertar2.="'".$Fila["rut_funcionario"]."','".$Fila["fecha_hora"]."','".$Fila["nro_solicitud"]."','".$Recargo."','01','1','".$Producto."','".$SubProducto."','".$Lote."','".$PesoNeto."','".$Humedad."','".$PesoSeco."','".$Fila["rut_funcionario"]."','1')";
-			//echo $Insertar2."<br><BR><BR><BR>";
-			mysqli_query($link, $Insertar2);
+			//'40957290-2025-04-14 17:00:00-2025023647-01-2' 
+			//WSO
+			$Consulta1= "SELECT * FROM cal_web.leyes_por_solicitud WHERE rut_funcionario='".$Fila["rut_funcionario"]."' and fecha_hora='".$Fila["fecha_hora"]."' and nro_solicitud='".$Fila["nro_solicitud"]."' and recargo='".$Recargo."' ";
+			$Rpta =  mysqli_query($link, $Consulta1);
+			$RowNum = mysqli_num_rows($Rpta);
+			if($RowNum==0){
+				$Insertar2="insert into cal_web.leyes_por_solicitud(rut_funcionario,fecha_hora,nro_solicitud,recargo,cod_leyes,cod_unidad,cod_producto,cod_subproducto,id_muestra,peso_humedo,peso_seco,rut_quimico,candado) values (";
+				$Insertar2.="'".$Fila["rut_funcionario"]."','".$Fila["fecha_hora"]."','".$Fila["nro_solicitud"]."','".$Recargo."','01','1','".$Producto."','".$SubProducto."','".$Lote."','".$PesoNeto."','".$Humedad."','".$PesoSeco."','".$Fila["rut_funcionario"]."','1')";
+				//echo $Insertar2."<br><BR><BR><BR>";
+				mysqli_query($link, $Insertar2);
+			}
 			
 			if($Humedad!=0)//solo cuando humedad sea distinto de blanco
 			{
 				$Insertar2="insert into cal_web.registro_leyes(rut_funcionario,fecha_hora,nro_solicitud,recargo,cod_leyes,cod_unidad,valor,peso_humedo,peso_seco,candado,signo,rut_proceso) values (";
-				$Insertar2.="'".$Fila["rut_funcionario"]."','".$ila["fecha_hora"]."','".$Fila["nro_solicitud"]."','".$Recargo."','01','1','".$Humedad."','".$PesoNeto."','".$PesoSeco."','1','=','".$Fila["rut_funcionario"]."')";
+				$Insertar2.="'".$Fila["rut_funcionario"]."','".$Fila["fecha_hora"]."','".$Fila["nro_solicitud"]."','".$Recargo."','01','1','".$Humedad."','".$PesoNeto."','".$PesoSeco."','1','=','".$Fila["rut_funcionario"]."')";
 				//echo $Insertar2."<br><BR>";
 				mysqli_query($link, $Insertar2);
 			}
@@ -1867,14 +1874,16 @@ function CrearSA($Lote,$Recargo,$Proveedor,$UltRec,$Producto,$SubProducto,$Leyes
 			//	echo $Insertar2."<br><BR>";
 				mysqli_query($link, $Insertar2);
 				$Insertar2="insert into cal_web.leyes_por_solicitud(rut_funcionario,fecha_hora,nro_solicitud,recargo,cod_leyes,cod_unidad,cod_producto,cod_subproducto,id_muestra,peso_humedo,valor,peso_seco,rut_quimico,candado) values (";
-				$Insertar2.="'".$RutOperador."','".$FechaHora."','$NroSA','".$Recargo."','01','1','".$Producto."','".$SubProducto."','".$Lote."','".$PesoNeto."','".$Humedad."','".$PesoSeco."','".$Fila["rut_funcionario"]."','1')";
+				//$Insertar2.="'".$RutOperador."','".$FechaHora."','$NroSA','".$Recargo."','01','1','".$Producto."','".$SubProducto."','".$Lote."','".$PesoNeto."','".$Humedad."','".$PesoSeco."','".$Fila["rut_funcionario"]."','1')";
+				$Insertar2.="'".$RutOperador."','".$FechaHora."','$NroSA','".$Recargo."','01','1','".$Producto."','".$SubProducto."','".$Lote."','".$PesoNeto."','".$Humedad."','".$PesoSeco."','".$RutOperador."','1')";
 				//echo $Insertar2."<br><BR>";
 				mysqli_query($link, $Insertar2);
 			}			
 			else
 			{
 				$Insertar2="insert into cal_web.leyes_por_solicitud(rut_funcionario,fecha_hora,nro_solicitud,recargo,cod_leyes,cod_unidad,cod_producto,cod_subproducto,id_muestra,peso_humedo,peso_seco,rut_quimico,candado) values (";
-				$Insertar2.="'".$RutOperador."','".$FechaHora."','$NroSA','".$Recargo."','01','1','".$Producto."','".$SubProducto."','".$Lote."','".$PesoNeto."','".$PesoSeco."','".$Fila["rut_funcionario"]."','0')";
+				$Insertar2.="'".$RutOperador."','".$FechaHora."','$NroSA','".$Recargo."','01','1','".$Producto."','".$SubProducto."','".$Lote."','".$PesoNeto."','".$PesoSeco."','".$RutOperador."','0')";
+				//$Insertar2.="'".$RutOperador."','".$FechaHora."','$NroSA','".$Recargo."','01','1','".$Producto."','".$SubProducto."','".$Lote."','".$PesoNeto."','".$PesoSeco."','".$Fila["rut_funcionario"]."','0')";
 				//echo $Insertar2."<br><BR>";
 				mysqli_query($link, $Insertar2);
 			}
@@ -1891,7 +1900,7 @@ function CrearSA($Lote,$Recargo,$Proveedor,$UltRec,$Producto,$SubProducto,$Leyes
 			{
 				$Insertar2="insert into cal_web.estados_por_solicitud(rut_funcionario,nro_solicitud,recargo,cod_estado,fecha_hora,ult_atencion,rut_proceso) values (";
 				$Insertar2.="'".$RutOperador."','$NroSA','0','1','".$FechaHora."','N','".$RutOperador."')";
-				echo $Insertar2."<br><BR>";
+				//echo $Insertar2."<br><BR>";
 				mysqli_query($link, $Insertar2);
 				$Insertar2="insert into cal_web.estados_por_solicitud(rut_funcionario,nro_solicitud,recargo,cod_estado,fecha_hora,ult_atencion,rut_proceso) values (";
 				$Insertar2.="'".$RutOperador."','$NroSA','0','12','".$FechaHora."','N','".$RutOperador."')";
@@ -1909,7 +1918,8 @@ function CrearSA($Lote,$Recargo,$Proveedor,$UltRec,$Producto,$SubProducto,$Leyes
 						$RespUnidad=mysqli_query($link, $Consulta);
 						$FilaUnidad=mysqli_fetch_array($RespUnidad);
 						$Insertar2="insert into cal_web.leyes_por_solicitud(rut_funcionario,fecha_hora,nro_solicitud,recargo,cod_leyes,cod_unidad,cod_producto,cod_subproducto,id_muestra,rut_quimico) values (";
-						$Insertar2.="'".$RutOperador."','".$FechaHora."','$NroSA','0','$v','".$FilaUnidad["cod_unidad"]."','".$Producto."','".$SubProducto."','".$Lote."','".$Fila["rut_funcionario"]."')";
+						$Insertar2.="'".$RutOperador."','".$FechaHora."','$NroSA','0','$v','".$FilaUnidad["cod_unidad"]."','".$Producto."','".$SubProducto."','".$Lote."','".$RutOperador."')";
+						//$Insertar2.="'".$RutOperador."','".$FechaHora."','$NroSA','0','$v','".$FilaUnidad["cod_unidad"]."','".$Producto."','".$SubProducto."','".$Lote."','".$Fila["rut_funcionario"]."')";
 						//echo $Insertar2."<br><BR>";
 						mysqli_query($link, $Insertar2);
 						if(($v=='02')||($v=='03')||($v=='04')||($v=='05'))
@@ -1931,8 +1941,7 @@ function CrearSA($Lote,$Recargo,$Proveedor,$UltRec,$Producto,$SubProducto,$Leyes
 		}
 	}
 	else
-	{
-		//echo "ENTRA CUANDO PROVEEDOR NO EXISTE<BR>";
+	{	//echo "ENTRA CUANDO PROVEEDOR NO EXISTE<BR>";
 		if($UltRec=='S')
 		{
 			$Consulta = "select max(nro_solicitud) as NroMayor from cal_web.solicitud_analisis";
@@ -1990,21 +1999,25 @@ function CrearSA($Lote,$Recargo,$Proveedor,$UltRec,$Producto,$SubProducto,$Leyes
 		//		echo $Insertar2."<br><BR>";				
 				mysqli_query($link, $Insertar2);
 
-				$Insertar2="insert into cal_web.leyes_por_solicitud(rut_funcionario,fecha_hora,nro_solicitud,recargo,cod_leyes,cod_unidad,cod_producto,cod_subproducto,id_muestra,peso_humedo,valor,peso_seco,rut_quimico,candado) values (";
-				$Insertar2.="'".$RutOperador."','".$FechaHora."','$NroSA','".$Recargo."','01','1','".$Producto."','".$SubProducto."','".$Lote."','".$PesoNeto."','".$Humedad."','".$PesoSeco."','".$Fila["rut_funcionario"]."','1')";
+				$Insertar2="insert into cal_web.leyes_por_solicitud(rut_funcionario,fecha_hora,nro_solicitud,recargo,cod_leyes,cod_unidad,cod_producto,cod_subproducto,id_muestra,peso_humedo,peso_seco,rut_quimico,candado) values (";
+				//$Insertar2.="'".$RutOperador."','".$FechaHora."','$NroSA','".$Recargo."','01','1','".$Producto."','".$SubProducto."','".$Lote."','".$PesoNeto."','".$Humedad."','".$PesoSeco."','".$Fila["rut_funcionario"]."','1')";
+				$Insertar2.="'".$RutOperador."','".$FechaHora."','$NroSA','".$Recargo."','01','1','".$Producto."','".$SubProducto."','".$Lote."','".$PesoNeto."','".$Humedad."','".$PesoSeco."','".$RutOperador."','1')";
+		
 			//	echo $Insertar2."<br><BR>";
 				mysqli_query($link, $Insertar2);
 			}
 			else
 			{
 				$Insertar2="insert into cal_web.leyes_por_solicitud(rut_funcionario,fecha_hora,nro_solicitud,recargo,cod_leyes,cod_unidad,cod_producto,cod_subproducto,id_muestra,peso_humedo,peso_seco,rut_quimico,candado) values (";
-				$Insertar2.="'".$RutOperador."','".$FechaHora."','$NroSA','".$Recargo."','01','1','".$Producto."','".$SubProducto."','".$Lote."','".$PesoNeto."','".$PesoSeco."','".$Fila["rut_funcionario"]."','0')";
+				//$Insertar2.="'".$RutOperador."','".$FechaHora."','$NroSA','".$Recargo."','01','1','".$Producto."','".$SubProducto."','".$Lote."','".$PesoNeto."','".$PesoSeco."','".$Fila["rut_funcionario"]."','0')";
+				$Insertar2.="'".$RutOperador."','".$FechaHora."','$NroSA','".$Recargo."','01','1','".$Producto."','".$SubProducto."','".$Lote."','".$PesoNeto."','".$PesoSeco."','".$RutOperador."','0')";
 			//	echo $Insertar2."<br><BR>";
 				mysqli_query($link, $Insertar2);
 			}	
 			
-			$Insertar2="insert into cal_web.leyes_por_solicitud(rut_funcionario,fecha_hora,nro_solicitud,recargo,cod_leyes,cod_unidad,cod_producto,cod_subproducto,id_muestra,peso_humedo,valor,peso_seco,rut_quimico,candado) values (";
-			$Insertar2.="'".$RutOperador."','".$FechaHora."','$NroSA','".$Recargo."','01','1','".$Producto."','".$SubProducto."','".$Lote."','".$PesoNeto."','".$Humedad."','".$PesoSeco."','".$Fila["rut_funcionario"]."','1')";
+			$Insertar2="insert into cal_web.leyes_por_solicitud(rut_funcionario,fecha_hora,nro_solicitud,recargo,cod_leyes,cod_unidad,cod_producto,cod_subproducto,id_muestra,peso_humedo,peso_seco,rut_quimico,candado) values (";
+			$Insertar2.="'".$RutOperador."','".$FechaHora."','$NroSA','".$Recargo."','01','1','".$Producto."','".$SubProducto."','".$Lote."','".$PesoNeto."','".$Humedad."','".$PesoSeco."','".$RutOperador."','1')";
+			//$Insertar2.="'".$RutOperador."','".$FechaHora."','$NroSA','".$Recargo."','01','1','".$Producto."','".$SubProducto."','".$Lote."','".$PesoNeto."','".$Humedad."','".$PesoSeco."','".$Fila["rut_funcionario"]."','1')";
 		//	echo $Insertar2."<br><BR>";
 			mysqli_query($link, $Insertar2);
 
@@ -2135,7 +2148,7 @@ function EnvioCorreo($NroSolicitud,$link)
 				$SubProducto=$FilaSA["cod_subproducto"];
 			}	
 	
-			$Consulta.= "select * from sipa_web.proveedores where rut_prv='".$Proveedor."'";
+			$Consulta = "select * from sipa_web.proveedores where rut_prv='".$Proveedor."'";
 			//echo "nombre proveedor.     ".$Consulta."<br>";
 			$Resp = mysqli_query($link, $Consulta);
 			if ($Fila = mysqli_fetch_array($Resp))
@@ -2170,11 +2183,11 @@ function EnvioCorreo($NroSolicitud,$link)
 		
 				$RecargosLote=substr($RecargosLote,0,strlen($RecargosLote)-1);	
 				$Mensaje.='<tr>';
-				$Mensaje.='<td align="left" width="10%"><strong>Solicitud&nbsp;N�:</strong></td>';
+				$Mensaje.='<td align="left" width="10%"><strong>Solicitud&nbsp;N°:</strong></td>';
 				$Mensaje.='<td align="left" width="10%">'.$SA.'</td>';
-				$Mensaje.='<td align="left" width="5%"><strong>Lote&nbsp;N�:</strong></td>';
+				$Mensaje.='<td align="left" width="5%"><strong>Lote&nbsp;N°:</strong></td>';
 				$Mensaje.='<td align="left" width="20%">'.$Lote.'</td>';
-				$Mensaje.='<td align="left" width="5%"><strong>Recargos&nbsp;N�:</strong></td>';
+				$Mensaje.='<td align="left" width="5%"><strong>Recargos&nbsp;N°:</strong></td>';
 				$Mensaje.='<td align="left" width="30%">'.$RecargosLote.'</td>';
 				$Mensaje.='</tr>';
 				$Mensaje.='<tr>';
